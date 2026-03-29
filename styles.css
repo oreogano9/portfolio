@@ -443,6 +443,12 @@ button {
   visibility: visible;
 }
 
+.album-page.is-editing.is-previewing .editable-photo.has-spacer .spacer-control {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
 .album-page.is-editing.is-previewing .photo-controls,
 .album-page.is-editing.is-previewing .header-edit-controls,
 .album-page.is-editing.is-previewing .spacer-control {
