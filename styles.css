@@ -60,7 +60,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "ClashDisplay", sans-serif;
-  transition: background-color 220ms ease, color 220ms ease;
+  transition: background-color 560ms cubic-bezier(0.2, 0.65, 0.2, 1), color 560ms cubic-bezier(0.2, 0.65, 0.2, 1);
 }
 
 img {
@@ -388,10 +388,6 @@ button {
   transition: gap 320ms ease;
 }
 
-.album-page.is-spotlight-mode .album-detail-grid {
-  gap: 1.75rem;
-}
-
 .album-detail-grid img {
   cursor: zoom-in;
 }
@@ -400,8 +396,28 @@ button {
   position: relative;
   width: 100%;
   margin: 0;
+  margin-top: 0;
   margin-bottom: var(--photo-after-space, 0);
-  transition: opacity 420ms cubic-bezier(0.2, 0.65, 0.2, 1), filter 420ms cubic-bezier(0.2, 0.65, 0.2, 1);
+  --spotlight-opacity: 0;
+  --spotlight-shift-y: 0rem;
+  transition:
+    opacity 560ms cubic-bezier(0.2, 0.65, 0.2, 1),
+    filter 560ms cubic-bezier(0.2, 0.65, 0.2, 1),
+    transform 560ms cubic-bezier(0.2, 0.65, 0.2, 1);
+}
+
+.album-page.is-spotlight-mode .editable-photo {
+  --spotlight-local-gap: 40rem;
+}
+
+.album-page.has-spotlight-image .editable-photo.is-spotlight-gap-before,
+.album-page.has-spotlight-image .editable-photo.is-spotlight-edge-top {
+  --spotlight-shift-y: var(--spotlight-local-gap, 0rem);
+}
+
+.album-page.has-spotlight-image .editable-photo.is-spotlight-gap-after,
+.album-page.has-spotlight-image .editable-photo.is-spotlight-edge-bottom {
+  --spotlight-shift-y: calc(var(--spotlight-local-gap, 0rem) * -1);
 }
 
 .editable-photo.size-medium {
@@ -430,12 +446,13 @@ button {
 }
 
 .album-page.has-spotlight-image .editable-photo {
-  opacity: 0;
-  filter: blur(0.8px);
+  opacity: var(--spotlight-opacity);
+  filter: blur(calc((1 - var(--spotlight-opacity)) * 1.2px));
+  transform: translateY(var(--spotlight-shift-y));
 }
 
 .album-page.has-spotlight-image .editable-photo.is-spotlight-active {
-  opacity: 1;
+  opacity: max(var(--spotlight-opacity), 0.96);
   filter: blur(0);
 }
 
@@ -864,6 +881,10 @@ button {
 
   .editable-photo.size-xxsmall {
     width: 58%;
+  }
+
+  .album-page.is-spotlight-mode .editable-photo {
+    --spotlight-local-gap: 40rem;
   }
 
   .photo-controls {

@@ -57,6 +57,7 @@ const setupAlbumEditor = () => {
     alt: image.getAttribute("alt") || "",
     size: "full",
     spacerAfter: 0,
+    spotlight: false,
   }));
 
   const savedState = (() => {
@@ -80,6 +81,7 @@ const setupAlbumEditor = () => {
         alt: originalBySrc.get(photo.src)?.alt || photo.alt || "",
         size: ["full", "medium", "small", "xsmall", "xxsmall"].includes(photo.size) ? photo.size : "full",
         spacerAfter: Number.isFinite(Number(photo.spacerAfter)) ? Number(photo.spacerAfter) : 0,
+        spotlight: photo.spotlight === true,
       }));
 
     originalPhotos.forEach((photo) => {
@@ -147,11 +149,18 @@ const setupAlbumEditor = () => {
   const clearSpotlight = () => {
     body.classList.remove("has-spotlight-effect", "has-spotlight-image");
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
-      photo.classList.remove("is-spotlight-active");
+      photo.classList.remove(
+        "is-spotlight-active",
+        "is-spotlight-gap-before",
+        "is-spotlight-gap-after",
+        "is-spotlight-edge-top",
+        "is-spotlight-edge-bottom"
+      );
+      photo.style.removeProperty("--spotlight-opacity");
     });
   };
 
-  const spotlightShouldRun = () => state.effect === "spotlight" && (!state.editing || state.previewing);
+  const spotlightShouldRun = () => state.photos.some((photo) => photo.spotlight) && (!state.editing || state.previewing);
 
   const updateSpotlight = () => {
     spotlightFrame = null;
@@ -167,20 +176,29 @@ const setupAlbumEditor = () => {
       return;
     }
 
+    const spotlightPhotos = photos.filter((photo) => photo.dataset.spotlight === "true");
+    if (!spotlightPhotos.length) {
+      clearSpotlight();
+      return;
+    }
+
     const viewportCenter = window.innerHeight * 0.5;
+    const fadeRange = window.innerHeight * 0.7;
+    const triggerRange = window.innerHeight * 0.8;
     let activePhoto = null;
     let closestDistance = Number.POSITIVE_INFINITY;
 
     photos.forEach((photo) => {
+      photo.style.setProperty("--spotlight-opacity", "0");
+    });
+
+    spotlightPhotos.forEach((photo) => {
       const rect = photo.getBoundingClientRect();
-      const overlapsCenter = rect.top <= viewportCenter && rect.bottom >= viewportCenter;
-
-      if (!overlapsCenter) {
-        return;
-      }
-
       const photoCenter = rect.top + rect.height / 2;
       const distance = Math.abs(photoCenter - viewportCenter);
+      const opacity = Math.max(0, Math.min(1, 1 - distance / fadeRange));
+
+      photo.style.setProperty("--spotlight-opacity", opacity.toFixed(3));
 
       if (distance < closestDistance) {
         closestDistance = distance;
@@ -188,12 +206,31 @@ const setupAlbumEditor = () => {
       }
     });
 
-    body.classList.toggle("has-spotlight-effect", Boolean(activePhoto));
-    body.classList.toggle("has-spotlight-image", Boolean(activePhoto));
+    if (!activePhoto || closestDistance > triggerRange) {
+      clearSpotlight();
+      return;
+    }
 
-    photos.forEach((photo) => {
-      photo.classList.toggle("is-spotlight-active", photo === activePhoto);
-    });
+    body.classList.add("has-spotlight-effect");
+    body.classList.add("has-spotlight-image");
+
+    const activeIndex = photos.indexOf(activePhoto);
+    const previousPhoto = photos[activeIndex - 1] || null;
+    const nextPhoto = photos[activeIndex + 1] || null;
+
+    activePhoto.classList.add("is-spotlight-active");
+
+    if (previousPhoto) {
+      previousPhoto.classList.add("is-spotlight-gap-after");
+    } else {
+      activePhoto.classList.add("is-spotlight-edge-top");
+    }
+
+    if (nextPhoto) {
+      nextPhoto.classList.add("is-spotlight-gap-before");
+    } else {
+      activePhoto.classList.add("is-spotlight-edge-bottom");
+    }
   };
 
   const queueSpotlightUpdate = () => {
@@ -236,7 +273,7 @@ const setupAlbumEditor = () => {
     toggle.textContent = state.editing ? "Done" : "Edit";
     body.classList.toggle("is-editing", state.editing);
     body.classList.toggle("is-previewing", state.editing && state.previewing);
-    body.classList.toggle("is-spotlight-mode", state.effect === "spotlight");
+    body.classList.toggle("is-spotlight-mode", state.photos.some((photo) => photo.spotlight));
     previewToggle.textContent = state.previewing ? "Show Editor" : "Preview";
     previewToggle.setAttribute("aria-pressed", state.previewing ? "true" : "false");
 
@@ -246,6 +283,7 @@ const setupAlbumEditor = () => {
       const wrapper = document.createElement("figure");
       wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}`;
       wrapper.dataset.index = String(index);
+      wrapper.dataset.spotlight = photo.spotlight ? "true" : "false";
       wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
       wrapper.innerHTML = `
         <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" />
@@ -258,6 +296,10 @@ const setupAlbumEditor = () => {
             <option value="small"${photo.size === "small" ? " selected" : ""}>Small</option>
             <option value="xsmall"${photo.size === "xsmall" ? " selected" : ""}>Extra Small</option>
             <option value="xxsmall"${photo.size === "xxsmall" ? " selected" : ""}>Tiny</option>
+          </select>
+          <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect">
+            <option value="none"${photo.spotlight ? "" : " selected"}>None</option>
+            <option value="spotlight"${photo.spotlight ? " selected" : ""}>Spotlight</option>
           </select>
         </div>
         <div class="spacer-control">
@@ -318,15 +360,22 @@ const setupAlbumEditor = () => {
   });
 
   grid.addEventListener("change", (event) => {
-    const select = event.target.closest(".photo-size-select");
+    const select = event.target.closest(".photo-size-select, .photo-effect-select");
     const wrapper = event.target.closest(".editable-photo");
     if (!wrapper) {
       return;
     }
 
     const index = Number(wrapper.dataset.index);
-    if (select) {
+    if (select?.classList.contains("photo-size-select")) {
       state.photos[index].size = select.value;
+      save();
+      render();
+      return;
+    }
+
+    if (select?.classList.contains("photo-effect-select")) {
+      state.photos[index].spotlight = select.value === "spotlight";
       save();
       render();
       return;
