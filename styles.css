@@ -691,6 +691,19 @@ button {
     transform: none;
   }
 
+  .album-page.is-editing .header-edit-controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .album-page.is-editing .header-edit-input,
+  .album-page.is-editing .header-edit-select {
+    width: 100%;
+    min-width: 0;
+  }
+
   .album-page.is-editing.is-previewing .photo-controls,
   .album-page.is-editing.is-previewing .header-edit-controls,
   .album-page.is-editing.is-previewing .spacer-control {
@@ -768,6 +781,19 @@ button {
 
   .album-page-header {
     padding: 1rem 0 1.5rem;
+  }
+
+  .album-page.is-editing .header-edit-controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .album-page.is-editing .header-edit-input,
+  .album-page.is-editing .header-edit-select {
+    width: 100%;
+    min-width: 0;
   }
 
   .preview-toggle {
