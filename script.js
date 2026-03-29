@@ -94,6 +94,7 @@ const setupAlbumEditor = () => {
   const state = {
     title: typeof savedState?.title === "string" && savedState.title.trim() ? savedState.title : title.textContent.trim(),
     spacing: "tight",
+    effect: savedState?.effect === "spotlight" ? "spotlight" : "none",
     photos: mergePhotos(savedState?.photos),
     editing: false,
     previewing: false,
@@ -116,6 +117,7 @@ const setupAlbumEditor = () => {
       JSON.stringify({
         title: state.title,
         spacing: state.spacing,
+        effect: state.effect,
         photos: state.photos,
       })
     );
@@ -130,11 +132,77 @@ const setupAlbumEditor = () => {
       <option value="default">Default spacing</option>
       <option value="airy">Airy spacing</option>
     </select>
+    <select class="header-edit-select" aria-label="Album effect">
+      <option value="none">No Effect</option>
+      <option value="spotlight">Spotlight</option>
+    </select>
   `;
   header.appendChild(headerControls);
 
   const titleInput = headerControls.querySelector(".header-edit-input");
-  const spacingSelect = headerControls.querySelector(".header-edit-select");
+  const [spacingSelect, effectSelect] = headerControls.querySelectorAll(".header-edit-select");
+
+  let spotlightFrame = null;
+
+  const clearSpotlight = () => {
+    body.classList.remove("has-spotlight-effect", "has-spotlight-image");
+    grid.querySelectorAll(".editable-photo").forEach((photo) => {
+      photo.classList.remove("is-spotlight-active");
+    });
+  };
+
+  const spotlightShouldRun = () => state.effect === "spotlight" && (!state.editing || state.previewing);
+
+  const updateSpotlight = () => {
+    spotlightFrame = null;
+
+    if (!spotlightShouldRun()) {
+      clearSpotlight();
+      return;
+    }
+
+    const photos = Array.from(grid.querySelectorAll(".editable-photo"));
+    if (!photos.length) {
+      clearSpotlight();
+      return;
+    }
+
+    const viewportCenter = window.innerHeight * 0.5;
+    let activePhoto = null;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    photos.forEach((photo) => {
+      const rect = photo.getBoundingClientRect();
+      const overlapsCenter = rect.top <= viewportCenter && rect.bottom >= viewportCenter;
+
+      if (!overlapsCenter) {
+        return;
+      }
+
+      const photoCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(photoCenter - viewportCenter);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        activePhoto = photo;
+      }
+    });
+
+    body.classList.toggle("has-spotlight-effect", Boolean(activePhoto));
+    body.classList.toggle("has-spotlight-image", Boolean(activePhoto));
+
+    photos.forEach((photo) => {
+      photo.classList.toggle("is-spotlight-active", photo === activePhoto);
+    });
+  };
+
+  const queueSpotlightUpdate = () => {
+    if (spotlightFrame !== null) {
+      return;
+    }
+
+    spotlightFrame = window.requestAnimationFrame(updateSpotlight);
+  };
 
   const movePhoto = (index, direction) => {
     const targetIndex = index + direction;
@@ -153,7 +221,7 @@ const setupAlbumEditor = () => {
   };
 
   const updateSpacer = (index, value) => {
-    const numeric = Math.max(0, Math.min(12, Number(value) || 0));
+    const numeric = Math.max(0, Math.min(50, Number(value) || 0));
     state.photos[index].spacerAfter = numeric;
     save();
     render();
@@ -164,6 +232,7 @@ const setupAlbumEditor = () => {
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
     titleInput.value = state.title;
     spacingSelect.value = state.spacing;
+    effectSelect.value = state.effect;
     toggle.textContent = state.editing ? "Done" : "Edit";
     body.classList.toggle("is-editing", state.editing);
     body.classList.toggle("is-previewing", state.editing && state.previewing);
@@ -194,13 +263,15 @@ const setupAlbumEditor = () => {
           <label>
             Space After
             <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>
-            <input class="spacer-slider" type="range" min="0" max="12" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image" />
+            <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image" />
           </label>
           <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
         </div>
       `;
       grid.appendChild(wrapper);
     });
+
+    queueSpotlightUpdate();
   };
 
   titleInput.addEventListener("input", (event) => {
@@ -213,6 +284,12 @@ const setupAlbumEditor = () => {
     state.spacing = event.target.value;
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
     save();
+  });
+
+  effectSelect.addEventListener("change", (event) => {
+    state.effect = event.target.value === "spotlight" ? "spotlight" : "none";
+    save();
+    queueSpotlightUpdate();
   });
 
   grid.addEventListener("click", (event) => {
@@ -299,6 +376,9 @@ const setupAlbumEditor = () => {
     render();
   });
 
+  window.addEventListener("scroll", queueSpotlightUpdate, { passive: true });
+  window.addEventListener("resize", queueSpotlightUpdate);
+
   render();
 };
 
@@ -314,14 +394,15 @@ const setupLightbox = () => {
 
   const gesture = {
     scale: 1,
-    startScale: 1,
     translateX: 0,
     translateY: 0,
-    startTranslateX: 0,
-    startTranslateY: 0,
     pinchDistance: 0,
+    pinchCenterX: 0,
+    pinchCenterY: 0,
     panStartX: 0,
     panStartY: 0,
+    panBaseX: 0,
+    panBaseY: 0,
   };
 
   const applyImageTransform = () => {
@@ -331,20 +412,29 @@ const setupLightbox = () => {
 
   const resetImageTransform = () => {
     gesture.scale = 1;
-    gesture.startScale = 1;
     gesture.translateX = 0;
     gesture.translateY = 0;
-    gesture.startTranslateX = 0;
-    gesture.startTranslateY = 0;
     gesture.pinchDistance = 0;
+    gesture.pinchCenterX = 0;
+    gesture.pinchCenterY = 0;
     gesture.panStartX = 0;
     gesture.panStartY = 0;
+    gesture.panBaseX = 0;
+    gesture.panBaseY = 0;
     applyImageTransform();
   };
 
   const getTouchDistance = (touches) => {
     const [first, second] = touches;
     return Math.hypot(second.clientX - first.clientX, second.clientY - first.clientY);
+  };
+
+  const getTouchMidpoint = (touches) => {
+    const [first, second] = touches;
+    return {
+      x: (first.clientX + second.clientX) / 2,
+      y: (first.clientY + second.clientY) / 2,
+    };
   };
 
   const close = () => {
@@ -394,12 +484,14 @@ const setupLightbox = () => {
       if (event.touches.length === 2) {
         event.preventDefault();
         gesture.pinchDistance = getTouchDistance(event.touches);
-        gesture.startScale = gesture.scale;
+        const midpoint = getTouchMidpoint(event.touches);
+        gesture.pinchCenterX = midpoint.x;
+        gesture.pinchCenterY = midpoint.y;
       } else if (event.touches.length === 1 && gesture.scale > 1) {
         gesture.panStartX = event.touches[0].clientX;
         gesture.panStartY = event.touches[0].clientY;
-        gesture.startTranslateX = gesture.translateX;
-        gesture.startTranslateY = gesture.translateY;
+        gesture.panBaseX = gesture.translateX;
+        gesture.panBaseY = gesture.translateY;
       }
     },
     { passive: false }
@@ -415,12 +507,37 @@ const setupLightbox = () => {
       if (event.touches.length === 2) {
         event.preventDefault();
         const distance = getTouchDistance(event.touches);
+        const midpoint = getTouchMidpoint(event.touches);
         if (!gesture.pinchDistance) {
           gesture.pinchDistance = distance;
+          gesture.pinchCenterX = midpoint.x;
+          gesture.pinchCenterY = midpoint.y;
         }
 
-        const nextScale = gesture.startScale * (distance / gesture.pinchDistance);
-        gesture.scale = Math.min(4, Math.max(1, nextScale));
+        const previousScale = gesture.scale;
+        const nextScale = Math.min(4, Math.max(1, previousScale * (distance / gesture.pinchDistance)));
+        const rect = lightboxImage.getBoundingClientRect();
+        const rectCenterX = rect.left + rect.width / 2;
+        const rectCenterY = rect.top + rect.height / 2;
+        const midpointDeltaX = midpoint.x - gesture.pinchCenterX;
+        const midpointDeltaY = midpoint.y - gesture.pinchCenterY;
+
+        gesture.translateX += midpointDeltaX;
+        gesture.translateY += midpointDeltaY;
+
+        if (previousScale > 0 && nextScale !== previousScale) {
+          const offsetX = midpoint.x - rectCenterX - gesture.translateX;
+          const offsetY = midpoint.y - rectCenterY - gesture.translateY;
+          const scaleRatio = nextScale / previousScale;
+          gesture.translateX += (1 - scaleRatio) * offsetX;
+          gesture.translateY += (1 - scaleRatio) * offsetY;
+        }
+
+        gesture.scale = nextScale;
+        gesture.pinchDistance = distance;
+        gesture.pinchCenterX = midpoint.x;
+        gesture.pinchCenterY = midpoint.y;
+
         if (gesture.scale <= 1) {
           gesture.translateX = 0;
           gesture.translateY = 0;
@@ -429,24 +546,53 @@ const setupLightbox = () => {
       } else if (event.touches.length === 1 && gesture.scale > 1) {
         event.preventDefault();
         const touch = event.touches[0];
-        gesture.translateX = gesture.startTranslateX + (touch.clientX - gesture.panStartX);
-        gesture.translateY = gesture.startTranslateY + (touch.clientY - gesture.panStartY);
+        gesture.translateX = gesture.panBaseX + (touch.clientX - gesture.panStartX);
+        gesture.translateY = gesture.panBaseY + (touch.clientY - gesture.panStartY);
         applyImageTransform();
       }
     },
     { passive: false }
   );
 
-  lightboxImage.addEventListener("touchend", () => {
+  lightboxImage.addEventListener("touchend", (event) => {
     if (gesture.scale <= 1) {
       resetImageTransform();
       return;
     }
 
-    gesture.startScale = gesture.scale;
-    gesture.startTranslateX = gesture.translateX;
-    gesture.startTranslateY = gesture.translateY;
+    if (event.touches.length === 1) {
+      gesture.pinchDistance = 0;
+      gesture.pinchCenterX = 0;
+      gesture.pinchCenterY = 0;
+      gesture.panStartX = event.touches[0].clientX;
+      gesture.panStartY = event.touches[0].clientY;
+      gesture.panBaseX = gesture.translateX;
+      gesture.panBaseY = gesture.translateY;
+      return;
+    }
+
+    if (event.touches.length === 2) {
+      gesture.pinchDistance = getTouchDistance(event.touches);
+      const midpoint = getTouchMidpoint(event.touches);
+      gesture.pinchCenterX = midpoint.x;
+      gesture.pinchCenterY = midpoint.y;
+      return;
+    }
+
     gesture.pinchDistance = 0;
+    gesture.pinchCenterX = 0;
+    gesture.pinchCenterY = 0;
+  });
+
+  lightboxImage.addEventListener("touchcancel", () => {
+    if (gesture.scale <= 1) {
+      resetImageTransform();
+      return;
+    }
+
+    gesture.pinchDistance = 0;
+    gesture.pinchCenterX = 0;
+    gesture.pinchCenterY = 0;
   });
 };
 

@@ -60,6 +60,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "ClashDisplay", sans-serif;
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
 img {
@@ -169,6 +170,11 @@ button {
 
 .album-page .site-frame {
   display: block;
+}
+
+.album-page.has-spotlight-effect {
+  background: #121212;
+  color: #f3efe8;
 }
 
 .preview-toggle {
@@ -390,6 +396,7 @@ button {
   width: 100%;
   margin: 0;
   margin-bottom: var(--photo-after-space, 0);
+  transition: opacity 220ms ease;
 }
 
 .editable-photo.size-medium {
@@ -415,6 +422,14 @@ button {
 .editable-photo img {
   display: block;
   width: 100%;
+}
+
+.album-page.has-spotlight-image .editable-photo {
+  opacity: 0;
+}
+
+.album-page.has-spotlight-image .editable-photo.is-spotlight-active {
+  opacity: 1;
 }
 
 .photo-controls,
@@ -551,6 +566,23 @@ button {
   min-width: 8rem;
 }
 
+.album-page.has-spotlight-effect .album-back-link,
+.album-page.has-spotlight-effect .spacer-value,
+.album-page.has-spotlight-effect .mobile-home-button {
+  color: #f3efe8;
+}
+
+.album-page.has-spotlight-effect .album-back-link:hover,
+.album-page.has-spotlight-effect .album-back-link:focus-visible {
+  border-color: rgba(243, 239, 232, 0.35);
+}
+
+.album-page.has-spotlight-effect .mobile-home-button,
+.album-page.has-spotlight-effect .preview-toggle {
+  border-color: rgba(243, 239, 232, 0.24);
+  background: rgba(18, 18, 18, 0.9);
+}
+
 .lightbox {
   position: fixed;
   inset: 0;
@@ -558,7 +590,7 @@ button {
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  background: rgba(10, 10, 10, 0.92);
+  background: rgba(8, 8, 8, 0.985);
   opacity: 0;
   pointer-events: none;
   transition: opacity 180ms ease;
