@@ -103,12 +103,6 @@ const setupAlbumEditor = () => {
     airy: "2rem",
   };
 
-  const spacerMap = {
-    none: "0rem",
-    medium: "1.5rem",
-    large: "3rem",
-  };
-
   const save = () => {
     window.localStorage.setItem(
       storageKey,
@@ -146,10 +140,14 @@ const setupAlbumEditor = () => {
     render();
   };
 
-  const cycleSpacer = (index) => {
-    const current = state.photos[index].spacerAfter || "none";
-    const next = current === "none" ? "medium" : current === "medium" ? "large" : "none";
-    state.photos[index].spacerAfter = next;
+  const getSpacerValue = (value) => {
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? `${numeric}rem` : "0rem";
+  };
+
+  const updateSpacer = (index, value) => {
+    const numeric = Math.max(0, Math.min(4, Number(value) || 0));
+    state.photos[index].spacerAfter = numeric;
     save();
     render();
   };
@@ -166,9 +164,9 @@ const setupAlbumEditor = () => {
 
     state.photos.forEach((photo, index) => {
       const wrapper = document.createElement("figure");
-      wrapper.className = `editable-photo size-${photo.size}`;
+      wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}`;
       wrapper.dataset.index = String(index);
-      wrapper.style.setProperty("--photo-after-space", spacerMap[photo.spacerAfter] || "0rem");
+      wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
       wrapper.innerHTML = `
         <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" />
         <div class="photo-controls">
@@ -180,9 +178,13 @@ const setupAlbumEditor = () => {
             <option value="small"${photo.size === "small" ? " selected" : ""}>Small</option>
           </select>
         </div>
-        <button class="spacer-button" type="button" data-action="spacer" aria-label="Toggle extra space after image">
-          ${photo.spacerAfter === "none" ? "+ Space" : photo.spacerAfter === "medium" ? "++ Space" : "Reset Space"}
-        </button>
+        <div class="spacer-control">
+          <label>
+            Space After
+            <input class="spacer-slider" type="range" min="0" max="4" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image" />
+          </label>
+          <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
+        </div>
       `;
       grid.appendChild(wrapper);
     });
@@ -201,7 +203,7 @@ const setupAlbumEditor = () => {
   });
 
   grid.addEventListener("click", (event) => {
-    const button = event.target.closest(".photo-control-button");
+    const button = event.target.closest(".photo-control-button, .spacer-reset");
     if (!button) {
       return;
     }
@@ -219,14 +221,35 @@ const setupAlbumEditor = () => {
       movePhoto(index, -1);
     } else if (action === "down") {
       movePhoto(index, 1);
-    } else if (action === "spacer") {
-      cycleSpacer(index);
+    } else if (action === "spacer-reset") {
+      updateSpacer(index, 0);
     }
   });
 
   grid.addEventListener("change", (event) => {
     const select = event.target.closest(".photo-size-select");
-    if (!select) {
+    const wrapper = event.target.closest(".editable-photo");
+    if (!wrapper) {
+      return;
+    }
+
+    const index = Number(wrapper.dataset.index);
+    if (select) {
+      state.photos[index].size = select.value;
+      save();
+      render();
+      return;
+    }
+
+    const slider = event.target.closest(".spacer-slider");
+    if (slider) {
+      updateSpacer(index, slider.value);
+    }
+  });
+
+  grid.addEventListener("input", (event) => {
+    const slider = event.target.closest(".spacer-slider");
+    if (!slider) {
       return;
     }
 
@@ -236,9 +259,10 @@ const setupAlbumEditor = () => {
     }
 
     const index = Number(wrapper.dataset.index);
-    state.photos[index].size = select.value;
+    state.photos[index].spacerAfter = Number(slider.value) || 0;
+    wrapper.classList.toggle("has-spacer", state.photos[index].spacerAfter > 0);
+    wrapper.style.setProperty("--photo-after-space", getSpacerValue(state.photos[index].spacerAfter));
     save();
-    render();
   });
 
   toggle.addEventListener("click", () => {
@@ -269,7 +293,7 @@ const setupLightbox = () => {
 
   grid.addEventListener("click", (event) => {
     const image = event.target.closest("img");
-    const insideControls = event.target.closest(".photo-controls, .spacer-button");
+    const insideControls = event.target.closest(".photo-controls, .spacer-control");
 
     if (!image || insideControls) {
       return;

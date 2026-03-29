@@ -384,24 +384,23 @@ button {
 
 .photo-controls,
 .header-edit-controls,
-.spacer-button {
+.spacer-control {
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
-  transform: translateY(-4px);
-  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+  transition: opacity 160ms ease, visibility 160ms ease;
 }
 
 .album-page.is-editing .editable-photo:hover .photo-controls,
 .album-page.is-editing .editable-photo:focus-within .photo-controls,
-.album-page.is-editing .editable-photo:hover .spacer-button,
-.album-page.is-editing .editable-photo:focus-within .spacer-button,
+.album-page.is-editing .editable-photo:hover .spacer-control,
+.album-page.is-editing .editable-photo:focus-within .spacer-control,
+.album-page.is-editing .editable-photo.has-spacer .spacer-control,
 .album-page.is-editing .album-page-header:hover .header-edit-controls,
 .album-page.is-editing .album-page-header:focus-within .header-edit-controls {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
-  transform: translateY(0);
 }
 
 .photo-controls {
@@ -417,17 +416,37 @@ button {
   border: 1px solid var(--line);
 }
 
-.spacer-button {
+.spacer-control {
   position: absolute;
   left: 50%;
   bottom: calc(-0.75rem - var(--photo-after-space, 0) / 2);
   z-index: 2;
   transform: translate(-50%, 0);
-  min-height: 2rem;
-  padding: 0 0.75rem;
   border: 1px dashed var(--line-strong);
   background: rgba(252, 251, 248, 0.96);
   color: var(--muted);
+  padding: 0.45rem 0.65rem;
+  min-width: 12rem;
+}
+
+.spacer-control label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.spacer-slider {
+  width: 100%;
+}
+
+.spacer-reset {
+  min-height: 2rem;
+  padding: 0 0.6rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--text);
   cursor: pointer;
 }
 
@@ -568,7 +587,7 @@ button {
 @media (hover: none), (pointer: coarse) {
   .album-page.is-editing .photo-controls,
   .album-page.is-editing .header-edit-controls,
-  .album-page.is-editing .spacer-button {
+  .album-page.is-editing .spacer-control {
     opacity: 1;
     pointer-events: auto;
     visibility: visible;
@@ -693,10 +712,10 @@ button {
     padding: 0.35rem;
   }
 
-  .spacer-button {
+  .spacer-control {
     bottom: calc(-0.55rem - var(--photo-after-space, 0) / 2);
-    min-height: 1.85rem;
-    padding: 0 0.65rem;
+    min-width: 10.5rem;
+    padding: 0.35rem 0.5rem;
   }
 
   .mobile-home-section {
