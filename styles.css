@@ -41,7 +41,7 @@
   --line-strong: rgba(16, 16, 16, 0.3);
   --max-width: 1380px;
   --ease: 650ms cubic-bezier(0.2, 0.65, 0.2, 1);
-  --album-gap: 1.25rem;
+  --album-gap: 0.75rem;
 }
 
 *,
@@ -169,6 +169,31 @@ button {
 
 .album-page .site-frame {
   display: block;
+}
+
+.preview-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 20;
+  display: none;
+  min-height: 2.6rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--line);
+  background: rgba(252, 251, 248, 0.96);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.album-page.is-editing .preview-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.album-page.is-editing.is-previewing .preview-toggle {
+  background: var(--text);
+  color: #fcfbf8;
 }
 
 .section {
@@ -369,12 +394,22 @@ button {
 
 .editable-photo.size-medium {
   width: 92%;
-  margin: 0 auto;
+  margin-inline: auto;
 }
 
 .editable-photo.size-small {
   width: 78%;
-  margin: 0 auto;
+  margin-inline: auto;
+}
+
+.editable-photo.size-xsmall {
+  width: 62%;
+  margin-inline: auto;
+}
+
+.editable-photo.size-xxsmall {
+  width: 46%;
+  margin-inline: auto;
 }
 
 .editable-photo img {
@@ -395,12 +430,25 @@ button {
 .album-page.is-editing .editable-photo:focus-within .photo-controls,
 .album-page.is-editing .editable-photo:hover .spacer-control,
 .album-page.is-editing .editable-photo:focus-within .spacer-control,
-.album-page.is-editing .editable-photo.has-spacer .spacer-control,
 .album-page.is-editing .album-page-header:hover .header-edit-controls,
 .album-page.is-editing .album-page-header:focus-within .header-edit-controls {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
+}
+
+.album-page.is-editing .editable-photo.has-spacer .spacer-control {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.album-page.is-editing.is-previewing .photo-controls,
+.album-page.is-editing.is-previewing .header-edit-controls,
+.album-page.is-editing.is-previewing .spacer-control {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .photo-controls {
@@ -419,7 +467,7 @@ button {
 .spacer-control {
   position: absolute;
   left: 50%;
-  bottom: calc(-0.75rem - var(--photo-after-space, 0) / 2);
+  bottom: calc(-1rem - (var(--photo-after-space, 0) + var(--album-gap)) / 2);
   z-index: 2;
   transform: translate(-50%, 0);
   border: 1px dashed var(--line-strong);
@@ -435,6 +483,13 @@ button {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.spacer-value {
+  font-size: 0.76rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text);
 }
 
 .spacer-slider {
@@ -512,6 +567,10 @@ button {
   max-width: min(92vw, 1400px);
   max-height: 88vh;
   width: auto;
+  transform-origin: center center;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .lightbox-close {
@@ -593,6 +652,14 @@ button {
     visibility: visible;
     transform: none;
   }
+
+  .album-page.is-editing.is-previewing .photo-controls,
+  .album-page.is-editing.is-previewing .header-edit-controls,
+  .album-page.is-editing.is-previewing .spacer-control {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
 }
 
 .is-hidden {
@@ -665,6 +732,11 @@ button {
     padding: 1rem 0 1.5rem;
   }
 
+  .preview-toggle {
+    top: 0.75rem;
+    left: 0.75rem;
+  }
+
   .statement,
   .about-title,
   .contact-link {
@@ -705,6 +777,14 @@ button {
     width: 82%;
   }
 
+  .editable-photo.size-xsmall {
+    width: 70%;
+  }
+
+  .editable-photo.size-xxsmall {
+    width: 58%;
+  }
+
   .photo-controls {
     top: 0.5rem;
     right: 0.5rem;
@@ -713,7 +793,7 @@ button {
   }
 
   .spacer-control {
-    bottom: calc(-0.55rem - var(--photo-after-space, 0) / 2);
+    bottom: calc(-0.7rem - (var(--photo-after-space, 0) + var(--album-gap)) / 2);
     min-width: 10.5rem;
     padding: 0.35rem 0.5rem;
   }
