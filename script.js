@@ -52,12 +52,14 @@ const setupAlbumEditor = () => {
   }
 
   const storageKey = `album-editor:${window.location.pathname}`;
+  const effectOptions = ["none", "spotlight", "monochrome", "drift", "veil"];
+  const normalizeEffect = (value, fallback = "none") => (effectOptions.includes(value) ? value : fallback);
   const originalPhotos = Array.from(grid.querySelectorAll("img")).map((image) => ({
     src: image.getAttribute("src") || "",
     alt: image.getAttribute("alt") || "",
     size: "full",
     spacerAfter: 0,
-    spotlight: false,
+    effect: "none",
   }));
 
   const savedState = (() => {
@@ -81,7 +83,7 @@ const setupAlbumEditor = () => {
         alt: originalBySrc.get(photo.src)?.alt || photo.alt || "",
         size: ["full", "medium", "small", "xsmall", "xxsmall"].includes(photo.size) ? photo.size : "full",
         spacerAfter: Number.isFinite(Number(photo.spacerAfter)) ? Number(photo.spacerAfter) : 0,
-        spotlight: photo.spotlight === true,
+        effect: normalizeEffect(photo.effect, photo.spotlight === true ? "spotlight" : "none"),
       }));
 
     originalPhotos.forEach((photo) => {
@@ -96,7 +98,7 @@ const setupAlbumEditor = () => {
   const state = {
     title: typeof savedState?.title === "string" && savedState.title.trim() ? savedState.title : title.textContent.trim(),
     spacing: "tight",
-    effect: savedState?.effect === "spotlight" ? "spotlight" : "none",
+    effect: normalizeEffect(savedState?.effect),
     photos: mergePhotos(savedState?.photos),
     editing: false,
     previewing: false,
@@ -137,6 +139,9 @@ const setupAlbumEditor = () => {
     <select class="header-edit-select" aria-label="Album effect">
       <option value="none">No Effect</option>
       <option value="spotlight">Spotlight</option>
+      <option value="monochrome">Monochrome</option>
+      <option value="drift">Drift</option>
+      <option value="veil">Veil</option>
     </select>
   `;
   header.appendChild(headerControls);
@@ -144,61 +149,55 @@ const setupAlbumEditor = () => {
   const titleInput = headerControls.querySelector(".header-edit-input");
   const [spacingSelect, effectSelect] = headerControls.querySelectorAll(".header-edit-select");
 
-  let spotlightFrame = null;
+  let effectFrame = null;
 
-  const clearSpotlight = () => {
-    body.classList.remove("has-spotlight-effect", "has-spotlight-image");
+  const clearEffects = () => {
+    body.classList.remove("has-scroll-effect", "effect-spotlight", "effect-monochrome", "effect-drift", "effect-veil");
+    body.style.removeProperty("--effect-strength");
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
-      photo.classList.remove(
-        "is-spotlight-active",
-        "is-spotlight-gap-before",
-        "is-spotlight-gap-after",
-        "is-spotlight-edge-top",
-        "is-spotlight-edge-bottom"
-      );
-      photo.style.removeProperty("--spotlight-opacity");
+      photo.classList.remove("is-effect-active");
+      photo.style.removeProperty("--effect-strength");
     });
   };
 
-  const spotlightShouldRun = () => state.photos.some((photo) => photo.spotlight) && (!state.editing || state.previewing);
+  const effectsShouldRun = () =>
+    (state.effect !== "none" || state.photos.some((photo) => photo.effect !== "none")) && (!state.editing || state.previewing);
 
-  const updateSpotlight = () => {
-    spotlightFrame = null;
+  const updateEffects = () => {
+    effectFrame = null;
 
-    if (!spotlightShouldRun()) {
-      clearSpotlight();
+    if (!effectsShouldRun()) {
+      clearEffects();
       return;
     }
 
     const photos = Array.from(grid.querySelectorAll(".editable-photo"));
     if (!photos.length) {
-      clearSpotlight();
+      clearEffects();
       return;
     }
 
-    const spotlightPhotos = photos.filter((photo) => photo.dataset.spotlight === "true");
-    if (!spotlightPhotos.length) {
-      clearSpotlight();
+    const effectPhotos = photos.filter((photo) => normalizeEffect(photo.dataset.effect) !== "none");
+    if (!effectPhotos.length) {
+      clearEffects();
       return;
     }
 
-    const viewportCenter = window.innerHeight * 0.5;
-    const fadeRange = window.innerHeight * 0.7;
-    const triggerRange = window.innerHeight * 0.8;
     let activePhoto = null;
     let closestDistance = Number.POSITIVE_INFINITY;
+    const viewportCenter = window.innerHeight * 0.5;
+    const fadeRange = window.innerHeight * 0.85;
+    const triggerRange = state.effect !== "none" ? Number.POSITIVE_INFINITY : window.innerHeight * 1.1;
 
     photos.forEach((photo) => {
-      photo.style.setProperty("--spotlight-opacity", "0");
+      photo.classList.remove("is-effect-active");
+      photo.style.setProperty("--effect-strength", "0");
     });
 
-    spotlightPhotos.forEach((photo) => {
+    effectPhotos.forEach((photo) => {
       const rect = photo.getBoundingClientRect();
       const photoCenter = rect.top + rect.height / 2;
       const distance = Math.abs(photoCenter - viewportCenter);
-      const opacity = Math.max(0, Math.min(1, 1 - distance / fadeRange));
-
-      photo.style.setProperty("--spotlight-opacity", opacity.toFixed(3));
 
       if (distance < closestDistance) {
         closestDistance = distance;
@@ -207,38 +206,26 @@ const setupAlbumEditor = () => {
     });
 
     if (!activePhoto || closestDistance > triggerRange) {
-      clearSpotlight();
+      clearEffects();
       return;
     }
 
-    body.classList.add("has-spotlight-effect");
-    body.classList.add("has-spotlight-image");
+    const activeEffect = normalizeEffect(activePhoto.dataset.effect);
+    const effectStrength = Math.max(0, Math.min(1, 1 - closestDistance / fadeRange));
 
-    const activeIndex = photos.indexOf(activePhoto);
-    const previousPhoto = photos[activeIndex - 1] || null;
-    const nextPhoto = photos[activeIndex + 1] || null;
-
-    activePhoto.classList.add("is-spotlight-active");
-
-    if (previousPhoto) {
-      previousPhoto.classList.add("is-spotlight-gap-after");
-    } else {
-      activePhoto.classList.add("is-spotlight-edge-top");
-    }
-
-    if (nextPhoto) {
-      nextPhoto.classList.add("is-spotlight-gap-before");
-    } else {
-      activePhoto.classList.add("is-spotlight-edge-bottom");
-    }
+    body.classList.remove("effect-spotlight", "effect-monochrome", "effect-drift", "effect-veil");
+    body.classList.add("has-scroll-effect", `effect-${activeEffect}`);
+    body.style.setProperty("--effect-strength", effectStrength.toFixed(3));
+    activePhoto.classList.add("is-effect-active");
+    activePhoto.style.setProperty("--effect-strength", effectStrength.toFixed(3));
   };
 
-  const queueSpotlightUpdate = () => {
-    if (spotlightFrame !== null) {
+  const queueEffectUpdate = () => {
+    if (effectFrame !== null) {
       return;
     }
 
-    spotlightFrame = window.requestAnimationFrame(updateSpotlight);
+    effectFrame = window.requestAnimationFrame(updateEffects);
   };
 
   const movePhoto = (index, direction) => {
@@ -273,18 +260,19 @@ const setupAlbumEditor = () => {
     toggle.textContent = state.editing ? "Done" : "Edit";
     body.classList.toggle("is-editing", state.editing);
     body.classList.toggle("is-previewing", state.editing && state.previewing);
-    body.classList.toggle("is-spotlight-mode", state.photos.some((photo) => photo.spotlight));
     previewToggle.textContent = state.previewing ? "Show Editor" : "Preview";
     previewToggle.setAttribute("aria-pressed", state.previewing ? "true" : "false");
 
     grid.innerHTML = "";
 
     state.photos.forEach((photo, index) => {
+      const effectiveEffect = photo.effect !== "none" ? photo.effect : state.effect;
       const wrapper = document.createElement("figure");
       wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}`;
       wrapper.dataset.index = String(index);
-      wrapper.dataset.spotlight = photo.spotlight ? "true" : "false";
+      wrapper.dataset.effect = effectiveEffect;
       wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
+      wrapper.style.setProperty("--effect-direction", index % 2 === 0 ? "1" : "-1");
       wrapper.innerHTML = `
         <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" />
         <div class="photo-controls">
@@ -298,8 +286,11 @@ const setupAlbumEditor = () => {
             <option value="xxsmall"${photo.size === "xxsmall" ? " selected" : ""}>Tiny</option>
           </select>
           <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect">
-            <option value="none"${photo.spotlight ? "" : " selected"}>None</option>
-            <option value="spotlight"${photo.spotlight ? " selected" : ""}>Spotlight</option>
+            <option value="none"${photo.effect === "none" ? " selected" : ""}>None</option>
+            <option value="spotlight"${photo.effect === "spotlight" ? " selected" : ""}>Spotlight</option>
+            <option value="monochrome"${photo.effect === "monochrome" ? " selected" : ""}>Monochrome</option>
+            <option value="drift"${photo.effect === "drift" ? " selected" : ""}>Drift</option>
+            <option value="veil"${photo.effect === "veil" ? " selected" : ""}>Veil</option>
           </select>
         </div>
         <div class="spacer-control">
@@ -314,7 +305,7 @@ const setupAlbumEditor = () => {
       grid.appendChild(wrapper);
     });
 
-    queueSpotlightUpdate();
+    queueEffectUpdate();
   };
 
   titleInput.addEventListener("input", (event) => {
@@ -330,9 +321,9 @@ const setupAlbumEditor = () => {
   });
 
   effectSelect.addEventListener("change", (event) => {
-    state.effect = event.target.value === "spotlight" ? "spotlight" : "none";
+    state.effect = normalizeEffect(event.target.value);
     save();
-    queueSpotlightUpdate();
+    queueEffectUpdate();
   });
 
   grid.addEventListener("click", (event) => {
@@ -375,7 +366,7 @@ const setupAlbumEditor = () => {
     }
 
     if (select?.classList.contains("photo-effect-select")) {
-      state.photos[index].spotlight = select.value === "spotlight";
+      state.photos[index].effect = normalizeEffect(select.value);
       save();
       render();
       return;
@@ -426,8 +417,8 @@ const setupAlbumEditor = () => {
     render();
   });
 
-  window.addEventListener("scroll", queueSpotlightUpdate, { passive: true });
-  window.addEventListener("resize", queueSpotlightUpdate);
+  window.addEventListener("scroll", queueEffectUpdate, { passive: true });
+  window.addEventListener("resize", queueEffectUpdate);
 
   render();
 };
