@@ -236,6 +236,7 @@ const setupAlbumEditor = () => {
     toggle.textContent = state.editing ? "Done" : "Edit";
     body.classList.toggle("is-editing", state.editing);
     body.classList.toggle("is-previewing", state.editing && state.previewing);
+    body.classList.toggle("is-spotlight-mode", state.effect === "spotlight");
     previewToggle.textContent = state.previewing ? "Show Editor" : "Preview";
     previewToggle.setAttribute("aria-pressed", state.previewing ? "true" : "false");
 
