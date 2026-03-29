@@ -495,7 +495,7 @@ button {
   background: rgba(252, 251, 248, 0.96);
   color: var(--muted);
   padding: 0.45rem 0.65rem;
-  min-width: 12rem;
+  width: min(24rem, calc(100vw - 3rem));
 }
 
 .spacer-control label {
@@ -832,7 +832,7 @@ button {
 
   .spacer-control {
     bottom: calc(-0.7rem - (var(--photo-after-space, 0) + var(--album-gap)) / 2);
-    min-width: 10.5rem;
+    width: min(19rem, calc(100vw - 2rem));
     padding: 0.35rem 0.5rem;
   }
 
