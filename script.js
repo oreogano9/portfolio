@@ -306,6 +306,8 @@ const setupAlbumEditor = async () => {
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       photo.classList.remove("is-effect-active");
       photo.style.removeProperty("--effect-strength");
+      photo.style.removeProperty("--spotlight-before-space");
+      photo.style.removeProperty("--spotlight-after-space");
     });
   };
 
@@ -341,6 +343,8 @@ const setupAlbumEditor = async () => {
     photos.forEach((photo) => {
       photo.classList.remove("is-effect-active");
       photo.style.setProperty("--effect-strength", "0");
+      photo.style.removeProperty("--spotlight-before-space");
+      photo.style.removeProperty("--spotlight-after-space");
     });
 
     effectPhotos.forEach((photo) => {
@@ -367,6 +371,21 @@ const setupAlbumEditor = async () => {
     body.style.setProperty("--effect-strength", effectStrength.toFixed(3));
     activePhoto.classList.add("is-effect-active");
     activePhoto.style.setProperty("--effect-strength", effectStrength.toFixed(3));
+
+    if (activeEffect === "spotlight") {
+      const activeIndex = photos.indexOf(activePhoto);
+      const viewportGap = `${window.innerHeight}px`;
+      const previousPhoto = activeIndex > 0 ? photos[activeIndex - 1] : null;
+      const nextPhoto = activeIndex < photos.length - 1 ? photos[activeIndex + 1] : null;
+
+      if (previousPhoto) {
+        previousPhoto.style.setProperty("--spotlight-after-space", viewportGap);
+      }
+
+      if (nextPhoto) {
+        nextPhoto.style.setProperty("--spotlight-before-space", viewportGap);
+      }
+    }
   };
 
   const queueEffectUpdate = () => {
@@ -643,6 +662,16 @@ const setupAlbumEditor = async () => {
 
   window.addEventListener("scroll", queueEffectUpdate, { passive: true });
   window.addEventListener("resize", queueEffectUpdate);
+  window.addEventListener("load", queueEffectUpdate);
+  grid.addEventListener(
+    "load",
+    (event) => {
+      if (event.target instanceof HTMLImageElement) {
+        queueEffectUpdate();
+      }
+    },
+    true
+  );
 
   render();
 };
