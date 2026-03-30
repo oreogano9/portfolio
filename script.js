@@ -35,6 +35,43 @@ const setupAlbumLinks = () => {
   syncActiveLink();
 };
 
+const setupMobileMenu = () => {
+  const toggle = document.querySelector(".mobile-menu-toggle");
+  const drawer = document.querySelector(".mobile-menu-drawer");
+  const close = document.querySelector(".mobile-menu-close");
+
+  if (!toggle || !drawer || !close) {
+    return;
+  }
+
+  const setOpen = (open) => {
+    drawer.classList.toggle("is-open", open);
+    drawer.setAttribute("aria-hidden", open ? "false" : "true");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.classList.toggle("has-mobile-menu", open);
+  };
+
+  toggle.addEventListener("click", () => {
+    setOpen(!drawer.classList.contains("is-open"));
+  });
+
+  close.addEventListener("click", () => {
+    setOpen(false);
+  });
+
+  drawer.addEventListener("click", (event) => {
+    if (event.target === drawer || event.target.closest(".mobile-menu-panel a")) {
+      setOpen(false);
+    }
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && drawer.classList.contains("is-open")) {
+      setOpen(false);
+    }
+  });
+};
+
 const setupParallax = () => {
   return;
 };
@@ -344,8 +381,6 @@ const setupAlbumEditor = async () => {
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       photo.classList.remove("is-effect-active");
       photo.style.removeProperty("--effect-strength");
-      photo.style.removeProperty("--spotlight-before-space");
-      photo.style.removeProperty("--spotlight-after-space");
     });
   };
 
@@ -384,85 +419,66 @@ const setupAlbumEditor = async () => {
     const viewportCenter = window.innerHeight * 0.5;
     const fadeRange = window.innerHeight * 0.85;
     const triggerRange = state.effect !== "none" ? Number.POSITIVE_INFINITY : window.innerHeight * 1.1;
-    const spotlightLeadRange = window.innerHeight * 1.35;
     let activePhoto = null;
+    let activeEffect = "none";
+    let effectStrength = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
-    let upcomingSpotlightPhoto = null;
-    let upcomingSpotlightDistance = Number.POSITIVE_INFINITY;
 
     photos.forEach((photo) => {
       photo.classList.remove("is-effect-active");
       photo.style.setProperty("--effect-strength", "0");
-      photo.style.removeProperty("--spotlight-before-space");
-      photo.style.removeProperty("--spotlight-after-space");
     });
 
-    effectPhotos.forEach((photo) => {
+    const spotlightPhotos = effectPhotos.filter((photo) => normalizeEffect(photo.dataset.effect) === "spotlight");
+    spotlightPhotos.forEach((photo) => {
       const rect = photo.getBoundingClientRect();
-      const photoCenter = rect.top + rect.height / 2;
-      const distance = Math.abs(photoCenter - viewportCenter);
-
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        activePhoto = photo;
-      }
-
-      if (normalizeEffect(photo.dataset.effect) === "spotlight") {
-        const leadDistance = rect.top - viewportCenter;
-        if (leadDistance >= 0 && leadDistance < upcomingSpotlightDistance) {
-          upcomingSpotlightDistance = leadDistance;
-          upcomingSpotlightPhoto = photo;
-        }
-      }
-    });
-
-    if (upcomingSpotlightPhoto && upcomingSpotlightDistance <= spotlightLeadRange) {
-      const upcomingIndex = photos.indexOf(upcomingSpotlightPhoto);
-      const viewportGap = `${window.innerHeight}px`;
-      const previousPhoto = upcomingIndex > 0 ? photos[upcomingIndex - 1] : null;
-      const nextPhoto = upcomingIndex < photos.length - 1 ? photos[upcomingIndex + 1] : null;
-
-      if (previousPhoto) {
-        previousPhoto.style.setProperty("--spotlight-after-space", viewportGap);
-      }
-
-      if (nextPhoto) {
-        nextPhoto.style.setProperty("--spotlight-before-space", viewportGap);
-      }
-    }
-
-    if (!activePhoto || closestDistance > triggerRange) {
-      if (upcomingSpotlightPhoto) {
-        clearEffectVisuals();
+      const isInWindow = rect.top <= viewportCenter && rect.bottom >= viewportCenter;
+      if (!isInWindow) {
         return;
       }
-      clearEffects();
-      return;
+
+      const photoCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(photoCenter - viewportCenter);
+      if (distance < closestDistance) {
+        const activeWindow = Math.max(1, rect.height - window.innerHeight);
+        const rawProgress = (viewportCenter - rect.top) / activeWindow;
+        const clampedProgress = Math.max(0, Math.min(1, rawProgress));
+        const edgeStrength = Math.min(clampedProgress, 1 - clampedProgress) * 2;
+        closestDistance = distance;
+        activePhoto = photo;
+        activeEffect = "spotlight";
+        effectStrength = Math.max(0.2, Math.min(1, edgeStrength));
+      }
+    });
+
+    if (!activePhoto) {
+      closestDistance = Number.POSITIVE_INFINITY;
+      effectPhotos
+        .filter((photo) => normalizeEffect(photo.dataset.effect) !== "spotlight")
+        .forEach((photo) => {
+          const rect = photo.getBoundingClientRect();
+          const photoCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(photoCenter - viewportCenter);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            activePhoto = photo;
+            activeEffect = normalizeEffect(photo.dataset.effect);
+            effectStrength = Math.max(0, Math.min(1, 1 - distance / fadeRange));
+          }
+        });
     }
 
-    const activeEffect = normalizeEffect(activePhoto.dataset.effect);
-    const effectStrength = Math.max(0, Math.min(1, 1 - closestDistance / fadeRange));
+    if (!activePhoto || (activeEffect !== "spotlight" && closestDistance > triggerRange)) {
+      clearEffectVisuals();
+      return;
+    }
 
     body.classList.remove("effect-spotlight", "effect-monochrome", "effect-drift", "effect-veil");
     body.classList.add("has-scroll-effect", `effect-${activeEffect}`);
     body.style.setProperty("--effect-strength", effectStrength.toFixed(3));
     activePhoto.classList.add("is-effect-active");
     activePhoto.style.setProperty("--effect-strength", effectStrength.toFixed(3));
-
-    if (activeEffect === "spotlight" && !upcomingSpotlightPhoto) {
-      const activeIndex = photos.indexOf(activePhoto);
-      const viewportGap = `${window.innerHeight}px`;
-      const previousPhoto = activeIndex > 0 ? photos[activeIndex - 1] : null;
-      const nextPhoto = activeIndex < photos.length - 1 ? photos[activeIndex + 1] : null;
-
-      if (previousPhoto) {
-        previousPhoto.style.setProperty("--spotlight-after-space", viewportGap);
-      }
-
-      if (nextPhoto) {
-        nextPhoto.style.setProperty("--spotlight-before-space", viewportGap);
-      }
-    }
   };
 
   const queueEffectUpdate = () => {
@@ -547,40 +563,45 @@ const setupAlbumEditor = async () => {
 
       const effectiveEffect = photo.effect !== "none" ? photo.effect : state.effect;
       const wrapper = document.createElement("figure");
-      wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}`;
+      wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveEffect === "spotlight" ? " spotlight-shell" : ""}`;
       wrapper.dataset.index = String(index);
       wrapper.dataset.effect = effectiveEffect;
       wrapper.dataset.landscape = String(photo.landscape === true);
       wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
       wrapper.style.setProperty("--effect-direction", index % 2 === 0 ? "1" : "-1");
+      const loading = index < 4 ? "eager" : "lazy";
+      const fetchPriority = index < 2 ? "high" : "auto";
+      const decoding = index < 4 ? "sync" : "async";
       wrapper.innerHTML = `
-        <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" />
-        <div class="photo-controls">
-          <button class="photo-control-button" type="button" data-action="up" aria-label="Move image up">↑</button>
-          <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
-          <select class="photo-size-select" data-action="size" aria-label="Photo size">
-            <option value="full"${photo.size === "full" ? " selected" : ""}>FULL WIDTH</option>
-            ${photo.landscape === true ? `<option value="extended"${photo.size === "extended" ? " selected" : ""}>EXTENDED</option>` : ""}
-            <option value="medium"${photo.size === "medium" ? " selected" : ""}>MEDIUM</option>
-            <option value="small"${photo.size === "small" ? " selected" : ""}>SMALL</option>
-            <option value="xsmall"${photo.size === "xsmall" ? " selected" : ""}>EXTRA SMALL</option>
-            <option value="xxsmall"${photo.size === "xxsmall" ? " selected" : ""}>TINY</option>
-          </select>
-          <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect">
-            <option value="none"${photo.effect === "none" ? " selected" : ""}>None</option>
-            <option value="spotlight"${photo.effect === "spotlight" ? " selected" : ""}>Spotlight</option>
-            <option value="monochrome"${photo.effect === "monochrome" ? " selected" : ""}>Monochrome</option>
-            <option value="drift"${photo.effect === "drift" ? " selected" : ""}>Drift</option>
-            <option value="veil"${photo.effect === "veil" ? " selected" : ""}>Veil</option>
-          </select>
-        </div>
-        <div class="spacer-control">
-          <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
-          <label>
-            SPACE
-            <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>
-            <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image" />
-          </label>
+        <div class="photo-stage">
+          <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" loading="${loading}" fetchpriority="${fetchPriority}" decoding="${decoding}" />
+          <div class="photo-controls">
+            <button class="photo-control-button" type="button" data-action="up" aria-label="Move image up">↑</button>
+            <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
+            <select class="photo-size-select" data-action="size" aria-label="Photo size">
+              ${photo.landscape === true ? `<option value="extended"${photo.size === "extended" ? " selected" : ""}>EXTENDED</option>` : ""}
+              <option value="full"${photo.size === "full" ? " selected" : ""}>FULL WIDTH</option>
+              <option value="medium"${photo.size === "medium" ? " selected" : ""}>MEDIUM</option>
+              <option value="small"${photo.size === "small" ? " selected" : ""}>SMALL</option>
+              <option value="xsmall"${photo.size === "xsmall" ? " selected" : ""}>EXTRA SMALL</option>
+              <option value="xxsmall"${photo.size === "xxsmall" ? " selected" : ""}>TINY</option>
+            </select>
+            <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect">
+              <option value="none"${photo.effect === "none" ? " selected" : ""}>None</option>
+              <option value="spotlight"${photo.effect === "spotlight" ? " selected" : ""}>Spotlight</option>
+              <option value="monochrome"${photo.effect === "monochrome" ? " selected" : ""}>Monochrome</option>
+              <option value="drift"${photo.effect === "drift" ? " selected" : ""}>Drift</option>
+              <option value="veil"${photo.effect === "veil" ? " selected" : ""}>Veil</option>
+            </select>
+          </div>
+          <div class="spacer-control">
+            <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
+            <label>
+              SPACE
+              <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>
+              <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image" />
+            </label>
+          </div>
         </div>
       `;
       grid.appendChild(wrapper);
@@ -975,6 +996,7 @@ const setupLightbox = () => {
 
 setupReveals();
 setupAlbumLinks();
+setupMobileMenu();
 setupParallax();
 setupAlbumEditor();
 setupLightbox();
