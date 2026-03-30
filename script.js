@@ -462,11 +462,11 @@ const setupAlbumEditor = async () => {
           <button class="photo-control-button" type="button" data-action="up" aria-label="Move image up">↑</button>
           <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
           <select class="photo-size-select" data-action="size" aria-label="Photo size">
-            <option value="full"${photo.size === "full" ? " selected" : ""}>Full Width</option>
-            <option value="medium"${photo.size === "medium" ? " selected" : ""}>Medium</option>
-            <option value="small"${photo.size === "small" ? " selected" : ""}>Small</option>
-            <option value="xsmall"${photo.size === "xsmall" ? " selected" : ""}>Extra Small</option>
-            <option value="xxsmall"${photo.size === "xxsmall" ? " selected" : ""}>Tiny</option>
+            <option value="full"${photo.size === "full" ? " selected" : ""}>FULL WIDTH</option>
+            <option value="medium"${photo.size === "medium" ? " selected" : ""}>MEDIUM</option>
+            <option value="small"${photo.size === "small" ? " selected" : ""}>SMALL</option>
+            <option value="xsmall"${photo.size === "xsmall" ? " selected" : ""}>EXTRA SMALL</option>
+            <option value="xxsmall"${photo.size === "xxsmall" ? " selected" : ""}>TINY</option>
           </select>
           <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect">
             <option value="none"${photo.effect === "none" ? " selected" : ""}>None</option>
