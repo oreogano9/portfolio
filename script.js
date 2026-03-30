@@ -477,12 +477,12 @@ const setupAlbumEditor = async () => {
           </select>
         </div>
         <div class="spacer-control">
+          <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
           <label>
-            Space After
+            SPACE
             <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>
             <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image" />
           </label>
-          <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
         </div>
       `;
       grid.appendChild(wrapper);
