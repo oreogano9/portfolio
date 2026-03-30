@@ -21,18 +21,50 @@ const setupReveals = () => {
 
 const setupAlbumLinks = () => {
   const controls = document.querySelectorAll(".album-link");
+  const cards = document.querySelectorAll(".album-card[data-category]");
 
-  const syncActiveLink = () => {
-    const hash = window.location.hash || "#albums";
+  if (!controls.length) {
+    return;
+  }
+
+  const availableFilters = new Set(["all"]);
+  cards.forEach((card) => {
+    (card.dataset.category || "")
+      .split(/\s+/)
+      .map((value) => value.trim())
+      .filter(Boolean)
+      .forEach((value) => availableFilters.add(value));
+  });
+
+  controls.forEach((control) => {
+    const filter = control.dataset.filter || "all";
+    control.hidden = !availableFilters.has(filter);
+  });
+
+  const applyFilter = (filter) => {
+    const activeFilter = filter || "all";
 
     controls.forEach((control) => {
-      const href = control.getAttribute("href");
-      control.classList.toggle("is-active", href === hash || (hash === "#albums" && href === "#albums"));
+      control.classList.toggle("is-active", control.dataset.filter === activeFilter);
+    });
+
+    cards.forEach((card) => {
+      const categories = (card.dataset.category || "")
+        .split(/\s+/)
+        .map((value) => value.trim())
+        .filter(Boolean);
+      const matches = activeFilter === "all" || categories.includes(activeFilter);
+      card.hidden = !matches;
     });
   };
 
-  window.addEventListener("hashchange", syncActiveLink);
-  syncActiveLink();
+  controls.forEach((control) => {
+    control.addEventListener("click", () => {
+      applyFilter(control.dataset.filter || "all");
+    });
+  });
+
+  applyFilter("all");
 };
 
 const setupMobileMenu = () => {
@@ -126,6 +158,11 @@ const setupAlbumEditor = async () => {
       : [];
 
   const sizeOptions = ["full", "extended", "medium", "small", "xsmall", "xxsmall"];
+  const mobileLayoutQuery = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)");
+
+  const syncMobileLayoutState = () => {
+    body.classList.toggle("is-mobile-layout", mobileLayoutQuery.matches);
+  };
 
   const normalizePhoto = (photo, fallback = {}) => ({
     src: typeof photo?.src === "string" ? photo.src : fallback.src || "",
@@ -285,6 +322,15 @@ const setupAlbumEditor = async () => {
   state.photos.forEach((photo, index) => {
     loadLandscapeState(photo, index);
   });
+
+  syncMobileLayoutState();
+  if (typeof mobileLayoutQuery.addEventListener === "function") {
+    mobileLayoutQuery.addEventListener("change", syncMobileLayoutState);
+  } else if (typeof mobileLayoutQuery.addListener === "function") {
+    mobileLayoutQuery.addListener(syncMobileLayoutState);
+  }
+  window.addEventListener("resize", syncMobileLayoutState);
+  window.addEventListener("orientationchange", syncMobileLayoutState);
 
   const exportSettings = () => {
     const json = JSON.stringify(serializeSettings(), null, 2);

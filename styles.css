@@ -398,6 +398,10 @@ button {
   display: inline-block;
   padding: 0.9rem 0 0;
   border-bottom: 1px solid transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
 }
 
 .album-link.is-active {
@@ -423,6 +427,10 @@ button {
 
 .album-card {
   transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.album-card[hidden] {
+  display: none;
 }
 
 .album-card:hover,
@@ -514,6 +522,24 @@ button {
   margin-right: 0;
 }
 
+.album-page.is-mobile-layout .editable-photo.size-extended {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  min-height: calc(100vw - 2rem);
+  display: grid;
+  place-items: center;
+  overflow: visible;
+}
+
+.album-page.is-mobile-layout .editable-photo.size-extended img {
+  width: auto;
+  max-width: none;
+  height: min(88vw, 70vh);
+  transform: rotate(90deg);
+  transform-origin: center center;
+}
+
 .editable-photo.size-small {
   width: 78%;
   margin-inline: auto;
@@ -541,7 +567,7 @@ button {
 
 .editable-photo.spotlight-shell .photo-stage {
   position: sticky;
-  top: 50vh;
+  top: 50svh;
   width: 100%;
   align-self: start;
   transform: translateY(-50%);
@@ -996,6 +1022,10 @@ button {
 }
 
 @media (max-width: 760px) {
+  .work-section {
+    display: none;
+  }
+
   .mobile-menu-toggle {
     position: fixed;
     top: 0.75rem;
@@ -1169,6 +1199,10 @@ button {
 
   .editable-photo.spotlight-shell {
     min-height: 190vh;
+  }
+
+  .editable-photo.spotlight-shell .photo-stage {
+    top: 56svh;
   }
 
   .photo-controls {
