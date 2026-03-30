@@ -44,6 +44,7 @@ const setupAlbumEditor = async () => {
   const grid = document.querySelector(".album-detail-grid");
   const title = document.querySelector(".masthead-title");
   const header = document.querySelector(".album-page-header");
+  const subalbumIndex = document.querySelector(".subalbum-index");
   const toggle = document.querySelector("#album-edit-toggle");
   const previewToggle = document.querySelector("#album-preview-toggle");
   const saveButton = document.querySelector("#album-save-json");
@@ -70,10 +71,30 @@ const setupAlbumEditor = async () => {
   const originalPhotos = Array.from(grid.querySelectorAll("img")).map((image) => ({
     src: image.getAttribute("src") || "",
     alt: image.getAttribute("alt") || "",
+    section: image.dataset.section || "",
     size: "full",
     spacerAfter: 0,
     effect: "none",
   }));
+
+  const normalizeSections = (value) =>
+    Array.isArray(value)
+      ? value
+          .filter((section) => typeof section?.id === "string" && typeof section?.title === "string")
+          .map((section) => ({
+            id: section.id,
+            title: section.title,
+          }))
+      : [];
+
+  const normalizePhoto = (photo, fallback = {}) => ({
+    src: typeof photo?.src === "string" ? photo.src : fallback.src || "",
+    alt: typeof photo?.alt === "string" ? photo.alt : fallback.alt || "",
+    section: typeof photo?.section === "string" ? photo.section : fallback.section || "",
+    size: ["full", "medium", "small", "xsmall", "xxsmall"].includes(photo?.size) ? photo.size : fallback.size || "full",
+    spacerAfter: Number.isFinite(Number(photo?.spacerAfter)) ? Number(photo.spacerAfter) : Number(fallback.spacerAfter) || 0,
+    effect: normalizeEffect(photo?.effect, fallback.effect || "none"),
+  });
 
   const savedState = (() => {
     try {
@@ -89,29 +110,43 @@ const setupAlbumEditor = async () => {
         .catch(() => null)
     : null;
 
+  const jsonSections = normalizeSections(jsonState?.sections);
+  const jsonPhotos = Array.isArray(jsonState?.photos)
+    ? jsonState.photos.map((photo) => normalizePhoto(photo))
+    : [];
+  const basePhotos = originalPhotos.length ? originalPhotos : jsonPhotos;
+
   const mergePhotos = (savedPhotos) => {
     if (!Array.isArray(savedPhotos) || !savedPhotos.length) {
-      return originalPhotos;
+      return basePhotos.map((photo) => normalizePhoto(photo));
     }
 
-    const originalBySrc = new Map(originalPhotos.map((photo) => [photo.src, photo]));
+    const baseBySrc = new Map(basePhotos.map((photo) => [photo.src, photo]));
     const merged = savedPhotos
-      .filter((photo) => typeof photo?.src === "string" && originalBySrc.has(photo.src))
-      .map((photo) => ({
-        src: photo.src,
-        alt: originalBySrc.get(photo.src)?.alt || photo.alt || "",
-        size: ["full", "medium", "small", "xsmall", "xxsmall"].includes(photo.size) ? photo.size : "full",
-        spacerAfter: Number.isFinite(Number(photo.spacerAfter)) ? Number(photo.spacerAfter) : 0,
-        effect: normalizeEffect(photo.effect, photo.spotlight === true ? "spotlight" : "none"),
-      }));
+      .filter((photo) => typeof photo?.src === "string" && (baseBySrc.has(photo.src) || !basePhotos.length))
+      .map((photo) => normalizePhoto(photo, baseBySrc.get(photo.src)));
 
-    originalPhotos.forEach((photo) => {
+    basePhotos.forEach((photo) => {
       if (!merged.some((item) => item.src === photo.src)) {
-        merged.push(photo);
+        merged.push(normalizePhoto(photo));
       }
     });
 
     return merged;
+  };
+
+  const deriveSectionsFromPhotos = (photos) => {
+    const derived = [];
+    photos.forEach((photo) => {
+      if (!photo.section || derived.some((section) => section.id === photo.section)) {
+        return;
+      }
+      derived.push({
+        id: photo.section,
+        title: photo.section,
+      });
+    });
+    return derived;
   };
 
   const state = {
@@ -126,6 +161,11 @@ const setupAlbumEditor = async () => {
         : "tight",
     effect: normalizeEffect(savedState?.effect, normalizeEffect(jsonState?.effect)),
     photos: mergePhotos(savedState?.photos || jsonState?.photos),
+    sections: normalizeSections(savedState?.sections).length
+      ? normalizeSections(savedState?.sections)
+      : jsonSections.length
+        ? jsonSections
+        : deriveSectionsFromPhotos(basePhotos),
     editing: false,
     previewing: false,
   };
@@ -143,6 +183,7 @@ const setupAlbumEditor = async () => {
         title: state.title,
         spacing: state.spacing,
         effect: state.effect,
+        sections: state.sections,
         photos: state.photos,
       })
     );
@@ -158,9 +199,11 @@ const setupAlbumEditor = async () => {
     title: state.title,
     spacing: state.spacing,
     effect: state.effect,
+    sections: state.sections,
     photos: state.photos.map((photo) => ({
       src: photo.src,
       alt: photo.alt,
+      section: photo.section,
       size: photo.size,
       spacerAfter: photo.spacerAfter,
       effect: photo.effect,
@@ -371,9 +414,37 @@ const setupAlbumEditor = async () => {
     previewToggle.textContent = state.previewing ? "Show Editor" : "Preview";
     previewToggle.setAttribute("aria-pressed", state.previewing ? "true" : "false");
 
+    if (subalbumIndex) {
+      subalbumIndex.innerHTML = "";
+      subalbumIndex.classList.toggle("is-hidden", state.sections.length < 2);
+      state.sections.forEach((section, index) => {
+        const link = document.createElement("a");
+        link.className = "subalbum-index-link";
+        link.href = `#subalbum-${section.id}`;
+        link.textContent = `${String(index + 1).padStart(2, "0")} ${section.title}`;
+        subalbumIndex.appendChild(link);
+      });
+    }
+
     grid.innerHTML = "";
 
+    let currentSection = "";
+    const sectionOrder = state.sections.length ? state.sections : deriveSectionsFromPhotos(state.photos);
+    const sectionTitleMap = new Map(sectionOrder.map((section) => [section.id, section.title]));
+
     state.photos.forEach((photo, index) => {
+      if (photo.section && photo.section !== currentSection) {
+        currentSection = photo.section;
+        const heading = document.createElement("section");
+        heading.className = "subalbum-section-heading";
+        heading.id = `subalbum-${photo.section}`;
+        heading.innerHTML = `
+          <p class="subalbum-kicker">Sub-album</p>
+          <h2 class="subalbum-title">${sectionTitleMap.get(photo.section) || photo.section}</h2>
+        `;
+        grid.appendChild(heading);
+      }
+
       const effectiveEffect = photo.effect !== "none" ? photo.effect : state.effect;
       const wrapper = document.createElement("figure");
       wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}`;
@@ -411,6 +482,18 @@ const setupAlbumEditor = async () => {
         </div>
       `;
       grid.appendChild(wrapper);
+
+      const nextPhoto = state.photos[index + 1];
+      if (photo.section && (!nextPhoto || nextPhoto.section !== photo.section)) {
+        const sectionIndex = sectionOrder.findIndex((section) => section.id === photo.section);
+        const nextSection = sectionOrder[sectionIndex + 1];
+        if (nextSection) {
+          const nextLink = document.createElement("div");
+          nextLink.className = "subalbum-next";
+          nextLink.innerHTML = `<a class="subalbum-next-link" href="#subalbum-${nextSection.id}">Next: ${nextSection.title}</a>`;
+          grid.appendChild(nextLink);
+        }
+      }
     });
 
     queueEffectUpdate();
