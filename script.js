@@ -529,6 +529,7 @@ const setupAlbumEditor = async () => {
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       photo.classList.remove("is-effect-active");
       photo.style.removeProperty("--effect-strength");
+      photo.style.removeProperty("--spotlight-follow-offset");
     });
   };
 
@@ -538,6 +539,7 @@ const setupAlbumEditor = async () => {
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       photo.classList.remove("is-effect-active");
       photo.style.removeProperty("--effect-strength");
+      photo.style.removeProperty("--spotlight-follow-offset");
     });
   };
 
@@ -572,10 +574,12 @@ const setupAlbumEditor = async () => {
     let activeEffect = "none";
     let effectStrength = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
+    let spotlightProgress = 0.5;
 
     photos.forEach((photo) => {
       photo.classList.remove("is-effect-active");
       photo.style.setProperty("--effect-strength", "0");
+      photo.style.removeProperty("--spotlight-follow-offset");
     });
 
     const spotlightPhotos = effectPhotos.filter((photo) => normalizeEffect(photo.dataset.effect) === "spotlight");
@@ -599,6 +603,7 @@ const setupAlbumEditor = async () => {
         activePhoto = photo;
         activeEffect = "spotlight";
         effectStrength = Math.max(0.2, Math.min(1, edgeStrength));
+        spotlightProgress = clampedProgress;
       }
     });
 
@@ -630,6 +635,10 @@ const setupAlbumEditor = async () => {
     body.style.setProperty("--effect-strength", effectStrength.toFixed(3));
     activePhoto.classList.add("is-effect-active");
     activePhoto.style.setProperty("--effect-strength", effectStrength.toFixed(3));
+    if (activeEffect === "spotlight") {
+      const followOffset = (0.5 - spotlightProgress) * viewportHeight * 0.16;
+      activePhoto.style.setProperty("--spotlight-follow-offset", `${followOffset.toFixed(2)}px`);
+    }
   };
 
   const queueEffectUpdate = () => {
