@@ -410,8 +410,8 @@ const setupAlbumEditor = async () => {
       }
 
       const centeredTop = Math.max(0, (viewportHeight - stageHeight) / 2);
-      wrapper.style.setProperty("--spotlight-shell-top-gap", `${centeredTop}px`);
-      wrapper.style.setProperty("--spotlight-shell-bottom-gap", `${centeredTop + spotlightTravel}px`);
+      wrapper.style.setProperty("--spotlight-shell-top-gap", `0px`);
+      wrapper.style.setProperty("--spotlight-shell-bottom-gap", `${spotlightTravel}px`);
       wrapper.style.setProperty("--spotlight-stage-top", `${centeredTop}px`);
     });
   };
@@ -587,7 +587,9 @@ const setupAlbumEditor = async () => {
       const rect = photo.getBoundingClientRect();
       const stage = photo.querySelector(".photo-stage");
       const stageRect = stage instanceof HTMLElement ? stage.getBoundingClientRect() : rect;
-      const isInWindow = rect.top <= viewportCenter && rect.bottom >= viewportCenter;
+      const stickyTop = Math.max(0, (viewportHeight - stageRect.height) / 2);
+      const activeWindow = Math.max(1, rect.height - stageRect.height);
+      const isInWindow = rect.top <= stickyTop && rect.bottom >= stickyTop + stageRect.height;
       if (!isInWindow) {
         return;
       }
@@ -595,8 +597,7 @@ const setupAlbumEditor = async () => {
       const stageCenter = stageRect.top + stageRect.height / 2;
       const distance = Math.abs(stageCenter - viewportCenter);
       if (distance < closestDistance) {
-        const activeWindow = Math.max(1, rect.height - viewportHeight);
-        const rawProgress = (viewportCenter - rect.top) / activeWindow;
+        const rawProgress = (stickyTop - rect.top) / activeWindow;
         const clampedProgress = Math.max(0, Math.min(1, rawProgress));
         const edgeStrength = Math.min(clampedProgress, 1 - clampedProgress) * 2;
         closestDistance = distance;
