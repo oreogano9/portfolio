@@ -285,7 +285,15 @@ button {
 
 .masthead-title {
   max-width: 12ch;
-  font-size: clamp(4.4rem, 8.5vw, 8.9rem);
+  font-size: clamp(3.08rem, 5.95vw, 6.23rem);
+}
+
+.masthead-attribution {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 .masthead-note {
