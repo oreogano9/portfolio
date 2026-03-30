@@ -235,6 +235,11 @@ button {
   padding: 0.15rem 0 0;
 }
 
+.subalbum-footer-index {
+  justify-content: center;
+  padding: 0 0 1.35rem;
+}
+
 .subalbum-index-link {
   color: var(--muted);
   font-size: 1.014rem;

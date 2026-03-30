@@ -45,6 +45,7 @@ const setupAlbumEditor = async () => {
   const title = document.querySelector(".masthead-title");
   const header = document.querySelector(".album-page-header");
   const subalbumIndex = document.querySelector(".subalbum-index");
+  const subalbumFooterIndex = document.querySelector(".subalbum-footer-index");
   const toggle = document.querySelector("#album-edit-toggle");
   const previewToggle = document.querySelector("#album-preview-toggle");
   const saveButton = document.querySelector("#album-save-json");
@@ -414,17 +415,21 @@ const setupAlbumEditor = async () => {
     previewToggle.textContent = state.previewing ? "Show Editor" : "Preview";
     previewToggle.setAttribute("aria-pressed", state.previewing ? "true" : "false");
 
-    if (subalbumIndex) {
-      subalbumIndex.innerHTML = "";
-      subalbumIndex.classList.toggle("is-hidden", state.sections.length < 2);
+    [subalbumIndex, subalbumFooterIndex].forEach((container) => {
+      if (!container) {
+        return;
+      }
+
+      container.innerHTML = "";
+      container.classList.toggle("is-hidden", state.sections.length < 2);
       state.sections.forEach((section, index) => {
         const link = document.createElement("a");
         link.className = "subalbum-index-link";
         link.href = `#subalbum-${section.id}`;
         link.textContent = `${String(index + 1).padStart(2, "0")} ${section.title}`;
-        subalbumIndex.appendChild(link);
+        container.appendChild(link);
       });
-    }
+    });
 
     grid.innerHTML = "";
 
