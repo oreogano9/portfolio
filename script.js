@@ -88,13 +88,21 @@ const setupAlbumEditor = async () => {
           }))
       : [];
 
+  const sizeOptions = ["full", "extended", "medium", "small", "xsmall", "xxsmall"];
+
   const normalizePhoto = (photo, fallback = {}) => ({
     src: typeof photo?.src === "string" ? photo.src : fallback.src || "",
     alt: typeof photo?.alt === "string" ? photo.alt : fallback.alt || "",
     section: typeof photo?.section === "string" ? photo.section : fallback.section || "",
-    size: ["full", "medium", "small", "xsmall", "xxsmall"].includes(photo?.size) ? photo.size : fallback.size || "full",
+    size: sizeOptions.includes(photo?.size) ? photo.size : fallback.size || "full",
     spacerAfter: Number.isFinite(Number(photo?.spacerAfter)) ? Number(photo.spacerAfter) : Number(fallback.spacerAfter) || 0,
     effect: normalizeEffect(photo?.effect, fallback.effect || "none"),
+    landscape:
+      typeof photo?.landscape === "boolean"
+        ? photo.landscape
+        : typeof fallback.landscape === "boolean"
+          ? fallback.landscape
+          : null,
   });
 
   const savedState = (() => {
@@ -171,6 +179,14 @@ const setupAlbumEditor = async () => {
     previewing: false,
   };
 
+  const ensureLandscapeState = (photo) => {
+    if (!photo.landscape && photo.size === "extended") {
+      photo.size = "full";
+    }
+  };
+
+  state.photos.forEach(ensureLandscapeState);
+
   const spacingMap = {
     tight: "0.75rem",
     default: "1.25rem",
@@ -209,6 +225,28 @@ const setupAlbumEditor = async () => {
       spacerAfter: photo.spacerAfter,
       effect: photo.effect,
     })),
+  });
+
+  const loadLandscapeState = (photo, index) => {
+    if (typeof photo.landscape === "boolean") {
+      return;
+    }
+
+    const image = new window.Image();
+    image.addEventListener("load", () => {
+      const isLandscape = image.naturalWidth > image.naturalHeight;
+      if (state.photos[index]) {
+        state.photos[index].landscape = isLandscape;
+        ensureLandscapeState(state.photos[index]);
+        save();
+        render();
+      }
+    });
+    image.src = photo.src;
+  };
+
+  state.photos.forEach((photo, index) => {
+    loadLandscapeState(photo, index);
   });
 
   const exportSettings = () => {
@@ -311,6 +349,15 @@ const setupAlbumEditor = async () => {
     });
   };
 
+  const clearEffectVisuals = () => {
+    body.classList.remove("has-scroll-effect", "effect-spotlight", "effect-monochrome", "effect-drift", "effect-veil");
+    body.style.removeProperty("--effect-strength");
+    grid.querySelectorAll(".editable-photo").forEach((photo) => {
+      photo.classList.remove("is-effect-active");
+      photo.style.removeProperty("--effect-strength");
+    });
+  };
+
   const effectsShouldRun = () =>
     (state.effect !== "none" || state.photos.some((photo) => photo.effect !== "none")) && (!state.editing || state.previewing);
 
@@ -334,11 +381,14 @@ const setupAlbumEditor = async () => {
       return;
     }
 
-    let activePhoto = null;
-    let closestDistance = Number.POSITIVE_INFINITY;
     const viewportCenter = window.innerHeight * 0.5;
     const fadeRange = window.innerHeight * 0.85;
     const triggerRange = state.effect !== "none" ? Number.POSITIVE_INFINITY : window.innerHeight * 1.1;
+    const spotlightLeadRange = window.innerHeight * 1.35;
+    let activePhoto = null;
+    let closestDistance = Number.POSITIVE_INFINITY;
+    let upcomingSpotlightPhoto = null;
+    let upcomingSpotlightDistance = Number.POSITIVE_INFINITY;
 
     photos.forEach((photo) => {
       photo.classList.remove("is-effect-active");
@@ -356,9 +406,36 @@ const setupAlbumEditor = async () => {
         closestDistance = distance;
         activePhoto = photo;
       }
+
+      if (normalizeEffect(photo.dataset.effect) === "spotlight") {
+        const leadDistance = rect.top - viewportCenter;
+        if (leadDistance >= 0 && leadDistance < upcomingSpotlightDistance) {
+          upcomingSpotlightDistance = leadDistance;
+          upcomingSpotlightPhoto = photo;
+        }
+      }
     });
 
+    if (upcomingSpotlightPhoto && upcomingSpotlightDistance <= spotlightLeadRange) {
+      const upcomingIndex = photos.indexOf(upcomingSpotlightPhoto);
+      const viewportGap = `${window.innerHeight}px`;
+      const previousPhoto = upcomingIndex > 0 ? photos[upcomingIndex - 1] : null;
+      const nextPhoto = upcomingIndex < photos.length - 1 ? photos[upcomingIndex + 1] : null;
+
+      if (previousPhoto) {
+        previousPhoto.style.setProperty("--spotlight-after-space", viewportGap);
+      }
+
+      if (nextPhoto) {
+        nextPhoto.style.setProperty("--spotlight-before-space", viewportGap);
+      }
+    }
+
     if (!activePhoto || closestDistance > triggerRange) {
+      if (upcomingSpotlightPhoto) {
+        clearEffectVisuals();
+        return;
+      }
       clearEffects();
       return;
     }
@@ -372,7 +449,7 @@ const setupAlbumEditor = async () => {
     activePhoto.classList.add("is-effect-active");
     activePhoto.style.setProperty("--effect-strength", effectStrength.toFixed(3));
 
-    if (activeEffect === "spotlight") {
+    if (activeEffect === "spotlight" && !upcomingSpotlightPhoto) {
       const activeIndex = photos.indexOf(activePhoto);
       const viewportGap = `${window.innerHeight}px`;
       const previousPhoto = activeIndex > 0 ? photos[activeIndex - 1] : null;
@@ -473,6 +550,7 @@ const setupAlbumEditor = async () => {
       wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}`;
       wrapper.dataset.index = String(index);
       wrapper.dataset.effect = effectiveEffect;
+      wrapper.dataset.landscape = String(photo.landscape === true);
       wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
       wrapper.style.setProperty("--effect-direction", index % 2 === 0 ? "1" : "-1");
       wrapper.innerHTML = `
@@ -482,6 +560,7 @@ const setupAlbumEditor = async () => {
           <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
           <select class="photo-size-select" data-action="size" aria-label="Photo size">
             <option value="full"${photo.size === "full" ? " selected" : ""}>FULL WIDTH</option>
+            ${photo.landscape === true ? `<option value="extended"${photo.size === "extended" ? " selected" : ""}>EXTENDED</option>` : ""}
             <option value="medium"${photo.size === "medium" ? " selected" : ""}>MEDIUM</option>
             <option value="small"${photo.size === "small" ? " selected" : ""}>SMALL</option>
             <option value="xsmall"${photo.size === "xsmall" ? " selected" : ""}>EXTRA SMALL</option>
@@ -573,7 +652,11 @@ const setupAlbumEditor = async () => {
 
     const index = Number(wrapper.dataset.index);
     if (select?.classList.contains("photo-size-select")) {
-      state.photos[index].size = select.value;
+      if (select.value === "extended" && state.photos[index].landscape !== true) {
+        state.photos[index].size = "full";
+      } else {
+        state.photos[index].size = select.value;
+      }
       save();
       render();
       return;
