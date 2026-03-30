@@ -607,6 +607,32 @@ const setupAlbumEditor = async () => {
     render();
   });
 
+  window.addEventListener("keydown", (event) => {
+    const isMacToggle = event.metaKey && event.shiftKey && !event.ctrlKey && !event.altKey && event.key.toLowerCase() === "e";
+    if (!isMacToggle) {
+      return;
+    }
+
+    const target = event.target;
+    const isTypingTarget =
+      target instanceof HTMLElement &&
+      (target.isContentEditable ||
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT");
+
+    if (isTypingTarget) {
+      return;
+    }
+
+    event.preventDefault();
+    state.editing = !state.editing;
+    if (!state.editing) {
+      state.previewing = false;
+    }
+    render();
+  });
+
   saveButton.addEventListener("click", saveSettingsToGitHub);
   exportButton.addEventListener("click", exportSettings);
 
