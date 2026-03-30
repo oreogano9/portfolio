@@ -609,7 +609,8 @@ const setupAlbumEditor = async () => {
 
       const effectiveEffect = photo.effect !== "none" ? photo.effect : state.effect;
       const wrapper = document.createElement("figure");
-      wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveEffect === "spotlight" ? " spotlight-shell" : ""}`;
+      const isExtendedLandscape = photo.size === "extended" && photo.landscape === true;
+      wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveEffect === "spotlight" ? " spotlight-shell" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}`;
       wrapper.dataset.index = String(index);
       wrapper.dataset.effect = effectiveEffect;
       wrapper.dataset.landscape = String(photo.landscape === true);

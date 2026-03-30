@@ -522,21 +522,29 @@ button {
   margin-right: 0;
 }
 
-.album-page.is-mobile-layout .editable-photo.size-extended {
+.album-page.is-mobile-layout .editable-photo.mobile-extended-candidate {
   width: 100%;
   margin-left: 0;
   margin-right: 0;
-  min-height: calc(100vw - 2rem);
+  min-height: min(92svh, calc(100vw + 3rem));
   display: grid;
   place-items: center;
   overflow: visible;
 }
 
-.album-page.is-mobile-layout .editable-photo.size-extended img {
-  width: auto;
+.album-page.is-mobile-layout .editable-photo.mobile-extended-candidate .photo-stage {
+  width: 100%;
+  min-height: inherit;
+  display: grid;
+  place-items: center;
+}
+
+.album-page.is-mobile-layout .editable-photo.mobile-extended-candidate img {
+  width: auto !important;
   max-width: none;
-  height: min(88vw, 70vh);
-  transform: rotate(90deg);
+  max-height: none;
+  height: min(calc(100vw - 1.5rem), 80svh);
+  transform: rotate(90deg) !important;
   transform-origin: center center;
 }
 
