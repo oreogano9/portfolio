@@ -115,20 +115,21 @@ const setupAlbumEditor = async () => {
   const header = document.querySelector(".album-page-header");
   const subalbumIndex = document.querySelector(".subalbum-index");
   const subalbumFooterIndex = document.querySelector(".subalbum-footer-index");
-  const toggle = document.querySelector("#album-edit-toggle");
-  const previewToggle = document.querySelector("#album-preview-toggle");
-  const saveButton = document.querySelector("#album-save-json");
-  const exportButton = document.querySelector("#album-export-json");
+  const toggleButtons = Array.from(document.querySelectorAll('[data-album-action="edit"]'));
+  const previewButtons = Array.from(document.querySelectorAll('[data-album-action="preview"]'));
+  const saveButtons = Array.from(document.querySelectorAll('[data-album-action="save"]'));
+  const exportButtons = Array.from(document.querySelectorAll('[data-album-action="export"]'));
+  const previewToggle = previewButtons[0];
 
   if (
     !body.classList.contains("album-page") ||
     !grid ||
     !title ||
     !header ||
-    !toggle ||
+    !toggleButtons.length ||
     !previewToggle ||
-    !saveButton ||
-    !exportButton
+    !saveButtons.length ||
+    !exportButtons.length
   ) {
     return;
   }
@@ -145,6 +146,7 @@ const setupAlbumEditor = async () => {
     size: "full",
     spacerAfter: 0,
     effect: "none",
+    joinWithPrevious: false,
   }));
 
   const normalizeSections = (value) =>
@@ -171,6 +173,12 @@ const setupAlbumEditor = async () => {
     size: sizeOptions.includes(photo?.size) ? photo.size : fallback.size || "full",
     spacerAfter: Number.isFinite(Number(photo?.spacerAfter)) ? Number(photo.spacerAfter) : Number(fallback.spacerAfter) || 0,
     effect: normalizeEffect(photo?.effect, fallback.effect || "none"),
+    joinWithPrevious:
+      typeof photo?.joinWithPrevious === "boolean"
+        ? photo.joinWithPrevious
+        : typeof fallback.joinWithPrevious === "boolean"
+          ? fallback.joinWithPrevious
+          : false,
     landscape:
       typeof photo?.landscape === "boolean"
         ? photo.landscape
@@ -336,6 +344,7 @@ const setupAlbumEditor = async () => {
       size: photo.size,
       spacerAfter: photo.spacerAfter,
       effect: photo.effect,
+      joinWithPrevious: photo.joinWithPrevious,
     })),
   });
 
@@ -673,20 +682,107 @@ const setupAlbumEditor = async () => {
     render();
   };
 
+  const canJoinPhoto = (index) => {
+    if (index <= 0) {
+      return false;
+    }
+
+    const current = state.photos[index];
+    const previous = state.photos[index - 1];
+    if (!current || !previous) {
+      return false;
+    }
+
+    const currentEffect = normalizeEffect(current.effect !== "none" ? current.effect : state.effect);
+    const previousEffect = normalizeEffect(previous.effect !== "none" ? previous.effect : state.effect);
+    if (current.section !== previous.section || currentEffect === "spotlight" || previousEffect === "spotlight") {
+      return false;
+    }
+
+    let rowSize = 1;
+    let cursor = index - 1;
+    while (cursor > 0 && state.photos[cursor].joinWithPrevious && state.photos[cursor - 1]?.section === previous.section) {
+      rowSize += 1;
+      cursor -= 1;
+    }
+
+    return rowSize < 3;
+  };
+
+  const createPhotoFigure = (photo, index) => {
+    const effectiveEffect = photo.effect !== "none" ? photo.effect : state.effect;
+    const wrapper = document.createElement("figure");
+    const isExtendedLandscape = photo.size === "extended" && photo.landscape === true;
+    const isJoinable = canJoinPhoto(index);
+    const canShowUnjoin = photo.joinWithPrevious;
+    wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveEffect === "spotlight" ? " spotlight-shell" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${photo.joinWithPrevious && canJoinPhoto(index) ? " is-joined-photo" : ""}`;
+    wrapper.dataset.index = String(index);
+    wrapper.dataset.effect = effectiveEffect;
+    wrapper.dataset.landscape = String(photo.landscape === true);
+    wrapper.dataset.ratio = Number.isFinite(photo.aspectRatio) ? String(photo.aspectRatio) : "";
+    wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
+    wrapper.style.setProperty("--effect-direction", index % 2 === 0 ? "1" : "-1");
+    const loading = index < 4 ? "eager" : "lazy";
+    const fetchPriority = index < 2 ? "high" : "auto";
+    const decoding = index < 4 ? "sync" : "async";
+    wrapper.innerHTML = `
+        <div class="photo-stage">
+          <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" loading="${loading}" fetchpriority="${fetchPriority}" decoding="${decoding}" />
+          <div class="photo-controls">
+            <button class="photo-control-button" type="button" data-action="up" aria-label="Move image up">↑</button>
+            <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
+            <select class="photo-size-select" data-action="size" aria-label="Photo size">
+              ${photo.landscape === true ? `<option value="extended"${photo.size === "extended" ? " selected" : ""}>EXTENDED</option>` : ""}
+              <option value="full"${photo.size === "full" ? " selected" : ""}>FULL WIDTH</option>
+              <option value="medium"${photo.size === "medium" ? " selected" : ""}>MEDIUM</option>
+              <option value="small"${photo.size === "small" ? " selected" : ""}>SMALL</option>
+              <option value="xsmall"${photo.size === "xsmall" ? " selected" : ""}>EXTRA SMALL</option>
+              <option value="xxsmall"${photo.size === "xxsmall" ? " selected" : ""}>TINY</option>
+            </select>
+            <button class="photo-toggle-button photo-join-button" type="button" data-action="join-toggle" aria-label="${canShowUnjoin ? "Unjoin image from previous row" : "Join image with previous row"}"${!canShowUnjoin && !isJoinable ? " disabled" : ""}>${canShowUnjoin ? "UNJOIN" : "JOIN"}</button>
+            <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect">
+              <option value="none"${photo.effect === "none" ? " selected" : ""}>NONE</option>
+              <option value="spotlight"${photo.effect === "spotlight" ? " selected" : ""}>SPOTLIGHT</option>
+              <option value="monochrome"${photo.effect === "monochrome" ? " selected" : ""}>MONOCHROME</option>
+              <option value="drift"${photo.effect === "drift" ? " selected" : ""}>DRIFT</option>
+              <option value="veil"${photo.effect === "veil" ? " selected" : ""}>VEIL</option>
+            </select>
+          </div>
+          <div class="spacer-control">
+            <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
+            <label>
+              SPACE
+              <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>
+              <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image" />
+            </label>
+          </div>
+        </div>
+      `;
+    return wrapper;
+  };
+
   const render = () => {
     title.textContent = state.title;
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
     titleInput.value = state.title;
     spacingSelect.value = state.spacing;
     effectSelect.value = state.effect;
-    toggle.textContent = state.editing ? "Done" : "Edit";
-    saveButton.textContent = saveState.pending ? "Saving..." : saveState.message || "Save";
-    saveButton.disabled = saveState.pending;
-    exportButton.textContent = "Export JSON";
+    toggleButtons.forEach((button) => {
+      button.textContent = state.editing ? "Done" : "Edit";
+    });
+    saveButtons.forEach((button) => {
+      button.textContent = saveState.pending ? "Saving..." : saveState.message || "Save";
+      button.disabled = saveState.pending;
+    });
+    exportButtons.forEach((button) => {
+      button.textContent = "Export JSON";
+    });
     body.classList.toggle("is-editing", state.editing);
     body.classList.toggle("is-previewing", state.editing && state.previewing);
-    previewToggle.textContent = state.previewing ? "Show Editor" : "Preview";
-    previewToggle.setAttribute("aria-pressed", state.previewing ? "true" : "false");
+    previewButtons.forEach((button) => {
+      button.textContent = state.previewing ? "Show Editor" : "Preview";
+      button.setAttribute("aria-pressed", state.previewing ? "true" : "false");
+    });
 
     [subalbumIndex, subalbumFooterIndex].forEach((container) => {
       if (!container) {
@@ -705,80 +801,73 @@ const setupAlbumEditor = async () => {
     });
 
     grid.innerHTML = "";
-
-    let currentSection = "";
     const sectionOrder = state.sections.length ? state.sections : deriveSectionsFromPhotos(state.photos);
-    const sectionTitleMap = new Map(sectionOrder.map((section) => [section.id, section.title]));
+    const sectionsToRender = sectionOrder.length ? sectionOrder : [{ id: "", title: "" }];
+    sectionsToRender.forEach((section, sectionIndex) => {
+      const sectionPhotos = state.photos
+        .map((photo, index) => ({ photo, index }))
+        .filter(({ photo }) => (section.id ? photo.section === section.id : !photo.section));
+      if (!sectionPhotos.length) {
+        return;
+      }
 
-    state.photos.forEach((photo, index) => {
-      if (photo.section && photo.section !== currentSection) {
-        currentSection = photo.section;
+      if (section.id) {
         const heading = document.createElement("section");
         heading.className = "subalbum-section-heading";
-        heading.id = `subalbum-${photo.section}`;
+        heading.id = `subalbum-${section.id}`;
         heading.innerHTML = `
-          <h2 class="subalbum-title">${sectionTitleMap.get(photo.section) || photo.section}</h2>
+          <h2 class="subalbum-title">${section.title || section.id}</h2>
         `;
         grid.appendChild(heading);
       }
 
-      const effectiveEffect = photo.effect !== "none" ? photo.effect : state.effect;
-      const wrapper = document.createElement("figure");
-      const isExtendedLandscape = photo.size === "extended" && photo.landscape === true;
-      wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveEffect === "spotlight" ? " spotlight-shell" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}`;
-      wrapper.dataset.index = String(index);
-      wrapper.dataset.effect = effectiveEffect;
-      wrapper.dataset.landscape = String(photo.landscape === true);
-      wrapper.dataset.ratio = Number.isFinite(photo.aspectRatio) ? String(photo.aspectRatio) : "";
-      wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
-      wrapper.style.setProperty("--effect-direction", index % 2 === 0 ? "1" : "-1");
-      const loading = index < 4 ? "eager" : "lazy";
-      const fetchPriority = index < 2 ? "high" : "auto";
-      const decoding = index < 4 ? "sync" : "async";
-      wrapper.innerHTML = `
-        <div class="photo-stage">
-          <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" loading="${loading}" fetchpriority="${fetchPriority}" decoding="${decoding}" />
-          <div class="photo-controls">
-            <button class="photo-control-button" type="button" data-action="up" aria-label="Move image up">↑</button>
-            <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
-            <select class="photo-size-select" data-action="size" aria-label="Photo size">
-              ${photo.landscape === true ? `<option value="extended"${photo.size === "extended" ? " selected" : ""}>EXTENDED</option>` : ""}
-              <option value="full"${photo.size === "full" ? " selected" : ""}>FULL WIDTH</option>
-              <option value="medium"${photo.size === "medium" ? " selected" : ""}>MEDIUM</option>
-              <option value="small"${photo.size === "small" ? " selected" : ""}>SMALL</option>
-              <option value="xsmall"${photo.size === "xsmall" ? " selected" : ""}>EXTRA SMALL</option>
-              <option value="xxsmall"${photo.size === "xxsmall" ? " selected" : ""}>TINY</option>
-            </select>
-            <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect">
-              <option value="none"${photo.effect === "none" ? " selected" : ""}>None</option>
-              <option value="spotlight"${photo.effect === "spotlight" ? " selected" : ""}>Spotlight</option>
-              <option value="monochrome"${photo.effect === "monochrome" ? " selected" : ""}>Monochrome</option>
-              <option value="drift"${photo.effect === "drift" ? " selected" : ""}>Drift</option>
-              <option value="veil"${photo.effect === "veil" ? " selected" : ""}>Veil</option>
-            </select>
-          </div>
-          <div class="spacer-control">
-            <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
-            <label>
-              SPACE
-              <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>
-              <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image" />
-            </label>
-          </div>
-        </div>
-      `;
-      grid.appendChild(wrapper);
-
-      const nextPhoto = state.photos[index + 1];
-      if (photo.section && (!nextPhoto || nextPhoto.section !== photo.section)) {
-        const sectionIndex = sectionOrder.findIndex((section) => section.id === photo.section);
-        const nextSection = sectionOrder[sectionIndex + 1];
-        if (nextSection) {
-          const nextLink = document.createElement("div");
-          nextLink.className = "subalbum-next";
-          nextLink.innerHTML = `<a class="subalbum-next-link" href="#subalbum-${nextSection.id}">Next: ${nextSection.title}</a>`;
-          grid.appendChild(nextLink);
+      const blocks = [];
+      sectionPhotos.forEach((entry) => {
+        const previousBlock = blocks[blocks.length - 1];
+        if (
+          entry.photo.joinWithPrevious &&
+          canJoinPhoto(entry.index) &&
+          previousBlock &&
+          ((previousBlock.type === "photo") || (previousBlock.type === "row" && previousBlock.entries.length < 3))
+        ) {
+          if (previousBlock.type === "photo") {
+            blocks[blocks.length - 1] = {
+              type: "row",
+              entries: [previousBlock.entry, entry],
+            };
+          } else {
+            previousBlock.entries.push(entry);
+          }
+          return;
         }
+
+        blocks.push({
+          type: "photo",
+          entry,
+        });
+      });
+
+      blocks.forEach((block) => {
+        if (block.type === "row") {
+          const row = document.createElement("div");
+          row.className = "photo-join-row";
+          row.style.setProperty("--photo-join-columns", String(block.entries.length));
+          block.entries.forEach((entry) => {
+            row.appendChild(createPhotoFigure(entry.photo, entry.index));
+          });
+          grid.appendChild(row);
+          return;
+        }
+
+        grid.appendChild(createPhotoFigure(block.entry.photo, block.entry.index));
+      });
+
+      const nextSection = sectionsToRender[sectionIndex + 1];
+      if (section.id && nextSection) {
+        const nextLink = document.createElement("div");
+        nextLink.className = "subalbum-next";
+        nextLink.innerHTML = `<a class="subalbum-next-link" href="#subalbum-${nextSection.id}">Next: ${nextSection.title}</a>`;
+        grid.appendChild(nextLink);
       }
     });
 
@@ -808,7 +897,7 @@ const setupAlbumEditor = async () => {
   });
 
   grid.addEventListener("click", (event) => {
-    const button = event.target.closest(".photo-control-button, .spacer-reset");
+    const button = event.target.closest(".photo-control-button, .spacer-reset, .photo-join-button");
     if (!button) {
       return;
     }
@@ -828,6 +917,14 @@ const setupAlbumEditor = async () => {
       movePhoto(index, 1);
     } else if (action === "spacer-reset") {
       updateSpacer(index, 0);
+    } else if (action === "join-toggle") {
+      if (state.photos[index].joinWithPrevious) {
+        state.photos[index].joinWithPrevious = false;
+      } else if (canJoinPhoto(index)) {
+        state.photos[index].joinWithPrevious = true;
+      }
+      save();
+      render();
     }
   });
 
@@ -885,21 +982,25 @@ const setupAlbumEditor = async () => {
     save();
   });
 
-  toggle.addEventListener("click", () => {
-    state.editing = !state.editing;
-    if (!state.editing) {
-      state.previewing = false;
-    }
-    render();
+  toggleButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      state.editing = !state.editing;
+      if (!state.editing) {
+        state.previewing = false;
+      }
+      render();
+    });
   });
 
-  previewToggle.addEventListener("click", () => {
-    if (!state.editing) {
-      return;
-    }
+  previewButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!state.editing) {
+        return;
+      }
 
-    state.previewing = !state.previewing;
-    render();
+      state.previewing = !state.previewing;
+      render();
+    });
   });
 
   window.addEventListener("keydown", (event) => {
@@ -928,8 +1029,12 @@ const setupAlbumEditor = async () => {
     render();
   });
 
-  saveButton.addEventListener("click", saveSettingsToGitHub);
-  exportButton.addEventListener("click", exportSettings);
+  saveButtons.forEach((button) => {
+    button.addEventListener("click", saveSettingsToGitHub);
+  });
+  exportButtons.forEach((button) => {
+    button.addEventListener("click", exportSettings);
+  });
 
   window.addEventListener("scroll", queueEffectUpdate, { passive: true });
   window.addEventListener("resize", () => {
