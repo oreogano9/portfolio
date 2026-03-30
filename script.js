@@ -179,6 +179,17 @@ const setupAlbumEditor = async () => {
           : null,
   });
 
+  const toSettingsPayload = (input = {}) => ({
+    id: galleryId,
+    title: typeof input.title === "string" ? input.title : title.textContent.trim(),
+    spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "tight",
+    effect: normalizeEffect(input.effect),
+    sections: normalizeSections(input.sections),
+    photos: Array.isArray(input.photos) ? input.photos.map((photo) => normalizePhoto(photo)) : [],
+  });
+
+  const getSettingsSignature = (input = {}) => JSON.stringify(toSettingsPayload(input));
+
   const savedState = (() => {
     try {
       return JSON.parse(window.localStorage.getItem(storageKey) || "null");
@@ -192,6 +203,7 @@ const setupAlbumEditor = async () => {
         .then((response) => (response.ok ? response.json() : null))
         .catch(() => null)
     : null;
+  let currentSyncedSignature = jsonState ? getSettingsSignature(jsonState) : "";
 
   const jsonSections = normalizeSections(jsonState?.sections);
   const jsonPhotos = Array.isArray(jsonState?.photos)
@@ -232,26 +244,62 @@ const setupAlbumEditor = async () => {
     return derived;
   };
 
+  const shouldUseSavedState = (() => {
+    if (!savedState) {
+      return false;
+    }
+
+    if (!jsonState) {
+      return true;
+    }
+
+    const meta = savedState.meta || {};
+    if (meta.dirty && meta.baseSignature === currentSyncedSignature) {
+      return true;
+    }
+
+    if (!meta.dirty && meta.syncedSignature === currentSyncedSignature) {
+      return true;
+    }
+
+    return false;
+  })();
+
+  const preferredState = shouldUseSavedState ? savedState : jsonState;
+
   const state = {
     title:
-      (typeof savedState?.title === "string" && savedState.title.trim()) ||
-      (typeof jsonState?.title === "string" && jsonState.title.trim()) ||
+      (typeof preferredState?.title === "string" && preferredState.title.trim()) ||
       title.textContent.trim(),
-    spacing: ["tight", "default", "airy"].includes(savedState?.spacing)
-      ? savedState.spacing
-      : ["tight", "default", "airy"].includes(jsonState?.spacing)
-        ? jsonState.spacing
-        : "tight",
-    effect: normalizeEffect(savedState?.effect, normalizeEffect(jsonState?.effect)),
-    photos: mergePhotos(savedState?.photos || jsonState?.photos),
-    sections: normalizeSections(savedState?.sections).length
-      ? normalizeSections(savedState?.sections)
-      : jsonSections.length
+    spacing: ["tight", "default", "airy"].includes(preferredState?.spacing) ? preferredState.spacing : "tight",
+    effect: normalizeEffect(preferredState?.effect),
+    photos: mergePhotos(preferredState?.photos),
+    sections: normalizeSections(preferredState?.sections).length
+      ? normalizeSections(preferredState?.sections)
+      : jsonSections.length && !shouldUseSavedState
         ? jsonSections
         : deriveSectionsFromPhotos(basePhotos),
     editing: false,
     previewing: false,
   };
+
+  if (!shouldUseSavedState && jsonState) {
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify({
+        title: state.title,
+        spacing: state.spacing,
+        effect: state.effect,
+        sections: state.sections,
+        photos: state.photos,
+        meta: {
+          dirty: false,
+          baseSignature: currentSyncedSignature,
+          syncedSignature: currentSyncedSignature,
+        },
+      })
+    );
+  }
 
   const ensureLandscapeState = (photo) => {
     if (!photo.landscape && photo.size === "extended") {
@@ -276,6 +324,11 @@ const setupAlbumEditor = async () => {
         effect: state.effect,
         sections: state.sections,
         photos: state.photos,
+        meta: {
+          dirty: true,
+          baseSignature: currentSyncedSignature,
+          syncedSignature: "",
+        },
       })
     );
   };
@@ -374,6 +427,24 @@ const setupAlbumEditor = async () => {
       if (!response.ok) {
         throw new Error(result.error || "Save failed");
       }
+
+      const savedSignature = getSettingsSignature(serializeSettings());
+      window.localStorage.setItem(
+        storageKey,
+        JSON.stringify({
+          title: state.title,
+          spacing: state.spacing,
+          effect: state.effect,
+          sections: state.sections,
+          photos: state.photos,
+          meta: {
+            dirty: false,
+            baseSignature: savedSignature,
+            syncedSignature: savedSignature,
+          },
+        })
+      );
+      currentSyncedSignature = savedSignature;
 
       saveState = {
         pending: false,
