@@ -570,18 +570,14 @@ button {
 }
 
 .editable-photo.spotlight-shell {
-  min-height: 212vh;
-  display: flex;
-  align-items: stretch;
+  padding-top: var(--spotlight-shell-top-gap, 0px);
+  padding-bottom: var(--spotlight-shell-bottom-gap, 0px);
 }
 
 .editable-photo.spotlight-shell .photo-stage {
   position: sticky;
-  top: 50svh;
-  top: 50dvh;
+  top: var(--spotlight-stage-top, 0px);
   width: 100%;
-  align-self: start;
-  transform: translateY(-50%);
 }
 
 .editable-photo img {
@@ -1206,10 +1202,6 @@ button {
 
   .editable-photo.size-xxsmall {
     width: 58%;
-  }
-
-  .editable-photo.spotlight-shell {
-    min-height: 172vh;
   }
 
   .photo-controls {

@@ -394,6 +394,28 @@ const setupAlbumEditor = async () => {
     });
   };
 
+  const updateSpotlightLayout = () => {
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const spotlightTravel = viewportHeight * 0.8;
+
+    grid.querySelectorAll(".editable-photo.spotlight-shell").forEach((wrapper) => {
+      const stage = wrapper.querySelector(".photo-stage");
+      if (!(stage instanceof HTMLElement)) {
+        return;
+      }
+
+      const stageHeight = stage.getBoundingClientRect().height;
+      if (!(stageHeight > 0)) {
+        return;
+      }
+
+      const centeredTop = Math.max(0, (viewportHeight - stageHeight) / 2);
+      wrapper.style.setProperty("--spotlight-shell-top-gap", `${centeredTop}px`);
+      wrapper.style.setProperty("--spotlight-shell-bottom-gap", `${centeredTop + spotlightTravel}px`);
+      wrapper.style.setProperty("--spotlight-stage-top", `${centeredTop}px`);
+    });
+  };
+
   const exportSettings = () => {
     const json = JSON.stringify(serializeSettings(), null, 2);
     const blob = new Blob([json], { type: "application/json" });
@@ -751,7 +773,10 @@ const setupAlbumEditor = async () => {
     });
 
     queueEffectUpdate();
-    window.requestAnimationFrame(updateMobileExtendedLayout);
+    window.requestAnimationFrame(() => {
+      updateMobileExtendedLayout();
+      updateSpotlightLayout();
+    });
   };
 
   titleInput.addEventListener("input", (event) => {
@@ -900,11 +925,16 @@ const setupAlbumEditor = async () => {
   window.addEventListener("resize", () => {
     queueEffectUpdate();
     updateMobileExtendedLayout();
+    updateSpotlightLayout();
   });
-  window.addEventListener("orientationchange", updateMobileExtendedLayout);
+  window.addEventListener("orientationchange", () => {
+    updateMobileExtendedLayout();
+    updateSpotlightLayout();
+  });
   window.addEventListener("load", () => {
     queueEffectUpdate();
     updateMobileExtendedLayout();
+    updateSpotlightLayout();
   });
   grid.addEventListener(
     "load",
@@ -912,6 +942,7 @@ const setupAlbumEditor = async () => {
       if (event.target instanceof HTMLImageElement) {
         queueEffectUpdate();
         updateMobileExtendedLayout();
+        updateSpotlightLayout();
       }
     },
     true
