@@ -177,6 +177,11 @@ const setupAlbumEditor = async () => {
         : typeof fallback.landscape === "boolean"
           ? fallback.landscape
           : null,
+    aspectRatio: Number.isFinite(Number(photo?.aspectRatio))
+      ? Number(photo.aspectRatio)
+      : Number.isFinite(Number(fallback.aspectRatio))
+        ? Number(fallback.aspectRatio)
+        : null,
   });
 
   const toSettingsPayload = (input = {}) => ({
@@ -364,6 +369,7 @@ const setupAlbumEditor = async () => {
       const isLandscape = image.naturalWidth > image.naturalHeight;
       if (state.photos[index]) {
         state.photos[index].landscape = isLandscape;
+        state.photos[index].aspectRatio = image.naturalWidth / image.naturalHeight;
         ensureLandscapeState(state.photos[index]);
         save();
         render();
@@ -384,6 +390,29 @@ const setupAlbumEditor = async () => {
   }
   window.addEventListener("resize", syncMobileLayoutState);
   window.addEventListener("orientationchange", syncMobileLayoutState);
+
+  const updateMobileExtendedLayout = () => {
+    if (!body.classList.contains("is-mobile-layout")) {
+      grid.querySelectorAll(".editable-photo.mobile-extended-candidate").forEach((wrapper) => {
+        wrapper.style.removeProperty("--mobile-extended-frame-height");
+        wrapper.style.removeProperty("--mobile-extended-image-width");
+        wrapper.style.removeProperty("--mobile-extended-image-height");
+      });
+      return;
+    }
+
+    grid.querySelectorAll(".editable-photo.mobile-extended-candidate").forEach((wrapper) => {
+      const ratio = Number(wrapper.dataset.ratio);
+      const frameWidth = wrapper.clientWidth;
+      if (!(ratio > 1) || !(frameWidth > 0)) {
+        return;
+      }
+
+      wrapper.style.setProperty("--mobile-extended-frame-height", `${frameWidth * ratio}px`);
+      wrapper.style.setProperty("--mobile-extended-image-width", `${frameWidth * ratio}px`);
+      wrapper.style.setProperty("--mobile-extended-image-height", `${frameWidth}px`);
+    });
+  };
 
   const exportSettings = () => {
     const json = JSON.stringify(serializeSettings(), null, 2);
@@ -685,6 +714,7 @@ const setupAlbumEditor = async () => {
       wrapper.dataset.index = String(index);
       wrapper.dataset.effect = effectiveEffect;
       wrapper.dataset.landscape = String(photo.landscape === true);
+      wrapper.dataset.ratio = Number.isFinite(photo.aspectRatio) ? String(photo.aspectRatio) : "";
       wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
       wrapper.style.setProperty("--effect-direction", index % 2 === 0 ? "1" : "-1");
       const loading = index < 4 ? "eager" : "lazy";
@@ -738,6 +768,7 @@ const setupAlbumEditor = async () => {
     });
 
     queueEffectUpdate();
+    window.requestAnimationFrame(updateMobileExtendedLayout);
   };
 
   titleInput.addEventListener("input", (event) => {
@@ -883,13 +914,21 @@ const setupAlbumEditor = async () => {
   exportButton.addEventListener("click", exportSettings);
 
   window.addEventListener("scroll", queueEffectUpdate, { passive: true });
-  window.addEventListener("resize", queueEffectUpdate);
-  window.addEventListener("load", queueEffectUpdate);
+  window.addEventListener("resize", () => {
+    queueEffectUpdate();
+    updateMobileExtendedLayout();
+  });
+  window.addEventListener("orientationchange", updateMobileExtendedLayout);
+  window.addEventListener("load", () => {
+    queueEffectUpdate();
+    updateMobileExtendedLayout();
+  });
   grid.addEventListener(
     "load",
     (event) => {
       if (event.target instanceof HTMLImageElement) {
         queueEffectUpdate();
+        updateMobileExtendedLayout();
       }
     },
     true

@@ -526,25 +526,27 @@ button {
   width: 100%;
   margin-left: 0;
   margin-right: 0;
-  min-height: min(92svh, calc(100vw + 3rem));
-  display: grid;
-  place-items: center;
-  overflow: visible;
+  min-height: 0;
+  height: var(--mobile-extended-frame-height, auto);
+  display: block;
+  overflow: hidden;
 }
 
 .album-page.is-mobile-layout .editable-photo.mobile-extended-candidate .photo-stage {
+  position: relative;
   width: 100%;
-  min-height: inherit;
-  display: grid;
-  place-items: center;
+  height: 100%;
 }
 
 .album-page.is-mobile-layout .editable-photo.mobile-extended-candidate img {
-  width: auto !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--mobile-extended-image-width, auto) !important;
   max-width: none;
   max-height: none;
-  height: min(calc(100vw - 1.5rem), 80svh);
-  transform: rotate(90deg) !important;
+  height: var(--mobile-extended-image-height, auto);
+  transform: translate(-50%, -50%) rotate(90deg) !important;
   transform-origin: center center;
 }
 
