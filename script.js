@@ -249,28 +249,8 @@ const setupAlbumEditor = async () => {
     return derived;
   };
 
-  const shouldUseSavedState = (() => {
-    if (!savedState) {
-      return false;
-    }
-
-    if (!jsonState) {
-      return true;
-    }
-
-    const meta = savedState.meta || {};
-    if (meta.dirty && meta.baseSignature === currentSyncedSignature) {
-      return true;
-    }
-
-    if (!meta.dirty && meta.syncedSignature === currentSyncedSignature) {
-      return true;
-    }
-
-    return false;
-  })();
-
-  const preferredState = shouldUseSavedState ? savedState : jsonState;
+  const shouldUseSavedState = !jsonState && Boolean(savedState);
+  const preferredState = jsonState || savedState;
 
   const state = {
     title:
@@ -562,9 +542,10 @@ const setupAlbumEditor = async () => {
       return;
     }
 
-    const viewportCenter = window.innerHeight * 0.5;
-    const fadeRange = window.innerHeight * 0.85;
-    const triggerRange = state.effect !== "none" ? Number.POSITIVE_INFINITY : window.innerHeight * 1.1;
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const viewportCenter = viewportHeight * 0.5;
+    const fadeRange = viewportHeight * 0.85;
+    const triggerRange = state.effect !== "none" ? Number.POSITIVE_INFINITY : viewportHeight * 1.1;
     let activePhoto = null;
     let activeEffect = "none";
     let effectStrength = 0;
@@ -578,15 +559,17 @@ const setupAlbumEditor = async () => {
     const spotlightPhotos = effectPhotos.filter((photo) => normalizeEffect(photo.dataset.effect) === "spotlight");
     spotlightPhotos.forEach((photo) => {
       const rect = photo.getBoundingClientRect();
+      const stage = photo.querySelector(".photo-stage");
+      const stageRect = stage instanceof HTMLElement ? stage.getBoundingClientRect() : rect;
       const isInWindow = rect.top <= viewportCenter && rect.bottom >= viewportCenter;
       if (!isInWindow) {
         return;
       }
 
-      const photoCenter = rect.top + rect.height / 2;
-      const distance = Math.abs(photoCenter - viewportCenter);
+      const stageCenter = stageRect.top + stageRect.height / 2;
+      const distance = Math.abs(stageCenter - viewportCenter);
       if (distance < closestDistance) {
-        const activeWindow = Math.max(1, rect.height - window.innerHeight);
+        const activeWindow = Math.max(1, rect.height - viewportHeight);
         const rawProgress = (viewportCenter - rect.top) / activeWindow;
         const clampedProgress = Math.max(0, Math.min(1, rawProgress));
         const edgeStrength = Math.min(clampedProgress, 1 - clampedProgress) * 2;

@@ -570,7 +570,7 @@ button {
 }
 
 .editable-photo.spotlight-shell {
-  min-height: 240vh;
+  min-height: 212vh;
   display: flex;
   align-items: stretch;
 }
@@ -578,6 +578,7 @@ button {
 .editable-photo.spotlight-shell .photo-stage {
   position: sticky;
   top: 50svh;
+  top: 50dvh;
   width: 100%;
   align-self: start;
   transform: translateY(-50%);
@@ -1208,11 +1209,7 @@ button {
   }
 
   .editable-photo.spotlight-shell {
-    min-height: 190vh;
-  }
-
-  .editable-photo.spotlight-shell .photo-stage {
-    top: 56svh;
+    min-height: 172vh;
   }
 
   .photo-controls {
