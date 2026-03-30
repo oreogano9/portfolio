@@ -439,7 +439,6 @@ const setupAlbumEditor = async () => {
         heading.className = "subalbum-section-heading";
         heading.id = `subalbum-${photo.section}`;
         heading.innerHTML = `
-          <p class="subalbum-kicker">Sub-album</p>
           <h2 class="subalbum-title">${sectionTitleMap.get(photo.section) || photo.section}</h2>
         `;
         grid.appendChild(heading);
