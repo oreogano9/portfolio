@@ -10,7 +10,11 @@
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body class="album-page">
+  <body
+    class="album-page"
+    data-gallery-id="museo-della-civilta-26"
+    data-gallery-settings="./data/galleries/museo-della-civilta-26.settings.json"
+  >
     <button class="preview-toggle" type="button" id="album-preview-toggle" aria-pressed="false">Preview</button>
     <div class="site-frame">
       <main class="content-column" id="album-top">
@@ -119,6 +123,8 @@
         <section class="section mobile-home-section">
           <a class="mobile-home-button" href="./index.html">Home</a>
           <button class="mobile-home-button album-edit-button" type="button" id="album-edit-toggle">Edit</button>
+          <button class="mobile-home-button album-save-button" type="button" id="album-save-json">Save</button>
+          <button class="mobile-home-button album-export-button" type="button" id="album-export-json">Export JSON</button>
         </section>
       </main>
     </div>

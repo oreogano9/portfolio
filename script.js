@@ -39,19 +39,32 @@ const setupParallax = () => {
   return;
 };
 
-const setupAlbumEditor = () => {
+const setupAlbumEditor = async () => {
   const body = document.body;
   const grid = document.querySelector(".album-detail-grid");
   const title = document.querySelector(".masthead-title");
   const header = document.querySelector(".album-page-header");
   const toggle = document.querySelector("#album-edit-toggle");
   const previewToggle = document.querySelector("#album-preview-toggle");
+  const saveButton = document.querySelector("#album-save-json");
+  const exportButton = document.querySelector("#album-export-json");
 
-  if (!body.classList.contains("album-page") || !grid || !title || !header || !toggle || !previewToggle) {
+  if (
+    !body.classList.contains("album-page") ||
+    !grid ||
+    !title ||
+    !header ||
+    !toggle ||
+    !previewToggle ||
+    !saveButton ||
+    !exportButton
+  ) {
     return;
   }
 
   const storageKey = `album-editor:${window.location.pathname}`;
+  const galleryId = body.dataset.galleryId || "gallery";
+  const settingsUrl = body.dataset.gallerySettings || "";
   const effectOptions = ["none", "spotlight", "monochrome", "drift", "veil"];
   const normalizeEffect = (value, fallback = "none") => (effectOptions.includes(value) ? value : fallback);
   const originalPhotos = Array.from(grid.querySelectorAll("img")).map((image) => ({
@@ -69,6 +82,12 @@ const setupAlbumEditor = () => {
       return null;
     }
   })();
+
+  const jsonState = settingsUrl
+    ? await fetch(settingsUrl, { cache: "no-store" })
+        .then((response) => (response.ok ? response.json() : null))
+        .catch(() => null)
+    : null;
 
   const mergePhotos = (savedPhotos) => {
     if (!Array.isArray(savedPhotos) || !savedPhotos.length) {
@@ -96,18 +115,20 @@ const setupAlbumEditor = () => {
   };
 
   const state = {
-    title: typeof savedState?.title === "string" && savedState.title.trim() ? savedState.title : title.textContent.trim(),
-    spacing: "tight",
-    effect: normalizeEffect(savedState?.effect),
-    photos: mergePhotos(savedState?.photos),
+    title:
+      (typeof savedState?.title === "string" && savedState.title.trim()) ||
+      (typeof jsonState?.title === "string" && jsonState.title.trim()) ||
+      title.textContent.trim(),
+    spacing: ["tight", "default", "airy"].includes(savedState?.spacing)
+      ? savedState.spacing
+      : ["tight", "default", "airy"].includes(jsonState?.spacing)
+        ? jsonState.spacing
+        : "tight",
+    effect: normalizeEffect(savedState?.effect, normalizeEffect(jsonState?.effect)),
+    photos: mergePhotos(savedState?.photos || jsonState?.photos),
     editing: false,
     previewing: false,
   };
-
-  state.photos = state.photos.map((photo) => ({
-    ...photo,
-    spacerAfter: 0,
-  }));
 
   const spacingMap = {
     tight: "0.75rem",
@@ -125,6 +146,90 @@ const setupAlbumEditor = () => {
         photos: state.photos,
       })
     );
+  };
+
+  let saveState = {
+    pending: false,
+    message: "",
+  };
+
+  const serializeSettings = () => ({
+    id: galleryId,
+    title: state.title,
+    spacing: state.spacing,
+    effect: state.effect,
+    photos: state.photos.map((photo) => ({
+      src: photo.src,
+      alt: photo.alt,
+      size: photo.size,
+      spacerAfter: photo.spacerAfter,
+      effect: photo.effect,
+    })),
+  });
+
+  const exportSettings = () => {
+    const json = JSON.stringify(serializeSettings(), null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${galleryId}.settings.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  const saveSettingsToGitHub = async () => {
+    if (!settingsUrl || saveState.pending) {
+      return;
+    }
+
+    saveState = {
+      pending: true,
+      message: "Saving...",
+    };
+    render();
+
+    try {
+      const response = await fetch("/api/save-gallery", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          galleryId,
+          settingsPath: settingsUrl.replace(/^\.\//, ""),
+          settings: serializeSettings(),
+        }),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || "Save failed");
+      }
+
+      saveState = {
+        pending: false,
+        message: "Saved",
+      };
+    } catch (error) {
+      saveState = {
+        pending: false,
+        message: error instanceof Error ? error.message : "Save failed",
+      };
+    }
+
+    render();
+
+    window.setTimeout(() => {
+      saveState = {
+        pending: false,
+        message: "",
+      };
+      render();
+    }, 2500);
   };
 
   const headerControls = document.createElement("div");
@@ -258,6 +363,9 @@ const setupAlbumEditor = () => {
     spacingSelect.value = state.spacing;
     effectSelect.value = state.effect;
     toggle.textContent = state.editing ? "Done" : "Edit";
+    saveButton.textContent = saveState.pending ? "Saving..." : saveState.message || "Save";
+    saveButton.disabled = saveState.pending;
+    exportButton.textContent = "Export JSON";
     body.classList.toggle("is-editing", state.editing);
     body.classList.toggle("is-previewing", state.editing && state.previewing);
     previewToggle.textContent = state.previewing ? "Show Editor" : "Preview";
@@ -416,6 +524,9 @@ const setupAlbumEditor = () => {
     state.previewing = !state.previewing;
     render();
   });
+
+  saveButton.addEventListener("click", saveSettingsToGitHub);
+  exportButton.addEventListener("click", exportSettings);
 
   window.addEventListener("scroll", queueEffectUpdate, { passive: true });
   window.addEventListener("resize", queueEffectUpdate);

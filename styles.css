@@ -762,6 +762,11 @@ button {
   cursor: pointer;
 }
 
+.mobile-home-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .mobile-home-section .mobile-home-button + .mobile-home-button {
   margin-top: 0.85rem;
 }
