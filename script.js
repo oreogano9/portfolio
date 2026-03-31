@@ -166,6 +166,18 @@ const setupAlbumEditor = async () => {
     }
     return value;
   };
+  const toCanonicalSettingsPath = (value) => {
+    if (typeof value !== "string") {
+      return "";
+    }
+    if (value.startsWith("../")) {
+      return value.replace(/^\.\.\//, "");
+    }
+    if (value.startsWith("./")) {
+      return value.replace(/^\.\//, "");
+    }
+    return value;
+  };
   const toCanonicalAssetPath = (value) => {
     if (typeof value !== "string") {
       return "";
@@ -532,7 +544,7 @@ const setupAlbumEditor = async () => {
         },
         body: JSON.stringify({
           galleryId,
-          settingsPath: settingsUrl.replace(/^\.\//, ""),
+          settingsPath: toCanonicalSettingsPath(settingsUrl),
           settings: serializeSettings(),
         }),
       });
