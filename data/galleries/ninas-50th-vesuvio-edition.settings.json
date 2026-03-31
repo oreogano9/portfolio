@@ -1,11 +1,14 @@
 {
   "id": "ninas-50th-vesuvio-edition",
   "title": "Nina’s 50th: Vesuvio Edition",
+  "titleScale": 1,
+  "mobileRotateClockwise": true,
   "spacing": "tight",
+  "topSpacer": 7,
   "effect": "none",
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "./images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08306.jpg",
+    "heroImageSrc": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08306.jpg",
     "showArrow": true
   },
   "sections": [
@@ -25,2082 +28,3006 @@
   "photos": [
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06253.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06253.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06492.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06492.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06812.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06812.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06825.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06825.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06831.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06831.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06833.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06833.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06849.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06849.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06858.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06858.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06862.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06862.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06872.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06872.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06877.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06877.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06879-3.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06879-3.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06890.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06890.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06902.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06902.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06915.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06915.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06928.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06928.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06943.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06943.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06948.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06948.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06951.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06951.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06955.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06955.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06961.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06961.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06968.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06968.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06977.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06977.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06983.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06983.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06986.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06986.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06995.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06995.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC06999.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC06999.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07006.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07006.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07007.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07007.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07011.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07011.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07019.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07019.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07021.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07021.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07025.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07025.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07027.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07027.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07030.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07030.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07037.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07037.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07045.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07045.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07052.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07052.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07060.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07060.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07068.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07068.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07086.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07086.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07090.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07090.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07100.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07100.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07114.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07114.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07126.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07126.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07130.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07130.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07135-3.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07135-3.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07147.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07147.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07158.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07158.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07195-Edit.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07195-Edit.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07204.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07204.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07232.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07232.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07241.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07241.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07263.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07263.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07273.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07273.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07281.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07281.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07291.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07291.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07305.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07305.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/The_Meetup/DSC07320.jpg",
+      "previewSrc": "",
       "alt": "The Meetup - DSC07320.jpg",
       "section": "meetup",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC06451.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC06451.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC06463.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC06463.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC06466.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC06466.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC06524.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC06524.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC06774.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC06774.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07344.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07344.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07349.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07349.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07423.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07423.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07425.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07425.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07431.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07431.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07438.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07438.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07445.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07445.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07453.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07453.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07458.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07458.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07483.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07483.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07491.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07491.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07508.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07508.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07525.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07525.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07529.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07529.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07535.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07535.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07543.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07543.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07546.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07546.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07554.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07554.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07572.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07572.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07577.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07577.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07585.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07585.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07592.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07592.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07597.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07597.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07602.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07602.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07620.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07620.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07635.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07635.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07639.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07639.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07647.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07647.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07660.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07660.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07671.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07671.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07686.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07686.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07697.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07697.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07704.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07704.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07708.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07708.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07713.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07713.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07737.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07737.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07752.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07752.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07760.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07760.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07774.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07774.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07776.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07776.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07794.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07794.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07798.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07798.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07806.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07806.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07868.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07868.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_Street_Art_Tour/DSC07888.jpg",
+      "previewSrc": "",
       "alt": "Nina's Street Art Tour - DSC07888.jpg",
       "section": "street-art-tour",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC06431.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC06431.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC06777.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC06777.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07898.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07898.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07909.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07909.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07915.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07915.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07924.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07924.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07932.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07932.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07941.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07941.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07943.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07943.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07949.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07949.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07951.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07951.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07958.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07958.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07970.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07970.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07971.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07971.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07973.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07973.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07988.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07988.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC07994.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC07994.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08009.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08009.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08013.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08013.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08024.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08024.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08025.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08025.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08031.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08031.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08037.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08037.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08040.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08040.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08042.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08042.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08051.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08051.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08057.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08057.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08063.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08063.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08079.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08079.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08086.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08086.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08090.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08090.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08115.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08115.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08127.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08127.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08131.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08131.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08139.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08139.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08149.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08149.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08166.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08166.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08174.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08174.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08182.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08182.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08187.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08187.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08201.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08201.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08215.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08215.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08220.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08220.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08235.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08235.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08254.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08254.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08260.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08260.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08271.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08271.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08275.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08275.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08285.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08285.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08289.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08289.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08291.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08291.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08292.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08292.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08293.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08293.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08299.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08299.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08302.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08302.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08306.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08306.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08308.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08308.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08315.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08315.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08316.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08316.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08317.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08317.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08318.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08318.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08319.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08319.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08329.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08329.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08331.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08331.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08335.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08335.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08348.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08348.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08352.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08352.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08360.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08360.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08369.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08369.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08372.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08372.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08386.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08386.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08389.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08389.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08394.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08394.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08397.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08397.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08408.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08408.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08410.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08410.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08415-Edit.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08415-Edit.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08422.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08422.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08426.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08426.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08448.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08448.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08469.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08469.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08516.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08516.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08519.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08519.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08559.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08559.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08564.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08564.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08603.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08603.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08615.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08615.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08630.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08630.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08632.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08632.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08635.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08635.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08637.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08637.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08641.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08641.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08643.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08643.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08657.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08657.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08658.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08658.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08677.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08677.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08680.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08680.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08698.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08698.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08742b.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08742b.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08748.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08748.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08751.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08751.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08753.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08753.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08756.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08756.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08757.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08757.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08762.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08762.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08765.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08765.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08772.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08772.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08778.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08778.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08787.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08787.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08790.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08790.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08797.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08797.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08809.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08809.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08813.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08813.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08823.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08823.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08835.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08835.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08878.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08878.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08895.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08895.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08904.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08904.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08912.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08912.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08921.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08921.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08926.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08926.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     },
     {
       "src": "/images/Ninas%2050th%20Vesuvio%20Edition/Ninas_50th_Disco_Party/DSC08932.jpg",
+      "previewSrc": "",
       "alt": "Nina’s 50th Disco Part - DSC08932.jpg",
       "section": "disco-party",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5003663003663004
     }
   ]
 }
