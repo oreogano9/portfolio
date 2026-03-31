@@ -216,14 +216,6 @@ export const buildAlbumBlocks = ({ state, normalizeEffect, includeDeleted = fals
       });
     });
 
-    const nextSection = sectionsToRender[sectionIndex + 1];
-    if (section.id && nextSection) {
-      blocks.push({
-        type: "next-link",
-        href: `#subalbum-${nextSection.id}`,
-        title: nextSection.title,
-      });
-    }
   });
 
   return blocks;
@@ -369,13 +361,6 @@ const createBlockNode = ({ block, state, normalizeEffect, renderState }) => {
     heading.style.setProperty("--subalbum-title-length", String(Math.max(1, titleLength)));
     heading.innerHTML = `<h2 class="subalbum-title">${block.title}</h2>`;
     return heading;
-  }
-
-  if (block.type === "next-link") {
-    const nextLink = document.createElement("div");
-    nextLink.className = "subalbum-next";
-    nextLink.innerHTML = `<a class="subalbum-next-link" href="${block.href}">Next: ${block.title}</a>`;
-    return nextLink;
   }
 
   if (block.type === "row") {

@@ -674,7 +674,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .subalbum-section-heading {
   display: grid;
   gap: 0.35rem;
-  padding: 2.25rem 0 0.35rem;
+  padding: 3rem 0 0.6rem;
   scroll-margin-top: 1.5rem;
 }
 
@@ -691,22 +691,6 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   font-size: clamp(1.6rem, 4vw, 2.6rem);
   font-weight: 500;
   letter-spacing: -0.04em;
-}
-
-.subalbum-next {
-  display: flex;
-  justify-content: flex-start;
-  padding: 1.25rem 0 2rem;
-}
-
-.subalbum-next-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 2.8rem;
-  padding: 0 1rem;
-  border: 1px solid var(--line);
-  color: var(--text);
 }
 
 .album-detail-grid img {
