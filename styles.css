@@ -1550,6 +1550,18 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     top: calc(max(0.9rem, env(safe-area-inset-top)) + 3.2rem);
   }
 
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .album-back-link {
+    top: max(0.9rem, env(safe-area-inset-top));
+    left: auto;
+    right: 0.75rem;
+    transform: rotate(90deg);
+    transform-origin: top right;
+  }
+
+  .album-page.is-mobile-layout.has-mobile-sideview-mode.is-editing .album-back-link {
+    top: calc(max(0.9rem, env(safe-area-inset-top)) + 3.2rem);
+  }
+
   .album-page.has-hero-intro .album-page-header {
     gap: 0.45rem;
     padding-bottom: 1.1rem;
