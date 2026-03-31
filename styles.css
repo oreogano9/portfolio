@@ -801,6 +801,11 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   will-change: opacity, transform;
 }
 
+.editable-photo.spotlight-shell .photo-stage img {
+  transform: translateY(var(--spotlight-media-shift, 0px));
+  will-change: transform;
+}
+
 .editable-photo img {
   display: block;
   width: 100%;

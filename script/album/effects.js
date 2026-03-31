@@ -47,6 +47,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       photo.style.removeProperty("--effect-strength");
       photo.style.removeProperty("--spotlight-stage-top");
       photo.style.removeProperty("--spotlight-shell-height");
+      photo.style.removeProperty("--spotlight-media-shift");
     });
   };
 
@@ -60,6 +61,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       if (!photo.classList.contains("is-spotlight-active")) {
         photo.classList.remove("is-effect-active");
         photo.style.removeProperty("--effect-strength");
+        photo.style.removeProperty("--spotlight-media-shift");
       }
     });
   };
@@ -134,6 +136,9 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       photo.classList.toggle("is-spotlight-active", isActive);
       photo.classList.toggle("is-effect-active", isActive);
       photo.style.setProperty("--effect-strength", isActive ? "1" : "0");
+      if (!isActive) {
+        photo.style.removeProperty("--spotlight-media-shift");
+      }
     });
   };
 
@@ -184,22 +189,29 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
           return `+=${Math.round(viewportHeight * (body.classList.contains("is-mobile-layout") ? 0.7 : 1))}`;
         },
         pinSpacing: true,
+        anticipatePin: 1,
+        pinReparent: true,
         invalidateOnRefresh: true,
         onEnter: () => activateSpotlight(wrapper),
         onEnterBack: () => activateSpotlight(wrapper),
         onUpdate: (self) => {
           if (wrapper.classList.contains("is-spotlight-active")) {
             updateSpotlightProgress(self.progress);
+            const viewportHeight = window.visualViewport?.height || window.innerHeight;
+            const mediaShift = (0.5 - self.progress) * Math.min(viewportHeight * 0.08, 48);
+            wrapper.style.setProperty("--spotlight-media-shift", `${mediaShift.toFixed(2)}px`);
           }
         },
         onLeave: () => {
           wrapper.classList.remove("is-spotlight-active", "is-effect-active");
           body.style.removeProperty("--spotlight-bg-progress");
+          wrapper.style.removeProperty("--spotlight-media-shift");
           clearNonSpotlightEffects();
         },
         onLeaveBack: () => {
           wrapper.classList.remove("is-spotlight-active", "is-effect-active");
           body.style.removeProperty("--spotlight-bg-progress");
+          wrapper.style.removeProperty("--spotlight-media-shift");
           clearNonSpotlightEffects();
         },
       });
