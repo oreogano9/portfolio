@@ -118,7 +118,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "focus",
+      "effect": "none",
       "joinWithPrevious": false,
       "deleted": false
     },
@@ -129,7 +129,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "focus",
+      "effect": "none",
       "joinWithPrevious": false,
       "deleted": false
     },
