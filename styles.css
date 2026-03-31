@@ -301,10 +301,10 @@ button {
   max-width: 14ch;
   font-family: "ClashDisplay", sans-serif;
   font-size: clamp(2rem, 4.5vw, 4.25rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.92;
-  text-wrap: balance;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 0.98;
+  text-transform: uppercase;
 }
 
 .album-hero-arrow {
