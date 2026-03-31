@@ -73,12 +73,14 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
 
     const viewportHeight = window.visualViewport?.height || window.innerHeight;
     const activationLine = viewportHeight * 0.33;
-    const influenceRange = viewportHeight * 0.58;
-    const strengthByPhoto = new Map();
+    const fadeRange = viewportHeight * 0.45;
+    const candidates = effectPhotos.filter((photo) => visiblePhotos.has(photo));
+    const activePool = candidates.length ? candidates : effectPhotos;
 
     let activePhoto = null;
     let activeEffect = "none";
     let effectStrength = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
 
     photos.forEach((photo) => {
       photo.classList.toggle("is-effect-visible", visiblePhotos.has(photo));
@@ -86,29 +88,28 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       photo.style.setProperty("--effect-strength", "0");
     });
 
-    effectPhotos.forEach((photo) => {
+    activePool.forEach((photo) => {
       const rect = photo.getBoundingClientRect();
-      if (rect.bottom <= -influenceRange || rect.top >= viewportHeight + influenceRange) {
+      if (rect.bottom <= 0 || rect.top >= viewportHeight) {
+        return;
+      }
+
+      const crossesActivationLine = rect.top <= activationLine && rect.bottom >= activationLine;
+      if (!crossesActivationLine) {
         return;
       }
 
       const photoCenter = rect.top + rect.height / 2;
       const distance = Math.abs(photoCenter - activationLine);
-      const strength = Math.max(0, Math.min(1, 1 - distance / influenceRange));
-      if (strength <= 0) {
-        return;
-      }
-
-      strengthByPhoto.set(photo, strength);
-
-      if (strength > effectStrength) {
+      if (distance < closestDistance) {
+        closestDistance = distance;
         activePhoto = photo;
         activeEffect = normalizeEffect(photo.dataset.effect);
-        effectStrength = strength;
+        effectStrength = Math.max(0, Math.min(1, 1 - distance / fadeRange));
       }
     });
 
-    if (!activePhoto || activeEffect === "none" || effectStrength <= 0.04) {
+    if (!activePhoto || activeEffect === "none") {
       body.classList.remove("has-scroll-effect", "effect-focus", "effect-monochrome", "effect-lift");
       body.style.removeProperty("--effect-strength");
       return;
@@ -117,23 +118,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     body.classList.remove("effect-focus", "effect-monochrome", "effect-lift");
     body.classList.add("has-scroll-effect", `effect-${activeEffect}`);
     body.style.setProperty("--effect-strength", effectStrength.toFixed(3));
-
-    const activeThreshold = Math.max(0.12, effectStrength * 0.28);
-    effectPhotos.forEach((photo) => {
-      if (normalizeEffect(photo.dataset.effect) !== activeEffect) {
-        return;
-      }
-
-      const strength = strengthByPhoto.get(photo) || 0;
-      if (strength <= 0.02) {
-        return;
-      }
-
-      photo.style.setProperty("--effect-strength", strength.toFixed(3));
-      if (strength >= activeThreshold) {
-        photo.classList.add("is-effect-active");
-      }
-    });
+    activePhoto.classList.add("is-effect-active");
+    activePhoto.style.setProperty("--effect-strength", effectStrength.toFixed(3));
   };
 
   const queueEffectUpdate = () => {
@@ -159,7 +145,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
           if (!(photo instanceof HTMLElement)) {
             return;
           }
-          if (entry.isIntersecting && entry.intersectionRatio > 0.01) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.12) {
             visiblePhotos.add(photo);
           } else {
             visiblePhotos.delete(photo);
@@ -168,8 +154,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
         queueEffectUpdate();
       },
       {
-        threshold: [0, 0.01, 0.08, 0.2, 0.4, 0.7, 1],
-        rootMargin: "18% 0px 18% 0px",
+        threshold: [0, 0.12, 0.3, 0.55, 0.8, 1],
+        rootMargin: "0px 0px -8% 0px",
       }
     );
 
