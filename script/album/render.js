@@ -220,7 +220,7 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
       </div>
       <div class="album-hero-copy">
         <p class="album-hero-title">${state.title}</p>
-        ${state.intro.showArrow ? `<a class="album-hero-arrow" href="#album-grid" aria-label="Scroll to album images">⌄</a>` : ""}
+        <a class="album-hero-arrow${state.intro.showArrow ? "" : " is-hidden"}" href="#album-grid" aria-label="Scroll to album images" aria-hidden="${state.intro.showArrow ? "false" : "true"}" tabindex="${state.intro.showArrow ? "0" : "-1"}">⌄</a>
       </div>
     `;
   } else {
