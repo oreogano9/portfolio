@@ -1,7 +1,10 @@
 {
   "id": "ilaria-paolucci-ceramiche",
   "title": "Ilaria Paolucci Ceramiche",
+  "titleScale": 1,
+  "mobileRotateClockwise": true,
   "spacing": "tight",
+  "topSpacer": 7,
   "effect": "none",
   "intro": {
     "mode": "hero",
@@ -12,489 +15,705 @@
   "photos": [
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3035.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3035.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3045.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3045.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3046.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3046.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3048.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3048.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3050.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3050.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3055.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3055.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3057.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3057.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3067.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3067.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3072.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3072.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3080.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3080.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3091.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3091.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3094.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3094.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3108-2.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3108-2.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3108.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3108.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3112.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3112.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3135.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3135.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3315994798439532
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3141.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3141.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3315994798439532
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3142.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3142.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.750733137829912
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3160.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3160.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3178-2.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3178-2.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3989071038251366
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3178-3.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3178-3.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8004509582863585
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3178.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3178.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3191.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3191.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3222.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3222.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3315994798439532
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3232.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3232.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3333333333333333
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3234.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3234.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3244.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3244.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3255.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3255.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.7501831501831502
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3262.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3262.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3263.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3263.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3267.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3267.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3274.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3274.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3276.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3276.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3277.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3277.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3288.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3288.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.750733137829912
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3305.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3305.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.750733137829912
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3311.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3311.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3315994798439532
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3316.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3316.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3315994798439532
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3333.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3333.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.750733137829912
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3336.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3336.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3343.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3343.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3347.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3347.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3364.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3364.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3368.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3368.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3370.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3370.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.750733137829912
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3375.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3375.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3380.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3380.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3382.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3382.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3390.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3390.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2503052503052503
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3396-2.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3396-2.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3411.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3411.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3435.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3435.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3447.png",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3447.png",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.8
     },
     {
       "src": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3457.jpg",
+      "previewSrc": "",
       "alt": "Ilaria Paolucci Ceramiche - IMG_3457.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     }
   ]
 }
