@@ -308,8 +308,12 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
   const heroSrc = getHeroImageSrc(state);
   const heroPhoto = state.photos.find((photo) => photo.src === heroSrc) || null;
   const hasHeroIntro = state.intro.mode === "hero" && Boolean(heroPhoto);
+  const heroAspectRatio = Number(heroPhoto?.aspectRatio);
+  const shouldRotateHeroMobile =
+    hasHeroIntro && state.mobileRotateClockwise && Number.isFinite(heroAspectRatio) && heroAspectRatio > 0;
 
   heroIntro.classList.toggle("is-hidden", !hasHeroIntro);
+  heroIntro.classList.toggle("mobile-sideview-hero", shouldRotateHeroMobile);
   if (hasHeroIntro && heroPhoto) {
     heroIntro.innerHTML = "";
     const brand = document.createElement("p");
@@ -317,8 +321,6 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
     brand.textContent = siteBrand;
 
     const media = document.createElement("div");
-    const heroAspectRatio = Number(heroPhoto.aspectRatio);
-    const shouldRotateHeroMobile = state.mobileRotateClockwise && Number.isFinite(heroAspectRatio) && heroAspectRatio > 0;
     media.className = `album-hero-media${shouldRotateHeroMobile ? " mobile-rotate-hero" : ""}`;
     if (shouldRotateHeroMobile) {
       media.style.setProperty("--hero-rotate-ratio", String(Math.max(heroAspectRatio, 1 / heroAspectRatio)));
