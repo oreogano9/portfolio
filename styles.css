@@ -312,7 +312,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .album-hero-title {
   margin: 0;
-  max-width: 14ch;
+  width: fit-content;
+  max-width: min(100%, calc(14ch / var(--album-title-scale, 1)));
   font-family: "ClashDisplay", sans-serif;
   font-size: calc(clamp(2rem, 4.5vw, 4.25rem) * var(--album-title-scale, 1));
   font-weight: 400;
@@ -502,7 +503,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .masthead-title {
-  max-width: 12ch;
+  width: fit-content;
+  max-width: min(100%, calc(12ch / var(--album-title-scale, 1)));
   font-size: calc(clamp(3.08rem, 5.95vw, 6.23rem) * var(--album-title-scale, 1));
 }
 
