@@ -40,7 +40,7 @@
       "alt": "Ariel Vittori - Pottery - DSC01710.jpg",
       "section": "",
       "size": "full",
-      "spacerAfter": 0,
+      "spacerAfter": 10,
       "effect": "none",
       "joinWithPrevious": false,
       "deleted": false
@@ -52,7 +52,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "none",
+      "effect": "focus",
       "joinWithPrevious": false,
       "deleted": false
     },
@@ -63,7 +63,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "none",
+      "effect": "focus",
       "joinWithPrevious": false,
       "deleted": false
     },
@@ -74,7 +74,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "none",
+      "effect": "focus",
       "joinWithPrevious": false,
       "deleted": false
     },
@@ -84,8 +84,8 @@
       "alt": "Ariel Vittori - Pottery - DSC01717.jpg",
       "section": "",
       "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
+      "spacerAfter": 10,
+      "effect": "focus",
       "joinWithPrevious": false,
       "deleted": false
     },
@@ -106,7 +106,7 @@
       "alt": "Ariel Vittori - Pottery - DSC01720.jpg",
       "section": "",
       "size": "full",
-      "spacerAfter": 22.25,
+      "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
       "deleted": false
