@@ -163,6 +163,7 @@ export const setupAlbumEditor = async () => {
   };
   let hasMarkedReady = false;
   let cleanupRenderedBlocks = () => {};
+  let landscapeRenderQueued = false;
 
   const viewportAnchorY = () => (window.visualViewport?.height || window.innerHeight) * 0.33;
 
@@ -242,6 +243,18 @@ export const setupAlbumEditor = async () => {
     }
   };
 
+  const queueLandscapeRender = () => {
+    if (hasMarkedReady || landscapeRenderQueued) {
+      return;
+    }
+
+    landscapeRenderQueued = true;
+    window.requestAnimationFrame(() => {
+      landscapeRenderQueued = false;
+      render();
+    });
+  };
+
   const loadLandscapeState = (photo, index) => {
     if (typeof photo.landscape === "boolean") {
       return;
@@ -255,7 +268,7 @@ export const setupAlbumEditor = async () => {
         state.photos[index].aspectRatio = image.naturalWidth / image.naturalHeight;
         ensureLandscapeState(state.photos[index]);
         save();
-        render();
+        queueLandscapeRender();
       }
     });
     image.src = photo.src;
