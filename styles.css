@@ -747,7 +747,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.is-mobile-layout .editable-photo.mobile-rotate-candidate {
-  --mobile-rotate-inline-gutter: 10px;
+  --mobile-rotate-inline-gutter: 5px;
   box-sizing: border-box;
   padding-inline: var(--mobile-rotate-inline-gutter);
 }
