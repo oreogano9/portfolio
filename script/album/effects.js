@@ -73,7 +73,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
 
     const viewportHeight = window.visualViewport?.height || window.innerHeight;
     const activationLine = viewportHeight * 0.33;
-    const fadeRange = viewportHeight * 0.45;
+    const influenceRange = viewportHeight * 0.6;
     const candidates = effectPhotos.filter((photo) => visiblePhotos.has(photo));
     const activePool = candidates.length ? candidates : effectPhotos;
 
@@ -94,22 +94,22 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
         return;
       }
 
-      const crossesActivationLine = rect.top <= activationLine && rect.bottom >= activationLine;
-      if (!crossesActivationLine) {
+      const photoCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(photoCenter - activationLine);
+      const strength = Math.max(0, Math.min(1, 1 - distance / influenceRange));
+      if (strength <= 0) {
         return;
       }
 
-      const photoCenter = rect.top + rect.height / 2;
-      const distance = Math.abs(photoCenter - activationLine);
       if (distance < closestDistance) {
         closestDistance = distance;
         activePhoto = photo;
         activeEffect = normalizeEffect(photo.dataset.effect);
-        effectStrength = Math.max(0, Math.min(1, 1 - distance / fadeRange));
+        effectStrength = strength;
       }
     });
 
-    if (!activePhoto || activeEffect === "none") {
+    if (!activePhoto || activeEffect === "none" || effectStrength <= 0.04) {
       body.classList.remove("has-scroll-effect", "effect-focus", "effect-monochrome", "effect-lift");
       body.style.removeProperty("--effect-strength");
       return;

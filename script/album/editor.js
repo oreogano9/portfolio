@@ -162,6 +162,84 @@ export const setupAlbumEditor = async () => {
   let hasMarkedReady = false;
   let cleanupRenderedBlocks = () => {};
 
+  const viewportAnchorY = () => (window.visualViewport?.height || window.innerHeight) * 0.33;
+
+  const captureRenderAnchor = () => {
+    const candidates = [
+      ...Array.from(grid.querySelectorAll(".editable-photo")),
+      ...Array.from(grid.querySelectorAll(".subalbum-section-heading")),
+    ];
+
+    if (!candidates.length) {
+      return null;
+    }
+
+    const anchorLine = viewportAnchorY();
+    let chosen = null;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    candidates.forEach((candidate) => {
+      const rect = candidate.getBoundingClientRect();
+      if (rect.bottom <= 0 || rect.top >= (window.visualViewport?.height || window.innerHeight)) {
+        return;
+      }
+
+      const distance = Math.abs(rect.top - anchorLine);
+      if (distance < closestDistance) {
+        chosen = { element: candidate, rect };
+        closestDistance = distance;
+      }
+    });
+
+    if (!chosen) {
+      return null;
+    }
+
+    const { element, rect } = chosen;
+    const topOffset = rect.top - anchorLine;
+
+    if (element.classList.contains("editable-photo")) {
+      return {
+        type: "photo",
+        src: element.dataset.src || "",
+        topOffset,
+      };
+    }
+
+    if (element.id) {
+      return {
+        type: "heading",
+        id: element.id,
+        topOffset,
+      };
+    }
+
+    return null;
+  };
+
+  const restoreRenderAnchor = (anchor) => {
+    if (!anchor) {
+      return;
+    }
+
+    let target = null;
+    if (anchor.type === "photo" && anchor.src) {
+      target = Array.from(grid.querySelectorAll(".editable-photo")).find((element) => element.dataset.src === anchor.src) || null;
+    } else if (anchor.type === "heading" && anchor.id) {
+      target = grid.querySelector(`#${CSS.escape(anchor.id)}`);
+    }
+
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const desiredTop = viewportAnchorY() + anchor.topOffset;
+    const delta = target.getBoundingClientRect().top - desiredTop;
+    if (Math.abs(delta) > 1) {
+      window.scrollBy(0, delta);
+    }
+  };
+
   const loadLandscapeState = (photo, index) => {
     if (typeof photo.landscape === "boolean") {
       return;
@@ -349,6 +427,7 @@ export const setupAlbumEditor = async () => {
   };
 
   const render = () => {
+    const renderAnchor = hasMarkedReady ? captureRenderAnchor() : null;
     title.textContent = state.title;
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
     topSpacerSection?.style.setProperty("--album-top-spacer-height", `${normalizeTopSpacer(state.topSpacer)}rem`);
@@ -403,6 +482,7 @@ export const setupAlbumEditor = async () => {
       }),
       state,
       normalizeEffect,
+      anchor: renderAnchor,
       onChunkRendered: () => {
         observeReveals(grid);
         effects.updateMobileExtendedLayout();
@@ -415,6 +495,7 @@ export const setupAlbumEditor = async () => {
 
     effects.queueEffectUpdate();
     window.requestAnimationFrame(() => {
+      restoreRenderAnchor(renderAnchor);
       effects.updateMobileExtendedLayout();
       effects.updateSpotlightLayout();
       effects.refreshSpotlightObservers();

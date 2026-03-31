@@ -2,8 +2,9 @@ import { canJoinPhoto, deriveSectionsFromPhotos, getHeroImageSrc, getSpacerValue
 
 const INITIAL_BLOCK_COUNT = 12;
 const SUBSEQUENT_BLOCK_COUNT = 16;
+const INITIAL_EAGER_GRID_IMAGES = 3;
 
-export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
+export const createPhotoFigure = ({ photo, index, state, normalizeEffect, renderOrder = 0 }) => {
   const isDeleted = photo.deleted === true;
   const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
   const wrapper = document.createElement("figure");
@@ -13,14 +14,16 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
   const isHeroImage = !isDeleted && state.intro.heroImageSrc === photo.src;
   wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}`;
   wrapper.dataset.index = String(index);
+  wrapper.dataset.src = photo.src;
   wrapper.dataset.effect = effectiveEffect;
   wrapper.dataset.landscape = String(photo.landscape === true);
   wrapper.dataset.ratio = Number.isFinite(photo.aspectRatio) ? String(photo.aspectRatio) : "";
   wrapper.dataset.deleted = String(isDeleted);
   wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
-  const loading = index < 4 ? "eager" : "lazy";
-  const fetchPriority = index < 2 ? "high" : "auto";
-  const decoding = index < 4 ? "sync" : "async";
+  const shouldEagerLoad = renderOrder < INITIAL_EAGER_GRID_IMAGES;
+  const loading = shouldEagerLoad ? "eager" : "lazy";
+  const fetchPriority = "auto";
+  const decoding = shouldEagerLoad ? "sync" : "async";
   wrapper.innerHTML = `
     <div class="photo-stage">
       ${isDeleted ? `<div class="photo-deleted-badge">DELETED</div>` : ""}
@@ -61,6 +64,30 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
     </div>
   `;
   return wrapper;
+};
+
+const blockMatchesAnchor = (block, anchor) => {
+  if (!anchor) {
+    return false;
+  }
+
+  if (anchor.type === "heading") {
+    return block.type === "heading" && block.id === anchor.id;
+  }
+
+  if (anchor.type !== "photo") {
+    return false;
+  }
+
+  if (block.type === "photo") {
+    return block.entry.photo.src === anchor.src;
+  }
+
+  if (block.type === "row") {
+    return block.entries.some((entry) => entry.photo.src === anchor.src);
+  }
+
+  return false;
 };
 
 export const buildAlbumBlocks = ({ state, normalizeEffect, includeDeleted = false }) => {
@@ -228,7 +255,7 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
   return hasHeroIntro;
 };
 
-const createBlockNode = ({ block, state, normalizeEffect }) => {
+const createBlockNode = ({ block, state, normalizeEffect, renderState }) => {
   if (block.type === "heading") {
     const heading = document.createElement("section");
     heading.className = "subalbum-section-heading";
@@ -249,20 +276,37 @@ const createBlockNode = ({ block, state, normalizeEffect }) => {
     row.className = "photo-join-row";
     row.style.setProperty("--photo-join-columns", String(block.entries.length));
     block.entries.forEach((entry) => {
-      row.appendChild(createPhotoFigure({ photo: entry.photo, index: entry.index, state, normalizeEffect }));
+      row.appendChild(
+        createPhotoFigure({
+          photo: entry.photo,
+          index: entry.index,
+          state,
+          normalizeEffect,
+          renderOrder: renderState.photoCount++,
+        })
+      );
     });
     return row;
   }
 
-  return createPhotoFigure({ photo: block.entry.photo, index: block.entry.index, state, normalizeEffect });
+  return createPhotoFigure({
+    photo: block.entry.photo,
+    index: block.entry.index,
+    state,
+    normalizeEffect,
+    renderOrder: renderState.photoCount++,
+  });
 };
 
-export const mountAlbumBlocks = ({ grid, blocks, state, normalizeEffect, onChunkRendered = () => {} }) => {
+export const mountAlbumBlocks = ({ grid, blocks, state, normalizeEffect, anchor = null, onChunkRendered = () => {} }) => {
   grid.innerHTML = "";
 
   let renderedCount = 0;
   let sentinel = null;
   let observer = null;
+  const renderState = {
+    photoCount: 0,
+  };
 
   const disconnect = () => {
     observer?.disconnect();
@@ -275,7 +319,7 @@ export const mountAlbumBlocks = ({ grid, blocks, state, normalizeEffect, onChunk
     const fragment = document.createDocumentFragment();
     const end = Math.min(blocks.length, renderedCount + count);
     for (let index = renderedCount; index < end; index += 1) {
-      fragment.appendChild(createBlockNode({ block: blocks[index], state, normalizeEffect }));
+      fragment.appendChild(createBlockNode({ block: blocks[index], state, normalizeEffect, renderState }));
     }
     grid.appendChild(fragment);
     renderedCount = end;
@@ -286,6 +330,9 @@ export const mountAlbumBlocks = ({ grid, blocks, state, normalizeEffect, onChunk
     appendChunk(blocks.length);
     return disconnect;
   }
+
+  const anchoredBlockIndex = anchor ? blocks.findIndex((block) => blockMatchesAnchor(block, anchor)) : -1;
+  const initialBlockCount = anchoredBlockIndex >= 0 ? Math.max(INITIAL_BLOCK_COUNT, anchoredBlockIndex + 1) : INITIAL_BLOCK_COUNT;
 
   const ensureSentinel = () => {
     sentinel?.remove();
@@ -317,7 +364,7 @@ export const mountAlbumBlocks = ({ grid, blocks, state, normalizeEffect, onChunk
     observer.observe(sentinel);
   };
 
-  appendChunk(INITIAL_BLOCK_COUNT);
+  appendChunk(initialBlockCount);
   ensureSentinel();
   return disconnect;
 };

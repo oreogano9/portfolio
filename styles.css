@@ -802,7 +802,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.has-scroll-effect .editable-photo {
-  opacity: 0.14;
+  opacity: calc(1 - (var(--effect-strength) * 0.86));
   filter: none;
   transform: none;
   box-shadow: none;
@@ -815,38 +815,38 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.has-scroll-effect.effect-focus .editable-photo {
-  opacity: 0.12;
+  opacity: calc(1 - (var(--effect-strength) * 0.88));
   filter: none;
   transform: none;
 }
 
 .album-page.has-scroll-effect.effect-focus .editable-photo.is-effect-active {
-  opacity: 1;
+  opacity: calc(0.34 + (var(--effect-strength) * 0.66));
   filter: none;
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo {
-  opacity: 0.16;
-  filter: grayscale(1) contrast(0.92) brightness(0.88);
+  opacity: calc(1 - (var(--effect-strength) * 0.84));
+  filter: grayscale(var(--effect-strength)) contrast(calc(1 - (var(--effect-strength) * 0.08))) brightness(calc(1 - (var(--effect-strength) * 0.12)));
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo.is-effect-active {
-  opacity: 1;
+  opacity: calc(0.34 + (var(--effect-strength) * 0.66));
   filter: none;
   transform: scale(calc(0.992 + (var(--effect-strength) * 0.012)));
 }
 
 .album-page.has-scroll-effect.effect-lift .editable-photo {
-  opacity: 0.18;
+  opacity: calc(1 - (var(--effect-strength) * 0.82));
   filter: none;
-  transform: translateY(0.85rem) scale(0.985);
+  transform: translateY(calc(var(--effect-strength) * 0.85rem)) scale(calc(1 - (var(--effect-strength) * 0.015)));
 }
 
 .album-page.has-scroll-effect.effect-lift .editable-photo.is-effect-active {
-  opacity: 1;
+  opacity: calc(0.34 + (var(--effect-strength) * 0.66));
   filter: none;
   transform: translateY(0) scale(calc(0.99 + (var(--effect-strength) * 0.016)));
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, calc(var(--effect-strength) * 0.12));
 }
 
 .photo-controls,
