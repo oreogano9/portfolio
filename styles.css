@@ -837,13 +837,13 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .album-page.has-scroll-effect.effect-lift .editable-photo {
   opacity: 1;
   filter: none;
-  transform: translateY(0.85rem) scale(0.985);
+  transform: scale(0.97);
 }
 
 .album-page.has-scroll-effect.effect-lift .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
-  transform: translateY(0) scale(calc(0.99 + (var(--effect-strength) * 0.016)));
+  transform: scale(calc(0.992 + (var(--effect-strength) * 0.024)));
   box-shadow: 0 20px 44px rgba(0, 0, 0, 0.12);
 }
 
