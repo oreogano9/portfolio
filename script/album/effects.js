@@ -43,9 +43,12 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
           return;
         }
 
+        const viewportWidth = window.visualViewport?.width || window.innerWidth;
         const viewportHeight = window.visualViewport?.height || window.innerHeight;
+        const maxFrameWidth = Math.max(0, viewportWidth - 20);
         const maxFrameHeight = viewportHeight * 0.92;
-        const fittedFrameHeight = Math.min(frameWidth * ratio, maxFrameHeight);
+        const fittedFrameWidth = Math.min(frameWidth, maxFrameWidth);
+        const fittedFrameHeight = Math.min(fittedFrameWidth * ratio, maxFrameHeight);
         const fittedImageHeight = fittedFrameHeight / ratio;
 
         wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
