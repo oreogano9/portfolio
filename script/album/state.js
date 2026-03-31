@@ -85,6 +85,12 @@ export const normalizePhoto = (photo, fallback = {}) => ({
       : typeof fallback.joinWithPrevious === "boolean"
         ? fallback.joinWithPrevious
         : false,
+  deleted:
+    typeof photo?.deleted === "boolean"
+      ? photo.deleted
+      : typeof fallback.deleted === "boolean"
+        ? fallback.deleted
+        : false,
   landscape:
     typeof photo?.landscape === "boolean"
       ? photo.landscape
@@ -165,6 +171,7 @@ export const serializeState = (state, galleryId) => ({
     spacerAfter: photo.spacerAfter,
     effect: photo.effect,
     joinWithPrevious: photo.joinWithPrevious,
+    deleted: photo.deleted,
   })),
 });
 

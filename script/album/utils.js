@@ -19,10 +19,10 @@ export const getSpacerValue = (value) => {
 
 export const getHeroImageSrc = (state) => {
   const explicitHero = typeof state.intro.heroImageSrc === "string" ? state.intro.heroImageSrc : "";
-  if (explicitHero && state.photos.some((photo) => photo.src === explicitHero)) {
+  if (explicitHero && state.photos.some((photo) => photo.src === explicitHero && !photo.deleted)) {
     return explicitHero;
   }
-  return state.photos[0]?.src || "";
+  return state.photos.find((photo) => !photo.deleted)?.src || "";
 };
 
 export const canJoinPhoto = (state, index, normalizeEffect) => {
@@ -33,6 +33,9 @@ export const canJoinPhoto = (state, index, normalizeEffect) => {
   const current = state.photos[index];
   const previous = state.photos[index - 1];
   if (!current || !previous) {
+    return false;
+  }
+  if (current.deleted || previous.deleted) {
     return false;
   }
 

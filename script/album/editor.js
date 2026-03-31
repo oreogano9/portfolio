@@ -119,6 +119,7 @@ export const setupAlbumEditor = async () => {
         : deriveSectionsFromPhotos(basePhotos),
     editing: false,
     previewing: false,
+    showDeleted: false,
   };
 
   const persistLocalState = (dirty = true, syncedSignature = "") => {
@@ -198,11 +199,13 @@ export const setupAlbumEditor = async () => {
       <option value="true">Arrow On</option>
       <option value="false">Arrow Off</option>
     </select>
+    <button class="header-edit-toggle" type="button" data-action="toggle-deleted" aria-pressed="false">Show Deleted</button>
   `;
   header.appendChild(headerControls);
 
   const titleInput = headerControls.querySelector(".header-edit-input");
   const [spacingSelect, effectSelect, introModeSelect, introArrowSelect] = headerControls.querySelectorAll(".header-edit-select");
+  const deletedToggle = headerControls.querySelector('[data-action="toggle-deleted"]');
 
   const effects = createAlbumEffects({
     body,
@@ -294,6 +297,26 @@ export const setupAlbumEditor = async () => {
     render();
   };
 
+  const normalizeDeletedNeighbors = (index) => {
+    const current = state.photos[index];
+    if (!current) {
+      return;
+    }
+
+    if (current.deleted) {
+      current.joinWithPrevious = false;
+    }
+
+    const next = state.photos[index + 1];
+    if (next?.joinWithPrevious && !canJoinPhoto(state, index + 1, normalizeEffect)) {
+      next.joinWithPrevious = false;
+    }
+
+    if (current.deleted && state.intro.heroImageSrc === current.src) {
+      state.intro.heroImageSrc = "";
+    }
+  };
+
   const updateSpacer = (index, value) => {
     const numeric = Math.max(0, Math.min(50, Number(value) || 0));
     state.photos[index].spacerAfter = numeric;
@@ -309,6 +332,11 @@ export const setupAlbumEditor = async () => {
     effectSelect.value = state.effect;
     introModeSelect.value = state.intro.mode;
     introArrowSelect.value = state.intro.showArrow ? "true" : "false";
+    if (deletedToggle) {
+      deletedToggle.textContent = state.showDeleted ? "Hide Deleted" : "Show Deleted";
+      deletedToggle.setAttribute("aria-pressed", state.showDeleted ? "true" : "false");
+      deletedToggle.classList.toggle("is-active", state.showDeleted);
+    }
     toggleButtons.forEach((button) => {
       button.textContent = state.editing ? "Done" : "Edit";
     });
@@ -342,7 +370,11 @@ export const setupAlbumEditor = async () => {
     cleanupRenderedBlocks();
     cleanupRenderedBlocks = mountAlbumBlocks({
       grid,
-      blocks: buildAlbumBlocks({ state, normalizeEffect }),
+      blocks: buildAlbumBlocks({
+        state,
+        normalizeEffect,
+        includeDeleted: state.editing && !state.previewing && state.showDeleted,
+      }),
       state,
       normalizeEffect,
       onChunkRendered: () => {
@@ -400,7 +432,9 @@ export const setupAlbumEditor = async () => {
   });
 
   grid.addEventListener("click", (event) => {
-    const button = event.target.closest(".photo-control-button, .spacer-reset, .photo-join-button, .photo-hero-button");
+    const button = event.target.closest(
+      ".photo-control-button, .spacer-reset, .photo-join-button, .photo-hero-button, .photo-delete-button"
+    );
     if (!button) {
       return;
     }
@@ -419,6 +453,9 @@ export const setupAlbumEditor = async () => {
     } else if (action === "down") {
       movePhoto(index, 1);
     } else if (action === "hero-toggle") {
+      if (state.photos[index].deleted) {
+        return;
+      }
       state.intro.heroImageSrc = state.photos[index].src;
       save();
       render();
@@ -430,6 +467,11 @@ export const setupAlbumEditor = async () => {
       } else if (canJoinPhoto(state, index, normalizeEffect)) {
         state.photos[index].joinWithPrevious = true;
       }
+      save();
+      render();
+    } else if (action === "delete-toggle") {
+      state.photos[index].deleted = !state.photos[index].deleted;
+      normalizeDeletedNeighbors(index);
       save();
       render();
     }
@@ -508,6 +550,11 @@ export const setupAlbumEditor = async () => {
       state.previewing = !state.previewing;
       render();
     });
+  });
+
+  deletedToggle?.addEventListener("click", () => {
+    state.showDeleted = !state.showDeleted;
+    render();
   });
 
   window.addEventListener("keydown", (event) => {

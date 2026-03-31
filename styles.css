@@ -974,7 +974,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .photo-size-select,
 .photo-effect-select,
 .header-edit-input,
-.header-edit-select {
+.header-edit-select,
+.header-edit-toggle {
   font: inherit;
   border: 1px solid var(--line);
   background: #fff;
@@ -994,6 +995,13 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   border-radius: 999px;
   cursor: pointer;
   text-transform: uppercase;
+}
+
+.photo-toggle-button.is-active,
+.header-edit-toggle.is-active {
+  background: var(--text);
+  color: #fcfbf8;
+  border-color: var(--text);
 }
 
 .photo-toggle-button.photo-hero-button {
@@ -1016,10 +1024,16 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .photo-size-select,
 .photo-effect-select,
-.header-edit-select {
+.header-edit-select,
+.header-edit-toggle {
   min-height: 1.9rem;
   padding: 0 0.55rem;
   border-radius: 999px;
+}
+
+.header-edit-toggle {
+  cursor: pointer;
+  text-transform: uppercase;
 }
 
 .header-edit-controls {
@@ -1038,6 +1052,34 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .header-edit-select {
   min-width: 8rem;
+}
+
+.editable-photo.is-deleted-photo {
+  opacity: 0.34;
+}
+
+.album-page.is-editing .editable-photo.is-deleted-photo {
+  opacity: 0.52;
+}
+
+.album-page.is-editing .editable-photo.is-deleted-photo .photo-stage {
+  outline: 1px dashed rgba(16, 16, 16, 0.24);
+  outline-offset: 0.35rem;
+}
+
+.photo-deleted-badge {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  z-index: 3;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(16, 16, 16, 0.84);
+  color: #fcfbf8;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
 }
 
 .album-page.has-scroll-effect.effect-spotlight .album-back-link,
@@ -1185,7 +1227,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   }
 
   .album-page.is-editing .header-edit-input,
-  .album-page.is-editing .header-edit-select {
+  .album-page.is-editing .header-edit-select,
+  .album-page.is-editing .header-edit-toggle {
     width: 100%;
     min-width: 0;
   }
@@ -1490,7 +1533,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   }
 
   .album-page.is-editing .header-edit-input,
-  .album-page.is-editing .header-edit-select {
+  .album-page.is-editing .header-edit-select,
+  .album-page.is-editing .header-edit-toggle {
     width: 100%;
     min-width: 0;
   }

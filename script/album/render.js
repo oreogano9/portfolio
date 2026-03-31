@@ -4,17 +4,19 @@ const INITIAL_BLOCK_COUNT = 12;
 const SUBSEQUENT_BLOCK_COUNT = 16;
 
 export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
-  const effectiveEffect = photo.effect !== "none" ? photo.effect : state.effect;
+  const isDeleted = photo.deleted === true;
+  const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
   const wrapper = document.createElement("figure");
   const isExtendedLandscape = photo.size === "extended" && photo.landscape === true;
-  const isJoinable = canJoinPhoto(state, index, normalizeEffect);
-  const canShowUnjoin = photo.joinWithPrevious;
-  const isHeroImage = state.intro.heroImageSrc === photo.src;
-  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveEffect === "spotlight" ? " spotlight-shell" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}`;
+  const isJoinable = !isDeleted && canJoinPhoto(state, index, normalizeEffect);
+  const canShowUnjoin = !isDeleted && photo.joinWithPrevious;
+  const isHeroImage = !isDeleted && state.intro.heroImageSrc === photo.src;
+  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveEffect === "spotlight" ? " spotlight-shell" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}`;
   wrapper.dataset.index = String(index);
   wrapper.dataset.effect = effectiveEffect;
   wrapper.dataset.landscape = String(photo.landscape === true);
   wrapper.dataset.ratio = Number.isFinite(photo.aspectRatio) ? String(photo.aspectRatio) : "";
+  wrapper.dataset.deleted = String(isDeleted);
   wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
   wrapper.style.setProperty("--effect-direction", index % 2 === 0 ? "1" : "-1");
   const loading = index < 4 ? "eager" : "lazy";
@@ -22,12 +24,13 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
   const decoding = index < 4 ? "sync" : "async";
   wrapper.innerHTML = `
     <div class="photo-stage">
+      ${isDeleted ? `<div class="photo-deleted-badge">DELETED</div>` : ""}
       <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" loading="${loading}" fetchpriority="${fetchPriority}" decoding="${decoding}" />
       <div class="photo-controls">
         <button class="photo-control-button" type="button" data-action="up" aria-label="Move image up">↑</button>
         <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
-        <button class="photo-toggle-button photo-hero-button${isHeroImage ? " is-active" : ""}" type="button" data-action="hero-toggle" aria-label="${isHeroImage ? "Hero image selected" : "Set as hero image"}" aria-pressed="${isHeroImage ? "true" : "false"}">${isHeroImage ? "★" : "☆"}</button>
-        <select class="photo-size-select" data-action="size" aria-label="Photo size">
+        <button class="photo-toggle-button photo-hero-button${isHeroImage ? " is-active" : ""}" type="button" data-action="hero-toggle" aria-label="${isHeroImage ? "Hero image selected" : "Set as hero image"}" aria-pressed="${isHeroImage ? "true" : "false"}"${isDeleted ? " disabled" : ""}>${isHeroImage ? "★" : "☆"}</button>
+        <select class="photo-size-select" data-action="size" aria-label="Photo size"${isDeleted ? " disabled" : ""}>
           ${photo.landscape === true ? `<option value="extended"${photo.size === "extended" ? " selected" : ""}>EXTENDED</option>` : ""}
           <option value="full"${photo.size === "full" ? " selected" : ""}>FULL WIDTH</option>
           <option value="medium"${photo.size === "medium" ? " selected" : ""}>MEDIUM</option>
@@ -36,20 +39,21 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
           <option value="xxsmall"${photo.size === "xxsmall" ? " selected" : ""}>TINY</option>
         </select>
         <button class="photo-toggle-button photo-join-button" type="button" data-action="join-toggle" aria-label="${canShowUnjoin ? "Unjoin image from previous row" : "Join image with previous row"}"${!canShowUnjoin && !isJoinable ? " disabled" : ""}>${canShowUnjoin ? "UNJOIN" : "JOIN"}</button>
-        <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect">
+        <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect"${isDeleted ? " disabled" : ""}>
           <option value="none"${photo.effect === "none" ? " selected" : ""}>NONE</option>
           <option value="spotlight"${photo.effect === "spotlight" ? " selected" : ""}>SPOTLIGHT</option>
           <option value="monochrome"${photo.effect === "monochrome" ? " selected" : ""}>MONOCHROME</option>
           <option value="drift"${photo.effect === "drift" ? " selected" : ""}>DRIFT</option>
           <option value="veil"${photo.effect === "veil" ? " selected" : ""}>VEIL</option>
         </select>
+        <button class="photo-toggle-button photo-delete-button${isDeleted ? " is-active" : ""}" type="button" data-action="delete-toggle" aria-label="${isDeleted ? "Restore image" : "Remove image"}">${isDeleted ? "RESTORE" : "REMOVE"}</button>
       </div>
       <div class="spacer-control">
         <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
         <label>
           SPACE
           <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>
-          <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image" />
+          <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image"${isDeleted ? " disabled" : ""} />
         </label>
       </div>
     </div>
@@ -57,7 +61,7 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
   return wrapper;
 };
 
-export const buildAlbumBlocks = ({ state, normalizeEffect }) => {
+export const buildAlbumBlocks = ({ state, normalizeEffect, includeDeleted = false }) => {
   const sectionOrder = state.sections.length ? state.sections : deriveSectionsFromPhotos(state.photos);
   const sectionsToRender = sectionOrder.length ? sectionOrder : [{ id: "", title: "" }];
   const blocks = [];
@@ -65,7 +69,13 @@ export const buildAlbumBlocks = ({ state, normalizeEffect }) => {
   sectionsToRender.forEach((section, sectionIndex) => {
     const sectionPhotos = state.photos
       .map((photo, index) => ({ photo, index }))
-      .filter(({ photo }) => (section.id ? photo.section === section.id : !photo.section));
+      .filter(({ photo }) => {
+        const inSection = section.id ? photo.section === section.id : !photo.section;
+        if (!inSection) {
+          return false;
+        }
+        return includeDeleted ? true : !photo.deleted;
+      });
 
     if (!sectionPhotos.length) {
       return;
