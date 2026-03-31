@@ -2,10 +2,11 @@
   "id": "ariel-vittori-pottery",
   "title": "Ariel Vittori - Pottery",
   "spacing": "tight",
+  "topSpacer": 7,
   "effect": "none",
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "/images/Ariel%20Vittori%20-%20Pottery/DSC01708.jpg",
+    "heroImageSrc": "/images/Ariel%20Vittori%20-%20Pottery/DSC01890.jpg",
     "showArrow": true
   },
   "sections": [],
@@ -17,7 +18,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01710-2.jpg",
@@ -26,7 +28,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01710.jpg",
@@ -35,7 +38,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01713.jpg",
@@ -44,7 +48,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01714.jpg",
@@ -53,7 +58,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01715.jpg",
@@ -62,7 +68,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01717.jpg",
@@ -71,7 +78,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01719.jpg",
@@ -80,7 +88,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01720.jpg",
@@ -89,7 +98,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01721-2.jpg",
@@ -98,7 +108,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01721-3.jpg",
@@ -107,7 +118,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01721.jpg",
@@ -116,7 +128,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01723.jpg",
@@ -125,7 +138,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01724.jpg",
@@ -134,7 +148,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01727.jpg",
@@ -143,7 +158,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01729.jpg",
@@ -152,7 +168,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01730.jpg",
@@ -161,7 +178,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01731.jpg",
@@ -170,7 +188,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01736.jpg",
@@ -179,7 +198,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01744.jpg",
@@ -188,7 +208,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01748.jpg",
@@ -197,7 +218,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01756.jpg",
@@ -206,7 +228,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01757.jpg",
@@ -215,7 +238,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01759-2.jpg",
@@ -224,7 +248,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01759.jpg",
@@ -233,7 +258,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01777.jpg",
@@ -242,7 +268,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01778.jpg",
@@ -251,7 +278,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01779.jpg",
@@ -260,7 +288,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01787.jpg",
@@ -269,7 +298,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01788.jpg",
@@ -278,7 +308,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01790.jpg",
@@ -287,7 +318,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01791.jpg",
@@ -296,7 +328,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01792.jpg",
@@ -305,7 +338,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01797.jpg",
@@ -314,7 +348,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01799.jpg",
@@ -323,7 +358,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01807.jpg",
@@ -332,7 +368,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01808.jpg",
@@ -341,7 +378,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01818.jpg",
@@ -350,7 +388,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01835.jpg",
@@ -359,7 +398,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01851.jpg",
@@ -368,7 +408,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01856-2.jpg",
@@ -377,7 +418,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01856.jpg",
@@ -386,7 +428,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01858.jpg",
@@ -395,7 +438,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01860.jpg",
@@ -404,7 +448,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01872.jpg",
@@ -413,7 +458,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01878-2.jpg",
@@ -422,7 +468,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01878.jpg",
@@ -431,7 +478,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01879.jpg",
@@ -440,7 +488,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01881.jpg",
@@ -449,7 +498,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01890.jpg",
@@ -458,7 +508,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     }
   ]
 }
