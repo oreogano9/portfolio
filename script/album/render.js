@@ -269,7 +269,9 @@ export const renderSubalbumIndexes = ({ state, containers }) => {
       const link = document.createElement("a");
       link.className = "subalbum-index-link";
       link.href = `#subalbum-${section.id}`;
-      link.textContent = `${String(index + 1).padStart(2, "0")} ${section.title}`;
+      const label = `${String(index + 1).padStart(2, "0")} ${section.title}`;
+      link.textContent = label;
+      link.style.setProperty("--subalbum-link-length", String(Math.max(1, label.trim().length)));
       track.appendChild(link);
     });
 

@@ -1685,11 +1685,15 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     justify-content: flex-start;
     width: auto;
     overflow: visible;
-    gap: 1.4rem;
+    gap: 0.6rem;
   }
 
   .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-index-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(var(--subalbum-link-length, 12) * 0.8rem);
+    padding: 0.3rem 0;
     transform: rotate(90deg);
     transform-origin: center center;
     line-height: 1;
@@ -1702,9 +1706,11 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
   .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-section-heading {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(1.8rem, 7vw, 3rem);
+    grid-template-columns:
+      minmax(0, 1fr)
+      max(clamp(2.6rem, 10vw, 4.8rem), calc(var(--subalbum-title-length, 12) * 0.8rem));
     align-items: center;
-    column-gap: 0.5rem;
+    column-gap: 0.9rem;
     min-height: max(clamp(7rem, 22vw, 10rem), calc(var(--subalbum-title-length, 12) * 0.82rem));
     padding: 1.75rem 0 0.5rem;
   }
