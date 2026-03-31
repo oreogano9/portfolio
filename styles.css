@@ -782,6 +782,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   transform-origin: center center;
 }
 
+.album-page.is-mobile-layout .editable-photo.mobile-rotate-candidate img {
+  object-fit: cover;
+}
+
 .editable-photo.size-small {
   width: 78%;
   margin-inline: auto;
@@ -1193,6 +1197,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .lightbox-image.is-rotated-mobile {
   max-width: 88vh;
   max-height: 92vw;
+  object-fit: contain;
 }
 
 .lightbox-close {
@@ -1601,6 +1606,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     height: calc(100vw - 1.25rem);
     transform: translate(-50%, -50%) rotate(90deg);
     transform-origin: center center;
+    object-fit: cover;
   }
 
   .album-page.is-mobile-layout .album-hero-intro.mobile-sideview-hero {
