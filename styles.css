@@ -1677,7 +1677,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   }
 
   .photo-join-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(var(--photo-join-columns, 2), minmax(0, 1fr));
+    gap: max(0.4rem, calc(var(--album-gap) * 0.75));
   }
 
   .photo-controls {
