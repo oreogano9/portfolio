@@ -17,7 +17,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09484-2.jpg",
@@ -26,7 +27,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09489.jpg",
@@ -35,7 +37,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09492-2.jpg",
@@ -44,7 +47,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09495.jpg",
@@ -52,8 +56,9 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false
+      "effect": "spotlight",
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09496-2.jpg",
@@ -62,7 +67,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09499-3.jpg",
@@ -71,7 +77,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09503.jpg",
@@ -80,7 +87,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09510.jpg",
@@ -89,7 +97,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09519.jpg",
@@ -98,7 +107,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09521.jpg",
@@ -107,7 +117,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09526.jpg",
@@ -116,7 +127,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09529-2.jpg",
@@ -125,7 +137,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09532.jpg",
@@ -134,7 +147,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09533.jpg",
@@ -143,7 +157,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09536.jpg",
@@ -152,7 +167,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09542.jpg",
@@ -161,7 +177,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09548.jpg",
@@ -170,7 +187,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09562.jpg",
@@ -179,7 +197,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09565.jpg",
@@ -188,7 +207,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09567.jpg",
@@ -197,7 +217,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09569.jpg",
@@ -206,7 +227,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09579.jpg",
@@ -215,7 +237,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09582.jpg",
@@ -224,7 +247,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09596.jpg",
@@ -233,7 +257,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09608.jpg",
@@ -242,7 +267,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09619.jpg",
@@ -251,7 +277,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09620.jpg",
@@ -260,7 +287,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09623.jpg",
@@ -269,7 +297,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09629.jpg",
@@ -278,7 +307,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09630-2.jpg",
@@ -287,7 +317,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09632.jpg",
@@ -296,7 +327,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09636-2.jpg",
@@ -305,7 +337,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09642.jpg",
@@ -314,7 +347,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09651.jpg",
@@ -323,7 +357,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09656.jpg",
@@ -332,7 +367,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09665.jpg",
@@ -341,7 +377,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09666-2.jpg",
@@ -350,7 +387,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09672.jpg",
@@ -359,7 +397,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09674.jpg",
@@ -368,7 +407,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09679.jpg",
@@ -377,7 +417,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09681.jpg",
@@ -386,7 +427,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09682-2.jpg",
@@ -395,7 +437,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09687.jpg",
@@ -404,7 +447,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09688.jpg",
@@ -413,7 +457,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09695.jpg",
@@ -422,7 +467,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09700-3.jpg",
@@ -431,7 +477,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09702-4.jpg",
@@ -440,7 +487,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09704.jpg",
@@ -449,7 +497,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09705.jpg",
@@ -458,7 +507,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09706.jpg",
@@ -467,7 +517,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09713.jpg",
@@ -476,7 +527,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09721.jpg",
@@ -485,7 +537,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09725.jpg",
@@ -494,7 +547,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09727.jpg",
@@ -503,7 +557,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09732.jpg",
@@ -512,7 +567,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09733.jpg",
@@ -521,7 +577,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09734.jpg",
@@ -530,7 +587,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09737.jpg",
@@ -539,7 +597,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09740.jpg",
@@ -548,7 +607,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09743.jpg",
@@ -557,7 +617,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09751.jpg",
@@ -566,7 +627,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09752-2.jpg",
@@ -575,7 +637,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09755-3.jpg",
@@ -584,7 +647,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09758.jpg",
@@ -593,7 +657,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09760-2.jpg",
@@ -602,7 +667,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09761.jpg",
@@ -611,7 +677,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09764.jpg",
@@ -620,7 +687,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09767.jpg",
@@ -629,7 +697,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09771.jpg",
@@ -638,7 +707,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09775.jpg",
@@ -647,7 +717,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09778.jpg",
@@ -656,7 +727,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09780.jpg",
@@ -665,7 +737,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09782.jpg",
@@ -674,7 +747,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09783.jpg",
@@ -683,7 +757,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09784.jpg",
@@ -692,7 +767,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09788-2.jpg",
@@ -701,7 +777,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09790-2.jpg",
@@ -710,7 +787,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09793.jpg",
@@ -719,7 +797,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09794.jpg",
@@ -728,7 +807,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09798.jpg",
@@ -737,7 +817,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09801.jpg",
@@ -746,7 +827,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09811.jpg",
@@ -755,7 +837,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09832-2.jpg",
@@ -764,7 +847,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09868.jpg",
@@ -773,7 +857,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09879.jpg",
@@ -782,7 +867,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09924.jpg",
@@ -791,7 +877,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09934.jpg",
@@ -800,7 +887,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09944.jpg",
@@ -809,7 +897,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09972.jpg",
@@ -818,7 +907,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09976.jpg",
@@ -827,7 +917,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09987-2.jpg",
@@ -836,7 +927,8 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false
+      "joinWithPrevious": false,
+      "deleted": false
     }
   ]
 }
