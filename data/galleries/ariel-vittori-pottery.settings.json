@@ -2,6 +2,7 @@
   "id": "ariel-vittori-pottery",
   "title": "Ariel Vittori - Pottery",
   "titleScale": 0.6,
+  "mobileRotateClockwise": true,
   "spacing": "tight",
   "topSpacer": 5,
   "effect": "none",
