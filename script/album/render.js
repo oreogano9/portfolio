@@ -15,6 +15,7 @@ const createProgressiveImage = ({
   const image = document.createElement("img");
   const previewSrc = typeof photo.previewSrc === "string" ? photo.previewSrc : "";
   const fullSrc = photo.src;
+  const aspectRatio = Number(photo.aspectRatio);
 
   image.className = className;
   image.alt = photo.alt;
@@ -22,6 +23,10 @@ const createProgressiveImage = ({
   image.setAttribute("fetchpriority", fetchPriority);
   image.decoding = decoding;
   image.dataset.fullSrc = fullSrc;
+  if (Number.isFinite(aspectRatio) && aspectRatio > 0) {
+    image.width = 1000;
+    image.height = Math.max(1, Math.round(1000 / aspectRatio));
+  }
   if (previewSrc && previewSrc !== fullSrc) {
     image.src = previewSrc;
     image.dataset.previewSrc = previewSrc;

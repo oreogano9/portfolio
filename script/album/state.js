@@ -193,6 +193,8 @@ export const serializeState = (state, galleryId) => ({
     effect: photo.effect,
     joinWithPrevious: photo.joinWithPrevious,
     deleted: photo.deleted,
+    landscape: typeof photo.landscape === "boolean" ? photo.landscape : null,
+    aspectRatio: Number.isFinite(Number(photo.aspectRatio)) ? Number(photo.aspectRatio) : null,
   })),
 });
 

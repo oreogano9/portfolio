@@ -72,15 +72,23 @@ export const setupAlbumEditor = async () => {
   const settingsUrl = body.dataset.gallerySettings || "";
   const canonicalSettingsPath = normalizeSettingsPath(settingsUrl);
 
-  const originalPhotos = Array.from(grid.querySelectorAll("img")).map((image) => ({
-    src: image.getAttribute("src") || "",
-    alt: image.getAttribute("alt") || "",
-    section: image.dataset.section || "",
-    size: "full",
-    spacerAfter: 0,
-    effect: "none",
-    joinWithPrevious: false,
-  }));
+  const originalPhotos = Array.from(grid.querySelectorAll("img")).map((image) => {
+    const naturalWidth = image.naturalWidth || Number(image.getAttribute("width")) || 0;
+    const naturalHeight = image.naturalHeight || Number(image.getAttribute("height")) || 0;
+    const hasIntrinsicSize = naturalWidth > 0 && naturalHeight > 0;
+
+    return {
+      src: image.getAttribute("src") || "",
+      alt: image.getAttribute("alt") || "",
+      section: image.dataset.section || "",
+      size: "full",
+      spacerAfter: 0,
+      effect: "none",
+      joinWithPrevious: false,
+      landscape: hasIntrinsicSize ? naturalWidth > naturalHeight : null,
+      aspectRatio: hasIntrinsicSize ? naturalWidth / naturalHeight : null,
+    };
+  });
 
   const savedState = getSavedState(storageKey);
   const jsonState = await fetchJsonState(settingsUrl);
@@ -445,6 +453,23 @@ export const setupAlbumEditor = async () => {
     render();
   };
 
+  const syncModeUi = () => {
+    if (deletedToggle) {
+      deletedToggle.textContent = state.showDeleted ? "Hide Deleted" : "Show Deleted";
+      deletedToggle.setAttribute("aria-pressed", state.showDeleted ? "true" : "false");
+      deletedToggle.classList.toggle("is-active", state.showDeleted);
+    }
+    toggleButtons.forEach((button) => {
+      button.textContent = state.editing ? "Done" : "Edit";
+    });
+    body.classList.toggle("is-editing", state.editing);
+    body.classList.toggle("is-previewing", state.editing && state.previewing);
+    previewButtons.forEach((button) => {
+      button.textContent = state.previewing ? "Show Editor" : "Preview";
+      button.setAttribute("aria-pressed", state.previewing ? "true" : "false");
+    });
+  };
+
   const render = () => {
     const renderAnchor = hasMarkedReady ? captureRenderAnchor() : null;
     title.textContent = state.title;
@@ -458,26 +483,13 @@ export const setupAlbumEditor = async () => {
     effectSelect.value = state.effect;
     introModeSelect.value = state.intro.mode;
     introArrowSelect.value = state.intro.showArrow ? "true" : "false";
-    if (deletedToggle) {
-      deletedToggle.textContent = state.showDeleted ? "Hide Deleted" : "Show Deleted";
-      deletedToggle.setAttribute("aria-pressed", state.showDeleted ? "true" : "false");
-      deletedToggle.classList.toggle("is-active", state.showDeleted);
-    }
-    toggleButtons.forEach((button) => {
-      button.textContent = state.editing ? "Done" : "Edit";
-    });
+    syncModeUi();
     saveButtons.forEach((button) => {
       button.textContent = saveState.pending ? "Saving..." : saveState.message || "Save";
       button.disabled = saveState.pending;
     });
     exportButtons.forEach((button) => {
       button.textContent = "Export JSON";
-    });
-    body.classList.toggle("is-editing", state.editing);
-    body.classList.toggle("is-previewing", state.editing && state.previewing);
-    previewButtons.forEach((button) => {
-      button.textContent = state.previewing ? "Show Editor" : "Preview";
-      button.setAttribute("aria-pressed", state.previewing ? "true" : "false");
     });
 
     const hasHeroIntro = renderHeroIntro({
@@ -681,11 +693,17 @@ export const setupAlbumEditor = async () => {
 
   toggleButtons.forEach((button) => {
     button.addEventListener("click", () => {
+      const requiresRerender = state.showDeleted;
       state.editing = !state.editing;
       if (!state.editing) {
         state.previewing = false;
       }
-      render();
+      if (requiresRerender) {
+        render();
+        return;
+      }
+
+      syncModeUi();
     });
   });
 
@@ -695,8 +713,14 @@ export const setupAlbumEditor = async () => {
         return;
       }
 
+      const requiresRerender = state.showDeleted;
       state.previewing = !state.previewing;
-      render();
+      if (requiresRerender) {
+        render();
+        return;
+      }
+
+      syncModeUi();
     });
   });
 
@@ -721,11 +745,17 @@ export const setupAlbumEditor = async () => {
     }
 
     event.preventDefault();
+    const requiresRerender = state.showDeleted;
     state.editing = !state.editing;
     if (!state.editing) {
       state.previewing = false;
     }
-    render();
+    if (requiresRerender) {
+      render();
+      return;
+    }
+
+    syncModeUi();
   });
 
   saveButtons.forEach((button) => {
