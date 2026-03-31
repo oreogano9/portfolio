@@ -76,7 +76,7 @@ body {
   color: var(--text);
   font-family: "ClashDisplay", sans-serif;
   overflow-x: hidden;
-  transition: background-color 560ms cubic-bezier(0.2, 0.65, 0.2, 1), color 560ms cubic-bezier(0.2, 0.65, 0.2, 1);
+  transition: background-color 920ms cubic-bezier(0.16, 0.84, 0.24, 1), color 920ms cubic-bezier(0.16, 0.84, 0.24, 1);
 }
 
 body.has-mobile-menu {
@@ -212,7 +212,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.has-scroll-effect.effect-spotlight {
-  background: #121212;
+  background: #0a0a0a;
   color: #f3efe8;
 }
 
@@ -789,26 +789,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   min-height: var(--spotlight-shell-height, auto);
 }
 
-.spotlight-sentinel {
-  position: absolute;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.spotlight-sentinel-top {
-  top: 0;
-}
-
-.spotlight-sentinel-bottom {
-  bottom: 0;
-}
-
 .editable-photo.spotlight-shell .photo-stage {
-  position: sticky;
-  top: var(--spotlight-stage-top, 0px);
+  position: relative;
   width: 100%;
   transform: none;
   z-index: 1;
@@ -841,14 +823,6 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .album-page.has-scroll-effect.effect-spotlight .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
-}
-
-.album-page.has-scroll-effect.effect-spotlight .editable-photo.is-spotlight-entering .photo-stage {
-  opacity: 0.92;
-}
-
-.album-page.has-scroll-effect.effect-spotlight .editable-photo.is-spotlight-leaving .photo-stage {
-  opacity: 0.92;
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo {

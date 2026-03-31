@@ -55,4 +55,13 @@ export const canJoinPhoto = (state, index, normalizeEffect) => {
   return rowSize < 3;
 };
 
-export const shouldProgressiveRender = (state) => !state.editing || state.previewing;
+export const shouldProgressiveRender = (state) => {
+  const hasSpotlight =
+    state.effect === "spotlight" || state.photos.some((photo) => (photo.effect !== "none" ? photo.effect : state.effect) === "spotlight");
+
+  if (hasSpotlight) {
+    return false;
+  }
+
+  return !state.editing || state.previewing;
+};
