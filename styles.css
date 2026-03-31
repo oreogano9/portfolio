@@ -840,7 +840,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.has-scroll-effect.effect-lift .editable-photo {
-  opacity: 0.18;
+  opacity: 1;
   filter: none;
   transform: translateY(0.85rem) scale(0.985);
 }
