@@ -205,17 +205,7 @@
       "alt": "Museo Della Civilta 26 image 20",
       "section": "",
       "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false
-    },
-    {
-      "src": "/images/Museo%20Della%20Civilta%2026/DSC09567.jpg",
-      "alt": "Museo Della Civilta 26 image 21",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
+      "spacerAfter": 9,
       "effect": "none",
       "joinWithPrevious": false,
       "deleted": false
@@ -228,6 +218,16 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
+      "deleted": false
+    },
+    {
+      "src": "/images/Museo%20Della%20Civilta%2026/DSC09567.jpg",
+      "alt": "Museo Della Civilta 26 image 21",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 9,
+      "effect": "none",
+      "joinWithPrevious": true,
       "deleted": false
     },
     {
