@@ -56,6 +56,7 @@
   --max-width: 1380px;
   --ease: 650ms cubic-bezier(0.2, 0.65, 0.2, 1);
   --album-gap: 0.75rem;
+  --album-title-scale: 1;
 }
 
 *,
@@ -313,7 +314,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   margin: 0;
   max-width: 14ch;
   font-family: "ClashDisplay", sans-serif;
-  font-size: clamp(2rem, 4.5vw, 4.25rem);
+  font-size: calc(clamp(2rem, 4.5vw, 4.25rem) * var(--album-title-scale, 1));
   font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 0.98;
@@ -502,7 +503,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .masthead-title {
   max-width: 12ch;
-  font-size: clamp(3.08rem, 5.95vw, 6.23rem);
+  font-size: calc(clamp(3.08rem, 5.95vw, 6.23rem) * var(--album-title-scale, 1));
 }
 
 .masthead-attribution {
@@ -1471,7 +1472,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
   .masthead-title {
     max-width: none;
-    font-size: clamp(2.7rem, 12vw, 4.6rem);
+    font-size: calc(clamp(2.7rem, 12vw, 4.6rem) * var(--album-title-scale, 1));
     overflow-wrap: anywhere;
     word-break: break-word;
     hyphens: auto;
@@ -1532,7 +1533,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   }
 
   .album-hero-title {
-    font-size: clamp(1.8rem, 8vw, 2.9rem);
+    font-size: calc(clamp(1.8rem, 8vw, 2.9rem) * var(--album-title-scale, 1));
     max-width: 100%;
   }
 

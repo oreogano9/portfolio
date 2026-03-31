@@ -61,6 +61,11 @@ export const normalizeTopSpacer = (value, fallback = 7) => {
   return Math.max(0, Math.min(40, numeric || 0));
 };
 
+export const normalizeTitleScale = (value, fallback = 1) => {
+  const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
+  return Math.max(0.6, Math.min(1.8, numeric || 1));
+};
+
 export const normalizeIntro = (value, fallback = {}) => ({
   mode: value?.mode === "hero" ? "hero" : fallback.mode === "hero" ? "hero" : "default",
   heroImageSrc:
@@ -112,6 +117,7 @@ export const normalizePhoto = (photo, fallback = {}) => ({
 export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} }) => ({
   id: galleryId,
   title: typeof input.title === "string" ? input.title : titleFallback,
+  titleScale: normalizeTitleScale(input.titleScale),
   spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "tight",
   topSpacer: normalizeTopSpacer(input.topSpacer),
   effect: normalizeEffect(input.effect),
@@ -161,6 +167,7 @@ export const fetchSiteBrand = async () => {
 export const serializeState = (state, galleryId) => ({
   id: galleryId,
   title: state.title,
+  titleScale: normalizeTitleScale(state.titleScale),
   spacing: state.spacing,
   topSpacer: normalizeTopSpacer(state.topSpacer),
   effect: state.effect,
