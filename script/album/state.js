@@ -56,7 +56,7 @@ export const normalizeSections = (value) =>
         }))
     : [];
 
-export const normalizeTopSpacer = (value, fallback = 0) => {
+export const normalizeTopSpacer = (value, fallback = 7) => {
   const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
   return Math.max(0, Math.min(40, numeric || 0));
 };
