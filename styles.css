@@ -713,7 +713,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .photo-join-row {
   display: grid;
-  grid-template-columns: repeat(var(--photo-join-columns, 2), minmax(0, 1fr));
+  grid-template-columns: var(--photo-join-template, repeat(var(--photo-join-columns, 2), minmax(0, 1fr)));
   gap: var(--album-gap);
   align-items: start;
 }
@@ -1821,8 +1821,13 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   }
 
   .photo-join-row {
-    grid-template-columns: repeat(var(--photo-join-columns, 2), minmax(0, 1fr));
+    grid-template-columns: var(--photo-join-template, repeat(var(--photo-join-columns, 2), minmax(0, 1fr)));
     gap: max(0.4rem, calc(var(--album-gap) * 0.75));
+  }
+
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .photo-join-row {
+    grid-template-columns:
+      var(--photo-join-template-mobile-rotate, var(--photo-join-template, repeat(var(--photo-join-columns, 2), minmax(0, 1fr))));
   }
 
   .photo-controls {

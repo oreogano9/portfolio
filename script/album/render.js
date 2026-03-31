@@ -352,6 +352,19 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
   return hasHeroIntro;
 };
 
+const buildJoinTemplate = (entries, invert = false) =>
+  entries
+    .map((entry) => {
+      const ratio = Number(entry.photo.aspectRatio);
+      if (!(ratio > 0)) {
+        return "minmax(0, 1fr)";
+      }
+
+      const weight = invert ? 1 / ratio : ratio;
+      return `minmax(0, ${Math.max(weight, 0.01)}fr)`;
+    })
+    .join(" ");
+
 const createBlockNode = ({ block, state, normalizeEffect, renderState }) => {
   if (block.type === "heading") {
     const heading = document.createElement("section");
@@ -367,6 +380,8 @@ const createBlockNode = ({ block, state, normalizeEffect, renderState }) => {
     const row = document.createElement("div");
     row.className = "photo-join-row";
     row.style.setProperty("--photo-join-columns", String(block.entries.length));
+    row.style.setProperty("--photo-join-template", buildJoinTemplate(block.entries));
+    row.style.setProperty("--photo-join-template-mobile-rotate", buildJoinTemplate(block.entries, true));
     block.entries.forEach((entry) => {
       row.appendChild(
         createPhotoFigure({
