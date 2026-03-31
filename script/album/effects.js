@@ -45,6 +45,16 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
 
       const viewportHeight = window.visualViewport?.height || window.innerHeight;
       const maxFrameHeight = viewportHeight * 0.92;
+      if (isAlbumRotateCandidate) {
+        const fittedRotatedWidth = Math.min(frameWidth, maxFrameHeight * effectiveRatio);
+        const fittedFrameHeight = fittedRotatedWidth / effectiveRatio;
+
+        wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
+        wrapper.style.setProperty("--mobile-extended-image-width", `${fittedFrameHeight}px`);
+        wrapper.style.setProperty("--mobile-extended-image-height", `${fittedRotatedWidth}px`);
+        return;
+      }
+
       const fittedFrameWidth = Math.min(frameWidth, maxFrameHeight / effectiveRatio);
       const fittedFrameHeight = fittedFrameWidth * effectiveRatio;
 
