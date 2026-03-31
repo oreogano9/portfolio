@@ -18,7 +18,7 @@ import {
 } from "./state.js";
 import { createAlbumEffects } from "./effects.js";
 import { canJoinPhoto, deriveSectionsFromPhotos } from "./utils.js";
-import { buildAlbumBlocks, mountAlbumBlocks, renderHeroIntro, renderSubalbumIndexes } from "./render.js";
+import { buildAlbumBlocks, collectHeadingAdjacentPhotos, mountAlbumBlocks, renderHeroIntro, renderSubalbumIndexes } from "./render.js";
 import { observeReveals } from "../home.js";
 
 export const setupAlbumEditor = async () => {
@@ -207,6 +207,7 @@ export const setupAlbumEditor = async () => {
     pending: false,
     message: "",
   };
+  const prefetchedPrioritySources = new Set();
   let hasMarkedReady = false;
   let cleanupRenderedBlocks = () => {};
   let landscapeRenderQueued = false;
@@ -553,17 +554,35 @@ export const setupAlbumEditor = async () => {
     header.classList.toggle("has-top-subalbum-index", state.sections.length >= 2 && Boolean(subalbumIndex));
     header.classList.toggle("has-mobile-sideview-hero", hasMobileSideviewHero);
 
+    const blocks = buildAlbumBlocks({
+      state,
+      normalizeEffect,
+      includeDeleted: state.editing && !state.previewing && state.showDeleted,
+    });
+    const priorityPhotos = collectHeadingAdjacentPhotos(blocks, 2).filter((photo) => !photo.deleted);
+    const priorityPhotoSources = new Set(priorityPhotos.map((photo) => photo.src));
+
+    priorityPhotos.forEach((photo) => {
+      if (!photo.src || prefetchedPrioritySources.has(photo.src)) {
+        return;
+      }
+
+      prefetchedPrioritySources.add(photo.src);
+      const preloadImage = new window.Image();
+      preloadImage.decoding = "async";
+      preloadImage.loading = "eager";
+      preloadImage.setAttribute?.("fetchpriority", "high");
+      preloadImage.src = photo.src;
+    });
+
     cleanupRenderedBlocks();
     cleanupRenderedBlocks = mountAlbumBlocks({
       grid,
-      blocks: buildAlbumBlocks({
-        state,
-        normalizeEffect,
-        includeDeleted: state.editing && !state.previewing && state.showDeleted,
-      }),
+      blocks,
       state,
       normalizeEffect,
       anchor: renderAnchor,
+      priorityPhotoSources,
       onChunkRendered: () => {
         observeReveals(grid);
         effects.updateMobileExtendedLayout();

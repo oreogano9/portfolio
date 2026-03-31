@@ -4,6 +4,18 @@ const INITIAL_BLOCK_COUNT = 12;
 const SUBSEQUENT_BLOCK_COUNT = 16;
 const INITIAL_EAGER_GRID_IMAGES = 3;
 
+const getBlockEntries = (block) => {
+  if (block.type === "photo") {
+    return [block.entry];
+  }
+
+  if (block.type === "row") {
+    return block.entries;
+  }
+
+  return [];
+};
+
 const createProgressiveImage = ({
   photo,
   className = "",
@@ -60,7 +72,7 @@ const createProgressiveImage = ({
   return image;
 };
 
-export const createPhotoFigure = ({ photo, index, state, normalizeEffect, renderOrder = 0 }) => {
+export const createPhotoFigure = ({ photo, index, state, normalizeEffect, renderOrder = 0, forceEager = false }) => {
   const isDeleted = photo.deleted === true;
   const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
   const wrapper = document.createElement("figure");
@@ -78,7 +90,7 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
   wrapper.dataset.ratio = Number.isFinite(photo.aspectRatio) ? String(photo.aspectRatio) : "";
   wrapper.dataset.deleted = String(isDeleted);
   wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
-  const shouldEagerLoad = renderOrder < INITIAL_EAGER_GRID_IMAGES;
+  const shouldEagerLoad = forceEager || renderOrder < INITIAL_EAGER_GRID_IMAGES;
   const loading = shouldEagerLoad ? "eager" : "lazy";
   const fetchPriority = "auto";
   const decoding = shouldEagerLoad ? "sync" : "async";
@@ -365,7 +377,54 @@ const buildJoinTemplate = (entries, invert = false) =>
     })
     .join(" ");
 
-const createBlockNode = ({ block, state, normalizeEffect, renderState }) => {
+export const collectHeadingAdjacentPhotos = (blocks, countPerSide = 2) => {
+  const seen = new Set();
+  const photos = [];
+
+  const addPhoto = (photo) => {
+    if (!photo?.src || seen.has(photo.src)) {
+      return;
+    }
+    seen.add(photo.src);
+    photos.push(photo);
+  };
+
+  blocks.forEach((block, blockIndex) => {
+    if (block.type !== "heading") {
+      return;
+    }
+
+    let backwardRemaining = countPerSide;
+    for (let cursor = blockIndex - 1; cursor >= 0 && backwardRemaining > 0; cursor -= 1) {
+      const entries = getBlockEntries(blocks[cursor]);
+      if (!entries.length) {
+        continue;
+      }
+
+      for (let entryIndex = entries.length - 1; entryIndex >= 0 && backwardRemaining > 0; entryIndex -= 1) {
+        addPhoto(entries[entryIndex].photo);
+        backwardRemaining -= 1;
+      }
+    }
+
+    let forwardRemaining = countPerSide;
+    for (let cursor = blockIndex + 1; cursor < blocks.length && forwardRemaining > 0; cursor += 1) {
+      const entries = getBlockEntries(blocks[cursor]);
+      if (!entries.length) {
+        continue;
+      }
+
+      for (let entryIndex = 0; entryIndex < entries.length && forwardRemaining > 0; entryIndex += 1) {
+        addPhoto(entries[entryIndex].photo);
+        forwardRemaining -= 1;
+      }
+    }
+  });
+
+  return photos;
+};
+
+const createBlockNode = ({ block, state, normalizeEffect, renderState, priorityPhotoSources = new Set() }) => {
   if (block.type === "heading") {
     const heading = document.createElement("section");
     heading.className = "subalbum-section-heading";
@@ -390,6 +449,7 @@ const createBlockNode = ({ block, state, normalizeEffect, renderState }) => {
           state,
           normalizeEffect,
           renderOrder: renderState.photoCount++,
+          forceEager: priorityPhotoSources.has(entry.photo.src),
         })
       );
     });
@@ -402,10 +462,19 @@ const createBlockNode = ({ block, state, normalizeEffect, renderState }) => {
     state,
     normalizeEffect,
     renderOrder: renderState.photoCount++,
+    forceEager: priorityPhotoSources.has(block.entry.photo.src),
   });
 };
 
-export const mountAlbumBlocks = ({ grid, blocks, state, normalizeEffect, anchor = null, onChunkRendered = () => {} }) => {
+export const mountAlbumBlocks = ({
+  grid,
+  blocks,
+  state,
+  normalizeEffect,
+  anchor = null,
+  onChunkRendered = () => {},
+  priorityPhotoSources = new Set(),
+}) => {
   grid.innerHTML = "";
 
   let renderedCount = 0;
@@ -426,7 +495,7 @@ export const mountAlbumBlocks = ({ grid, blocks, state, normalizeEffect, anchor 
     const fragment = document.createDocumentFragment();
     const end = Math.min(blocks.length, renderedCount + count);
     for (let index = renderedCount; index < end; index += 1) {
-      fragment.appendChild(createBlockNode({ block: blocks[index], state, normalizeEffect, renderState }));
+      fragment.appendChild(createBlockNode({ block: blocks[index], state, normalizeEffect, renderState, priorityPhotoSources }));
     }
     grid.appendChild(fragment);
     renderedCount = end;
