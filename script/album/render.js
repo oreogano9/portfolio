@@ -363,6 +363,8 @@ const createBlockNode = ({ block, state, normalizeEffect, renderState }) => {
     const heading = document.createElement("section");
     heading.className = "subalbum-section-heading";
     heading.id = block.id;
+    const titleLength = String(block.title || "").trim().length;
+    heading.style.setProperty("--subalbum-title-length", String(Math.max(1, titleLength)));
     heading.innerHTML = `<h2 class="subalbum-title">${block.title}</h2>`;
     return heading;
   }
