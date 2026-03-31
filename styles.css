@@ -831,7 +831,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .album-page.has-scroll-effect.effect-monochrome .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
-  transform: scale(calc(0.992 + (var(--effect-strength) * 0.012)));
+  transform: none;
 }
 
 .album-page.has-scroll-effect.effect-lift .editable-photo {
