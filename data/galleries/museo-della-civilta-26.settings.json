@@ -77,7 +77,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "spotlight",
+      "effect": "none",
       "joinWithPrevious": false,
       "deleted": false
     },
