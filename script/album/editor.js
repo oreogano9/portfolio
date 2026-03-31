@@ -167,6 +167,42 @@ export const setupAlbumEditor = async () => {
     persistLocalState(true, "");
   };
 
+  const jumpToSubalbum = (headingId) => {
+    if (!headingId) {
+      return;
+    }
+
+    grid.__ensureAnchorRendered?.({ type: "heading", id: headingId });
+    const target = grid.querySelector(`#${CSS.escape(headingId)}`);
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
+
+  [subalbumIndex, subalbumFooterIndex].forEach((container) => {
+    container?.addEventListener("click", (event) => {
+      const link = event.target.closest(".subalbum-index-link");
+      if (!(link instanceof HTMLAnchorElement)) {
+        return;
+      }
+
+      const hash = link.getAttribute("href") || "";
+      if (!hash.startsWith("#subalbum-")) {
+        return;
+      }
+
+      event.preventDefault();
+      jumpToSubalbum(hash.slice(1));
+    });
+  });
+
   let saveState = {
     pending: false,
     message: "",

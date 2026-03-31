@@ -413,7 +413,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
-  border-bottom: 1px solid transparent;
+  text-decoration: none;
 }
 
 .subalbum-index-hint {
@@ -456,7 +456,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .subalbum-index-link:hover,
 .subalbum-index-link:focus-visible {
-  border-color: var(--line-strong);
+  color: var(--text);
 }
 
 .album-back-link {

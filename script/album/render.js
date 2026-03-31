@@ -433,6 +433,22 @@ export const mountAlbumBlocks = ({ grid, blocks, state, normalizeEffect, anchor 
     onChunkRendered();
   };
 
+  const ensureAnchorRendered = (nextAnchor) => {
+    const blockIndex = nextAnchor ? blocks.findIndex((block) => blockMatchesAnchor(block, nextAnchor)) : -1;
+    if (blockIndex < 0) {
+      return false;
+    }
+    if (blockIndex < renderedCount) {
+      return true;
+    }
+
+    appendChunk(blockIndex - renderedCount + 1);
+    ensureSentinel();
+    return true;
+  };
+
+  grid.__ensureAnchorRendered = ensureAnchorRendered;
+
   if (!shouldProgressiveRender(state)) {
     appendChunk(blocks.length);
     return disconnect;
