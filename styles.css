@@ -1186,6 +1186,11 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   -webkit-user-select: none;
 }
 
+.lightbox-image.is-rotated-mobile {
+  max-width: 88vh;
+  max-height: 92vw;
+}
+
 .lightbox-close {
   position: absolute;
   top: 1rem;

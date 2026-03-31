@@ -12,6 +12,7 @@ export const setupLightbox = () => {
     scale: 1,
     translateX: 0,
     translateY: 0,
+    rotation: 0,
     pinchDistance: 0,
     pinchCenterX: 0,
     pinchCenterY: 0,
@@ -22,7 +23,7 @@ export const setupLightbox = () => {
   };
 
   const applyImageTransform = () => {
-    lightboxImage.style.transform = `translate(${gesture.translateX}px, ${gesture.translateY}px) scale(${gesture.scale})`;
+    lightboxImage.style.transform = `translate(${gesture.translateX}px, ${gesture.translateY}px) scale(${gesture.scale}) rotate(${gesture.rotation}deg)`;
     lightboxImage.style.cursor = gesture.scale > 1 ? "grab" : "";
   };
 
@@ -30,6 +31,7 @@ export const setupLightbox = () => {
     gesture.scale = 1;
     gesture.translateX = 0;
     gesture.translateY = 0;
+    gesture.rotation = 0;
     gesture.pinchDistance = 0;
     gesture.pinchCenterX = 0;
     gesture.pinchCenterY = 0;
@@ -58,6 +60,7 @@ export const setupLightbox = () => {
     lightbox.setAttribute("aria-hidden", "true");
     lightboxImage.setAttribute("src", "");
     lightboxImage.setAttribute("alt", "");
+    lightboxImage.classList.remove("is-rotated-mobile");
     document.body.style.overflow = "";
     resetImageTransform();
   };
@@ -70,12 +73,21 @@ export const setupLightbox = () => {
       return;
     }
 
-    lightboxImage.setAttribute("src", image.getAttribute("src") || "");
+    const wrapper = image.closest(".editable-photo");
+    const shouldRotateMobile =
+      wrapper?.classList.contains("mobile-rotate-candidate") &&
+      document.body.classList.contains("is-mobile-layout");
+    lightboxImage.setAttribute("src", image.dataset.fullSrc || image.getAttribute("src") || "");
     lightboxImage.setAttribute("alt", image.getAttribute("alt") || "");
+    lightboxImage.classList.toggle("is-rotated-mobile", Boolean(shouldRotateMobile));
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
     resetImageTransform();
+    if (shouldRotateMobile) {
+      gesture.rotation = 90;
+      applyImageTransform();
+    }
   });
 
   closeButton.addEventListener("click", close);
