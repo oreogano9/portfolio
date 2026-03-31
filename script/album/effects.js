@@ -43,9 +43,14 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
         return;
       }
 
-      wrapper.style.setProperty("--mobile-extended-frame-height", `${frameWidth * effectiveRatio}px`);
-      wrapper.style.setProperty("--mobile-extended-image-width", `${frameWidth * effectiveRatio}px`);
-      wrapper.style.setProperty("--mobile-extended-image-height", `${frameWidth}px`);
+      const viewportHeight = window.visualViewport?.height || window.innerHeight;
+      const maxFrameHeight = viewportHeight * 0.92;
+      const fittedFrameWidth = Math.min(frameWidth, maxFrameHeight / effectiveRatio);
+      const fittedFrameHeight = fittedFrameWidth * effectiveRatio;
+
+      wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
+      wrapper.style.setProperty("--mobile-extended-image-width", `${fittedFrameHeight}px`);
+      wrapper.style.setProperty("--mobile-extended-image-height", `${fittedFrameWidth}px`);
     });
   };
 
