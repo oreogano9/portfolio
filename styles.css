@@ -1674,6 +1674,32 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     width: 100%;
   }
 
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-index {
+    display: flex;
+    justify-content: center;
+  }
+
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-index-track {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: auto;
+    overflow: visible;
+    gap: 1.4rem;
+  }
+
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-index-link {
+    display: inline-block;
+    transform: rotate(90deg);
+    transform-origin: center center;
+    line-height: 1;
+  }
+
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-index-hint,
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-index::after {
+    display: none;
+  }
+
   .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-section-heading {
     display: grid;
     grid-template-columns: minmax(0, 1fr) clamp(1.8rem, 7vw, 3rem);
