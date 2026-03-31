@@ -381,6 +381,7 @@ export const setupAlbumEditor = async () => {
         observeReveals(grid);
         effects.updateMobileExtendedLayout();
         effects.updateSpotlightLayout();
+        effects.refreshSpotlightObservers();
         effects.queueEffectUpdate();
       },
     });
@@ -390,6 +391,7 @@ export const setupAlbumEditor = async () => {
     window.requestAnimationFrame(() => {
       effects.updateMobileExtendedLayout();
       effects.updateSpotlightLayout();
+      effects.refreshSpotlightObservers();
       if (!hasMarkedReady) {
         hasMarkedReady = true;
         body.classList.add("is-ready");

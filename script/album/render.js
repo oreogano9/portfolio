@@ -22,7 +22,13 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
   const loading = index < 4 ? "eager" : "lazy";
   const fetchPriority = index < 2 ? "high" : "auto";
   const decoding = index < 4 ? "sync" : "async";
+  const spotlightSentinels =
+    effectiveEffect === "spotlight"
+      ? `<span class="spotlight-sentinel spotlight-sentinel-top" aria-hidden="true"></span>
+         <span class="spotlight-sentinel spotlight-sentinel-bottom" aria-hidden="true"></span>`
+      : "";
   wrapper.innerHTML = `
+    ${spotlightSentinels}
     <div class="photo-stage">
       ${isDeleted ? `<div class="photo-deleted-badge">DELETED</div>` : ""}
       <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" loading="${loading}" fetchpriority="${fetchPriority}" decoding="${decoding}" />

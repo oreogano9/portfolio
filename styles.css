@@ -789,13 +789,30 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   min-height: var(--spotlight-shell-height, auto);
 }
 
+.spotlight-sentinel {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.spotlight-sentinel-top {
+  top: 0;
+}
+
+.spotlight-sentinel-bottom {
+  bottom: 0;
+}
+
 .editable-photo.spotlight-shell .photo-stage {
   position: sticky;
   top: var(--spotlight-stage-top, 0px);
   width: 100%;
-  transform: translateY(var(--spotlight-follow-offset, 0px));
+  transform: none;
   z-index: 1;
-  will-change: transform;
+  will-change: opacity, transform;
 }
 
 .editable-photo img {
@@ -818,11 +835,20 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .album-page.has-scroll-effect.effect-spotlight .editable-photo {
   opacity: 0.04;
   filter: none;
+  transform: none;
 }
 
 .album-page.has-scroll-effect.effect-spotlight .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
+}
+
+.album-page.has-scroll-effect.effect-spotlight .editable-photo.is-spotlight-entering .photo-stage {
+  opacity: 0.92;
+}
+
+.album-page.has-scroll-effect.effect-spotlight .editable-photo.is-spotlight-leaving .photo-stage {
+  opacity: 0.92;
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo {
