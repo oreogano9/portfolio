@@ -1251,9 +1251,11 @@ button {
 
 @media (max-width: 700px) {
   .album-page-header.has-top-subalbum-index {
-    min-height: auto;
-    align-content: start;
-    padding-bottom: 0.85rem;
+    min-height: calc(100svh - 1.25rem);
+    grid-template-rows: auto 1fr auto;
+    align-content: stretch;
+    align-items: start;
+    padding-bottom: 0.35rem;
   }
 
   .subalbum-index {
@@ -1263,11 +1265,16 @@ button {
   .album-page-header.has-top-subalbum-index .subalbum-index {
     width: 100%;
     justify-self: stretch;
-    align-self: auto;
+    align-self: end;
   }
 
   .album-page-header.has-top-subalbum-index .subalbum-index-track {
     justify-content: flex-start;
+  }
+
+  .album-page-header.has-top-subalbum-index .album-hero-intro,
+  .album-page-header.has-top-subalbum-index .masthead-title {
+    align-self: center;
   }
 }
 
