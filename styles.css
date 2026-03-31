@@ -246,6 +246,79 @@ button {
   padding: 1.25rem 0 2rem;
 }
 
+.album-hero-intro {
+  display: grid;
+  justify-items: center;
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+  padding: clamp(1.75rem, 5vw, 4rem) 0 clamp(1.5rem, 4vw, 3rem);
+  text-align: center;
+}
+
+.album-hero-intro.is-hidden {
+  display: none;
+}
+
+.album-hero-brand {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.album-hero-media {
+  width: min(100%, 40rem);
+}
+
+.album-hero-image {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.album-hero-copy {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+}
+
+.album-hero-title {
+  margin: 0;
+  max-width: 14ch;
+  font-size: clamp(2rem, 4.5vw, 4.25rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+.album-hero-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  color: var(--muted);
+  font-size: 1.35rem;
+  line-height: 1;
+  border-bottom: 1px solid transparent;
+}
+
+.album-hero-arrow:hover,
+.album-hero-arrow:focus-visible {
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+
+.album-page.has-hero-intro .masthead-title {
+  display: none;
+}
+
+.album-page.has-hero-intro .album-page-header {
+  gap: 0.55rem;
+  padding-top: 1rem;
+}
+
 .subalbum-index {
   display: flex;
   flex-wrap: wrap;
@@ -811,6 +884,19 @@ button {
   text-transform: uppercase;
 }
 
+.photo-toggle-button.photo-hero-button {
+  min-width: 1.9rem;
+  padding-inline: 0.55rem;
+  font-size: 0.78rem;
+}
+
+.photo-toggle-button.photo-hero-button.is-active,
+.photo-toggle-button.photo-hero-button[aria-pressed="true"] {
+  background: var(--text);
+  color: #fcfbf8;
+  border-color: var(--text);
+}
+
 .photo-toggle-button:disabled {
   opacity: 0.38;
   cursor: default;
@@ -1234,6 +1320,35 @@ button {
     padding: 1rem 0 1.5rem;
   }
 
+  .album-page.has-hero-intro .album-page-header {
+    gap: 0.45rem;
+    padding-bottom: 1.1rem;
+  }
+
+  .album-hero-intro {
+    gap: 0.85rem;
+    padding: 1.15rem 0 1.25rem;
+  }
+
+  .album-hero-brand {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+  }
+
+  .album-hero-media {
+    width: min(100%, 100vw - 1.25rem);
+  }
+
+  .album-hero-title {
+    font-size: clamp(1.8rem, 8vw, 2.9rem);
+  }
+
+  .album-hero-arrow {
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+    font-size: 1.2rem;
+  }
+
   .album-page.is-editing .header-edit-controls {
     display: grid;
     grid-template-columns: 1fr;
@@ -1250,6 +1365,10 @@ button {
   .floating-editor-actions {
     top: 0.75rem;
     left: 0.75rem;
+  }
+
+  .photo-toggle-button.photo-hero-button {
+    min-width: 2rem;
   }
 
   .statement,

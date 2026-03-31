@@ -113,6 +113,7 @@ const setupAlbumEditor = async () => {
   const grid = document.querySelector(".album-detail-grid");
   const title = document.querySelector(".masthead-title");
   const header = document.querySelector(".album-page-header");
+  let heroIntro = header?.querySelector(".album-hero-intro");
   const subalbumIndex = document.querySelector(".subalbum-index");
   const subalbumFooterIndex = document.querySelector(".subalbum-footer-index");
   const toggleButtons = Array.from(document.querySelectorAll('[data-album-action="edit"]'));
@@ -134,11 +135,37 @@ const setupAlbumEditor = async () => {
     return;
   }
 
+  if (!heroIntro) {
+    heroIntro = document.createElement("div");
+    heroIntro.className = "album-hero-intro is-hidden";
+    heroIntro.setAttribute("aria-live", "polite");
+    const headerTitle = header.querySelector(".masthead-title");
+    if (headerTitle) {
+      header.insertBefore(heroIntro, headerTitle);
+    } else {
+      header.appendChild(heroIntro);
+    }
+  }
+
   const storageKey = `album-editor:${window.location.pathname}`;
   const galleryId = body.dataset.galleryId || "gallery";
   const settingsUrl = body.dataset.gallerySettings || "";
+  const homeHref = header.querySelector(".album-back-link")?.getAttribute("href") || "../index.html";
+  const albumIsNested = window.location.pathname.includes("/albums/");
   const effectOptions = ["none", "spotlight", "monochrome", "drift", "veil"];
   const normalizeEffect = (value, fallback = "none") => (effectOptions.includes(value) ? value : fallback);
+  const normalizeAssetPath = (value) => {
+    if (typeof value !== "string") {
+      return "";
+    }
+    if (albumIsNested && value.startsWith("./images/")) {
+      return value.replace("./images/", "../images/");
+    }
+    if (albumIsNested && value.startsWith("./assets/")) {
+      return value.replace("./assets/", "../assets/");
+    }
+    return value;
+  };
   const originalPhotos = Array.from(grid.querySelectorAll("img")).map((image) => ({
     src: image.getAttribute("src") || "",
     alt: image.getAttribute("alt") || "",
@@ -159,6 +186,22 @@ const setupAlbumEditor = async () => {
           }))
       : [];
 
+  const normalizeIntro = (value, fallback = {}) => ({
+    mode: value?.mode === "hero" ? "hero" : fallback.mode === "hero" ? "hero" : "default",
+    heroImageSrc:
+      typeof value?.heroImageSrc === "string"
+        ? normalizeAssetPath(value.heroImageSrc)
+        : typeof fallback.heroImageSrc === "string"
+          ? normalizeAssetPath(fallback.heroImageSrc)
+          : "",
+    showArrow:
+      typeof value?.showArrow === "boolean"
+        ? value.showArrow
+        : typeof fallback.showArrow === "boolean"
+          ? fallback.showArrow
+          : true,
+  });
+
   const sizeOptions = ["full", "extended", "medium", "small", "xsmall", "xxsmall"];
   const mobileLayoutQuery = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)");
 
@@ -167,7 +210,7 @@ const setupAlbumEditor = async () => {
   };
 
   const normalizePhoto = (photo, fallback = {}) => ({
-    src: typeof photo?.src === "string" ? photo.src : fallback.src || "",
+    src: typeof photo?.src === "string" ? normalizeAssetPath(photo.src) : normalizeAssetPath(fallback.src || ""),
     alt: typeof photo?.alt === "string" ? photo.alt : fallback.alt || "",
     section: typeof photo?.section === "string" ? photo.section : fallback.section || "",
     size: sizeOptions.includes(photo?.size) ? photo.size : fallback.size || "full",
@@ -197,6 +240,7 @@ const setupAlbumEditor = async () => {
     title: typeof input.title === "string" ? input.title : title.textContent.trim(),
     spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "tight",
     effect: normalizeEffect(input.effect),
+    intro: normalizeIntro(input.intro),
     sections: normalizeSections(input.sections),
     photos: Array.isArray(input.photos) ? input.photos.map((photo) => normalizePhoto(photo)) : [],
   });
@@ -216,6 +260,16 @@ const setupAlbumEditor = async () => {
         .then((response) => (response.ok ? response.json() : null))
         .catch(() => null)
     : null;
+  const siteBrand = await fetch(new URL(homeHref, window.location.href), { cache: "no-store" })
+    .then((response) => (response.ok ? response.text() : ""))
+    .then((markup) => {
+      if (!markup) {
+        return "Konrad Parada Photos";
+      }
+      const doc = new DOMParser().parseFromString(markup, "text/html");
+      return doc.querySelector(".brand")?.textContent?.trim() || "Konrad Parada Photos";
+    })
+    .catch(() => "Konrad Parada Photos");
   let currentSyncedSignature = jsonState ? getSettingsSignature(jsonState) : "";
 
   const jsonSections = normalizeSections(jsonState?.sections);
@@ -266,6 +320,7 @@ const setupAlbumEditor = async () => {
       title.textContent.trim(),
     spacing: ["tight", "default", "airy"].includes(preferredState?.spacing) ? preferredState.spacing : "tight",
     effect: normalizeEffect(preferredState?.effect),
+    intro: normalizeIntro(preferredState?.intro),
     photos: mergePhotos(preferredState?.photos),
     sections: normalizeSections(preferredState?.sections).length
       ? normalizeSections(preferredState?.sections)
@@ -283,6 +338,7 @@ const setupAlbumEditor = async () => {
         title: state.title,
         spacing: state.spacing,
         effect: state.effect,
+        intro: state.intro,
         sections: state.sections,
         photos: state.photos,
         meta: {
@@ -315,6 +371,7 @@ const setupAlbumEditor = async () => {
         title: state.title,
         spacing: state.spacing,
         effect: state.effect,
+        intro: state.intro,
         sections: state.sections,
         photos: state.photos,
         meta: {
@@ -336,9 +393,10 @@ const setupAlbumEditor = async () => {
     title: state.title,
     spacing: state.spacing,
     effect: state.effect,
+    intro: normalizeIntro(state.intro),
     sections: state.sections,
     photos: state.photos.map((photo) => ({
-      src: photo.src,
+      src: normalizeAssetPath(photo.src),
       alt: photo.alt,
       section: photo.section,
       size: photo.size,
@@ -524,11 +582,19 @@ const setupAlbumEditor = async () => {
       <option value="drift">Drift</option>
       <option value="veil">Veil</option>
     </select>
+    <select class="header-edit-select" aria-label="Album intro mode">
+      <option value="default">Default Intro</option>
+      <option value="hero">Hero Intro</option>
+    </select>
+    <select class="header-edit-select" aria-label="Show hero arrow">
+      <option value="true">Arrow On</option>
+      <option value="false">Arrow Off</option>
+    </select>
   `;
   header.appendChild(headerControls);
 
   const titleInput = headerControls.querySelector(".header-edit-input");
-  const [spacingSelect, effectSelect] = headerControls.querySelectorAll(".header-edit-select");
+  const [spacingSelect, effectSelect, introModeSelect, introArrowSelect] = headerControls.querySelectorAll(".header-edit-select");
 
   let effectFrame = null;
 
@@ -709,12 +775,21 @@ const setupAlbumEditor = async () => {
     return rowSize < 3;
   };
 
+  const getHeroImageSrc = () => {
+    const explicitHero = typeof state.intro.heroImageSrc === "string" ? state.intro.heroImageSrc : "";
+    if (explicitHero && state.photos.some((photo) => photo.src === explicitHero)) {
+      return explicitHero;
+    }
+    return state.photos[0]?.src || "";
+  };
+
   const createPhotoFigure = (photo, index) => {
     const effectiveEffect = photo.effect !== "none" ? photo.effect : state.effect;
     const wrapper = document.createElement("figure");
     const isExtendedLandscape = photo.size === "extended" && photo.landscape === true;
     const isJoinable = canJoinPhoto(index);
     const canShowUnjoin = photo.joinWithPrevious;
+    const isHeroImage = state.intro.heroImageSrc === photo.src;
     wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveEffect === "spotlight" ? " spotlight-shell" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${photo.joinWithPrevious && canJoinPhoto(index) ? " is-joined-photo" : ""}`;
     wrapper.dataset.index = String(index);
     wrapper.dataset.effect = effectiveEffect;
@@ -731,6 +806,7 @@ const setupAlbumEditor = async () => {
           <div class="photo-controls">
             <button class="photo-control-button" type="button" data-action="up" aria-label="Move image up">↑</button>
             <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
+            <button class="photo-toggle-button photo-hero-button${isHeroImage ? " is-active" : ""}" type="button" data-action="hero-toggle" aria-label="${isHeroImage ? "Hero image selected" : "Set as hero image"}" aria-pressed="${isHeroImage ? "true" : "false"}">${isHeroImage ? "★" : "☆"}</button>
             <select class="photo-size-select" data-action="size" aria-label="Photo size">
               ${photo.landscape === true ? `<option value="extended"${photo.size === "extended" ? " selected" : ""}>EXTENDED</option>` : ""}
               <option value="full"${photo.size === "full" ? " selected" : ""}>FULL WIDTH</option>
@@ -762,11 +838,17 @@ const setupAlbumEditor = async () => {
   };
 
   const render = () => {
+    const heroSrc = getHeroImageSrc();
+    const heroPhoto = state.photos.find((photo) => photo.src === heroSrc) || null;
+    const hasHeroIntro = state.intro.mode === "hero" && Boolean(heroPhoto);
+
     title.textContent = state.title;
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
     titleInput.value = state.title;
     spacingSelect.value = state.spacing;
     effectSelect.value = state.effect;
+    introModeSelect.value = state.intro.mode;
+    introArrowSelect.value = state.intro.showArrow ? "true" : "false";
     toggleButtons.forEach((button) => {
       button.textContent = state.editing ? "Done" : "Edit";
     });
@@ -779,10 +861,33 @@ const setupAlbumEditor = async () => {
     });
     body.classList.toggle("is-editing", state.editing);
     body.classList.toggle("is-previewing", state.editing && state.previewing);
+    body.classList.toggle("has-hero-intro", hasHeroIntro);
     previewButtons.forEach((button) => {
       button.textContent = state.previewing ? "Show Editor" : "Preview";
       button.setAttribute("aria-pressed", state.previewing ? "true" : "false");
     });
+
+    if (heroIntro) {
+      heroIntro.classList.toggle("is-hidden", !hasHeroIntro);
+      if (hasHeroIntro && heroPhoto) {
+        heroIntro.innerHTML = `
+          <p class="album-hero-brand">${siteBrand}</p>
+          <div class="album-hero-media">
+            <img class="album-hero-image" src="${heroPhoto.src}" alt="${heroPhoto.alt}" loading="eager" fetchpriority="high" decoding="sync" />
+          </div>
+          <div class="album-hero-copy">
+            <p class="album-hero-title">${state.title}</p>
+            ${
+              state.intro.showArrow
+                ? `<a class="album-hero-arrow" href="#album-grid" aria-label="Scroll to album images">⌄</a>`
+                : ""
+            }
+          </div>
+        `;
+      } else {
+        heroIntro.innerHTML = "";
+      }
+    }
 
     [subalbumIndex, subalbumFooterIndex].forEach((container) => {
       if (!container) {
@@ -881,6 +986,10 @@ const setupAlbumEditor = async () => {
   titleInput.addEventListener("input", (event) => {
     state.title = event.target.value || "Untitled Album";
     title.textContent = state.title;
+    const heroTitle = heroIntro?.querySelector(".album-hero-title");
+    if (heroTitle) {
+      heroTitle.textContent = state.title;
+    }
     save();
   });
 
@@ -896,8 +1005,20 @@ const setupAlbumEditor = async () => {
     queueEffectUpdate();
   });
 
+  introModeSelect.addEventListener("change", (event) => {
+    state.intro.mode = event.target.value === "hero" ? "hero" : "default";
+    save();
+    render();
+  });
+
+  introArrowSelect.addEventListener("change", (event) => {
+    state.intro.showArrow = event.target.value === "true";
+    save();
+    render();
+  });
+
   grid.addEventListener("click", (event) => {
-    const button = event.target.closest(".photo-control-button, .spacer-reset, .photo-join-button");
+    const button = event.target.closest(".photo-control-button, .spacer-reset, .photo-join-button, .photo-hero-button");
     if (!button) {
       return;
     }
@@ -915,6 +1036,10 @@ const setupAlbumEditor = async () => {
       movePhoto(index, -1);
     } else if (action === "down") {
       movePhoto(index, 1);
+    } else if (action === "hero-toggle") {
+      state.intro.heroImageSrc = state.photos[index].src;
+      save();
+      render();
     } else if (action === "spacer-reset") {
       updateSpacer(index, 0);
     } else if (action === "join-toggle") {
