@@ -865,18 +865,18 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.has-scroll-effect.effect-glow .editable-photo {
-  opacity: calc(1 - (var(--effect-strength) * 0.8));
-  filter: saturate(calc(1 - (var(--effect-strength) * 0.3))) brightness(calc(1 - (var(--effect-strength) * 0.14)));
-  transform: scale(calc(1 - (var(--effect-strength) * 0.012)));
+  opacity: calc(1 - (var(--effect-strength) * 0.86));
+  filter: saturate(calc(1 - (var(--effect-strength) * 0.4))) brightness(calc(1 - (var(--effect-strength) * 0.18)));
+  transform: scale(calc(1 - (var(--effect-strength) * 0.018)));
 }
 
 .album-page.has-scroll-effect.effect-glow .editable-photo.is-effect-active {
   opacity: 1;
-  filter: saturate(calc(1 + (var(--effect-strength) * 0.4))) brightness(calc(1 + (var(--effect-strength) * 0.1)));
-  transform: scale(calc(0.995 + (var(--effect-strength) * 0.02)));
+  filter: saturate(calc(1 + (var(--effect-strength) * 0.55))) brightness(calc(1 + (var(--effect-strength) * 0.14)));
+  transform: scale(calc(0.995 + (var(--effect-strength) * 0.03)));
   box-shadow:
-    0 20px 42px rgba(0, 0, 0, calc(var(--effect-strength) * 0.12)),
-    0 0 0.9rem rgba(255, 248, 224, calc(var(--effect-strength) * 0.32));
+    0 24px 48px rgba(0, 0, 0, calc(var(--effect-strength) * 0.14)),
+    0 0 1.3rem rgba(255, 248, 224, calc(var(--effect-strength) * 0.45));
 }
 
 .album-page.has-scroll-effect.effect-tilt .editable-photo {
