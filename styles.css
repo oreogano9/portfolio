@@ -1562,6 +1562,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     top: calc(max(0.9rem, env(safe-area-inset-top)) + 3.9rem);
   }
 
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .album-top-spacer {
+    height: 0 !important;
+  }
+
   .album-page.has-hero-intro .album-page-header {
     gap: 0.45rem;
     padding-bottom: 1.1rem;
