@@ -65,18 +65,24 @@ export const setupLightbox = () => {
     resetImageTransform();
   };
 
-  grid.addEventListener("click", (event) => {
-    const image = event.target.closest("img");
-    const insideControls = event.target.closest(".photo-controls, .spacer-control");
-
-    if (!image || insideControls) {
-      return;
+  const shouldOpenRotatedMobile = (image) => {
+    if (!(image instanceof HTMLImageElement) || !document.body.classList.contains("is-mobile-layout")) {
+      return false;
     }
 
-    const wrapper = image.closest(".editable-photo");
-    const shouldRotateMobile =
-      wrapper?.classList.contains("mobile-rotate-candidate") &&
-      document.body.classList.contains("is-mobile-layout");
+    if (image.closest(".editable-photo.mobile-rotate-candidate")) {
+      return true;
+    }
+
+    if (image.classList.contains("album-hero-image") && image.closest(".album-hero-media.mobile-rotate-hero")) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const openLightbox = (image) => {
+    const shouldRotateMobile = shouldOpenRotatedMobile(image);
     lightboxImage.setAttribute("src", image.dataset.fullSrc || image.getAttribute("src") || "");
     lightboxImage.setAttribute("alt", image.getAttribute("alt") || "");
     lightboxImage.classList.toggle("is-rotated-mobile", Boolean(shouldRotateMobile));
@@ -88,6 +94,26 @@ export const setupLightbox = () => {
       gesture.rotation = 90;
       applyImageTransform();
     }
+  };
+
+  grid.addEventListener("click", (event) => {
+    const image = event.target.closest("img");
+    const insideControls = event.target.closest(".photo-controls, .spacer-control");
+
+    if (!image || insideControls) {
+      return;
+    }
+
+    openLightbox(image);
+  });
+
+  document.querySelector(".album-hero-intro")?.addEventListener("click", (event) => {
+    const image = event.target.closest(".album-hero-image");
+    if (!image) {
+      return;
+    }
+
+    openLightbox(image);
   });
 
   closeButton.addEventListener("click", close);

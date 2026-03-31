@@ -317,11 +317,16 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
     brand.textContent = siteBrand;
 
     const media = document.createElement("div");
-    media.className = "album-hero-media";
+    const heroAspectRatio = Number(heroPhoto.aspectRatio);
+    const shouldRotateHeroMobile = state.mobileRotateClockwise && Number.isFinite(heroAspectRatio) && heroAspectRatio > 0;
+    media.className = `album-hero-media${shouldRotateHeroMobile ? " mobile-rotate-hero" : ""}`;
+    if (shouldRotateHeroMobile) {
+      media.style.setProperty("--hero-rotate-ratio", String(Math.max(heroAspectRatio, 1 / heroAspectRatio)));
+    }
     media.appendChild(
       createProgressiveImage({
         photo: heroPhoto,
-        className: "album-hero-image",
+        className: `album-hero-image${shouldRotateHeroMobile ? " mobile-rotate-candidate" : ""}`,
         loading: "eager",
         fetchPriority: "high",
         decoding: "sync",

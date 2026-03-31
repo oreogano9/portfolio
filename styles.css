@@ -299,6 +299,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   margin: 0 auto;
 }
 
+.album-hero-intro .album-hero-image {
+  cursor: zoom-in;
+}
+
 .album-hero-copy {
   display: grid;
   justify-items: center;
@@ -1578,6 +1582,25 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
   .album-hero-media {
     width: min(100%, 100vw - 1.25rem);
+  }
+
+  .album-page.is-mobile-layout .album-hero-media.mobile-rotate-hero {
+    position: relative;
+    width: 100%;
+    height: min(92svh, calc((100vw - 1.25rem) * var(--hero-rotate-ratio, 1)));
+    overflow: hidden;
+  }
+
+  .album-page.is-mobile-layout .album-hero-media.mobile-rotate-hero .album-hero-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(92svh, calc((100vw - 1.25rem) * var(--hero-rotate-ratio, 1)));
+    max-width: none;
+    max-height: none;
+    height: calc(100vw - 1.25rem);
+    transform: translate(-50%, -50%) rotate(90deg);
+    transform-origin: center center;
   }
 
   .album-hero-title {
