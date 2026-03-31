@@ -11,14 +11,13 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
   const isJoinable = !isDeleted && canJoinPhoto(state, index, normalizeEffect);
   const canShowUnjoin = !isDeleted && photo.joinWithPrevious;
   const isHeroImage = !isDeleted && state.intro.heroImageSrc === photo.src;
-  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveEffect === "spotlight" ? " spotlight-shell" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}`;
+  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}`;
   wrapper.dataset.index = String(index);
   wrapper.dataset.effect = effectiveEffect;
   wrapper.dataset.landscape = String(photo.landscape === true);
   wrapper.dataset.ratio = Number.isFinite(photo.aspectRatio) ? String(photo.aspectRatio) : "";
   wrapper.dataset.deleted = String(isDeleted);
   wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
-  wrapper.style.setProperty("--effect-direction", index % 2 === 0 ? "1" : "-1");
   const loading = index < 4 ? "eager" : "lazy";
   const fetchPriority = index < 2 ? "high" : "auto";
   const decoding = index < 4 ? "sync" : "async";
@@ -41,10 +40,9 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
         <button class="photo-toggle-button photo-join-button" type="button" data-action="join-toggle" aria-label="${canShowUnjoin ? "Unjoin image from previous row" : "Join image with previous row"}"${!canShowUnjoin && !isJoinable ? " disabled" : ""}>${canShowUnjoin ? "UNJOIN" : "JOIN"}</button>
         <select class="photo-effect-select" data-action="photo-effect" aria-label="Photo effect"${isDeleted ? " disabled" : ""}>
           <option value="none"${photo.effect === "none" ? " selected" : ""}>NONE</option>
-          <option value="spotlight"${photo.effect === "spotlight" ? " selected" : ""}>SPOTLIGHT</option>
+          <option value="focus"${photo.effect === "focus" ? " selected" : ""}>FOCUS</option>
           <option value="monochrome"${photo.effect === "monochrome" ? " selected" : ""}>MONOCHROME</option>
-          <option value="drift"${photo.effect === "drift" ? " selected" : ""}>DRIFT</option>
-          <option value="veil"${photo.effect === "veil" ? " selected" : ""}>VEIL</option>
+          <option value="lift"${photo.effect === "lift" ? " selected" : ""}>LIFT</option>
         </select>
         <button class="photo-toggle-button photo-delete-button${isDeleted ? " is-active" : ""}" type="button" data-action="delete-toggle" aria-label="${isDeleted ? "Restore image" : "Remove image"}">${isDeleted ? "RESTORE" : "REMOVE"}</button>
       </div>

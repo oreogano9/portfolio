@@ -39,9 +39,7 @@ export const canJoinPhoto = (state, index, normalizeEffect) => {
     return false;
   }
 
-  const currentEffect = normalizeEffect(current.effect !== "none" ? current.effect : state.effect);
-  const previousEffect = normalizeEffect(previous.effect !== "none" ? previous.effect : state.effect);
-  if (current.section !== previous.section || currentEffect === "spotlight" || previousEffect === "spotlight") {
+  if (current.section !== previous.section) {
     return false;
   }
 
@@ -56,12 +54,5 @@ export const canJoinPhoto = (state, index, normalizeEffect) => {
 };
 
 export const shouldProgressiveRender = (state) => {
-  const hasSpotlight =
-    state.effect === "spotlight" || state.photos.some((photo) => (photo.effect !== "none" ? photo.effect : state.effect) === "spotlight");
-
-  if (hasSpotlight) {
-    return false;
-  }
-
   return !state.editing || state.previewing;
 };

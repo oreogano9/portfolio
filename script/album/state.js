@@ -1,4 +1,4 @@
-export const effectOptions = ["none", "spotlight", "monochrome", "drift", "veil"];
+export const effectOptions = ["none", "focus", "monochrome", "lift"];
 export const sizeOptions = ["full", "extended", "medium", "small", "xsmall", "xxsmall"];
 export const spacingMap = {
   tight: "0.75rem",

@@ -1,51 +1,22 @@
 export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
   const mobileLayoutQuery = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)");
+  const visiblePhotos = new Set();
   let effectFrame = null;
-  let spotlightTriggers = [];
+  let visibilityObserver = null;
 
   const syncMobileLayoutState = () => {
     body.classList.toggle("is-mobile-layout", mobileLayoutQuery.matches);
   };
 
-  const getScrollTrigger = () => {
-    const gsapApi = window.gsap;
-    const plugin = window.ScrollTrigger;
-    if (!gsapApi || !plugin) {
-      return null;
-    }
-
-    if (!gsapApi.core.globals().ScrollTrigger) {
-      gsapApi.registerPlugin(plugin);
-    }
-
-    return plugin;
-  };
-
-  const killSpotlightTriggers = () => {
-    spotlightTriggers.forEach((trigger) => trigger.kill());
-    spotlightTriggers = [];
-  };
-
   const clearEffects = () => {
-    killSpotlightTriggers();
-    body.classList.remove("has-scroll-effect", "effect-spotlight", "effect-monochrome", "effect-drift", "effect-veil");
+    visibilityObserver?.disconnect();
+    visibilityObserver = null;
+    visiblePhotos.clear();
+    body.classList.remove("has-scroll-effect", "effect-focus", "effect-monochrome", "effect-lift");
     body.style.removeProperty("--effect-strength");
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
-      photo.classList.remove("is-effect-active", "is-spotlight-active");
+      photo.classList.remove("is-effect-active", "is-effect-visible");
       photo.style.removeProperty("--effect-strength");
-      photo.style.removeProperty("--spotlight-stage-top");
-      photo.style.removeProperty("--spotlight-shell-height");
-    });
-  };
-
-  const clearNonSpotlightEffects = () => {
-    body.classList.remove("has-scroll-effect", "effect-monochrome", "effect-drift", "effect-veil");
-    body.style.removeProperty("--effect-strength");
-    grid.querySelectorAll(".editable-photo").forEach((photo) => {
-      if (!photo.classList.contains("is-spotlight-active")) {
-        photo.classList.remove("is-effect-active");
-        photo.style.removeProperty("--effect-strength");
-      }
     });
   };
 
@@ -75,119 +46,11 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     });
   };
 
-  const updateSpotlightLayout = () => {
-    const viewportHeight = window.visualViewport?.height || window.innerHeight;
-    const shouldUseSpotlightLayout = !state.editing || state.previewing;
-
-    grid.querySelectorAll(".editable-photo.spotlight-shell").forEach((wrapper) => {
-      const stage = wrapper.querySelector(".photo-stage");
-      if (!(stage instanceof HTMLElement)) {
-        return;
-      }
-
-      if (!shouldUseSpotlightLayout) {
-        wrapper.style.removeProperty("--spotlight-shell-height");
-        wrapper.style.removeProperty("--spotlight-stage-top");
-        return;
-      }
-
-      const stageHeight = stage.getBoundingClientRect().height;
-      if (!(stageHeight > 0)) {
-        return;
-      }
-
-      const centeredTop = Math.max(0, (viewportHeight - stageHeight) / 2);
-      const travel = viewportHeight * (body.classList.contains("is-mobile-layout") ? 0.7 : 1);
-      const shellHeight = Math.max(stageHeight + travel, viewportHeight + stageHeight * 0.15);
-
-      wrapper.style.setProperty("--spotlight-shell-height", `${shellHeight}px`);
-      wrapper.style.setProperty("--spotlight-stage-top", `${centeredTop}px`);
-    });
-  };
-
-  const activateSpotlight = (wrapper) => {
-    body.classList.remove("effect-monochrome", "effect-drift", "effect-veil");
-    body.classList.add("has-scroll-effect", "effect-spotlight");
-    body.style.setProperty("--effect-strength", "1");
-
-    grid.querySelectorAll(".editable-photo").forEach((photo) => {
-      const isActive = photo === wrapper;
-      photo.classList.toggle("is-spotlight-active", isActive);
-      photo.classList.toggle("is-effect-active", isActive);
-      photo.style.setProperty("--effect-strength", isActive ? "1" : "0");
-    });
-  };
-
-  const setupSpotlightTriggers = () => {
-    killSpotlightTriggers();
-
-    if (!effectsShouldRun()) {
-      return;
-    }
-
-    const ScrollTrigger = getScrollTrigger();
-    if (!ScrollTrigger) {
-      return;
-    }
-
-    const spotlightWrappers = Array.from(grid.querySelectorAll(".editable-photo")).filter(
-      (photo) => normalizeEffect(photo.dataset.effect) === "spotlight"
-    );
-
-    if (!spotlightWrappers.length) {
-      return;
-    }
-
-    spotlightWrappers.forEach((wrapper) => {
-      const stage = wrapper.querySelector(".photo-stage");
-      if (!(stage instanceof HTMLElement)) {
-        return;
-      }
-
-      const trigger = ScrollTrigger.create({
-        trigger: wrapper,
-        pin: stage,
-        pinType: "fixed",
-        start: () => {
-          const viewportHeight = window.visualViewport?.height || window.innerHeight;
-          const stageHeight = stage.getBoundingClientRect().height;
-          const centeredTop = Math.max(0, (viewportHeight - stageHeight) / 2);
-          return `top top+=${Math.round(centeredTop)}`;
-        },
-        end: () => {
-          const viewportHeight = window.visualViewport?.height || window.innerHeight;
-          return `+=${Math.round(viewportHeight * (body.classList.contains("is-mobile-layout") ? 0.7 : 1))}`;
-        },
-        pinSpacing: true,
-        invalidateOnRefresh: true,
-        onEnter: () => activateSpotlight(wrapper),
-        onEnterBack: () => activateSpotlight(wrapper),
-        onLeave: () => {
-          wrapper.classList.remove("is-spotlight-active", "is-effect-active");
-          clearNonSpotlightEffects();
-        },
-        onLeaveBack: () => {
-          wrapper.classList.remove("is-spotlight-active", "is-effect-active");
-          clearNonSpotlightEffects();
-        },
-      });
-
-      spotlightTriggers.push(trigger);
-    });
-
-    ScrollTrigger.refresh();
-  };
-
   const updateEffects = () => {
     effectFrame = null;
 
     if (!effectsShouldRun()) {
       clearEffects();
-      return;
-    }
-
-    const hasActiveSpotlight = grid.querySelector(".editable-photo.is-spotlight-active");
-    if (hasActiveSpotlight) {
       return;
     }
 
@@ -197,36 +60,42 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       return;
     }
 
-    const effectPhotos = photos.filter((photo) => {
-      const effect = normalizeEffect(photo.dataset.effect);
-      return effect !== "none" && effect !== "spotlight";
-    });
-
+    const effectPhotos = photos.filter((photo) => normalizeEffect(photo.dataset.effect) !== "none");
     if (!effectPhotos.length) {
-      body.classList.remove("effect-monochrome", "effect-drift", "effect-veil");
-      body.classList.remove("has-scroll-effect");
+      body.classList.remove("has-scroll-effect", "effect-focus", "effect-monochrome", "effect-lift");
+      body.style.removeProperty("--effect-strength");
+      photos.forEach((photo) => {
+        photo.classList.remove("is-effect-active", "is-effect-visible");
+        photo.style.removeProperty("--effect-strength");
+      });
       return;
     }
 
     const viewportHeight = window.visualViewport?.height || window.innerHeight;
     const viewportCenter = viewportHeight * 0.5;
-    const fadeRange = viewportHeight * 0.85;
-    const triggerRange = state.effect !== "none" ? Number.POSITIVE_INFINITY : viewportHeight * 1.1;
+    const fadeRange = viewportHeight * 0.72;
+    const candidates = effectPhotos.filter((photo) => visiblePhotos.has(photo));
+    const activePool = candidates.length ? candidates : effectPhotos;
+
     let activePhoto = null;
     let activeEffect = "none";
     let effectStrength = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
 
     photos.forEach((photo) => {
+      photo.classList.toggle("is-effect-visible", visiblePhotos.has(photo));
       photo.classList.remove("is-effect-active");
       photo.style.setProperty("--effect-strength", "0");
     });
 
-    effectPhotos.forEach((photo) => {
+    activePool.forEach((photo) => {
       const rect = photo.getBoundingClientRect();
+      if (rect.bottom <= 0 || rect.top >= viewportHeight) {
+        return;
+      }
+
       const photoCenter = rect.top + rect.height / 2;
       const distance = Math.abs(photoCenter - viewportCenter);
-
       if (distance < closestDistance) {
         closestDistance = distance;
         activePhoto = photo;
@@ -235,12 +104,13 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       }
     });
 
-    if (!activePhoto || closestDistance > triggerRange) {
-      clearNonSpotlightEffects();
+    if (!activePhoto || activeEffect === "none") {
+      body.classList.remove("has-scroll-effect", "effect-focus", "effect-monochrome", "effect-lift");
+      body.style.removeProperty("--effect-strength");
       return;
     }
 
-    body.classList.remove("effect-spotlight", "effect-monochrome", "effect-drift", "effect-veil");
+    body.classList.remove("effect-focus", "effect-monochrome", "effect-lift");
     body.classList.add("has-scroll-effect", `effect-${activeEffect}`);
     body.style.setProperty("--effect-strength", effectStrength.toFixed(3));
     activePhoto.classList.add("is-effect-active");
@@ -254,9 +124,40 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     effectFrame = window.requestAnimationFrame(updateEffects);
   };
 
-  const refreshSpotlightObservers = () => {
-    updateSpotlightLayout();
-    setupSpotlightTriggers();
+  const refreshEffectObservers = () => {
+    visibilityObserver?.disconnect();
+    visiblePhotos.clear();
+
+    if (!effectsShouldRun()) {
+      queueEffectUpdate();
+      return;
+    }
+
+    visibilityObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const photo = entry.target;
+          if (!(photo instanceof HTMLElement)) {
+            return;
+          }
+          if (entry.isIntersecting && entry.intersectionRatio > 0.12) {
+            visiblePhotos.add(photo);
+          } else {
+            visiblePhotos.delete(photo);
+          }
+        });
+        queueEffectUpdate();
+      },
+      {
+        threshold: [0, 0.12, 0.3, 0.55, 0.8, 1],
+        rootMargin: "0px 0px -8% 0px",
+      }
+    );
+
+    grid.querySelectorAll(".editable-photo").forEach((photo) => {
+      visibilityObserver.observe(photo);
+    });
+
     queueEffectUpdate();
   };
 
@@ -271,16 +172,16 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     window.addEventListener("resize", () => {
       syncMobileLayoutState();
       updateMobileExtendedLayout();
-      refreshSpotlightObservers();
+      refreshEffectObservers();
     });
     window.addEventListener("orientationchange", () => {
       syncMobileLayoutState();
       updateMobileExtendedLayout();
-      refreshSpotlightObservers();
+      refreshEffectObservers();
     });
     window.addEventListener("load", () => {
       updateMobileExtendedLayout();
-      refreshSpotlightObservers();
+      refreshEffectObservers();
     });
     window.addEventListener("scroll", queueEffectUpdate, { passive: true });
 
@@ -289,19 +190,21 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       (event) => {
         if (event.target instanceof HTMLImageElement) {
           updateMobileExtendedLayout();
-          refreshSpotlightObservers();
+          queueEffectUpdate();
         }
       },
       true
     );
+
+    refreshEffectObservers();
   };
 
   return {
     bind,
     queueEffectUpdate,
     updateMobileExtendedLayout,
-    updateSpotlightLayout,
-    refreshSpotlightObservers,
+    updateSpotlightLayout: () => {},
+    refreshSpotlightObservers: refreshEffectObservers,
     syncMobileLayoutState,
   };
 };
