@@ -1636,11 +1636,13 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     grid-area: title;
     margin: 0;
     max-width: none;
-    writing-mode: vertical-lr;
-    text-orientation: mixed;
-    transform: rotate(180deg);
+    writing-mode: horizontal-tb;
+    text-orientation: initial;
+    transform: rotate(90deg);
     transform-origin: center center;
     white-space: nowrap;
+    justify-self: center;
+    align-self: center;
   }
 
   .album-page.is-mobile-layout .album-hero-intro.mobile-sideview-hero .album-hero-arrow {
