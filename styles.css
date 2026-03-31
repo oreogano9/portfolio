@@ -350,15 +350,18 @@ button {
 }
 
 .album-page-header.has-top-subalbum-index {
+  display: flex;
+  flex-direction: column;
   min-height: calc(100svh - 0.75rem);
-  align-content: end;
-  padding-bottom: 0.35rem;
+  gap: 0.55rem;
+  padding-bottom: 0;
 }
 
 .album-page-header.has-top-subalbum-index .subalbum-index {
-  align-self: end;
-  justify-self: center;
+  margin-top: auto;
+  align-self: center;
   width: min(100%, 58rem);
+  padding-bottom: 0.35rem;
 }
 
 .album-page-header.has-top-subalbum-index .subalbum-index-track {
@@ -1252,10 +1255,8 @@ button {
 @media (max-width: 700px) {
   .album-page-header.has-top-subalbum-index {
     min-height: calc(100svh - 1.25rem);
-    grid-template-rows: auto 1fr auto;
-    align-content: stretch;
-    align-items: start;
-    padding-bottom: 0.35rem;
+    gap: 0.45rem;
+    padding-bottom: 0;
   }
 
   .subalbum-index {
@@ -1264,8 +1265,8 @@ button {
 
   .album-page-header.has-top-subalbum-index .subalbum-index {
     width: 100%;
-    justify-self: stretch;
-    align-self: end;
+    align-self: stretch;
+    padding-bottom: 0.5rem;
   }
 
   .album-page-header.has-top-subalbum-index .subalbum-index-track {
@@ -1275,6 +1276,7 @@ button {
   .album-page-header.has-top-subalbum-index .album-hero-intro,
   .album-page-header.has-top-subalbum-index .masthead-title {
     align-self: center;
+    width: 100%;
   }
 }
 
