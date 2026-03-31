@@ -829,8 +829,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo {
-  opacity: 0.16;
-  filter: grayscale(1) contrast(0.92) brightness(0.88);
+  opacity: 1;
+  filter: grayscale(1);
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo.is-effect-active {
