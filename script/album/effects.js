@@ -26,7 +26,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
 
   const updateMobileExtendedLayout = () => {
     if (!body.classList.contains("is-mobile-layout")) {
-      grid.querySelectorAll(".editable-photo.mobile-extended-candidate").forEach((wrapper) => {
+      grid.querySelectorAll(".editable-photo.mobile-extended-candidate, .editable-photo.mobile-rotate-candidate").forEach((wrapper) => {
         wrapper.style.removeProperty("--mobile-extended-frame-height");
         wrapper.style.removeProperty("--mobile-extended-image-width");
         wrapper.style.removeProperty("--mobile-extended-image-height");
@@ -34,15 +34,17 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       return;
     }
 
-    grid.querySelectorAll(".editable-photo.mobile-extended-candidate").forEach((wrapper) => {
+    grid.querySelectorAll(".editable-photo.mobile-extended-candidate, .editable-photo.mobile-rotate-candidate").forEach((wrapper) => {
       const ratio = Number(wrapper.dataset.ratio);
       const frameWidth = wrapper.clientWidth;
-      if (!(ratio > 1) || !(frameWidth > 0)) {
+      const isAlbumRotateCandidate = wrapper.classList.contains("mobile-rotate-candidate");
+      const effectiveRatio = isAlbumRotateCandidate ? Math.max(ratio, 1 / ratio) : ratio;
+      if (!(effectiveRatio > 1) || !(frameWidth > 0)) {
         return;
       }
 
-      wrapper.style.setProperty("--mobile-extended-frame-height", `${frameWidth * ratio}px`);
-      wrapper.style.setProperty("--mobile-extended-image-width", `${frameWidth * ratio}px`);
+      wrapper.style.setProperty("--mobile-extended-frame-height", `${frameWidth * effectiveRatio}px`);
+      wrapper.style.setProperty("--mobile-extended-image-width", `${frameWidth * effectiveRatio}px`);
       wrapper.style.setProperty("--mobile-extended-image-height", `${frameWidth}px`);
     });
   };

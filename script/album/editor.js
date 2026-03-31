@@ -6,6 +6,7 @@ import {
   getSettingsSignature,
   normalizeEffect,
   normalizeIntro,
+  normalizeMobileRotateClockwise,
   normalizePhoto,
   normalizeSections,
   normalizeSettingsPath,
@@ -127,6 +128,7 @@ export const setupAlbumEditor = async () => {
   const state = {
     title: (typeof preferredState?.title === "string" && preferredState.title.trim()) || title.textContent.trim(),
     titleScale: normalizeTitleScale(preferredState?.titleScale),
+    mobileRotateClockwise: normalizeMobileRotateClockwise(preferredState?.mobileRotateClockwise),
     spacing: ["tight", "default", "airy"].includes(preferredState?.spacing) ? preferredState.spacing : "tight",
     topSpacer: normalizeTopSpacer(preferredState?.topSpacer),
     effect: normalizeEffect(preferredState?.effect),
@@ -314,12 +316,17 @@ export const setupAlbumEditor = async () => {
       <option value="true">Arrow On</option>
       <option value="false">Arrow Off</option>
     </select>
+    <select class="header-edit-select" aria-label="Experimental mobile clockwise rotate">
+      <option value="false">Mobile Rotate Off</option>
+      <option value="true">Mobile Rotate On</option>
+    </select>
     <button class="header-edit-toggle" type="button" data-action="toggle-deleted" aria-pressed="false">Show Deleted</button>
   `;
   header.appendChild(headerControls);
 
   const [titleInput, titleScaleInput, topSpacerInput] = headerControls.querySelectorAll(".header-edit-input");
-  const [spacingSelect, effectSelect, introModeSelect, introArrowSelect] = headerControls.querySelectorAll(".header-edit-select");
+  const [spacingSelect, effectSelect, introModeSelect, introArrowSelect, mobileRotateSelect] =
+    headerControls.querySelectorAll(".header-edit-select");
   const deletedToggle = headerControls.querySelector('[data-action="toggle-deleted"]');
 
   const effects = createAlbumEffects({
@@ -483,6 +490,7 @@ export const setupAlbumEditor = async () => {
     effectSelect.value = state.effect;
     introModeSelect.value = state.intro.mode;
     introArrowSelect.value = state.intro.showArrow ? "true" : "false";
+    mobileRotateSelect.value = state.mobileRotateClockwise ? "true" : "false";
     syncModeUi();
     saveButtons.forEach((button) => {
       button.textContent = saveState.pending ? "Saving..." : saveState.message || "Save";
@@ -583,6 +591,12 @@ export const setupAlbumEditor = async () => {
 
   introArrowSelect.addEventListener("change", (event) => {
     state.intro.showArrow = event.target.value === "true";
+    save();
+    render();
+  });
+
+  mobileRotateSelect.addEventListener("change", (event) => {
+    state.mobileRotateClockwise = event.target.value === "true";
     save();
     render();
   });

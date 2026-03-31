@@ -66,6 +66,18 @@ export const normalizeTitleScale = (value, fallback = 1) => {
   return Math.max(0.6, Math.min(1.8, numeric || 1));
 };
 
+export const normalizeMobileRotateClockwise = (value, fallback = false) => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  if (typeof fallback === "boolean") {
+    return fallback;
+  }
+
+  return false;
+};
+
 export const normalizeIntro = (value, fallback = {}) => ({
   mode: value?.mode === "hero" ? "hero" : fallback.mode === "hero" ? "hero" : "default",
   heroImageSrc:
@@ -124,6 +136,7 @@ export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} })
   id: galleryId,
   title: typeof input.title === "string" ? input.title : titleFallback,
   titleScale: normalizeTitleScale(input.titleScale),
+  mobileRotateClockwise: normalizeMobileRotateClockwise(input.mobileRotateClockwise),
   spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "tight",
   topSpacer: normalizeTopSpacer(input.topSpacer),
   effect: normalizeEffect(input.effect),
@@ -174,6 +187,7 @@ export const serializeState = (state, galleryId) => ({
   id: galleryId,
   title: state.title,
   titleScale: normalizeTitleScale(state.titleScale),
+  mobileRotateClockwise: normalizeMobileRotateClockwise(state.mobileRotateClockwise),
   spacing: state.spacing,
   topSpacer: normalizeTopSpacer(state.topSpacer),
   effect: state.effect,

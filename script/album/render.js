@@ -65,10 +65,12 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
   const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
   const wrapper = document.createElement("figure");
   const isExtendedLandscape = photo.size === "extended" && photo.landscape === true;
+  const hasAspectRatio = Number.isFinite(Number(photo.aspectRatio)) && Number(photo.aspectRatio) > 0;
+  const isMobileRotateCandidate = !isDeleted && state.mobileRotateClockwise && hasAspectRatio;
   const isJoinable = !isDeleted && canJoinPhoto(state, index, normalizeEffect);
   const canShowUnjoin = !isDeleted && photo.joinWithPrevious;
   const isHeroImage = !isDeleted && state.intro.heroImageSrc === photo.src;
-  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}`;
+  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${isMobileRotateCandidate ? " mobile-rotate-candidate" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}`;
   wrapper.dataset.index = String(index);
   wrapper.dataset.src = photo.src;
   wrapper.dataset.effect = effectiveEffect;

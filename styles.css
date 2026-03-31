@@ -747,7 +747,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   margin-right: 0;
 }
 
-.album-page.is-mobile-layout .editable-photo.mobile-extended-candidate {
+.album-page.is-mobile-layout .editable-photo.mobile-extended-candidate,
+.album-page.is-mobile-layout .editable-photo.mobile-rotate-candidate {
   width: 100%;
   margin-left: 0;
   margin-right: 0;
@@ -757,13 +758,15 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   overflow: hidden;
 }
 
-.album-page.is-mobile-layout .editable-photo.mobile-extended-candidate .photo-stage {
+.album-page.is-mobile-layout .editable-photo.mobile-extended-candidate .photo-stage,
+.album-page.is-mobile-layout .editable-photo.mobile-rotate-candidate .photo-stage {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.album-page.is-mobile-layout .editable-photo.mobile-extended-candidate img {
+.album-page.is-mobile-layout .editable-photo.mobile-extended-candidate img,
+.album-page.is-mobile-layout .editable-photo.mobile-rotate-candidate img {
   position: absolute;
   top: 50%;
   left: 50%;
