@@ -54,11 +54,19 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
 
   const updateSpotlightLayout = () => {
     const viewportHeight = window.visualViewport?.height || window.innerHeight;
-    const spotlightTravel = viewportHeight * 0.8;
+    const spotlightTravel = viewportHeight * (body.classList.contains("is-mobile-layout") ? 0.62 : 0.78);
+    const shouldUseSpotlightLayout = !state.editing || state.previewing;
 
     grid.querySelectorAll(".editable-photo.spotlight-shell").forEach((wrapper) => {
       const stage = wrapper.querySelector(".photo-stage");
       if (!(stage instanceof HTMLElement)) {
+        return;
+      }
+
+      if (!shouldUseSpotlightLayout) {
+        wrapper.style.removeProperty("--spotlight-shell-height");
+        wrapper.style.removeProperty("--spotlight-stage-top");
+        wrapper.style.removeProperty("--spotlight-shell-travel");
         return;
       }
 
@@ -68,9 +76,10 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       }
 
       const centeredTop = Math.max(0, (viewportHeight - stageHeight) / 2);
-      wrapper.style.setProperty("--spotlight-shell-top-gap", "0px");
-      wrapper.style.setProperty("--spotlight-shell-bottom-gap", `${spotlightTravel}px`);
+      const shellHeight = stageHeight + spotlightTravel;
+      wrapper.style.setProperty("--spotlight-shell-height", `${shellHeight}px`);
       wrapper.style.setProperty("--spotlight-stage-top", `${centeredTop}px`);
+      wrapper.style.setProperty("--spotlight-shell-travel", `${spotlightTravel}px`);
     });
   };
 
@@ -115,9 +124,13 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       const rect = photo.getBoundingClientRect();
       const stage = photo.querySelector(".photo-stage");
       const stageRect = stage instanceof HTMLElement ? stage.getBoundingClientRect() : rect;
-      const stickyTop = Math.max(0, (viewportHeight - stageRect.height) / 2);
-      const activeWindow = Math.max(1, rect.height - stageRect.height);
-      const isInWindow = rect.top <= stickyTop && rect.bottom >= stickyTop + stageRect.height;
+      const stickyTop = parseFloat(photo.style.getPropertyValue("--spotlight-stage-top")) || Math.max(0, (viewportHeight - stageRect.height) / 2);
+      const activeWindow = Math.max(
+        1,
+        parseFloat(photo.style.getPropertyValue("--spotlight-shell-travel")) || rect.height - stageRect.height
+      );
+      const stickyBottom = stickyTop + stageRect.height;
+      const isInWindow = rect.top <= stickyTop && rect.bottom >= stickyBottom;
       if (!isInWindow) {
         return;
       }
@@ -127,11 +140,12 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       if (distance < closestDistance) {
         const rawProgress = (stickyTop - rect.top) / activeWindow;
         const clampedProgress = Math.max(0, Math.min(1, rawProgress));
+        const centerDistanceStrength = Math.max(0, 1 - distance / (viewportHeight * 0.38));
         const edgeStrength = Math.min(clampedProgress, 1 - clampedProgress) * 2;
         closestDistance = distance;
         activePhoto = photo;
         activeEffect = "spotlight";
-        effectStrength = Math.max(0.2, Math.min(1, edgeStrength));
+        effectStrength = Math.max(0.22, Math.min(1, Math.max(edgeStrength, centerDistanceStrength)));
         spotlightProgress = clampedProgress;
       }
     });
@@ -165,7 +179,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     activePhoto.classList.add("is-effect-active");
     activePhoto.style.setProperty("--effect-strength", effectStrength.toFixed(3));
     if (activeEffect === "spotlight") {
-      const followOffset = (0.5 - spotlightProgress) * viewportHeight * 0.16;
+      const followOffset = (0.5 - spotlightProgress) * viewportHeight * 0.08;
       activePhoto.style.setProperty("--spotlight-follow-offset", `${followOffset.toFixed(2)}px`);
     }
   };

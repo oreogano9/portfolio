@@ -784,11 +784,9 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .editable-photo.spotlight-shell {
-  padding-top: var(--spotlight-shell-top-gap, 0px);
-  padding-bottom: var(--spotlight-shell-bottom-gap, 0px);
-  margin-bottom: calc(-1 * var(--spotlight-shell-bottom-gap, 0px));
   position: relative;
   z-index: 0;
+  min-height: var(--spotlight-shell-height, auto);
 }
 
 .editable-photo.spotlight-shell .photo-stage {
@@ -797,6 +795,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   width: 100%;
   transform: translateY(var(--spotlight-follow-offset, 0px));
   z-index: 1;
+  will-change: transform;
 }
 
 .editable-photo img {
