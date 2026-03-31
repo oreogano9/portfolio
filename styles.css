@@ -1,48 +1,48 @@
 @font-face {
   font-family: "ClashDisplay";
-  src: url("./fonts/ClashDisplay-Light.otf") format("opentype");
+  src: url("/fonts/ClashDisplay-Light.otf") format("opentype");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: "ClashDisplay";
-  src: url("./fonts/ClashDisplay-Regular.otf") format("opentype");
+  src: url("/fonts/ClashDisplay-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "ClashDisplay";
-  src: url("./fonts/ClashDisplay-Medium.otf") format("opentype");
+  src: url("/fonts/ClashDisplay-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "ClashDisplay";
-  src: url("./fonts/ClashDisplay-Semibold.otf") format("opentype");
+  src: url("/fonts/ClashDisplay-Semibold.otf") format("opentype");
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: "ClashDisplay";
-  src: url("./fonts/ClashDisplay-Bold.otf") format("opentype");
+  src: url("/fonts/ClashDisplay-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: "NeueHaasDisplay";
-  src: url("./assets/fonts/NeueHaasDisplayRoman.ttf") format("truetype");
+  src: url("/assets/fonts/NeueHaasDisplayRoman.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "NeueHaasDisplay";
-  src: url("./assets/fonts/NeueHaasDisplayBold.ttf") format("truetype");
+  src: url("/assets/fonts/NeueHaasDisplayBold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
 }
@@ -566,6 +566,11 @@ button {
   gap: var(--album-gap);
   max-width: 58rem;
   transition: gap 320ms ease;
+}
+
+.album-render-sentinel {
+  width: 100%;
+  height: 1px;
 }
 
 .subalbum-section-heading {
