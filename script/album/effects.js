@@ -72,8 +72,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     }
 
     const viewportHeight = window.visualViewport?.height || window.innerHeight;
-    const activationLine = viewportHeight * 0.33;
-    const fadeRange = viewportHeight * 0.45;
+    const viewportCenter = viewportHeight * 0.5;
+    const fadeRange = viewportHeight * 0.72;
     const candidates = effectPhotos.filter((photo) => visiblePhotos.has(photo));
     const activePool = candidates.length ? candidates : effectPhotos;
 
@@ -94,13 +94,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
         return;
       }
 
-      const crossesActivationLine = rect.top <= activationLine && rect.bottom >= activationLine;
-      if (!crossesActivationLine) {
-        return;
-      }
-
       const photoCenter = rect.top + rect.height / 2;
-      const distance = Math.abs(photoCenter - activationLine);
+      const distance = Math.abs(photoCenter - viewportCenter);
       if (distance < closestDistance) {
         closestDistance = distance;
         activePhoto = photo;
