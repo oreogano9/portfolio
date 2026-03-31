@@ -3,10 +3,14 @@ export const setupLightbox = () => {
   const lightboxImage = lightbox?.querySelector(".lightbox-image");
   const closeButton = lightbox?.querySelector(".lightbox-close");
   const grid = document.querySelector(".album-detail-grid");
+  const mobileLayoutQuery = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)");
 
   if (!lightbox || !lightboxImage || !closeButton || !grid) {
     return;
   }
+
+  let currentImageRatio = 0;
+  let currentUsesRotatedMobileFrame = false;
 
   const gesture = {
     scale: 1,
@@ -25,6 +29,49 @@ export const setupLightbox = () => {
   const applyImageTransform = () => {
     lightboxImage.style.transform = `translate(${gesture.translateX}px, ${gesture.translateY}px) scale(${gesture.scale}) rotate(${gesture.rotation}deg)`;
     lightboxImage.style.cursor = gesture.scale > 1 ? "grab" : "";
+  };
+
+  const getImageAspectRatio = (image) => {
+    if (!(image instanceof HTMLImageElement)) {
+      return 0;
+    }
+
+    if (image.naturalWidth > 0 && image.naturalHeight > 0) {
+      return image.naturalWidth / image.naturalHeight;
+    }
+
+    const widthAttr = Number(image.getAttribute("width"));
+    const heightAttr = Number(image.getAttribute("height"));
+    if (widthAttr > 0 && heightAttr > 0) {
+      return widthAttr / heightAttr;
+    }
+
+    const wrapperRatio = Number(image.closest(".editable-photo")?.dataset.ratio);
+    if (wrapperRatio > 0) {
+      return wrapperRatio;
+    }
+
+    return 0;
+  };
+
+  const updateLightboxFrame = () => {
+    lightboxImage.classList.toggle("is-rotated-mobile", currentUsesRotatedMobileFrame);
+    lightboxImage.style.removeProperty("width");
+    lightboxImage.style.removeProperty("height");
+
+    if (!currentUsesRotatedMobileFrame || !(currentImageRatio > 0)) {
+      return;
+    }
+
+    const viewportWidth = window.visualViewport?.width || window.innerWidth;
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const availableWidth = viewportWidth * 0.92;
+    const availableHeight = viewportHeight * 0.88;
+    const preRotationWidth = Math.min(availableHeight, availableWidth * currentImageRatio);
+    const preRotationHeight = preRotationWidth / currentImageRatio;
+
+    lightboxImage.style.width = `${preRotationWidth}px`;
+    lightboxImage.style.height = `${preRotationHeight}px`;
   };
 
   const resetImageTransform = () => {
@@ -60,13 +107,15 @@ export const setupLightbox = () => {
     lightbox.setAttribute("aria-hidden", "true");
     lightboxImage.setAttribute("src", "");
     lightboxImage.setAttribute("alt", "");
-    lightboxImage.classList.remove("is-rotated-mobile");
+    currentImageRatio = 0;
+    currentUsesRotatedMobileFrame = false;
+    updateLightboxFrame();
     document.body.style.overflow = "";
     resetImageTransform();
   };
 
   const shouldOpenRotatedMobile = (image) => {
-    if (!(image instanceof HTMLImageElement) || !document.body.classList.contains("is-mobile-layout")) {
+    if (!(image instanceof HTMLImageElement) || !mobileLayoutQuery.matches) {
       return false;
     }
 
@@ -82,15 +131,16 @@ export const setupLightbox = () => {
   };
 
   const openLightbox = (image) => {
-    const shouldRotateMobile = shouldOpenRotatedMobile(image);
+    currentImageRatio = getImageAspectRatio(image);
+    currentUsesRotatedMobileFrame = shouldOpenRotatedMobile(image);
     lightboxImage.setAttribute("src", image.dataset.fullSrc || image.getAttribute("src") || "");
     lightboxImage.setAttribute("alt", image.getAttribute("alt") || "");
-    lightboxImage.classList.toggle("is-rotated-mobile", Boolean(shouldRotateMobile));
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
     resetImageTransform();
-    if (shouldRotateMobile) {
+    updateLightboxFrame();
+    if (currentUsesRotatedMobileFrame) {
       gesture.rotation = 90;
       applyImageTransform();
     }
@@ -248,4 +298,26 @@ export const setupLightbox = () => {
     gesture.pinchCenterX = 0;
     gesture.pinchCenterY = 0;
   });
+
+  lightboxImage.addEventListener("load", () => {
+    if (!lightbox.classList.contains("is-open")) {
+      return;
+    }
+    currentImageRatio = getImageAspectRatio(lightboxImage) || currentImageRatio;
+    updateLightboxFrame();
+    applyImageTransform();
+  });
+
+  const handleViewportChange = () => {
+    if (!lightbox.classList.contains("is-open")) {
+      return;
+    }
+    currentUsesRotatedMobileFrame = currentUsesRotatedMobileFrame && mobileLayoutQuery.matches;
+    updateLightboxFrame();
+    applyImageTransform();
+  };
+
+  window.addEventListener("resize", handleViewportChange);
+  window.addEventListener("orientationchange", handleViewportChange);
+  window.visualViewport?.addEventListener?.("resize", handleViewportChange);
 };
