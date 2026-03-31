@@ -1,5 +1,6 @@
 export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
   const mobileLayoutQuery = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)");
+  const effectClassNames = ["effect-focus", "effect-monochrome", "effect-lift", "effect-blur", "effect-glow", "effect-tilt"];
   const visiblePhotos = new Set();
   let effectFrame = null;
   let visibilityObserver = null;
@@ -12,7 +13,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     visibilityObserver?.disconnect();
     visibilityObserver = null;
     visiblePhotos.clear();
-    body.classList.remove("has-scroll-effect", "effect-focus", "effect-monochrome", "effect-lift");
+    body.classList.remove("has-scroll-effect", ...effectClassNames);
     body.style.removeProperty("--effect-strength");
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       photo.classList.remove("is-effect-active", "is-effect-visible");
@@ -62,7 +63,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
 
     const effectPhotos = photos.filter((photo) => normalizeEffect(photo.dataset.effect) !== "none");
     if (!effectPhotos.length) {
-      body.classList.remove("has-scroll-effect", "effect-focus", "effect-monochrome", "effect-lift");
+      body.classList.remove("has-scroll-effect", ...effectClassNames);
       body.style.removeProperty("--effect-strength");
       photos.forEach((photo) => {
         photo.classList.remove("is-effect-active", "is-effect-visible");
@@ -122,7 +123,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       }
     });
 
-    if (activeEffect === "focus" && nearestPhoto instanceof HTMLElement) {
+    if (activeEffect !== "none" && nearestPhoto instanceof HTMLElement) {
       const nearestEffect = normalizeEffect(nearestPhoto.dataset.effect);
       if (nearestEffect === "none" && nearestDistance <= closestDistance) {
         activePhoto = null;
@@ -131,12 +132,12 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     }
 
     if (!activePhoto || activeEffect === "none") {
-      body.classList.remove("has-scroll-effect", "effect-focus", "effect-monochrome", "effect-lift");
+      body.classList.remove("has-scroll-effect", ...effectClassNames);
       body.style.removeProperty("--effect-strength");
       return;
     }
 
-    body.classList.remove("effect-focus", "effect-monochrome", "effect-lift");
+    body.classList.remove(...effectClassNames);
     body.classList.add("has-scroll-effect", `effect-${activeEffect}`);
     body.style.setProperty("--effect-strength", effectStrength.toFixed(3));
     activePhoto.classList.add("is-effect-active");

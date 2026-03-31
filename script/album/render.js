@@ -96,6 +96,9 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
           <option value="focus"${photo.effect === "focus" ? " selected" : ""}>FOCUS</option>
           <option value="monochrome"${photo.effect === "monochrome" ? " selected" : ""}>MONOCHROME</option>
           <option value="lift"${photo.effect === "lift" ? " selected" : ""}>LIFT</option>
+          <option value="blur"${photo.effect === "blur" ? " selected" : ""}>BLUR</option>
+          <option value="glow"${photo.effect === "glow" ? " selected" : ""}>GLOW</option>
+          <option value="tilt"${photo.effect === "tilt" ? " selected" : ""}>TILT</option>
         </select>
         <button class="photo-toggle-button photo-delete-button${isDeleted ? " is-active" : ""}" type="button" data-action="delete-toggle" aria-label="${isDeleted ? "Restore image" : "Remove image"}">${isDeleted ? "RESTORE" : "REMOVE"}</button>
       </div>

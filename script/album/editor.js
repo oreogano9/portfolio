@@ -294,6 +294,9 @@ export const setupAlbumEditor = async () => {
       <option value="focus">Focus</option>
       <option value="monochrome">Monochrome</option>
       <option value="lift">Lift</option>
+      <option value="blur">Blur</option>
+      <option value="glow">Glow</option>
+      <option value="tilt">Tilt</option>
     </select>
     <select class="header-edit-select" aria-label="Album intro mode">
       <option value="default">Default Intro</option>

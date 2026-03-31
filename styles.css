@@ -852,6 +852,49 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   box-shadow: 0 20px 44px rgba(0, 0, 0, calc(var(--effect-strength) * 0.12));
 }
 
+.album-page.has-scroll-effect.effect-blur .editable-photo {
+  opacity: calc(1 - (var(--effect-strength) * 0.76));
+  filter: blur(calc(var(--effect-strength) * 10px)) saturate(calc(1 - (var(--effect-strength) * 0.22)));
+  transform: scale(calc(1 - (var(--effect-strength) * 0.02)));
+}
+
+.album-page.has-scroll-effect.effect-blur .editable-photo.is-effect-active {
+  opacity: 1;
+  filter: none;
+  transform: scale(calc(0.992 + (var(--effect-strength) * 0.018)));
+}
+
+.album-page.has-scroll-effect.effect-glow .editable-photo {
+  opacity: calc(1 - (var(--effect-strength) * 0.8));
+  filter: saturate(calc(1 - (var(--effect-strength) * 0.3))) brightness(calc(1 - (var(--effect-strength) * 0.14)));
+  transform: scale(calc(1 - (var(--effect-strength) * 0.012)));
+}
+
+.album-page.has-scroll-effect.effect-glow .editable-photo.is-effect-active {
+  opacity: 1;
+  filter: saturate(calc(1 + (var(--effect-strength) * 0.4))) brightness(calc(1 + (var(--effect-strength) * 0.1)));
+  transform: scale(calc(0.995 + (var(--effect-strength) * 0.02)));
+  box-shadow:
+    0 20px 42px rgba(0, 0, 0, calc(var(--effect-strength) * 0.12)),
+    0 0 0.9rem rgba(255, 248, 224, calc(var(--effect-strength) * 0.32));
+}
+
+.album-page.has-scroll-effect.effect-tilt .editable-photo {
+  opacity: calc(1 - (var(--effect-strength) * 0.74));
+  filter: none;
+  transform:
+    translateY(calc(var(--effect-strength) * 0.55rem))
+    rotate(calc(var(--effect-strength) * -1.35deg))
+    scale(calc(1 - (var(--effect-strength) * 0.018)));
+}
+
+.album-page.has-scroll-effect.effect-tilt .editable-photo.is-effect-active {
+  opacity: 1;
+  filter: none;
+  transform: translateY(0) rotate(0deg) scale(calc(0.992 + (var(--effect-strength) * 0.018)));
+  box-shadow: 0 18px 36px rgba(0, 0, 0, calc(var(--effect-strength) * 0.1));
+}
+
 .photo-controls,
 .header-edit-controls,
 .spacer-control {
