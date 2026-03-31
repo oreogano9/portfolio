@@ -324,6 +324,20 @@ export const setupAlbumEditor = async () => {
     render();
   };
 
+  const copySpacerValue = (fromIndex, toIndex) => {
+    if (toIndex < 0 || toIndex >= state.photos.length) {
+      return;
+    }
+
+    if (state.photos[toIndex].deleted) {
+      return;
+    }
+
+    state.photos[toIndex].spacerAfter = Math.max(0, Math.min(50, Number(state.photos[fromIndex].spacerAfter) || 0));
+    save();
+    render();
+  };
+
   const render = () => {
     title.textContent = state.title;
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
@@ -435,7 +449,7 @@ export const setupAlbumEditor = async () => {
 
   grid.addEventListener("click", (event) => {
     const button = event.target.closest(
-      ".photo-control-button, .spacer-reset, .photo-join-button, .photo-hero-button, .photo-delete-button"
+      ".photo-control-button, .spacer-reset, .spacer-copy-button, .photo-join-button, .photo-hero-button, .photo-delete-button"
     );
     if (!button) {
       return;
@@ -463,6 +477,10 @@ export const setupAlbumEditor = async () => {
       render();
     } else if (action === "spacer-reset") {
       updateSpacer(index, 0);
+    } else if (action === "spacer-copy-up") {
+      copySpacerValue(index, index - 1);
+    } else if (action === "spacer-copy-down") {
+      copySpacerValue(index, index + 1);
     } else if (action === "join-toggle") {
       if (state.photos[index].joinWithPrevious) {
         state.photos[index].joinWithPrevious = false;

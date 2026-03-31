@@ -50,6 +50,10 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect }) => {
       </div>
       <div class="spacer-control">
         <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
+        <div class="spacer-copy-row">
+          <button class="spacer-copy-button" type="button" data-action="spacer-copy-up" aria-label="Copy this space amount to the image above"${isDeleted ? " disabled" : ""}>↑</button>
+          <button class="spacer-copy-button" type="button" data-action="spacer-copy-down" aria-label="Copy this space amount to the image below"${isDeleted ? " disabled" : ""}>↓</button>
+        </div>
         <label>
           SPACE
           <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>

@@ -945,6 +945,27 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   text-transform: uppercase;
 }
 
+.spacer-copy-row {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 0.45rem;
+}
+
+.spacer-copy-button {
+  min-width: 1.7rem;
+  min-height: 1.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.spacer-copy-button:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
 .spacer-value {
   font-size: 0.76rem;
   letter-spacing: 0;
