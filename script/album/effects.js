@@ -147,6 +147,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       const trigger = ScrollTrigger.create({
         trigger: wrapper,
         pin: stage,
+        pinType: "fixed",
         start: () => {
           const viewportHeight = window.visualViewport?.height || window.innerHeight;
           const stageHeight = stage.getBoundingClientRect().height;
