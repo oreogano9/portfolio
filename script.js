@@ -154,7 +154,7 @@ const setupAlbumEditor = async () => {
   const albumIsNested = window.location.pathname.includes("/albums/");
   const effectOptions = ["none", "spotlight", "monochrome", "drift", "veil"];
   const normalizeEffect = (value, fallback = "none") => (effectOptions.includes(value) ? value : fallback);
-  const normalizeAssetPath = (value) => {
+  const resolveAssetPathForPage = (value) => {
     if (typeof value !== "string") {
       return "";
     }
@@ -163,6 +163,18 @@ const setupAlbumEditor = async () => {
     }
     if (albumIsNested && value.startsWith("./assets/")) {
       return value.replace("./assets/", "../assets/");
+    }
+    return value;
+  };
+  const toCanonicalAssetPath = (value) => {
+    if (typeof value !== "string") {
+      return "";
+    }
+    if (value.startsWith("../images/")) {
+      return value.replace("../images/", "./images/");
+    }
+    if (value.startsWith("../assets/")) {
+      return value.replace("../assets/", "./assets/");
     }
     return value;
   };
@@ -190,9 +202,9 @@ const setupAlbumEditor = async () => {
     mode: value?.mode === "hero" ? "hero" : fallback.mode === "hero" ? "hero" : "default",
     heroImageSrc:
       typeof value?.heroImageSrc === "string"
-        ? normalizeAssetPath(value.heroImageSrc)
+        ? resolveAssetPathForPage(value.heroImageSrc)
         : typeof fallback.heroImageSrc === "string"
-          ? normalizeAssetPath(fallback.heroImageSrc)
+          ? resolveAssetPathForPage(fallback.heroImageSrc)
           : "",
     showArrow:
       typeof value?.showArrow === "boolean"
@@ -210,7 +222,7 @@ const setupAlbumEditor = async () => {
   };
 
   const normalizePhoto = (photo, fallback = {}) => ({
-    src: typeof photo?.src === "string" ? normalizeAssetPath(photo.src) : normalizeAssetPath(fallback.src || ""),
+    src: typeof photo?.src === "string" ? resolveAssetPathForPage(photo.src) : resolveAssetPathForPage(fallback.src || ""),
     alt: typeof photo?.alt === "string" ? photo.alt : fallback.alt || "",
     section: typeof photo?.section === "string" ? photo.section : fallback.section || "",
     size: sizeOptions.includes(photo?.size) ? photo.size : fallback.size || "full",
@@ -331,23 +343,36 @@ const setupAlbumEditor = async () => {
     previewing: false,
   };
 
+  function getPersistedAlbumState(dirty = true, syncedSignature = "") {
+    return {
+      title: state.title,
+      spacing: state.spacing,
+      effect: state.effect,
+      intro: {
+        mode: state.intro.mode,
+        heroImageSrc: toCanonicalAssetPath(state.intro.heroImageSrc),
+        showArrow: state.intro.showArrow,
+      },
+      sections: state.sections,
+      photos: state.photos.map((photo) => ({
+        src: toCanonicalAssetPath(photo.src),
+        alt: photo.alt,
+        section: photo.section,
+        size: photo.size,
+        spacerAfter: photo.spacerAfter,
+        effect: photo.effect,
+        joinWithPrevious: photo.joinWithPrevious,
+      })),
+      meta: {
+        dirty,
+        baseSignature: currentSyncedSignature,
+        syncedSignature,
+      },
+    };
+  }
+
   if (!shouldUseSavedState && jsonState) {
-    window.localStorage.setItem(
-      storageKey,
-      JSON.stringify({
-        title: state.title,
-        spacing: state.spacing,
-        effect: state.effect,
-        intro: state.intro,
-        sections: state.sections,
-        photos: state.photos,
-        meta: {
-          dirty: false,
-          baseSignature: currentSyncedSignature,
-          syncedSignature: currentSyncedSignature,
-        },
-      })
-    );
+    window.localStorage.setItem(storageKey, JSON.stringify(getPersistedAlbumState(false, currentSyncedSignature)));
   }
 
   const ensureLandscapeState = (photo) => {
@@ -367,19 +392,7 @@ const setupAlbumEditor = async () => {
   const save = () => {
     window.localStorage.setItem(
       storageKey,
-      JSON.stringify({
-        title: state.title,
-        spacing: state.spacing,
-        effect: state.effect,
-        intro: state.intro,
-        sections: state.sections,
-        photos: state.photos,
-        meta: {
-          dirty: true,
-          baseSignature: currentSyncedSignature,
-          syncedSignature: "",
-        },
-      })
+      JSON.stringify(getPersistedAlbumState(true, ""))
     );
   };
 
@@ -393,10 +406,14 @@ const setupAlbumEditor = async () => {
     title: state.title,
     spacing: state.spacing,
     effect: state.effect,
-    intro: normalizeIntro(state.intro),
+    intro: {
+      mode: state.intro.mode,
+      heroImageSrc: toCanonicalAssetPath(state.intro.heroImageSrc),
+      showArrow: state.intro.showArrow,
+    },
     sections: state.sections,
     photos: state.photos.map((photo) => ({
-      src: normalizeAssetPath(photo.src),
+      src: toCanonicalAssetPath(photo.src),
       alt: photo.alt,
       section: photo.section,
       size: photo.size,
@@ -527,21 +544,7 @@ const setupAlbumEditor = async () => {
       }
 
       const savedSignature = getSettingsSignature(serializeSettings());
-      window.localStorage.setItem(
-        storageKey,
-        JSON.stringify({
-          title: state.title,
-          spacing: state.spacing,
-          effect: state.effect,
-          sections: state.sections,
-          photos: state.photos,
-          meta: {
-            dirty: false,
-            baseSignature: savedSignature,
-            syncedSignature: savedSignature,
-          },
-        })
-      );
+      window.localStorage.setItem(storageKey, JSON.stringify(getPersistedAlbumState(false, savedSignature)));
       currentSyncedSignature = savedSignature;
 
       saveState = {

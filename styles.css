@@ -33,6 +33,20 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "NeueHaasDisplay";
+  src: url("./assets/fonts/NeueHaasDisplayRoman.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NeueHaasDisplay";
+  src: url("./assets/fonts/NeueHaasDisplayBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
 :root {
   --bg: #fcfbf8;
   --text: #101010;
@@ -285,6 +299,7 @@ button {
 .album-hero-title {
   margin: 0;
   max-width: 14ch;
+  font-family: "ClashDisplay", sans-serif;
   font-size: clamp(2rem, 4.5vw, 4.25rem);
   font-weight: 700;
   letter-spacing: -0.05em;
