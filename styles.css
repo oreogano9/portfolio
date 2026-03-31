@@ -720,10 +720,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   --effect-strength: 0;
   --effect-direction: 1;
   transition:
-    opacity 560ms cubic-bezier(0.2, 0.65, 0.2, 1),
-    filter 560ms cubic-bezier(0.2, 0.65, 0.2, 1),
-    transform 560ms cubic-bezier(0.2, 0.65, 0.2, 1),
-    box-shadow 560ms cubic-bezier(0.2, 0.65, 0.2, 1);
+    opacity 180ms linear,
+    filter 180ms linear,
+    transform 180ms linear,
+    box-shadow 180ms linear;
 }
 
 .photo-join-row {
@@ -816,13 +816,13 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.has-scroll-effect.effect-focus .editable-photo {
-  opacity: calc(1 - (var(--effect-strength) * 0.88));
+  opacity: calc(1 - (var(--effect-strength) * 0.78));
   filter: none;
   transform: none;
 }
 
 .album-page.has-scroll-effect.effect-focus .editable-photo.is-effect-active {
-  opacity: calc(0.34 + (var(--effect-strength) * 0.66));
+  opacity: calc(0.42 + (var(--effect-strength) * 0.58));
   filter: none;
 }
 
