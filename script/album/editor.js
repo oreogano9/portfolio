@@ -337,6 +337,7 @@ export const setupAlbumEditor = async () => {
       state,
       containers: [subalbumIndex, subalbumFooterIndex],
     });
+    header.classList.toggle("has-top-subalbum-index", state.sections.length >= 2 && Boolean(subalbumIndex));
 
     cleanupRenderedBlocks();
     cleanupRenderedBlocks = mountAlbumBlocks({

@@ -117,6 +117,23 @@ export const buildAlbumBlocks = ({ state, normalizeEffect }) => {
   return blocks;
 };
 
+const updateSubalbumOverflowState = (container) => {
+  const track = container.querySelector(".subalbum-index-track");
+  if (!(track instanceof HTMLElement)) {
+    container.classList.remove("has-right-overflow", "has-left-overflow");
+    return;
+  }
+
+  const maxScrollLeft = Math.max(0, track.scrollWidth - track.clientWidth);
+  const scrollLeft = Math.max(0, track.scrollLeft);
+  const hasOverflow = maxScrollLeft > 2;
+  const hasLeftOverflow = hasOverflow && scrollLeft > 2;
+  const hasRightOverflow = hasOverflow && scrollLeft < maxScrollLeft - 2;
+
+  container.classList.toggle("has-left-overflow", hasLeftOverflow);
+  container.classList.toggle("has-right-overflow", hasRightOverflow);
+};
+
 export const renderSubalbumIndexes = ({ state, containers }) => {
   containers.forEach((container) => {
     if (!container) {
@@ -124,14 +141,50 @@ export const renderSubalbumIndexes = ({ state, containers }) => {
     }
 
     container.innerHTML = "";
-    container.classList.toggle("is-hidden", state.sections.length < 2);
+    const isVisible = state.sections.length >= 2;
+    container.classList.toggle("is-hidden", !isVisible);
+    container.classList.toggle("has-subalbum-links", isVisible);
+    if (!isVisible) {
+      container.classList.remove("has-right-overflow", "has-left-overflow");
+      container.__subalbumResizeObserver?.disconnect?.();
+      container.__subalbumResizeObserver = null;
+      return;
+    }
+
+    const track = document.createElement("div");
+    track.className = "subalbum-index-track";
     state.sections.forEach((section, index) => {
       const link = document.createElement("a");
       link.className = "subalbum-index-link";
       link.href = `#subalbum-${section.id}`;
       link.textContent = `${String(index + 1).padStart(2, "0")} ${section.title}`;
-      container.appendChild(link);
+      track.appendChild(link);
     });
+
+    container.appendChild(track);
+
+    if (!container.classList.contains("subalbum-footer-index")) {
+      const hint = document.createElement("span");
+      hint.className = "subalbum-index-hint";
+      hint.setAttribute("aria-hidden", "true");
+      hint.textContent = ">";
+      container.appendChild(hint);
+
+      container.__subalbumResizeObserver?.disconnect?.();
+      if ("ResizeObserver" in window) {
+        const observer = new ResizeObserver(() => updateSubalbumOverflowState(container));
+        observer.observe(track);
+        container.__subalbumResizeObserver = observer;
+      } else {
+        container.__subalbumResizeObserver = null;
+      }
+
+      track.addEventListener("scroll", () => updateSubalbumOverflowState(container), { passive: true });
+      window.requestAnimationFrame(() => updateSubalbumOverflowState(container));
+    } else {
+      container.__subalbumResizeObserver?.disconnect?.();
+      container.__subalbumResizeObserver = null;
+    }
   });
 };
 
