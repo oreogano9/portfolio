@@ -783,7 +783,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.is-mobile-layout .editable-photo.mobile-rotate-candidate img {
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .editable-photo.size-small {
@@ -1606,7 +1606,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     height: calc(100vw - 1.25rem);
     transform: translate(-50%, -50%) rotate(90deg);
     transform-origin: center center;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .album-page.is-mobile-layout .album-hero-intro.mobile-sideview-hero {
