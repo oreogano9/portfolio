@@ -84,6 +84,12 @@ export const normalizeIntro = (value, fallback = {}) => ({
 
 export const normalizePhoto = (photo, fallback = {}) => ({
   src: typeof photo?.src === "string" ? normalizeAssetPath(photo.src) : normalizeAssetPath(fallback.src || ""),
+  previewSrc:
+    typeof photo?.previewSrc === "string"
+      ? normalizeAssetPath(photo.previewSrc)
+      : typeof fallback.previewSrc === "string"
+        ? normalizeAssetPath(fallback.previewSrc)
+        : "",
   alt: typeof photo?.alt === "string" ? photo.alt : fallback.alt || "",
   section: typeof photo?.section === "string" ? photo.section : fallback.section || "",
   size: sizeOptions.includes(photo?.size) ? photo.size : fallback.size || "full",
@@ -179,6 +185,7 @@ export const serializeState = (state, galleryId) => ({
   sections: state.sections,
   photos: state.photos.map((photo) => ({
     src: normalizeAssetPath(photo.src),
+    previewSrc: normalizeAssetPath(photo.previewSrc),
     alt: photo.alt,
     section: photo.section,
     size: photo.size,

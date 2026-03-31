@@ -4,6 +4,57 @@ const INITIAL_BLOCK_COUNT = 12;
 const SUBSEQUENT_BLOCK_COUNT = 16;
 const INITIAL_EAGER_GRID_IMAGES = 3;
 
+const createProgressiveImage = ({
+  photo,
+  className = "",
+  loading = "lazy",
+  fetchPriority = "auto",
+  decoding = "async",
+  eagerUpgrade = false,
+}) => {
+  const image = document.createElement("img");
+  const previewSrc = typeof photo.previewSrc === "string" ? photo.previewSrc : "";
+  const fullSrc = photo.src;
+
+  image.className = className;
+  image.alt = photo.alt;
+  image.loading = loading;
+  image.setAttribute("fetchpriority", fetchPriority);
+  image.decoding = decoding;
+  image.dataset.fullSrc = fullSrc;
+  if (previewSrc && previewSrc !== fullSrc) {
+    image.src = previewSrc;
+    image.dataset.previewSrc = previewSrc;
+    image.dataset.progressive = "true";
+    image.dataset.upgraded = "false";
+
+    const upgradeToFull = () => {
+      if (image.dataset.upgraded === "true") {
+        return;
+      }
+      image.dataset.upgraded = "true";
+      const highRes = new window.Image();
+      highRes.decoding = "async";
+      if (eagerUpgrade) {
+        highRes.loading = "eager";
+        highRes.setAttribute?.("fetchpriority", "high");
+      }
+      highRes.addEventListener("load", () => {
+        image.src = fullSrc;
+        image.classList.add("is-full-res");
+      });
+      highRes.src = fullSrc;
+    };
+
+    image.addEventListener("load", upgradeToFull, { once: true });
+  } else {
+    image.src = fullSrc;
+    image.classList.add("is-full-res");
+  }
+
+  return image;
+};
+
 export const createPhotoFigure = ({ photo, index, state, normalizeEffect, renderOrder = 0 }) => {
   const isDeleted = photo.deleted === true;
   const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
@@ -27,7 +78,6 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
   wrapper.innerHTML = `
     <div class="photo-stage">
       ${isDeleted ? `<div class="photo-deleted-badge">DELETED</div>` : ""}
-      <img class="reveal-up" src="${photo.src}" alt="${photo.alt}" loading="${loading}" fetchpriority="${fetchPriority}" decoding="${decoding}" />
       <div class="photo-controls">
         <button class="photo-control-button" type="button" data-action="up" aria-label="Move image up">↑</button>
         <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
@@ -63,6 +113,19 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
       </div>
     </div>
   `;
+  const stage = wrapper.querySelector(".photo-stage");
+  const controls = wrapper.querySelector(".photo-controls");
+  const image = createProgressiveImage({
+    photo,
+    className: "reveal-up",
+    loading,
+    fetchPriority,
+    decoding,
+    eagerUpgrade: shouldEagerLoad,
+  });
+  if (stage && controls) {
+    stage.insertBefore(image, controls);
+  }
   return wrapper;
 };
 
@@ -238,16 +301,39 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
 
   heroIntro.classList.toggle("is-hidden", !hasHeroIntro);
   if (hasHeroIntro && heroPhoto) {
-    heroIntro.innerHTML = `
-      <p class="album-hero-brand">${siteBrand}</p>
-      <div class="album-hero-media">
-        <img class="album-hero-image" src="${heroPhoto.src}" alt="${heroPhoto.alt}" loading="eager" fetchpriority="high" decoding="sync" />
-      </div>
-      <div class="album-hero-copy">
-        <p class="album-hero-title">${state.title}</p>
-        <a class="album-hero-arrow${state.intro.showArrow ? "" : " is-hidden"}" href="#album-grid" aria-label="Scroll to album images" aria-hidden="${state.intro.showArrow ? "false" : "true"}" tabindex="${state.intro.showArrow ? "0" : "-1"}">⌄</a>
-      </div>
-    `;
+    heroIntro.innerHTML = "";
+    const brand = document.createElement("p");
+    brand.className = "album-hero-brand";
+    brand.textContent = siteBrand;
+
+    const media = document.createElement("div");
+    media.className = "album-hero-media";
+    media.appendChild(
+      createProgressiveImage({
+        photo: heroPhoto,
+        className: "album-hero-image",
+        loading: "eager",
+        fetchPriority: "high",
+        decoding: "sync",
+        eagerUpgrade: true,
+      })
+    );
+
+    const copy = document.createElement("div");
+    copy.className = "album-hero-copy";
+    const title = document.createElement("p");
+    title.className = "album-hero-title";
+    title.textContent = state.title;
+    const arrow = document.createElement("a");
+    arrow.className = `album-hero-arrow${state.intro.showArrow ? "" : " is-hidden"}`;
+    arrow.href = "#album-grid";
+    arrow.setAttribute("aria-label", "Scroll to album images");
+    arrow.setAttribute("aria-hidden", state.intro.showArrow ? "false" : "true");
+    arrow.tabIndex = state.intro.showArrow ? 0 : -1;
+    arrow.textContent = "⌄";
+    copy.append(title, arrow);
+
+    heroIntro.append(brand, media, copy);
   } else {
     heroIntro.innerHTML = "";
   }
