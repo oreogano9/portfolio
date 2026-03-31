@@ -1674,6 +1674,26 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     width: 100%;
   }
 
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(1.8rem, 7vw, 3rem);
+    align-items: center;
+    column-gap: 0.5rem;
+    min-height: clamp(7rem, 22vw, 10rem);
+    padding: 1.75rem 0 0.5rem;
+  }
+
+  .album-page.is-mobile-layout.has-mobile-sideview-mode .subalbum-title {
+    grid-column: 2;
+    justify-self: center;
+    display: inline-block;
+    margin: 0;
+    white-space: nowrap;
+    writing-mode: horizontal-tb;
+    transform: rotate(90deg);
+    transform-origin: center center;
+  }
+
   .album-hero-title {
     font-size: calc(clamp(1.8rem, 8vw, 2.9rem) * var(--album-title-scale, 1));
     max-width: 100%;

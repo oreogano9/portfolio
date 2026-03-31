@@ -507,6 +507,7 @@ export const setupAlbumEditor = async () => {
     });
     const hasMobileSideviewHero = hasHeroIntro && heroIntro.classList.contains("mobile-sideview-hero");
     body.classList.toggle("has-hero-intro", hasHeroIntro);
+    body.classList.toggle("has-mobile-sideview-mode", state.mobileRotateClockwise);
     body.classList.toggle("has-mobile-sideview-hero", hasMobileSideviewHero);
 
     renderSubalbumIndexes({
