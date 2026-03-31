@@ -267,6 +267,11 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   padding: 0 0 5.25rem;
 }
 
+.album-top-spacer {
+  height: var(--album-top-spacer-height, 0rem);
+  padding: 0;
+}
+
 .album-page-header {
   display: grid;
   gap: 0.85rem;
@@ -454,6 +459,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-back-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 24;
   width: fit-content;
   border-bottom: 1px solid transparent;
   color: var(--muted);
@@ -463,6 +472,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .album-back-link:hover,
 .album-back-link:focus-visible {
   border-color: var(--line-strong);
+}
+
+.album-page.is-editing .album-back-link {
+  top: 4rem;
 }
 
 .masthead {
@@ -1503,6 +1516,15 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
   .album-page-header {
     padding: 1rem 0 1.5rem;
+  }
+
+  .album-back-link {
+    top: max(0.9rem, env(safe-area-inset-top));
+    left: 0.75rem;
+  }
+
+  .album-page.is-editing .album-back-link {
+    top: calc(max(0.9rem, env(safe-area-inset-top)) + 3.2rem);
   }
 
   .album-page.has-hero-intro .album-page-header {

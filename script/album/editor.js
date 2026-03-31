@@ -9,6 +9,7 @@ import {
   normalizePhoto,
   normalizeSections,
   normalizeSettingsPath,
+  normalizeTopSpacer,
   serializeState,
   sizeOptions,
   spacingMap,
@@ -23,6 +24,7 @@ export const setupAlbumEditor = async () => {
   const grid = document.querySelector(".album-detail-grid");
   const title = document.querySelector(".masthead-title");
   const header = document.querySelector(".album-page-header");
+  let topSpacerSection = document.querySelector(".album-top-spacer");
   let heroIntro = header?.querySelector(".album-hero-intro");
   const subalbumIndex = document.querySelector(".subalbum-index");
   const subalbumFooterIndex = document.querySelector(".subalbum-footer-index");
@@ -43,6 +45,13 @@ export const setupAlbumEditor = async () => {
     !exportButtons.length
   ) {
     return;
+  }
+
+  if (!topSpacerSection) {
+    topSpacerSection = document.createElement("section");
+    topSpacerSection.className = "album-top-spacer";
+    topSpacerSection.setAttribute("aria-hidden", "true");
+    header.parentNode?.insertBefore(topSpacerSection, header);
   }
 
   if (!heroIntro) {
@@ -109,6 +118,7 @@ export const setupAlbumEditor = async () => {
   const state = {
     title: (typeof preferredState?.title === "string" && preferredState.title.trim()) || title.textContent.trim(),
     spacing: ["tight", "default", "airy"].includes(preferredState?.spacing) ? preferredState.spacing : "tight",
+    topSpacer: normalizeTopSpacer(preferredState?.topSpacer),
     effect: normalizeEffect(preferredState?.effect),
     intro: normalizeIntro(preferredState?.intro),
     photos: mergePhotos(preferredState?.photos),
@@ -179,6 +189,7 @@ export const setupAlbumEditor = async () => {
   headerControls.className = "header-edit-controls";
   headerControls.innerHTML = `
     <input class="header-edit-input" type="text" aria-label="Album title" />
+    <input class="header-edit-input header-edit-number" type="number" min="0" max="40" step="0.25" aria-label="Top spacer height in rem" placeholder="Top Space (rem)" />
     <select class="header-edit-select" aria-label="Space between photos">
       <option value="tight">Tight spacing</option>
       <option value="default">Default spacing</option>
@@ -203,7 +214,7 @@ export const setupAlbumEditor = async () => {
   `;
   header.appendChild(headerControls);
 
-  const titleInput = headerControls.querySelector(".header-edit-input");
+  const [titleInput, topSpacerInput] = headerControls.querySelectorAll(".header-edit-input");
   const [spacingSelect, effectSelect, introModeSelect, introArrowSelect] = headerControls.querySelectorAll(".header-edit-select");
   const deletedToggle = headerControls.querySelector('[data-action="toggle-deleted"]');
 
@@ -341,7 +352,9 @@ export const setupAlbumEditor = async () => {
   const render = () => {
     title.textContent = state.title;
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
+    topSpacerSection?.style.setProperty("--album-top-spacer-height", `${normalizeTopSpacer(state.topSpacer)}rem`);
     titleInput.value = state.title;
+    topSpacerInput.value = String(normalizeTopSpacer(state.topSpacer));
     spacingSelect.value = state.spacing;
     effectSelect.value = state.effect;
     introModeSelect.value = state.intro.mode;
@@ -419,6 +432,14 @@ export const setupAlbumEditor = async () => {
     const heroTitle = heroIntro?.querySelector(".album-hero-title");
     if (heroTitle) {
       heroTitle.textContent = state.title;
+    }
+    save();
+  });
+
+  topSpacerInput.addEventListener("input", (event) => {
+    state.topSpacer = normalizeTopSpacer(event.target.value, state.topSpacer);
+    if (topSpacerSection) {
+      topSpacerSection.style.setProperty("--album-top-spacer-height", `${state.topSpacer}rem`);
     }
     save();
   });

@@ -56,6 +56,11 @@ export const normalizeSections = (value) =>
         }))
     : [];
 
+export const normalizeTopSpacer = (value, fallback = 0) => {
+  const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
+  return Math.max(0, Math.min(40, numeric || 0));
+};
+
 export const normalizeIntro = (value, fallback = {}) => ({
   mode: value?.mode === "hero" ? "hero" : fallback.mode === "hero" ? "hero" : "default",
   heroImageSrc:
@@ -108,6 +113,7 @@ export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} })
   id: galleryId,
   title: typeof input.title === "string" ? input.title : titleFallback,
   spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "tight",
+  topSpacer: normalizeTopSpacer(input.topSpacer),
   effect: normalizeEffect(input.effect),
   intro: normalizeIntro(input.intro),
   sections: normalizeSections(input.sections),
@@ -156,6 +162,7 @@ export const serializeState = (state, galleryId) => ({
   id: galleryId,
   title: state.title,
   spacing: state.spacing,
+  topSpacer: normalizeTopSpacer(state.topSpacer),
   effect: state.effect,
   intro: {
     mode: state.intro.mode,
