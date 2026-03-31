@@ -38,6 +38,22 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       const ratio = Number(wrapper.dataset.ratio);
       const frameWidth = wrapper.clientWidth;
       const isAlbumRotateCandidate = wrapper.classList.contains("mobile-rotate-candidate");
+      if (isAlbumRotateCandidate) {
+        if (!(ratio > 0) || !(frameWidth > 0)) {
+          return;
+        }
+
+        const viewportHeight = window.visualViewport?.height || window.innerHeight;
+        const maxFrameHeight = viewportHeight * 0.92;
+        const fittedFrameHeight = Math.min(frameWidth * ratio, maxFrameHeight);
+        const fittedImageHeight = fittedFrameHeight / ratio;
+
+        wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
+        wrapper.style.setProperty("--mobile-extended-image-width", `${fittedFrameHeight}px`);
+        wrapper.style.setProperty("--mobile-extended-image-height", `${fittedImageHeight}px`);
+        return;
+      }
+
       const effectiveRatio = isAlbumRotateCandidate ? Math.max(ratio, 1 / ratio) : ratio;
       if (!(effectiveRatio > 1) || !(frameWidth > 0)) {
         return;
@@ -45,16 +61,6 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
 
       const viewportHeight = window.visualViewport?.height || window.innerHeight;
       const maxFrameHeight = viewportHeight * 0.92;
-      if (isAlbumRotateCandidate) {
-        const fittedRotatedWidth = Math.min(frameWidth, maxFrameHeight * effectiveRatio);
-        const fittedFrameHeight = fittedRotatedWidth / effectiveRatio;
-
-        wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
-        wrapper.style.setProperty("--mobile-extended-image-width", `${fittedFrameHeight}px`);
-        wrapper.style.setProperty("--mobile-extended-image-height", `${fittedRotatedWidth}px`);
-        return;
-      }
-
       const fittedFrameWidth = Math.min(frameWidth, maxFrameHeight / effectiveRatio);
       const fittedFrameHeight = fittedFrameWidth * effectiveRatio;
 
