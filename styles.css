@@ -1648,6 +1648,29 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     justify-self: center;
   }
 
+  .album-page-header.has-top-subalbum-index.has-mobile-sideview-hero {
+    min-height: auto;
+    gap: 0.7rem;
+    padding-bottom: 1.1rem;
+  }
+
+  .album-page-header.has-top-subalbum-index.has-mobile-sideview-hero .subalbum-index {
+    order: -1;
+    margin-top: 0;
+    align-self: stretch;
+    width: 100%;
+    padding-bottom: 0.4rem;
+  }
+
+  .album-page-header.has-top-subalbum-index.has-mobile-sideview-hero .subalbum-index-track {
+    justify-content: flex-start;
+  }
+
+  .album-page-header.has-top-subalbum-index.has-mobile-sideview-hero .album-hero-intro {
+    align-self: stretch;
+    width: 100%;
+  }
+
   .album-hero-title {
     font-size: calc(clamp(1.8rem, 8vw, 2.9rem) * var(--album-title-scale, 1));
     max-width: 100%;

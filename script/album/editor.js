@@ -505,13 +505,16 @@ export const setupAlbumEditor = async () => {
       state,
       siteBrand,
     });
+    const hasMobileSideviewHero = hasHeroIntro && heroIntro.classList.contains("mobile-sideview-hero");
     body.classList.toggle("has-hero-intro", hasHeroIntro);
+    body.classList.toggle("has-mobile-sideview-hero", hasMobileSideviewHero);
 
     renderSubalbumIndexes({
       state,
       containers: [subalbumIndex, subalbumFooterIndex],
     });
     header.classList.toggle("has-top-subalbum-index", state.sections.length >= 2 && Boolean(subalbumIndex));
+    header.classList.toggle("has-mobile-sideview-hero", hasMobileSideviewHero);
 
     cleanupRenderedBlocks();
     cleanupRenderedBlocks = mountAlbumBlocks({
