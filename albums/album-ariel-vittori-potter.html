@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ariel Vittori - Potter</title>
+    <meta
+      name="description"
+      content="Standalone photography album for Ariel Vittori - Potter."
+    />
+    <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body
+    class="album-page"
+    data-gallery-id="ariel-vittori-potter"
+    data-gallery-settings="/data/galleries/ariel-vittori-potter.settings.json"
+  >
+    <div class="floating-editor-actions" aria-label="Album editor actions">
+      <button class="preview-toggle" type="button" data-album-action="preview" aria-pressed="false">Preview</button>
+      <button class="preview-toggle" type="button" data-album-action="edit">Edit</button>
+      <button class="preview-toggle" type="button" data-album-action="save">Save</button>
+      <button class="preview-toggle" type="button" data-album-action="export">Export JSON</button>
+    </div>
+    <a class="album-back-link" href="/index.html">Home</a>
+    <div class="site-frame">
+      <main class="content-column" id="album-top">
+        <section class="album-top-spacer" aria-hidden="true"></section>
+        <section class="album-page-header section">
+          <h1 class="masthead-title">Ariel Vittori - Potter</h1>
+        </section>
+
+        <section class="section album-detail-section" id="album-grid">
+          <div class="album-detail-grid"></div>
+        </section>
+
+        <section class="section mobile-home-section">
+          <div class="subalbum-index subalbum-footer-index is-hidden" aria-label="Sub-album navigation"></div>
+          <a class="mobile-home-button" href="/index.html">Home</a>
+          <button class="mobile-home-button album-edit-button" type="button" data-album-action="edit">Edit</button>
+          <button class="mobile-home-button album-save-button" type="button" data-album-action="save">Save</button>
+          <button class="mobile-home-button album-export-button" type="button" data-album-action="export">Export JSON</button>
+        </section>
+      </main>
+    </div>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button class="lightbox-close" type="button" aria-label="Close image view">Close</button>
+      <img class="lightbox-image" alt="" />
+    </div>
+
+    <script type="module" src="/script/main.js"></script>
+  </body>
+</html>
