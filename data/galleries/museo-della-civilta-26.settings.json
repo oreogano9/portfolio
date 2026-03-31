@@ -1,6 +1,8 @@
 {
   "id": "museo-della-civilta-26",
   "title": "Museo Della Civiltà 26",
+  "titleScale": 1,
+  "mobileRotateClockwise": true,
   "spacing": "default",
   "topSpacer": 7,
   "effect": "none",
@@ -13,923 +15,1199 @@
   "photos": [
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09481-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 1",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09484-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 2",
       "section": "",
       "size": "full",
       "spacerAfter": 8,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09489.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 3",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09492-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 4",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09495.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 5",
       "section": "",
       "size": "full",
       "spacerAfter": 10,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09496-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 6",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09499-3.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 7",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09503.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 8",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09510.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 9",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09519.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 10",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09521.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 11",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09526.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 12",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09529-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 13",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09532.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 14",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09533.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 15",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09536.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 16",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09542.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 17",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09548.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 18",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09562.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 19",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09565.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 20",
       "section": "",
       "size": "full",
       "spacerAfter": 9,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09569.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 22",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09567.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 21",
       "section": "",
       "size": "full",
       "spacerAfter": 9,
       "effect": "none",
       "joinWithPrevious": true,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09579.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 23",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09582.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 24",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09596.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 25",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09608.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 26",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09619.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 27",
       "section": "",
       "size": "xsmall",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09620.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 28",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.1906976744186046
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09623.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 29",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09629.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 30",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09630-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 31",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09632.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 32",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09636-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 33",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09642.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 34",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09651.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 35",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09656.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 36",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09665.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 37",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09666-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 38",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09672.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 39",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09674.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 40",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09679.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 41",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09681.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 42",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09682-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 43",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09687.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 44",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09688.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 45",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09695.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 46",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09700-3.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 47",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09702-4.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 48",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.1906976744186046
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09704.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 49",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09705.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 50",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09706.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 51",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09713.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 52",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09721.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 53",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09725.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 54",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09727.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 55",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09732.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 56",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09733.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 57",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09734.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 58",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09737.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 59",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09740.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 60",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09743.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 61",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09751.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 62",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09752-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 63",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09755-3.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 64",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09758.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 65",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09760-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 66",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09761.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 67",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09764.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 68",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09767.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 69",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09771.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 70",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09775.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 71",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09778.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 72",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09780.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 73",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09782.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 74",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09783.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 75",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09784.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 76",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09788-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 77",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09790-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 78",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09793.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 79",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09794.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 80",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09798.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 81",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09801.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 82",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09811.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 83",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09832-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 84",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.1906976744186046
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09868.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 85",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.1906976744186046
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09879.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 86",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09924.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 87",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09934.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 88",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09944.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 89",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09972.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 90",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09976.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 91",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     },
     {
       "src": "/images/Museo%20Della%20Civilta%2026/DSC09987-2.jpg",
+      "previewSrc": "",
       "alt": "Museo Della Civilta 26 image 92",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
     }
   ]
 }
