@@ -217,11 +217,6 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   color: #111111;
 }
 
-.album-page.has-scroll-effect.effect-monochrome {
-  background: #f3efe7;
-  color: #111111;
-}
-
 .album-page.has-scroll-effect.effect-lift {
   background: #f6f1e9;
   color: #111111;
