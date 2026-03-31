@@ -1657,7 +1657,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   }
 
   .album-page-header.has-top-subalbum-index.has-mobile-sideview-hero .subalbum-index {
-    order: -1;
+    order: 0;
     margin-top: 0;
     align-self: stretch;
     width: 100%;
