@@ -410,7 +410,7 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false,
+      "joinWithPrevious": true,
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.5002675227394329
@@ -436,7 +436,7 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false,
+      "joinWithPrevious": true,
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.500225937641211
@@ -462,7 +462,7 @@
       "size": "full",
       "spacerAfter": 0,
       "effect": "none",
-      "joinWithPrevious": false,
+      "joinWithPrevious": true,
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.5
