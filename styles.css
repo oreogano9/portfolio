@@ -198,6 +198,15 @@ button {
   display: block;
 }
 
+.album-page {
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+
+.album-page.is-ready {
+  opacity: 1;
+}
+
 .album-page.has-scroll-effect.effect-spotlight {
   background: #121212;
   color: #f3efe8;

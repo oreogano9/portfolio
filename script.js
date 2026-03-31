@@ -412,6 +412,7 @@ const setupAlbumEditor = async () => {
     pending: false,
     message: "",
   };
+  let hasMarkedReady = false;
 
   const serializeSettings = () => ({
     id: galleryId,
@@ -995,6 +996,10 @@ const setupAlbumEditor = async () => {
     window.requestAnimationFrame(() => {
       updateMobileExtendedLayout();
       updateSpotlightLayout();
+      if (!hasMarkedReady) {
+        hasMarkedReady = true;
+        body.classList.add("is-ready");
+      }
     });
   };
 
