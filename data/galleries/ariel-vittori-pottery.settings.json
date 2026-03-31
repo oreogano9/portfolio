@@ -1,8 +1,9 @@
 {
   "id": "ariel-vittori-pottery",
   "title": "Ariel Vittori - Pottery",
+  "titleScale": 0.6,
   "spacing": "tight",
-  "topSpacer": 7,
+  "topSpacer": 10,
   "effect": "none",
   "intro": {
     "mode": "hero",
@@ -155,7 +156,7 @@
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01731.jpg",
       "alt": "Ariel Vittori - Pottery - DSC01731.jpg",
       "section": "",
-      "size": "extended",
+      "size": "full",
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
