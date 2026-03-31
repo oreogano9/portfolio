@@ -212,7 +212,11 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.has-scroll-effect.effect-spotlight {
-  background: #0a0a0a;
+  background: rgb(
+    calc(252 - (242 * var(--spotlight-bg-progress, 1))),
+    calc(251 - (241 * var(--spotlight-bg-progress, 1))),
+    calc(248 - (238 * var(--spotlight-bg-progress, 1)))
+  );
   color: #f3efe8;
 }
 

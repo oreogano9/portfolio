@@ -41,6 +41,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     killSpotlightTriggers();
     body.classList.remove("has-scroll-effect", "effect-spotlight", "effect-monochrome", "effect-drift", "effect-veil");
     body.style.removeProperty("--effect-strength");
+    body.style.removeProperty("--spotlight-bg-progress");
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       photo.classList.remove("is-effect-active", "is-spotlight-active");
       photo.style.removeProperty("--effect-strength");
@@ -52,6 +53,9 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
   const clearNonSpotlightEffects = () => {
     body.classList.remove("has-scroll-effect", "effect-monochrome", "effect-drift", "effect-veil");
     body.style.removeProperty("--effect-strength");
+    if (!grid.querySelector(".editable-photo.is-spotlight-active")) {
+      body.style.removeProperty("--spotlight-bg-progress");
+    }
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       if (!photo.classList.contains("is-spotlight-active")) {
         photo.classList.remove("is-effect-active");
@@ -133,6 +137,13 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     });
   };
 
+  const updateSpotlightProgress = (progress) => {
+    const clamped = Math.max(0, Math.min(1, progress));
+    const ramp = clamped < 0.5 ? clamped * 2 : (1 - clamped) * 2;
+    const eased = Math.max(0, Math.min(1, 1 - Math.pow(1 - ramp, 2.2)));
+    body.style.setProperty("--spotlight-bg-progress", eased.toFixed(3));
+  };
+
   const setupSpotlightTriggers = () => {
     killSpotlightTriggers();
 
@@ -176,12 +187,19 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
         invalidateOnRefresh: true,
         onEnter: () => activateSpotlight(wrapper),
         onEnterBack: () => activateSpotlight(wrapper),
+        onUpdate: (self) => {
+          if (wrapper.classList.contains("is-spotlight-active")) {
+            updateSpotlightProgress(self.progress);
+          }
+        },
         onLeave: () => {
           wrapper.classList.remove("is-spotlight-active", "is-effect-active");
+          body.style.removeProperty("--spotlight-bg-progress");
           clearNonSpotlightEffects();
         },
         onLeaveBack: () => {
           wrapper.classList.remove("is-spotlight-active", "is-effect-active");
+          body.style.removeProperty("--spotlight-bg-progress");
           clearNonSpotlightEffects();
         },
       });
