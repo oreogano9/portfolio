@@ -2,8 +2,6 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
   const mobileLayoutQuery = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)");
   let effectFrame = null;
   let spotlightTriggers = [];
-  let spotlightRefreshFrame = null;
-  let spotlightBooting = true;
 
   const syncMobileLayoutState = () => {
     body.classList.toggle("is-mobile-layout", mobileLayoutQuery.matches);
@@ -28,20 +26,10 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     spotlightTriggers = [];
   };
 
-  const refreshExistingSpotlightTriggers = () => {
-    const ScrollTrigger = getScrollTrigger();
-    if (!ScrollTrigger || !spotlightTriggers.length) {
-      return;
-    }
-
-    ScrollTrigger.refresh();
-  };
-
   const clearEffects = () => {
     killSpotlightTriggers();
     body.classList.remove("has-scroll-effect", "effect-spotlight", "effect-monochrome", "effect-drift", "effect-veil");
     body.style.removeProperty("--effect-strength");
-    body.style.removeProperty("--spotlight-bg-progress");
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       photo.classList.remove("is-effect-active", "is-spotlight-active");
       photo.style.removeProperty("--effect-strength");
@@ -53,9 +41,6 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
   const clearNonSpotlightEffects = () => {
     body.classList.remove("has-scroll-effect", "effect-monochrome", "effect-drift", "effect-veil");
     body.style.removeProperty("--effect-strength");
-    if (!grid.querySelector(".editable-photo.is-spotlight-active")) {
-      body.style.removeProperty("--spotlight-bg-progress");
-    }
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       if (!photo.classList.contains("is-spotlight-active")) {
         photo.classList.remove("is-effect-active");
@@ -121,10 +106,6 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
   };
 
   const activateSpotlight = (wrapper) => {
-    if (spotlightBooting) {
-      return;
-    }
-
     body.classList.remove("effect-monochrome", "effect-drift", "effect-veil");
     body.classList.add("has-scroll-effect", "effect-spotlight");
     body.style.setProperty("--effect-strength", "1");
@@ -135,13 +116,6 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       photo.classList.toggle("is-effect-active", isActive);
       photo.style.setProperty("--effect-strength", isActive ? "1" : "0");
     });
-  };
-
-  const updateSpotlightProgress = (progress) => {
-    const clamped = Math.max(0, Math.min(1, progress));
-    const ramp = clamped < 0.5 ? clamped * 2 : (1 - clamped) * 2;
-    const eased = Math.max(0, Math.min(1, 1 - Math.pow(1 - ramp, 2.2)));
-    body.style.setProperty("--spotlight-bg-progress", eased.toFixed(3));
   };
 
   const setupSpotlightTriggers = () => {
@@ -187,19 +161,12 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
         invalidateOnRefresh: true,
         onEnter: () => activateSpotlight(wrapper),
         onEnterBack: () => activateSpotlight(wrapper),
-        onUpdate: (self) => {
-          if (wrapper.classList.contains("is-spotlight-active")) {
-            updateSpotlightProgress(self.progress);
-          }
-        },
         onLeave: () => {
           wrapper.classList.remove("is-spotlight-active", "is-effect-active");
-          body.style.removeProperty("--spotlight-bg-progress");
           clearNonSpotlightEffects();
         },
         onLeaveBack: () => {
           wrapper.classList.remove("is-spotlight-active", "is-effect-active");
-          body.style.removeProperty("--spotlight-bg-progress");
           clearNonSpotlightEffects();
         },
       });
@@ -286,25 +253,10 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     effectFrame = window.requestAnimationFrame(updateEffects);
   };
 
-  const scheduleSpotlightRefresh = ({ rebuild = false } = {}) => {
-    if (spotlightRefreshFrame !== null) {
-      window.cancelAnimationFrame(spotlightRefreshFrame);
-    }
-
-    spotlightRefreshFrame = window.requestAnimationFrame(() => {
-      spotlightRefreshFrame = null;
-      updateSpotlightLayout();
-      if (rebuild) {
-        setupSpotlightTriggers();
-      } else {
-        refreshExistingSpotlightTriggers();
-      }
-      queueEffectUpdate();
-    });
-  };
-
-  const refreshSpotlightObservers = ({ rebuild = true } = {}) => {
-    scheduleSpotlightRefresh({ rebuild });
+  const refreshSpotlightObservers = () => {
+    updateSpotlightLayout();
+    setupSpotlightTriggers();
+    queueEffectUpdate();
   };
 
   const bind = () => {
@@ -318,22 +270,16 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     window.addEventListener("resize", () => {
       syncMobileLayoutState();
       updateMobileExtendedLayout();
-      refreshSpotlightObservers({ rebuild: true });
+      refreshSpotlightObservers();
     });
     window.addEventListener("orientationchange", () => {
       syncMobileLayoutState();
       updateMobileExtendedLayout();
-      refreshSpotlightObservers({ rebuild: true });
+      refreshSpotlightObservers();
     });
     window.addEventListener("load", () => {
       updateMobileExtendedLayout();
-      refreshSpotlightObservers({ rebuild: true });
-      window.requestAnimationFrame(() => {
-        window.requestAnimationFrame(() => {
-          spotlightBooting = false;
-          queueEffectUpdate();
-        });
-      });
+      refreshSpotlightObservers();
     });
     window.addEventListener("scroll", queueEffectUpdate, { passive: true });
 
@@ -342,7 +288,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       (event) => {
         if (event.target instanceof HTMLImageElement) {
           updateMobileExtendedLayout();
-          refreshSpotlightObservers({ rebuild: false });
+          refreshSpotlightObservers();
         }
       },
       true
