@@ -1567,6 +1567,13 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     padding-bottom: 1.1rem;
   }
 
+  .album-page.is-mobile-layout.has-mobile-sideview-hero .album-page-header {
+    min-height: calc(100svh - 1.5rem);
+    align-content: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
   .album-page .content-column,
   .album-page-header,
   .album-hero-intro,
@@ -1660,9 +1667,11 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   }
 
   .album-page-header.has-top-subalbum-index.has-mobile-sideview-hero {
-    min-height: auto;
+    min-height: calc(100svh - 1.5rem);
     gap: 0.7rem;
-    padding-bottom: 1.1rem;
+    align-content: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   .album-page-header.has-top-subalbum-index.has-mobile-sideview-hero .subalbum-index {
