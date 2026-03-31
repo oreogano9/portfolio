@@ -36,9 +36,14 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
 
     grid.querySelectorAll(".editable-photo.mobile-extended-candidate, .editable-photo.mobile-rotate-candidate").forEach((wrapper) => {
       const ratio = Number(wrapper.dataset.ratio);
-      const frameWidth = wrapper.clientWidth;
       const isAlbumRotateCandidate = wrapper.classList.contains("mobile-rotate-candidate");
       if (isAlbumRotateCandidate) {
+        const computedStyle = window.getComputedStyle(wrapper);
+        const gutter =
+          parseFloat(computedStyle.getPropertyValue("--mobile-rotate-inline-gutter")) ||
+          parseFloat(computedStyle.paddingLeft) ||
+          0;
+        const frameWidth = Math.max(0, wrapper.clientWidth - gutter * 2);
         if (!(ratio > 0) || !(frameWidth > 0)) {
           return;
         }
@@ -57,6 +62,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
         return;
       }
 
+      const frameWidth = wrapper.clientWidth;
       const effectiveRatio = isAlbumRotateCandidate ? Math.max(ratio, 1 / ratio) : ratio;
       if (!(effectiveRatio > 1) || !(frameWidth > 0)) {
         return;

@@ -746,6 +746,12 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   overflow: hidden;
 }
 
+.album-page.is-mobile-layout .editable-photo.mobile-rotate-candidate {
+  --mobile-rotate-inline-gutter: 10px;
+  box-sizing: border-box;
+  padding-inline: var(--mobile-rotate-inline-gutter);
+}
+
 .album-page.is-mobile-layout .editable-photo.mobile-extended-candidate .photo-stage,
 .album-page.is-mobile-layout .editable-photo.mobile-rotate-candidate .photo-stage {
   position: relative;
