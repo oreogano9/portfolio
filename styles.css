@@ -104,6 +104,10 @@ button {
   display: none;
 }
 
+body:not(.has-mobile-menu) .mobile-menu-drawer {
+  display: none;
+}
+
 .site-frame {
   display: grid;
   grid-template-columns: 19rem minmax(0, 1fr);
