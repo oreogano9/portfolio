@@ -3,7 +3,7 @@
   "title": "Ariel Vittori - Pottery",
   "titleScale": 0.6,
   "spacing": "tight",
-  "topSpacer": 10,
+  "topSpacer": 5,
   "effect": "none",
   "intro": {
     "mode": "hero",
