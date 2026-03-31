@@ -74,6 +74,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     const viewportHeight = window.visualViewport?.height || window.innerHeight;
     const viewportCenter = viewportHeight * 0.5;
     const fadeRange = viewportHeight * 0.72;
+    const visiblePool = photos.filter((photo) => visiblePhotos.has(photo));
+    const overallPool = visiblePool.length ? visiblePool : photos;
     const candidates = effectPhotos.filter((photo) => visiblePhotos.has(photo));
     const activePool = candidates.length ? candidates : effectPhotos;
 
@@ -81,11 +83,27 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     let activeEffect = "none";
     let effectStrength = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
+    let nearestPhoto = null;
+    let nearestDistance = Number.POSITIVE_INFINITY;
 
     photos.forEach((photo) => {
       photo.classList.toggle("is-effect-visible", visiblePhotos.has(photo));
       photo.classList.remove("is-effect-active");
       photo.style.setProperty("--effect-strength", "0");
+    });
+
+    overallPool.forEach((photo) => {
+      const rect = photo.getBoundingClientRect();
+      if (rect.bottom <= 0 || rect.top >= viewportHeight) {
+        return;
+      }
+
+      const photoCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(photoCenter - viewportCenter);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestPhoto = photo;
+      }
     });
 
     activePool.forEach((photo) => {
@@ -103,6 +121,14 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
         effectStrength = Math.max(0, Math.min(1, 1 - distance / fadeRange));
       }
     });
+
+    if (activeEffect === "focus" && nearestPhoto instanceof HTMLElement) {
+      const nearestEffect = normalizeEffect(nearestPhoto.dataset.effect);
+      if (nearestEffect === "none" && nearestDistance <= closestDistance) {
+        activePhoto = null;
+        activeEffect = "none";
+      }
+    }
 
     if (!activePhoto || activeEffect === "none") {
       body.classList.remove("has-scroll-effect", "effect-focus", "effect-monochrome", "effect-lift");
