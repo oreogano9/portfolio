@@ -1216,7 +1216,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   pointer-events: none;
   width: min(24rem, calc(100vw - 1.6rem));
   max-height: min(40vh, 20rem);
-  display: none;
+  display: grid;
   gap: 0.4rem;
   padding: 0.6rem 0.7rem;
   border: 1px solid rgba(17, 17, 17, 0.14);
@@ -1224,10 +1224,6 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   box-shadow: 0 0.65rem 2rem rgba(17, 17, 17, 0.08);
   backdrop-filter: blur(10px);
   overflow: hidden;
-}
-
-.album-debug-panel.is-visible {
-  display: grid;
 }
 
 .album-debug-title {

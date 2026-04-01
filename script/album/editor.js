@@ -244,7 +244,6 @@ export const setupAlbumEditor = async () => {
   };
 
   const renderDebugPanel = () => {
-    debugPanel.classList.toggle("is-visible", state.editing);
     debugLog.innerHTML = debugEntries
       .slice()
       .reverse()
