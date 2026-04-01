@@ -217,6 +217,16 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   opacity: 1;
 }
 
+.home-page:not(.is-ready) .masthead,
+.home-page:not(.is-ready) .albums-section {
+  opacity: 0;
+}
+
+.home-page .masthead,
+.home-page .albums-section {
+  transition: opacity 220ms ease;
+}
+
 .album-page.has-scroll-effect.effect-focus {
   background: #fcfbf8;
   color: #111111;

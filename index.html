@@ -9,6 +9,12 @@
       content="A minimalist photography portfolio with album selection, scroll-based text reveals, and an about section."
     />
     <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
+    <style>
+      body.home-page:not(.is-ready) .masthead,
+      body.home-page:not(.is-ready) .albums-section {
+        opacity: 0;
+      }
+    </style>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body class="home-page" data-homepage-settings="/data/homepage.settings.json">

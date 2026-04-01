@@ -102,6 +102,8 @@ export const setupHomeEditor = async () => {
     return;
   }
 
+  body.classList.remove("is-ready");
+
   const quote = document.querySelector(".homepage-quote");
   const attribution = document.querySelector(".homepage-quote-attribution");
   const mastheadCopy = document.querySelector(".masthead-copy");
@@ -705,4 +707,5 @@ export const setupHomeEditor = async () => {
   });
 
   render();
+  body.classList.add("is-ready");
 };
