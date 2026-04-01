@@ -118,12 +118,9 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .identity-rail {
-  position: sticky;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
+  display: grid;
+  align-content: start;
+  gap: 1rem;
   padding: 1.25rem 0 1rem;
 }
 
@@ -132,12 +129,21 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   border-top: 1px solid var(--line);
 }
 
+.rail-block-nav {
+  position: sticky;
+  top: 1.25rem;
+}
+
 .brand {
   display: inline-block;
   padding-top: 0.75rem;
   font-size: 1.02rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.mobile-brand-wrap {
+  display: none;
 }
 
 .rail-kicker,
@@ -468,6 +474,9 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   border-bottom: 1px solid transparent;
   color: var(--muted);
   font-size: 0.9rem;
+  transition:
+    opacity 240ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 180ms ease;
 }
 
 .album-back-link:hover,
@@ -1473,6 +1482,17 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     display: none;
   }
 
+  .mobile-brand-wrap {
+    display: block;
+    padding-top: 0.1rem;
+    margin-bottom: 2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .mobile-brand {
+    padding-top: 0.75rem;
+  }
+
   .site-frame {
     width: min(calc(100% - 1.25rem), var(--max-width));
   }
@@ -1544,6 +1564,11 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   .album-back-link {
     top: max(0.9rem, env(safe-area-inset-top));
     left: 0.75rem;
+  }
+
+  .album-page.is-mobile-layout.has-scrolled-away .album-back-link {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .album-page.is-editing .album-back-link {

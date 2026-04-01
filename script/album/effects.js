@@ -7,6 +7,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
 
   const syncMobileLayoutState = () => {
     body.classList.toggle("is-mobile-layout", mobileLayoutQuery.matches);
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    body.classList.toggle("has-scrolled-away", mobileLayoutQuery.matches && scrollTop > 8);
   };
 
   const clearEffects = () => {
@@ -221,6 +223,11 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
   };
 
   const bind = () => {
+    const handleScroll = () => {
+      syncMobileLayoutState();
+      queueEffectUpdate();
+    };
+
     syncMobileLayoutState();
     if (typeof mobileLayoutQuery.addEventListener === "function") {
       mobileLayoutQuery.addEventListener("change", syncMobileLayoutState);
@@ -242,7 +249,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       updateMobileExtendedLayout();
       refreshEffectObservers();
     });
-    window.addEventListener("scroll", queueEffectUpdate, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     grid.addEventListener(
       "load",
