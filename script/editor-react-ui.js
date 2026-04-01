@@ -41,6 +41,17 @@ const createButton = ({ className, text, type = "button", disabled = false, pres
   return button;
 };
 
+const createIconButton = ({ className, text, ariaLabel, disabled = false, onClick }) => {
+  const button = document.createElement("button");
+  button.className = className;
+  button.type = "button";
+  button.textContent = text;
+  button.setAttribute("aria-label", ariaLabel);
+  button.disabled = disabled;
+  button.addEventListener("click", onClick);
+  return button;
+};
+
 const createSelect = ({ className, ariaLabel, value, options, onChange }) => {
   const select = document.createElement("select");
   select.className = className;
@@ -58,6 +69,62 @@ const createSelect = ({ className, ariaLabel, value, options, onChange }) => {
     onChange(event.currentTarget.value);
   });
   return select;
+};
+
+const createAlbumStepper = ({ label, value, min, max, step, onChange, unit = "" }) => {
+  const field = document.createElement("div");
+  field.className = "header-edit-stepper";
+
+  const labelText = document.createElement("span");
+  labelText.className = "header-edit-stepper-label";
+  labelText.textContent = label;
+
+  const controls = document.createElement("div");
+  controls.className = "header-edit-stepper-controls";
+
+  const decrement = createIconButton({
+    className: "header-edit-stepper-button",
+    text: "−",
+    ariaLabel: `Decrease ${label}`,
+    onClick: () => onChange(Math.max(min, Number((value - step).toFixed(2)))),
+  });
+
+  const valueText = document.createElement("span");
+  valueText.className = "header-edit-stepper-value";
+  valueText.textContent = `${value >= 0 ? "+" : ""}${value.toFixed(1)}${unit}`;
+
+  const increment = createIconButton({
+    className: "header-edit-stepper-button",
+    text: "+",
+    ariaLabel: `Increase ${label}`,
+    onClick: () => onChange(Math.min(max, Number((value + step).toFixed(2)))),
+  });
+
+  controls.append(decrement, valueText, increment);
+  field.append(labelText, controls);
+  return field;
+};
+
+const createSwitchField = ({ label, checked, onChange }) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `header-edit-switch${checked ? " is-active" : ""}`;
+  button.setAttribute("aria-pressed", checked ? "true" : "false");
+  button.setAttribute("aria-label", label);
+  button.addEventListener("click", () => onChange(!checked));
+
+  const text = document.createElement("span");
+  text.className = "header-edit-switch-label";
+  text.textContent = label;
+
+  const track = document.createElement("span");
+  track.className = "header-edit-switch-track";
+  const thumb = document.createElement("span");
+  thumb.className = "header-edit-switch-thumb";
+  track.appendChild(thumb);
+
+  button.append(text, track);
+  return button;
 };
 
 export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cardsContainer }) => ({
@@ -137,34 +204,38 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     onToggleDeleted,
   }) {
     clearElement(container);
+    const defaultTitleScale = 0.6;
+    const defaultTopSpacer = 7;
+    const titleScaleDelta = Number((titleScale - defaultTitleScale).toFixed(1));
+    const topSpacerDelta = Number((topSpacer - defaultTopSpacer).toFixed(1));
+    const numericRow = document.createElement("div");
+    numericRow.className = "header-edit-row header-edit-row-numeric";
+    const selectRow = document.createElement("div");
+    selectRow.className = "header-edit-row header-edit-row-select";
+    const toggleRow = document.createElement("div");
+    toggleRow.className = "header-edit-row header-edit-row-toggle";
 
-    const titleInput = document.createElement("input");
-    titleInput.className = "header-edit-input header-edit-number";
-    titleInput.type = "number";
-    titleInput.min = "0.6";
-    titleInput.max = "1.8";
-    titleInput.step = "0.05";
-    titleInput.placeholder = "Title Size";
-    titleInput.setAttribute("aria-label", "Album title size multiplier");
-    titleInput.value = String(titleScale);
-    titleInput.addEventListener("input", (event) => onTitleScaleChange(event.currentTarget.value));
-    titleInput.addEventListener("change", (event) => onTitleScaleChange(event.currentTarget.value));
+    numericRow.append(
+      createAlbumStepper({
+        label: "Title",
+        value: titleScaleDelta,
+        min: 0,
+        max: 1.2,
+        step: 0.1,
+        onChange: (delta) => onTitleScaleChange((defaultTitleScale + delta).toFixed(2)),
+      }),
+      createAlbumStepper({
+        label: "Top",
+        value: topSpacerDelta,
+        min: -7,
+        max: 33,
+        step: 0.1,
+        onChange: (delta) => onTopSpacerChange((defaultTopSpacer + delta).toFixed(2)),
+        unit: "rem",
+      })
+    );
 
-    const topSpacerInput = document.createElement("input");
-    topSpacerInput.className = "header-edit-input header-edit-number";
-    topSpacerInput.type = "number";
-    topSpacerInput.min = "0";
-    topSpacerInput.max = "40";
-    topSpacerInput.step = "0.25";
-    topSpacerInput.placeholder = "Top Space (rem)";
-    topSpacerInput.setAttribute("aria-label", "Top spacer height in rem");
-    topSpacerInput.value = String(topSpacer);
-    topSpacerInput.addEventListener("input", (event) => onTopSpacerChange(event.currentTarget.value));
-    topSpacerInput.addEventListener("change", (event) => onTopSpacerChange(event.currentTarget.value));
-
-    container.append(
-      titleInput,
-      topSpacerInput,
+    selectRow.append(
       createSelect({
         className: "header-edit-select",
         ariaLabel: "Space between photos",
@@ -190,44 +261,33 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
           { value: "tilt", label: "Tilt" },
         ],
         onChange: onEffectChange,
-      }),
-      createSelect({
-        className: "header-edit-select",
-        ariaLabel: "Album intro mode",
-        value: introMode,
-        options: [
-          { value: "default", label: "Default Intro" },
-          { value: "hero", label: "Hero Intro" },
-        ],
-        onChange: onIntroModeChange,
-      }),
-      createSelect({
-        className: "header-edit-select",
-        ariaLabel: "Show hero arrow",
-        value: showArrow ? "true" : "false",
-        options: [
-          { value: "true", label: "Arrow On" },
-          { value: "false", label: "Arrow Off" },
-        ],
-        onChange: onShowArrowChange,
-      }),
-      createSelect({
-        className: "header-edit-select",
-        ariaLabel: "Experimental mobile clockwise rotate",
-        value: mobileRotateClockwise ? "true" : "false",
-        options: [
-          { value: "false", label: "Mobile Rotate Off" },
-          { value: "true", label: "Mobile Rotate On" },
-        ],
-        onChange: onMobileRotateChange,
-      }),
-      createButton({
-        className: `header-edit-toggle${showDeleted ? " is-active" : ""}`,
-        text: showDeleted ? "Hide Deleted" : "Show Deleted",
-        pressed: showDeleted,
-        onClick: onToggleDeleted,
       })
     );
+
+    toggleRow.append(
+      createSwitchField({
+        label: "Hero",
+        checked: introMode === "hero",
+        onChange: (checked) => onIntroModeChange(checked ? "hero" : "default"),
+      }),
+      createSwitchField({
+        label: "Arrow",
+        checked: showArrow,
+        onChange: (checked) => onShowArrowChange(String(checked)),
+      }),
+      createSwitchField({
+        label: "Rotate",
+        checked: mobileRotateClockwise,
+        onChange: (checked) => onMobileRotateChange(String(checked)),
+      }),
+      createSwitchField({
+        label: "Deleted",
+        checked: showDeleted,
+        onChange: onToggleDeleted,
+      })
+    );
+
+    container.append(numericRow, selectRow, toggleRow);
   },
   destroy() {
     clearElement(container);

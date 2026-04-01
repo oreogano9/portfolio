@@ -4,11 +4,22 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
   const visiblePhotos = new Set();
   let effectFrame = null;
   let visibilityObserver = null;
+  const mobileSideviewGridSelector = '.editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""])';
 
   const syncMobileLayoutState = () => {
-    body.classList.toggle("is-mobile-layout", mobileLayoutQuery.matches);
+    const isMobileLayout = mobileLayoutQuery.matches;
+    const sideviewActive = state.runtimeMobileSideviewActive === true;
+    const heroIntro = document.querySelector(".album-hero-intro");
+    const header = document.querySelector(".album-page-header");
+    const hasSideviewHero = sideviewActive && heroIntro?.classList.contains("mobile-sideview-hero");
+
+    body.classList.toggle("is-mobile-layout", isMobileLayout);
+    body.classList.toggle("has-mobile-sideview-mode", sideviewActive);
+    body.classList.toggle("has-mobile-sideview-hero", Boolean(hasSideviewHero));
+    body.classList.toggle("has-mobile-sideview-grid", sideviewActive);
+    header?.classList.toggle("has-mobile-sideview-hero", Boolean(hasSideviewHero));
     const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
-    body.classList.toggle("has-scrolled-away", mobileLayoutQuery.matches && scrollTop > 8);
+    body.classList.toggle("has-scrolled-away", isMobileLayout && scrollTop > 8);
   };
 
   const clearEffects = () => {
@@ -27,57 +38,40 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
     (state.effect !== "none" || state.photos.some((photo) => photo.effect !== "none")) && (!state.editing || state.previewing);
 
   const updateMobileExtendedLayout = () => {
-    if (!body.classList.contains("is-mobile-layout")) {
-      grid.querySelectorAll(".editable-photo.mobile-extended-candidate, .editable-photo.mobile-rotate-candidate").forEach((wrapper) => {
-        wrapper.style.removeProperty("--mobile-extended-frame-height");
-        wrapper.style.removeProperty("--mobile-extended-image-width");
-        wrapper.style.removeProperty("--mobile-extended-image-height");
-      });
+    grid.querySelectorAll(".editable-photo").forEach((wrapper) => {
+      wrapper.style.removeProperty("--mobile-extended-frame-height");
+      wrapper.style.removeProperty("--mobile-extended-image-width");
+      wrapper.style.removeProperty("--mobile-extended-image-height");
+    });
+
+    if (!body.classList.contains("is-mobile-layout") || !body.classList.contains("has-mobile-sideview-grid")) {
       return;
     }
 
-    grid.querySelectorAll(".editable-photo.mobile-extended-candidate, .editable-photo.mobile-rotate-candidate").forEach((wrapper) => {
+    grid.querySelectorAll(mobileSideviewGridSelector).forEach((wrapper) => {
       const ratio = Number(wrapper.dataset.ratio);
-      const isAlbumRotateCandidate = wrapper.classList.contains("mobile-rotate-candidate");
-      if (isAlbumRotateCandidate) {
-        const computedStyle = window.getComputedStyle(wrapper);
-        const gutter =
-          parseFloat(computedStyle.getPropertyValue("--mobile-rotate-inline-gutter")) ||
-          parseFloat(computedStyle.paddingLeft) ||
-          0;
-        const frameWidth = Math.max(0, wrapper.clientWidth - gutter * 2);
-        if (!(ratio > 0) || !(frameWidth > 0)) {
-          return;
-        }
-
-        const viewportWidth = window.visualViewport?.width || window.innerWidth;
-        const viewportHeight = window.visualViewport?.height || window.innerHeight;
-        const maxFrameWidth = Math.max(0, viewportWidth - 20);
-        const maxFrameHeight = viewportHeight * 0.92;
-        const fittedFrameWidth = Math.min(frameWidth, maxFrameWidth);
-        const fittedFrameHeight = Math.min(fittedFrameWidth * ratio, maxFrameHeight);
-        const fittedImageHeight = fittedFrameHeight / ratio;
-
-        wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
-        wrapper.style.setProperty("--mobile-extended-image-width", `${fittedFrameHeight}px`);
-        wrapper.style.setProperty("--mobile-extended-image-height", `${fittedImageHeight}px`);
+      const computedStyle = window.getComputedStyle(wrapper);
+      const gutter =
+        parseFloat(computedStyle.getPropertyValue("--mobile-rotate-inline-gutter")) ||
+        parseFloat(computedStyle.paddingLeft) ||
+        0;
+      const safetyInset = 2;
+      const frameWidth = Math.max(0, wrapper.clientWidth - gutter * 2 - safetyInset * 2);
+      if (!(ratio > 0) || !(frameWidth > 0)) {
         return;
       }
 
-      const frameWidth = wrapper.clientWidth;
-      const effectiveRatio = isAlbumRotateCandidate ? Math.max(ratio, 1 / ratio) : ratio;
-      if (!(effectiveRatio > 1) || !(frameWidth > 0)) {
-        return;
-      }
-
+      const viewportWidth = window.visualViewport?.width || window.innerWidth;
       const viewportHeight = window.visualViewport?.height || window.innerHeight;
-      const maxFrameHeight = viewportHeight * 0.92;
-      const fittedFrameWidth = Math.min(frameWidth, maxFrameHeight / effectiveRatio);
-      const fittedFrameHeight = fittedFrameWidth * effectiveRatio;
+      const maxFrameWidth = Math.max(0, viewportWidth - 20 - safetyInset * 2);
+      const maxFrameHeight = Math.max(0, viewportHeight * 0.92 - safetyInset * 2);
+      const fittedFrameWidth = Math.min(frameWidth, maxFrameWidth);
+      const fittedFrameHeight = Math.min(fittedFrameWidth * ratio, maxFrameHeight);
+      const fittedImageHeight = fittedFrameHeight / ratio;
 
       wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
       wrapper.style.setProperty("--mobile-extended-image-width", `${fittedFrameHeight}px`);
-      wrapper.style.setProperty("--mobile-extended-image-height", `${fittedFrameWidth}px`);
+      wrapper.style.setProperty("--mobile-extended-image-height", `${fittedImageHeight}px`);
     });
   };
 

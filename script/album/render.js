@@ -4,6 +4,42 @@ const INITIAL_BLOCK_COUNT = 12;
 const SUBSEQUENT_BLOCK_COUNT = 16;
 const INITIAL_EAGER_GRID_IMAGES = 3;
 
+export const isReactiveMobileSideviewActive = (state) => {
+  if (!state?.mobileRotateClockwise) {
+    return false;
+  }
+
+  const isMobileLayout = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)").matches;
+  if (!isMobileLayout) {
+    return false;
+  }
+
+  const screenOrientation = window.screen?.orientation?.type;
+  if (typeof screenOrientation === "string") {
+    return screenOrientation.startsWith("portrait");
+  }
+
+  const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  return viewportHeight > viewportWidth;
+};
+
+export const getHeroIntroState = (state) => {
+  const heroSrc = getHeroImageSrc(state);
+  const heroPhoto = state.photos.find((photo) => photo.src === heroSrc) || null;
+  const hasHeroIntro = state.intro.mode === "hero" && Boolean(heroPhoto);
+  const heroAspectRatio = Number(heroPhoto?.aspectRatio);
+  const hasMobileSideviewHero =
+    hasHeroIntro && isReactiveMobileSideviewActive(state) && Number.isFinite(heroAspectRatio) && heroAspectRatio > 0;
+
+  return {
+    heroPhoto,
+    hasHeroIntro,
+    heroAspectRatio,
+    hasMobileSideviewHero,
+  };
+};
+
 const getBlockEntries = (block) => {
   if (block.type === "photo") {
     return [block.entry];
@@ -76,13 +112,10 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
   const isDeleted = photo.deleted === true;
   const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
   const wrapper = document.createElement("figure");
-  const isExtendedLandscape = photo.size === "extended" && photo.landscape === true;
-  const hasAspectRatio = Number.isFinite(Number(photo.aspectRatio)) && Number(photo.aspectRatio) > 0;
-  const isMobileRotateCandidate = !isDeleted && state.mobileRotateClockwise && hasAspectRatio;
   const isJoinable = !isDeleted && canJoinPhoto(state, index, normalizeEffect);
   const canShowUnjoin = !isDeleted && photo.joinWithPrevious;
   const isHeroImage = !isDeleted && state.intro.heroImageSrc === photo.src;
-  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${isExtendedLandscape ? " mobile-extended-candidate" : ""}${isMobileRotateCandidate ? " mobile-rotate-candidate" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}`;
+  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}`;
   wrapper.dataset.index = String(index);
   wrapper.dataset.src = photo.src;
   wrapper.dataset.effect = effectiveEffect;
@@ -124,11 +157,10 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
       <div class="spacer-control">
         <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
         <div class="spacer-copy-row">
-          <button class="spacer-copy-button" type="button" data-action="spacer-copy-up" aria-label="Copy this space amount to the image above"${isDeleted ? " disabled" : ""}>↑</button>
-          <button class="spacer-copy-button" type="button" data-action="spacer-copy-down" aria-label="Copy this space amount to the image below"${isDeleted ? " disabled" : ""}>↓</button>
+          <button class="spacer-copy-button" type="button" data-action="spacer-copy-value" aria-label="Copy this space amount"${isDeleted ? " disabled" : ""}>⧉</button>
+          <button class="spacer-copy-button spacer-paste-button" type="button" data-action="spacer-paste-value" aria-label="Paste copied space amount"${isDeleted ? " disabled" : ""}>⎘</button>
         </div>
-        <label>
-          SPACE
+        <label aria-label="Space after image">
           <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>
           <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image"${isDeleted ? " disabled" : ""} />
         </label>
@@ -308,20 +340,23 @@ export const renderSubalbumIndexes = ({ state, containers }) => {
 
 export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
   if (!heroIntro) {
-    return false;
+    return {
+      hasHeroIntro: false,
+      hasMobileSideviewHero: false,
+    };
   }
 
-  const heroSrc = getHeroImageSrc(state);
-  const heroPhoto = state.photos.find((photo) => photo.src === heroSrc) || null;
-  const hasHeroIntro = state.intro.mode === "hero" && Boolean(heroPhoto);
-  const heroAspectRatio = Number(heroPhoto?.aspectRatio);
-  const shouldRotateHeroMobile =
-    hasHeroIntro && state.mobileRotateClockwise && Number.isFinite(heroAspectRatio) && heroAspectRatio > 0;
+  const { heroPhoto, hasHeroIntro, heroAspectRatio, hasMobileSideviewHero } = getHeroIntroState(state);
+  const shouldRotateHeroMobile = hasMobileSideviewHero;
 
   heroIntro.classList.toggle("is-hidden", !hasHeroIntro);
   heroIntro.classList.toggle("mobile-sideview-hero", shouldRotateHeroMobile);
+  heroIntro.classList.toggle("upright-hero-scaffold", hasHeroIntro && !shouldRotateHeroMobile);
   if (hasHeroIntro && heroPhoto) {
     heroIntro.innerHTML = "";
+    const title = document.createElement("p");
+    title.className = "album-hero-title";
+    title.textContent = state.title;
     const brand = document.createElement("p");
     brand.className = "album-hero-brand";
     brand.textContent = siteBrand;
@@ -342,11 +377,6 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
       })
     );
 
-    const copy = document.createElement("div");
-    copy.className = "album-hero-copy";
-    const title = document.createElement("p");
-    title.className = "album-hero-title";
-    title.textContent = state.title;
     const arrow = document.createElement("a");
     arrow.className = `album-hero-arrow${state.intro.showArrow ? "" : " is-hidden"}`;
     arrow.href = "#album-grid";
@@ -354,14 +384,36 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
     arrow.setAttribute("aria-hidden", state.intro.showArrow ? "false" : "true");
     arrow.tabIndex = state.intro.showArrow ? 0 : -1;
     arrow.textContent = "⌄";
-    copy.append(title, arrow);
 
-    heroIntro.append(brand, media, copy);
+    if (shouldRotateHeroMobile) {
+      const titleRail = document.createElement("div");
+      titleRail.className = "album-hero-title-rail";
+      titleRail.appendChild(title);
+
+      const brandRail = document.createElement("div");
+      brandRail.className = "album-hero-brand-rail";
+      brandRail.appendChild(brand);
+
+      heroIntro.append(titleRail, media, brandRail, arrow);
+    } else {
+      const brandRail = document.createElement("div");
+      brandRail.className = "album-hero-brand-rail";
+      brandRail.appendChild(brand);
+
+      const titleRail = document.createElement("div");
+      titleRail.className = "album-hero-title-rail";
+      titleRail.appendChild(title);
+
+      heroIntro.append(brandRail, media, titleRail, arrow);
+    }
   } else {
     heroIntro.innerHTML = "";
   }
 
-  return hasHeroIntro;
+  return {
+    hasHeroIntro,
+    hasMobileSideviewHero,
+  };
 };
 
 const buildJoinTemplate = (entries, invert = false) =>

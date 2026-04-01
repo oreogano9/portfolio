@@ -18,7 +18,14 @@ import {
 } from "./state.js";
 import { createAlbumEffects } from "./effects.js";
 import { canJoinPhoto, deriveSectionsFromPhotos } from "./utils.js";
-import { buildAlbumBlocks, collectHeadingAdjacentPhotos, mountAlbumBlocks, renderHeroIntro, renderSubalbumIndexes } from "./render.js";
+import {
+  buildAlbumBlocks,
+  collectHeadingAdjacentPhotos,
+  getHeroIntroState,
+  mountAlbumBlocks,
+  renderHeroIntro,
+  renderSubalbumIndexes,
+} from "./render.js";
 import { mountAlbumReactHeaderUi } from "../editor-react-ui.js";
 import { observeReveals } from "../home.js";
 
@@ -73,6 +80,7 @@ export const setupAlbumEditor = async () => {
   const galleryId = body.dataset.galleryId || "gallery";
   const settingsUrl = body.dataset.gallerySettings || "";
   const canonicalSettingsPath = normalizeSettingsPath(settingsUrl);
+  let spacerClipboard = null;
 
   const originalPhotos = Array.from(grid.querySelectorAll("img")).map((image) => {
     const naturalWidth = image.naturalWidth || Number(image.getAttribute("width")) || 0;
@@ -143,6 +151,7 @@ export const setupAlbumEditor = async () => {
     editing: false,
     previewing: false,
     showDeleted: false,
+    runtimeMobileSideviewActive: false,
   };
 
   const persistLocalState = (dirty = true, syncedSignature = "") => {
@@ -213,8 +222,61 @@ export const setupAlbumEditor = async () => {
   let cleanupRenderedBlocks = () => {};
   let landscapeRenderQueued = false;
   let activeTitleEdit = null;
+  let initialViewportReady = false;
 
   const viewportAnchorY = () => (window.visualViewport?.height || window.innerHeight) * 0.33;
+
+  const waitForInitialViewportStability = async () => {
+    if (initialViewportReady) {
+      return;
+    }
+
+    const viewport = window.visualViewport;
+    if (!viewport) {
+      await new Promise((resolve) => {
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(resolve);
+        });
+      });
+      initialViewportReady = true;
+      return;
+    }
+
+    await new Promise((resolve) => {
+      let timer = 0;
+      let settled = false;
+
+      const cleanup = () => {
+        viewport.removeEventListener("resize", scheduleSettle);
+        viewport.removeEventListener("scroll", scheduleSettle);
+        window.clearTimeout(timer);
+      };
+
+      const finish = () => {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        cleanup();
+        resolve();
+      };
+
+      const scheduleSettle = () => {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => {
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(finish);
+          });
+        }, 120);
+      };
+
+      viewport.addEventListener("resize", scheduleSettle, { passive: true });
+      viewport.addEventListener("scroll", scheduleSettle, { passive: true });
+      scheduleSettle();
+    });
+
+    initialViewportReady = true;
+  };
 
   const captureRenderAnchor = () => {
     const candidates = [
@@ -431,6 +493,7 @@ export const setupAlbumEditor = async () => {
     normalizeEffect,
   });
   effects.bind();
+  let lastReactiveSideviewState = getHeroIntroState(state).hasMobileSideviewHero;
 
   const exportSettings = () => {
     const json = JSON.stringify(serializeState(state, galleryId), null, 2);
@@ -541,8 +604,31 @@ export const setupAlbumEditor = async () => {
     render();
   };
 
-  const copySpacerValue = (fromIndex, toIndex) => {
-    if (toIndex < 0 || toIndex >= state.photos.length) {
+  const syncSpacerClipboardUi = () => {
+    grid.querySelectorAll(".spacer-paste-button").forEach((button) => {
+      if (button.closest(".editable-photo.is-deleted-photo")) {
+        return;
+      }
+
+      button.disabled = !Number.isFinite(spacerClipboard);
+    });
+  };
+
+  const copySpacerValue = (fromIndex) => {
+    if (fromIndex < 0 || fromIndex >= state.photos.length) {
+      return;
+    }
+
+    if (state.photos[fromIndex].deleted) {
+      return;
+    }
+
+    spacerClipboard = Math.max(0, Math.min(50, Number(state.photos[fromIndex].spacerAfter) || 0));
+    syncSpacerClipboardUi();
+  };
+
+  const pasteSpacerValue = (toIndex) => {
+    if (toIndex < 0 || toIndex >= state.photos.length || !Number.isFinite(spacerClipboard)) {
       return;
     }
 
@@ -550,9 +636,7 @@ export const setupAlbumEditor = async () => {
       return;
     }
 
-    state.photos[toIndex].spacerAfter = Math.max(0, Math.min(50, Number(state.photos[fromIndex].spacerAfter) || 0));
-    save();
-    render();
+    updateSpacer(toIndex, spacerClipboard);
   };
 
   const syncModeUi = () => {
@@ -636,20 +720,22 @@ export const setupAlbumEditor = async () => {
       button.textContent = "Export JSON";
     });
 
-    const hasHeroIntro = renderHeroIntro({
+    const heroIntroState = renderHeroIntro({
       heroIntro,
       state,
       siteBrand,
     });
-    const hasMobileSideviewHero = hasHeroIntro && heroIntro.classList.contains("mobile-sideview-hero");
+    const { hasHeroIntro, hasMobileSideviewHero } = heroIntroState;
+    state.runtimeMobileSideviewActive = hasMobileSideviewHero;
     const heroTitle = heroIntro?.querySelector(".album-hero-title");
     applyTitleDisplay(title);
     if (heroTitle instanceof HTMLElement) {
       applyTitleDisplay(heroTitle);
     }
     body.classList.toggle("has-hero-intro", hasHeroIntro);
-    body.classList.toggle("has-mobile-sideview-mode", state.mobileRotateClockwise);
+    body.classList.toggle("has-mobile-sideview-mode", hasMobileSideviewHero);
     body.classList.toggle("has-mobile-sideview-hero", hasMobileSideviewHero);
+    body.classList.toggle("has-mobile-sideview-grid", hasMobileSideviewHero);
 
     renderSubalbumIndexes({
       state,
@@ -695,6 +781,7 @@ export const setupAlbumEditor = async () => {
         effects.queueEffectUpdate();
       },
     });
+    syncSpacerClipboardUi();
     observeReveals(heroIntro || document);
 
     effects.queueEffectUpdate();
@@ -709,6 +796,18 @@ export const setupAlbumEditor = async () => {
       }
     });
   };
+
+  const syncReactiveSideviewRender = () => {
+    const nextState = getHeroIntroState(state).hasMobileSideviewHero;
+    if (nextState === lastReactiveSideviewState) {
+      return;
+    }
+    lastReactiveSideviewState = nextState;
+    render();
+  };
+
+  window.addEventListener("resize", syncReactiveSideviewRender);
+  window.addEventListener("orientationchange", syncReactiveSideviewRender);
 
   grid.addEventListener("click", (event) => {
     const button = event.target.closest(
@@ -740,10 +839,10 @@ export const setupAlbumEditor = async () => {
       render();
     } else if (action === "spacer-reset") {
       updateSpacer(index, 0);
-    } else if (action === "spacer-copy-up") {
-      copySpacerValue(index, index - 1);
-    } else if (action === "spacer-copy-down") {
-      copySpacerValue(index, index + 1);
+    } else if (action === "spacer-copy-value") {
+      copySpacerValue(index);
+    } else if (action === "spacer-paste-value") {
+      pasteSpacerValue(index);
     } else if (action === "join-toggle") {
       if (state.photos[index].joinWithPrevious) {
         state.photos[index].joinWithPrevious = false;
@@ -907,5 +1006,7 @@ export const setupAlbumEditor = async () => {
     button.addEventListener("click", exportSettings);
   });
 
+  await waitForInitialViewportStability();
+  lastReactiveSideviewState = getHeroIntroState(state).hasMobileSideviewHero;
   render();
 };

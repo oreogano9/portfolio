@@ -115,11 +115,21 @@ export const setupLightbox = () => {
   };
 
   const shouldOpenRotatedMobile = (image) => {
-    if (!(image instanceof HTMLImageElement) || !mobileLayoutQuery.matches) {
+    if (
+      !(image instanceof HTMLImageElement) ||
+      !mobileLayoutQuery.matches ||
+      (!document.body.classList.contains("has-mobile-sideview-mode") && !document.body.classList.contains("has-mobile-sideview-grid"))
+    ) {
       return false;
     }
 
-    if (image.closest(".editable-photo.mobile-rotate-candidate")) {
+    const photoWrapper = image.closest(".editable-photo");
+    if (
+      photoWrapper &&
+      document.body.classList.contains("has-mobile-sideview-grid") &&
+      !photoWrapper.classList.contains("is-deleted-photo") &&
+      Number(photoWrapper.dataset.ratio) > 0
+    ) {
       return true;
     }
 

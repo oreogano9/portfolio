@@ -61,9 +61,9 @@ export const normalizeTopSpacer = (value, fallback = 7) => {
   return Math.max(0, Math.min(40, numeric || 0));
 };
 
-export const normalizeTitleScale = (value, fallback = 1) => {
+export const normalizeTitleScale = (value, fallback = 0.6) => {
   const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
-  return Math.max(0.6, Math.min(1.8, numeric || 1));
+  return Math.max(0.6, Math.min(1.8, Number.isFinite(numeric) ? numeric : 0.6));
 };
 
 export const normalizeMobileRotateClockwise = (value, fallback = false) => {

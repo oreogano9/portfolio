@@ -1,7 +1,7 @@
 {
   "id": "ninas-50th-vesuvio-edition",
   "title": "Nina’s 50th: Vesuvio Edition",
-  "titleScale": 1,
+  "titleScale": 0.6,
   "mobileRotateClockwise": true,
   "spacing": "tight",
   "topSpacer": 7,
