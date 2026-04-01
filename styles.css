@@ -1226,6 +1226,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   overflow: hidden;
 }
 
+.album-page:not(.is-editing) .album-debug-panel {
+  display: none;
+}
+
 .album-debug-title {
   font-size: 0.68rem;
   letter-spacing: 0.16em;
