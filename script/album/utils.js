@@ -53,6 +53,6 @@ export const canJoinPhoto = (state, index, normalizeEffect) => {
   return rowSize < 3;
 };
 
-export const shouldProgressiveRender = (state) => {
-  return !state.editing || state.previewing;
+export const shouldProgressiveRender = () => {
+  return false;
 };
