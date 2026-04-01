@@ -4,6 +4,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
   const visiblePhotos = new Set();
   let effectFrame = null;
   let visibilityObserver = null;
+  let lastResizeWidth = window.innerWidth || document.documentElement.clientWidth || 0;
   const mobileSideviewGridSelector = '.editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""])';
 
   const syncMobileLayoutState = () => {
@@ -68,8 +69,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
         return;
       }
 
-      const viewportWidth = window.visualViewport?.width || window.innerWidth;
-      const viewportHeight = window.visualViewport?.height || window.innerHeight;
+      const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+      const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
       const maxFrameWidth = Math.max(0, viewportWidth - 20 - safetyInset * 2);
       const maxFrameHeight = Math.max(0, viewportHeight * 0.92 - safetyInset * 2);
       const fittedFrameWidth = Math.min(frameWidth, maxFrameWidth);
@@ -238,8 +239,17 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
 
     window.addEventListener("resize", () => {
       syncMobileLayoutState();
-      updateMobileExtendedLayout();
-      refreshEffectObservers();
+
+      const nextWidth = window.innerWidth || document.documentElement.clientWidth || 0;
+      const widthChanged = Math.abs(nextWidth - lastResizeWidth) >= 24;
+      if (widthChanged) {
+        lastResizeWidth = nextWidth;
+        updateMobileExtendedLayout();
+        refreshEffectObservers();
+        return;
+      }
+
+      queueEffectUpdate();
     });
     window.addEventListener("orientationchange", () => {
       syncMobileLayoutState();
