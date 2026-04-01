@@ -32,7 +32,7 @@
       "alt": "Ariel Vittori - Pottery - DSC01710-2.jpg",
       "section": "",
       "size": "full",
-      "spacerAfter": 0,
+      "spacerAfter": 4.5,
       "effect": "none",
       "joinWithPrevious": false,
       "deleted": false,
@@ -48,7 +48,7 @@
       "spacerAfter": 10,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001268713524487
     },
