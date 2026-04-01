@@ -1,4 +1,4 @@
-export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
+export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebug = () => {} }) => {
   const mobileLayoutQuery = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)");
   const effectClassNames = ["effect-focus", "effect-monochrome", "effect-lift", "effect-blur", "effect-glow", "effect-tilt"];
   const visiblePhotos = new Set();
@@ -48,7 +48,14 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       return;
     }
 
-    grid.querySelectorAll(mobileSideviewGridSelector).forEach((wrapper) => {
+    const rotateTargets = Array.from(grid.querySelectorAll(mobileSideviewGridSelector));
+    if (rotateTargets.length) {
+      logDebug("rotate-layout", {
+        targets: rotateTargets.length,
+      });
+    }
+
+    rotateTargets.forEach((wrapper) => {
       const ratio = Number(wrapper.dataset.ratio);
       const computedStyle = window.getComputedStyle(wrapper);
       const gutter =
@@ -244,17 +251,6 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect }) => {
       refreshEffectObservers();
     });
     window.addEventListener("scroll", handleScroll, { passive: true });
-
-    grid.addEventListener(
-      "load",
-      (event) => {
-        if (event.target instanceof HTMLImageElement) {
-          updateMobileExtendedLayout();
-          queueEffectUpdate();
-        }
-      },
-      true
-    );
 
     refreshEffectObservers();
   };

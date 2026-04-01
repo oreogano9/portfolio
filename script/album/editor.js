@@ -222,60 +222,69 @@ export const setupAlbumEditor = async () => {
   let cleanupRenderedBlocks = () => {};
   let landscapeRenderQueued = false;
   let activeTitleEdit = null;
-  let initialViewportReady = false;
+  const debugEntries = [];
+  const debugPanel = document.createElement("aside");
+  const debugTitle = document.createElement("div");
+  const debugLog = document.createElement("div");
+  debugPanel.className = "album-debug-panel";
+  debugTitle.className = "album-debug-title";
+  debugTitle.textContent = "Debug";
+  debugLog.className = "album-debug-log";
+  debugPanel.append(debugTitle, debugLog);
+  body.appendChild(debugPanel);
 
   const viewportAnchorY = () => (window.visualViewport?.height || window.innerHeight) * 0.33;
 
   const waitForInitialViewportStability = async () => {
-    if (initialViewportReady) {
-      return;
-    }
-
-    const viewport = window.visualViewport;
-    if (!viewport) {
-      await new Promise((resolve) => {
-        window.requestAnimationFrame(() => {
-          window.requestAnimationFrame(resolve);
-        });
-      });
-      initialViewportReady = true;
-      return;
-    }
-
     await new Promise((resolve) => {
-      let timer = 0;
-      let settled = false;
-
-      const cleanup = () => {
-        viewport.removeEventListener("resize", scheduleSettle);
-        viewport.removeEventListener("scroll", scheduleSettle);
-        window.clearTimeout(timer);
-      };
-
-      const finish = () => {
-        if (settled) {
-          return;
-        }
-        settled = true;
-        cleanup();
-        resolve();
-      };
-
-      const scheduleSettle = () => {
-        window.clearTimeout(timer);
-        timer = window.setTimeout(() => {
-          window.requestAnimationFrame(() => {
-            window.requestAnimationFrame(finish);
-          });
-        }, 120);
-      };
-
-      viewport.addEventListener("resize", scheduleSettle, { passive: true });
-      viewport.addEventListener("scroll", scheduleSettle, { passive: true });
-      scheduleSettle();
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(resolve);
+      });
     });
+  };
 
-    initialViewportReady = true;
+  const renderDebugPanel = () => {
+    debugPanel.classList.toggle("is-visible", state.editing);
+    debugLog.innerHTML = debugEntries
+      .slice()
+      .reverse()
+      .map((entry) => {
+        const count = entry.count > 1 ? ` x${entry.count}` : "";
+        return `<div class="album-debug-entry"><span class="album-debug-time">${entry.time}</span><span class="album-debug-label">${entry.label}${count}</span><span class="album-debug-details">${entry.summary}</span></div>`;
+      })
+      .join("");
+  };
+
+  const logDebug = (label, details = {}) => {
+    const time = new Date().toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    const summary = Object.entries(details)
+      .filter(([, value]) => value !== "" && value !== null && value !== undefined && value !== false)
+      .map(([key, value]) => `${key}:${value}`)
+      .join(" ");
+    const key = `${label}|${summary}`;
+    const lastEntry = debugEntries[debugEntries.length - 1];
+
+    if (lastEntry?.key === key) {
+      lastEntry.count += 1;
+      lastEntry.time = time;
+    } else {
+      debugEntries.push({
+        key,
+        label,
+        summary,
+        time,
+        count: 1,
+      });
+      if (debugEntries.length > 16) {
+        debugEntries.splice(0, debugEntries.length - 16);
+      }
+    }
+
+    renderDebugPanel();
   };
 
   const captureRenderAnchor = () => {
@@ -350,6 +359,10 @@ export const setupAlbumEditor = async () => {
     const desiredTop = viewportAnchorY() + anchor.topOffset;
     const delta = target.getBoundingClientRect().top - desiredTop;
     if (Math.abs(delta) > 1) {
+      logDebug("restore-anchor", {
+        target: anchor.type === "photo" ? "photo" : anchor.id,
+        delta: delta.toFixed(1),
+      });
       window.scrollBy(0, delta);
     }
   };
@@ -360,6 +373,7 @@ export const setupAlbumEditor = async () => {
     }
 
     landscapeRenderQueued = true;
+    logDebug("landscape-rerender", {});
     window.requestAnimationFrame(() => {
       landscapeRenderQueued = false;
       render();
@@ -491,6 +505,7 @@ export const setupAlbumEditor = async () => {
     grid,
     state,
     normalizeEffect,
+    logDebug,
   });
   effects.bind();
   let lastReactiveSideviewState = getHeroIntroState(state).hasMobileSideviewHero;
@@ -649,10 +664,16 @@ export const setupAlbumEditor = async () => {
       button.textContent = state.previewing ? "Show Editor" : "Preview";
       button.setAttribute("aria-pressed", state.previewing ? "true" : "false");
     });
+    renderDebugPanel();
   };
 
   const render = () => {
     const renderAnchor = hasMarkedReady ? captureRenderAnchor() : null;
+    logDebug("render", {
+      anchor: renderAnchor?.type || "none",
+      editing: state.editing ? 1 : 0,
+      sideview: state.runtimeMobileSideviewActive ? 1 : 0,
+    });
     body.style.setProperty("--album-title-scale", String(normalizeTitleScale(state.titleScale)));
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
     topSpacerSection?.style.setProperty("--album-top-spacer-height", `${normalizeTopSpacer(state.topSpacer)}rem`);
@@ -727,6 +748,10 @@ export const setupAlbumEditor = async () => {
     });
     const { hasHeroIntro, hasMobileSideviewHero } = heroIntroState;
     state.runtimeMobileSideviewActive = hasMobileSideviewHero;
+    logDebug("hero-state", {
+      intro: hasHeroIntro ? 1 : 0,
+      sideview: hasMobileSideviewHero ? 1 : 0,
+    });
     const heroTitle = heroIntro?.querySelector(".album-hero-title");
     applyTitleDisplay(title);
     if (heroTitle instanceof HTMLElement) {
@@ -774,6 +799,9 @@ export const setupAlbumEditor = async () => {
       anchor: renderAnchor,
       priorityPhotoSources,
       onChunkRendered: () => {
+        logDebug("chunk", {
+          photos: grid.querySelectorAll(".editable-photo").length,
+        });
         observeReveals(grid);
         effects.updateMobileExtendedLayout();
         effects.updateSpotlightLayout();
@@ -802,12 +830,15 @@ export const setupAlbumEditor = async () => {
     if (nextState === lastReactiveSideviewState) {
       return;
     }
+    logDebug("sideview-rerender", {
+      next: nextState ? 1 : 0,
+    });
     lastReactiveSideviewState = nextState;
     render();
   };
 
-  window.addEventListener("resize", syncReactiveSideviewRender);
   window.addEventListener("orientationchange", syncReactiveSideviewRender);
+  window.screen?.orientation?.addEventListener?.("change", syncReactiveSideviewRender);
 
   grid.addEventListener("click", (event) => {
     const button = event.target.closest(

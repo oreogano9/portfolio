@@ -1208,6 +1208,66 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   visibility: hidden;
 }
 
+.album-debug-panel {
+  position: fixed;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  z-index: 45;
+  pointer-events: none;
+  width: min(24rem, calc(100vw - 1.6rem));
+  max-height: min(40vh, 20rem);
+  display: none;
+  gap: 0.4rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  background: rgba(250, 248, 244, 0.92);
+  box-shadow: 0 0.65rem 2rem rgba(17, 17, 17, 0.08);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.album-debug-panel.is-visible {
+  display: grid;
+}
+
+.album-debug-title {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.album-debug-log {
+  display: grid;
+  gap: 0.24rem;
+  overflow: auto;
+  font-family: "SF Mono", "IBM Plex Mono", "Cascadia Code", monospace;
+  font-size: 0.66rem;
+  line-height: 1.35;
+}
+
+.album-debug-entry {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 0.45rem;
+  align-items: start;
+}
+
+.album-debug-time {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.album-debug-label {
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.album-debug-details {
+  color: var(--muted);
+  min-width: 0;
+}
+
 .photo-controls {
   position: absolute;
   top: 0.55rem;
