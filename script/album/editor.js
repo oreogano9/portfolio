@@ -19,6 +19,7 @@ import {
 import { createAlbumEffects } from "./effects.js";
 import { canJoinPhoto, deriveSectionsFromPhotos } from "./utils.js";
 import { buildAlbumBlocks, collectHeadingAdjacentPhotos, mountAlbumBlocks, renderHeroIntro, renderSubalbumIndexes } from "./render.js";
+import { mountAlbumReactHeaderUi } from "../editor-react-ui.js";
 import { observeReveals } from "../home.js";
 
 export const setupAlbumEditor = async () => {
@@ -211,6 +212,7 @@ export const setupAlbumEditor = async () => {
   let hasMarkedReady = false;
   let cleanupRenderedBlocks = () => {};
   let landscapeRenderQueued = false;
+  let activeTitleEdit = null;
 
   const viewportAnchorY = () => (window.visualViewport?.height || window.innerHeight) * 0.33;
 
@@ -325,46 +327,102 @@ export const setupAlbumEditor = async () => {
     loadLandscapeState(photo, index);
   });
 
+  const finishTitleInlineEdit = ({ cancel = false } = {}) => {
+    if (!activeTitleEdit) {
+      return;
+    }
+
+    if (cancel) {
+      state.title = activeTitleEdit.originalValue;
+      title.textContent = state.title;
+      save();
+    }
+
+    activeTitleEdit = null;
+    render();
+  };
+
+  const applyTitleDisplay = (element) => {
+    if (!(element instanceof HTMLElement)) {
+      return;
+    }
+
+    if (activeTitleEdit?.element === element) {
+      return;
+    }
+
+    element.classList.remove("is-inline-editing", "is-inline-placeholder");
+    if (state.title.trim()) {
+      element.textContent = state.title;
+    } else if (state.editing) {
+      element.textContent = "Add title";
+      element.classList.add("is-inline-placeholder");
+    } else {
+      element.textContent = "";
+    }
+  };
+
+  const startTitleInlineEdit = (element) => {
+    if (!(element instanceof HTMLElement)) {
+      return;
+    }
+
+    if (activeTitleEdit?.element === element) {
+      return;
+    }
+
+    if (activeTitleEdit) {
+      finishTitleInlineEdit();
+    }
+
+    activeTitleEdit = {
+      element,
+      originalValue: state.title,
+    };
+
+    const input = document.createElement("input");
+    input.className = "inline-edit-input inline-edit-title";
+    input.type = "text";
+    input.value = state.title;
+    input.setAttribute("aria-label", "Album title");
+
+    input.addEventListener("input", () => {
+      state.title = input.value;
+      save();
+    });
+
+    input.addEventListener("blur", () => {
+      finishTitleInlineEdit();
+    });
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finishTitleInlineEdit({ cancel: true });
+        return;
+      }
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        input.blur();
+      }
+    });
+
+    element.replaceChildren(input);
+    element.classList.remove("is-inline-placeholder");
+    element.classList.add("is-inline-editing");
+
+    window.requestAnimationFrame(() => {
+      input.focus();
+      const length = input.value.length;
+      input.setSelectionRange?.(length, length);
+    });
+  };
+
   const headerControls = document.createElement("div");
   headerControls.className = "header-edit-controls";
-  headerControls.innerHTML = `
-    <input class="header-edit-input" type="text" aria-label="Album title" />
-    <input class="header-edit-input header-edit-number" type="number" min="0.6" max="1.8" step="0.05" aria-label="Album title size multiplier" placeholder="Title Size" />
-    <input class="header-edit-input header-edit-number" type="number" min="0" max="40" step="0.25" aria-label="Top spacer height in rem" placeholder="Top Space (rem)" />
-    <select class="header-edit-select" aria-label="Space between photos">
-      <option value="tight">Tight spacing</option>
-      <option value="default">Default spacing</option>
-      <option value="airy">Airy spacing</option>
-    </select>
-    <select class="header-edit-select" aria-label="Album effect">
-      <option value="none">No Effect</option>
-      <option value="focus">Focus</option>
-      <option value="monochrome">Monochrome</option>
-      <option value="lift">Lift</option>
-      <option value="blur">Blur</option>
-      <option value="glow">Glow</option>
-      <option value="tilt">Tilt</option>
-    </select>
-    <select class="header-edit-select" aria-label="Album intro mode">
-      <option value="default">Default Intro</option>
-      <option value="hero">Hero Intro</option>
-    </select>
-    <select class="header-edit-select" aria-label="Show hero arrow">
-      <option value="true">Arrow On</option>
-      <option value="false">Arrow Off</option>
-    </select>
-    <select class="header-edit-select" aria-label="Experimental mobile clockwise rotate">
-      <option value="false">Mobile Rotate Off</option>
-      <option value="true">Mobile Rotate On</option>
-    </select>
-    <button class="header-edit-toggle" type="button" data-action="toggle-deleted" aria-pressed="false">Show Deleted</button>
-  `;
   header.appendChild(headerControls);
-
-  const [titleInput, titleScaleInput, topSpacerInput] = headerControls.querySelectorAll(".header-edit-input");
-  const [spacingSelect, effectSelect, introModeSelect, introArrowSelect, mobileRotateSelect] =
-    headerControls.querySelectorAll(".header-edit-select");
-  const deletedToggle = headerControls.querySelector('[data-action="toggle-deleted"]');
+  const headerReactUi = mountAlbumReactHeaderUi({ container: headerControls });
 
   const effects = createAlbumEffects({
     body,
@@ -498,11 +556,6 @@ export const setupAlbumEditor = async () => {
   };
 
   const syncModeUi = () => {
-    if (deletedToggle) {
-      deletedToggle.textContent = state.showDeleted ? "Hide Deleted" : "Show Deleted";
-      deletedToggle.setAttribute("aria-pressed", state.showDeleted ? "true" : "false");
-      deletedToggle.classList.toggle("is-active", state.showDeleted);
-    }
     toggleButtons.forEach((button) => {
       button.textContent = state.editing ? "Done" : "Edit";
     });
@@ -516,19 +569,65 @@ export const setupAlbumEditor = async () => {
 
   const render = () => {
     const renderAnchor = hasMarkedReady ? captureRenderAnchor() : null;
-    title.textContent = state.title;
     body.style.setProperty("--album-title-scale", String(normalizeTitleScale(state.titleScale)));
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
     topSpacerSection?.style.setProperty("--album-top-spacer-height", `${normalizeTopSpacer(state.topSpacer)}rem`);
-    titleInput.value = state.title;
-    titleScaleInput.value = String(normalizeTitleScale(state.titleScale));
-    topSpacerInput.value = String(normalizeTopSpacer(state.topSpacer));
-    spacingSelect.value = state.spacing;
-    effectSelect.value = state.effect;
-    introModeSelect.value = state.intro.mode;
-    introArrowSelect.value = state.intro.showArrow ? "true" : "false";
-    mobileRotateSelect.value = state.mobileRotateClockwise ? "true" : "false";
     syncModeUi();
+    headerReactUi.render({
+      titleScale: normalizeTitleScale(state.titleScale),
+      topSpacer: normalizeTopSpacer(state.topSpacer),
+      spacing: state.spacing,
+      effect: state.effect,
+      introMode: state.intro.mode,
+      showArrow: state.intro.showArrow,
+      mobileRotateClockwise: state.mobileRotateClockwise,
+      showDeleted: state.showDeleted,
+      onTitleScaleChange: (value) => {
+        state.titleScale = normalizeTitleScale(value, state.titleScale);
+        body.style.setProperty("--album-title-scale", String(state.titleScale));
+        save();
+        render();
+      },
+      onTopSpacerChange: (value) => {
+        state.topSpacer = normalizeTopSpacer(value, state.topSpacer);
+        if (topSpacerSection) {
+          topSpacerSection.style.setProperty("--album-top-spacer-height", `${state.topSpacer}rem`);
+        }
+        save();
+        render();
+      },
+      onSpacingChange: (value) => {
+        state.spacing = value;
+        grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
+        save();
+        render();
+      },
+      onEffectChange: (value) => {
+        state.effect = normalizeEffect(value);
+        save();
+        render();
+        effects.queueEffectUpdate();
+      },
+      onIntroModeChange: (value) => {
+        state.intro.mode = value === "hero" ? "hero" : "default";
+        save();
+        render();
+      },
+      onShowArrowChange: (value) => {
+        state.intro.showArrow = value === "true";
+        save();
+        render();
+      },
+      onMobileRotateChange: (value) => {
+        state.mobileRotateClockwise = value === "true";
+        save();
+        render();
+      },
+      onToggleDeleted: () => {
+        state.showDeleted = !state.showDeleted;
+        render();
+      },
+    });
     saveButtons.forEach((button) => {
       button.textContent = saveState.pending ? "Saving..." : saveState.message || "Save";
       button.disabled = saveState.pending;
@@ -543,6 +642,11 @@ export const setupAlbumEditor = async () => {
       siteBrand,
     });
     const hasMobileSideviewHero = hasHeroIntro && heroIntro.classList.contains("mobile-sideview-hero");
+    const heroTitle = heroIntro?.querySelector(".album-hero-title");
+    applyTitleDisplay(title);
+    if (heroTitle instanceof HTMLElement) {
+      applyTitleDisplay(heroTitle);
+    }
     body.classList.toggle("has-hero-intro", hasHeroIntro);
     body.classList.toggle("has-mobile-sideview-mode", state.mobileRotateClockwise);
     body.classList.toggle("has-mobile-sideview-hero", hasMobileSideviewHero);
@@ -605,60 +709,6 @@ export const setupAlbumEditor = async () => {
       }
     });
   };
-
-  titleInput.addEventListener("input", (event) => {
-    state.title = event.target.value || "Untitled Album";
-    title.textContent = state.title;
-    const heroTitle = heroIntro?.querySelector(".album-hero-title");
-    if (heroTitle) {
-      heroTitle.textContent = state.title;
-    }
-    save();
-  });
-
-  titleScaleInput.addEventListener("input", (event) => {
-    state.titleScale = normalizeTitleScale(event.target.value, state.titleScale);
-    body.style.setProperty("--album-title-scale", String(state.titleScale));
-    save();
-  });
-
-  topSpacerInput.addEventListener("input", (event) => {
-    state.topSpacer = normalizeTopSpacer(event.target.value, state.topSpacer);
-    if (topSpacerSection) {
-      topSpacerSection.style.setProperty("--album-top-spacer-height", `${state.topSpacer}rem`);
-    }
-    save();
-  });
-
-  spacingSelect.addEventListener("change", (event) => {
-    state.spacing = event.target.value;
-    grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
-    save();
-  });
-
-  effectSelect.addEventListener("change", (event) => {
-    state.effect = normalizeEffect(event.target.value);
-    save();
-    effects.queueEffectUpdate();
-  });
-
-  introModeSelect.addEventListener("change", (event) => {
-    state.intro.mode = event.target.value === "hero" ? "hero" : "default";
-    save();
-    render();
-  });
-
-  introArrowSelect.addEventListener("change", (event) => {
-    state.intro.showArrow = event.target.value === "true";
-    save();
-    render();
-  });
-
-  mobileRotateSelect.addEventListener("change", (event) => {
-    state.mobileRotateClockwise = event.target.value === "true";
-    save();
-    render();
-  });
 
   grid.addEventListener("click", (event) => {
     const button = event.target.closest(
@@ -766,6 +816,9 @@ export const setupAlbumEditor = async () => {
 
   toggleButtons.forEach((button) => {
     button.addEventListener("click", () => {
+      if (activeTitleEdit) {
+        finishTitleInlineEdit();
+      }
       const requiresRerender = state.showDeleted;
       state.editing = !state.editing;
       if (!state.editing) {
@@ -797,9 +850,22 @@ export const setupAlbumEditor = async () => {
     });
   });
 
-  deletedToggle?.addEventListener("click", () => {
-    state.showDeleted = !state.showDeleted;
-    render();
+  header.addEventListener("click", (event) => {
+    if (!state.editing) {
+      return;
+    }
+
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const titleTarget = target.closest(".masthead-title, .album-hero-title");
+    if (!(titleTarget instanceof HTMLElement)) {
+      return;
+    }
+
+    startTitleInlineEdit(titleTarget);
   });
 
   window.addEventListener("keydown", (event) => {
@@ -818,6 +884,9 @@ export const setupAlbumEditor = async () => {
     }
 
     event.preventDefault();
+    if (activeTitleEdit) {
+      finishTitleInlineEdit();
+    }
     const requiresRerender = state.showDeleted;
     state.editing = !state.editing;
     if (!state.editing) {

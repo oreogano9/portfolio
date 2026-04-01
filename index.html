@@ -11,7 +11,7 @@
     <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
+  <body class="home-page" data-homepage-settings="/data/homepage.settings.json">
     <div class="mobile-menu-drawer" id="mobile-menu-drawer" aria-hidden="true">
       <div class="mobile-menu-panel">
         <button class="mobile-menu-close" type="button" aria-label="Close menu">Close</button>
@@ -45,14 +45,12 @@
         </div>
         <section class="masthead section">
           <div class="masthead-copy">
-            <h1 class="masthead-title reveal-words">
+            <h1 class="masthead-title reveal-words homepage-quote">
               “What is the purpose of life?...To be the eyes and ears and conscience of the Creator of the Universe, you fool!”
             </h1>
-            <p class="masthead-attribution reveal-up">- Kurt Vonnegut</p>
+            <p class="masthead-attribution reveal-up homepage-quote-attribution">- Kurt Vonnegut</p>
           </div>
 
-          <div class="masthead-note reveal-up">
-          </div>
         </section>
 
         <section class="section albums-section" id="albums">
@@ -65,32 +63,40 @@
           </div>
 
           <div class="album-grid">
-            <a class="album-card reveal-up" href="/albums/album-museo-della-civilta-26.html" data-category="postcards artistic">
+            <a class="album-card reveal-up" href="/albums/album-museo-della-civilta-26.html" data-category="postcards artistic" data-home-card-id="/albums/album-museo-della-civilta-26.html">
               <span class="album-number">01</span>
-              <div>
-                <h3>Museo Della Civilta 26</h3>
-                <p>Museum interiors, exhibition details, and architectural observations from the uploaded set.</p>
+              <div class="album-card-copy">
+                <h3 class="album-card-title">Museo Della Civilta 26</h3>
+                <p class="album-card-date" aria-label="Album date">14/09/24</p>
+                <p class="album-card-tags" aria-label="Album tags"></p>
+                <p class="album-card-description">Museum interiors, exhibition details, and architectural observations from the uploaded set.</p>
               </div>
             </a>
-            <a class="album-card reveal-up" href="/albums/album-ninas-50th-vesuvio-edition.html" data-category="events portraits">
+            <a class="album-card reveal-up" href="/albums/album-ninas-50th-vesuvio-edition.html" data-category="events portraits" data-home-card-id="/albums/album-ninas-50th-vesuvio-edition.html">
               <span class="album-number">02</span>
-              <div>
-                <h3>Nina’s 50th: Vesuvio Edition</h3>
-                <p>A three-part album built as a sequence: The Meetup, Nina’s Street Art Tour, and Nina’s 50th Disco Party.</p>
+              <div class="album-card-copy">
+                <h3 class="album-card-title">Nina’s 50th: Vesuvio Edition</h3>
+                <p class="album-card-date" aria-label="Album date"></p>
+                <p class="album-card-tags" aria-label="Album tags"></p>
+                <p class="album-card-description">A three-part album built as a sequence: The Meetup, Nina’s Street Art Tour, and Nina’s 50th Disco Party.</p>
               </div>
             </a>
-            <a class="album-card reveal-up" href="/albums/album-ilaria-paolucci-ceramiche.html" data-category="artistic">
+            <a class="album-card reveal-up" href="/albums/album-ilaria-paolucci-ceramiche.html" data-category="artistic" data-home-card-id="/albums/album-ilaria-paolucci-ceramiche.html">
               <span class="album-number">03</span>
-              <div>
-                <h3>Ilaria Paolucci Ceramiche</h3>
-                <p>A pottery process album following Ilaria Paolucci through the gestures, tools, and stages of making ceramics.</p>
+              <div class="album-card-copy">
+                <h3 class="album-card-title">Ilaria Paolucci Ceramiche</h3>
+                <p class="album-card-date" aria-label="Album date"></p>
+                <p class="album-card-tags" aria-label="Album tags"></p>
+                <p class="album-card-description">A pottery process album following Ilaria Paolucci through the gestures, tools, and stages of making ceramics.</p>
               </div>
             </a>
-            <a class="album-card reveal-up" href="/albums/album-ariel-vittori-pottery.html" data-category="artistic portraits">
+            <a class="album-card reveal-up" href="/albums/album-ariel-vittori-pottery.html" data-category="artistic portraits" data-home-card-id="/albums/album-ariel-vittori-pottery.html">
               <span class="album-number">04</span>
-              <div>
-                <h3>Ariel Vittori - Pottery</h3>
-                <p>A pottery portrait set focused on Ariel Vittori, the studio atmosphere, and the tactile details of ceramic work.</p>
+              <div class="album-card-copy">
+                <h3 class="album-card-title">Ariel Vittori - Pottery</h3>
+                <p class="album-card-date" aria-label="Album date"></p>
+                <p class="album-card-tags" aria-label="Album tags"></p>
+                <p class="album-card-description">A pottery portrait set focused on Ariel Vittori, the studio atmosphere, and the tactile details of ceramic work.</p>
               </div>
             </a>
           </div>

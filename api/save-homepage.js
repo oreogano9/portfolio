@@ -2,13 +2,15 @@ export const config = {
   runtime: "nodejs",
 };
 
-const isSafeSettingsPath = (value) =>
+const SETTINGS_PATH = "data/homepage.settings.json";
+
+const isSafeSettingsPath = (value) => value === SETTINGS_PATH;
+
+const isSafeGallerySettingsPath = (value) =>
   typeof value === "string" &&
   value.startsWith("data/galleries/") &&
   value.endsWith(".settings.json") &&
   !value.includes("..");
-
-const HOMEPAGE_SETTINGS_PATH = "data/homepage.settings.json";
 
 const githubHeaders = (token) => ({
   Authorization: `Bearer ${token}`,
@@ -69,6 +71,19 @@ const writeRepoJson = async ({ owner, repo, branch, token, path, sha, message, j
   };
 };
 
+const getGallerySettingsPathFromHref = (href) => {
+  if (typeof href !== "string") {
+    return "";
+  }
+
+  const match = href.match(/^\/albums\/album-(.+)\.html$/);
+  if (!match) {
+    return "";
+  }
+
+  return `data/galleries/${match[1]}.settings.json`;
+};
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -84,105 +99,101 @@ export default async function handler(request, response) {
     return response.status(500).json({ error: "Missing GitHub environment variables" });
   }
 
-  const { galleryId, settingsPath, settings } = request.body || {};
+  const { documentId, settingsPath, settings } = request.body || {};
 
-  if (!galleryId || !settings || !isSafeSettingsPath(settingsPath)) {
-    return response.status(400).json({ error: "Invalid gallery payload" });
+  if (documentId !== "homepage" || !settings || !isSafeSettingsPath(settingsPath)) {
+    return response.status(400).json({ error: "Invalid homepage payload" });
   }
 
   try {
-    const existing = await fetchRepoJson({
+    const existingHomepage = await fetchRepoJson({
       owner,
       repo,
       branch,
       token,
-      path: settingsPath,
+      path: SETTINGS_PATH,
     });
 
-    if (!existing) {
-      const fallbackRead = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${settingsPath}?ref=${branch}`, {
+    if (!existingHomepage) {
+      const fallbackRead = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${SETTINGS_PATH}?ref=${branch}`, {
         headers: githubHeaders(token),
       });
       if (!fallbackRead.ok && fallbackRead.status !== 404) {
         const details = await fallbackRead.text();
-        return response.status(500).json({ error: "Failed to read existing settings file", details });
+        return response.status(500).json({ error: "Failed to read existing homepage settings", details });
       }
     }
 
-    const galleryWrite = await writeRepoJson({
+    const homepageWrite = await writeRepoJson({
       owner,
       repo,
       branch,
       token,
-      path: settingsPath,
-      sha: existing?.sha,
-      message: `Update gallery settings: ${galleryId}`,
+      path: SETTINGS_PATH,
+      sha: existingHomepage?.sha,
+      message: "Update homepage settings",
       json: settings,
     });
 
-    if (!galleryWrite.ok) {
-      return response.status(500).json({ error: "Failed to write settings file to GitHub", details: galleryWrite.details });
+    if (!homepageWrite.ok) {
+      return response.status(500).json({ error: "Failed to write homepage settings to GitHub", details: homepageWrite.details });
     }
 
-    let syncedHomepage = false;
-    if (typeof settings.title === "string") {
-      const existingHomepage = await fetchRepoJson({
+    const syncedGalleries = [];
+    for (const card of Array.isArray(settings.albumCards) ? settings.albumCards : []) {
+      const gallerySettingsPath = getGallerySettingsPathFromHref(card?.href);
+      if (!gallerySettingsPath || !isSafeGallerySettingsPath(gallerySettingsPath) || typeof card?.title !== "string") {
+        continue;
+      }
+
+      const existingGallery = await fetchRepoJson({
         owner,
         repo,
         branch,
         token,
-        path: HOMEPAGE_SETTINGS_PATH,
+        path: gallerySettingsPath,
       });
 
-      if (!existingHomepage?.parsed || typeof existingHomepage.parsed !== "object") {
-        return response.status(500).json({ error: "Failed to read homepage settings for title sync" });
+      if (!existingGallery?.parsed || typeof existingGallery.parsed !== "object") {
+        continue;
       }
 
-      const expectedHref = `/albums/album-${galleryId}.html`;
-      const albumCards = Array.isArray(existingHomepage.parsed.albumCards) ? existingHomepage.parsed.albumCards : [];
-      let changed = false;
-      const syncedAlbumCards = albumCards.map((card) => {
-        if (card?.href !== expectedHref || card?.title === settings.title) {
-          return card;
-        }
-        changed = true;
-        return {
-          ...card,
-          title: settings.title,
-        };
+      if (existingGallery.parsed.title === card.title) {
+        continue;
+      }
+
+      const syncedGallery = {
+        ...existingGallery.parsed,
+        title: card.title,
+      };
+
+      const galleryWrite = await writeRepoJson({
+        owner,
+        repo,
+        branch,
+        token,
+        path: gallerySettingsPath,
+        sha: existingGallery.sha,
+        message: `Sync gallery title from homepage: ${card.href}`,
+        json: syncedGallery,
       });
 
-      if (changed) {
-        const homepageWrite = await writeRepoJson({
-          owner,
-          repo,
-          branch,
-          token,
-          path: HOMEPAGE_SETTINGS_PATH,
-          sha: existingHomepage.sha,
-          message: `Sync homepage title from gallery: ${galleryId}`,
-          json: {
-            ...existingHomepage.parsed,
-            albumCards: syncedAlbumCards,
-          },
+      if (!galleryWrite.ok) {
+        return response.status(500).json({
+          error: "Failed to sync homepage title into gallery settings",
+          details: galleryWrite.details,
+          path: gallerySettingsPath,
         });
-
-        if (!homepageWrite.ok) {
-          return response.status(500).json({
-            error: "Failed to sync gallery title into homepage settings",
-            details: homepageWrite.details,
-          });
-        }
-
-        syncedHomepage = true;
       }
+
+      syncedGalleries.push(gallerySettingsPath);
     }
 
     return response.status(200).json({
       ok: true,
-      commitSha: galleryWrite.commitSha,
-      path: settingsPath,
-      syncedHomepage,
+      commitSha: homepageWrite.commitSha,
+      path: SETTINGS_PATH,
+      syncedGalleries,
     });
   } catch (error) {
     return response.status(500).json({

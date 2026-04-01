@@ -1,0 +1,39 @@
+{
+  "id": "homepage",
+  "quoteText": "\u201cWhat is the purpose of life?...To be the eyes and ears and conscience of the Creator of the Universe, you fool!\u201d",
+  "quoteAttribution": "- Kurt Vonnegut",
+  "mastheadScale": 1,
+  "mastheadTopSpace": 10,
+  "quoteBottomSpace": 1,
+  "albumsIndentMode": "quote-column",
+  "albumCards": [
+    {
+      "href": "/albums/album-museo-della-civilta-26.html",
+      "title": "Museo Della Civilta 26",
+      "date": "14/09/24",
+      "category": "postcards artistic",
+      "description": ""
+    },
+    {
+      "href": "/albums/album-ninas-50th-vesuvio-edition.html",
+      "title": "Nina\u2019s 50th: Vesuvio Edition",
+      "date": "",
+      "category": "events portraits",
+      "description": ""
+    },
+    {
+      "href": "/albums/album-ilaria-paolucci-ceramiche.html",
+      "title": "Ilaria Paolucci Ceramiche",
+      "date": "",
+      "category": "artistic",
+      "description": ""
+    },
+    {
+      "href": "/albums/album-ariel-vittori-pottery.html",
+      "title": "Ariel Vittori - Pottery",
+      "date": "",
+      "category": "artistic portraits",
+      "description": ""
+    }
+  ]
+}

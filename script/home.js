@@ -1,4 +1,56 @@
 let revealObserver = null;
+let currentAlbumFilter = "all";
+
+const getAlbumFilterControls = () => Array.from(document.querySelectorAll(".album-link"));
+const getAlbumFilterCards = () => Array.from(document.querySelectorAll(".album-card[data-category]"));
+
+const applyAlbumFilter = (filter) => {
+  const controls = getAlbumFilterControls();
+  const cards = getAlbumFilterCards();
+  currentAlbumFilter = filter || "all";
+
+  controls.forEach((control) => {
+    control.classList.toggle("is-active", control.dataset.filter === currentAlbumFilter);
+  });
+
+  cards.forEach((card) => {
+    const categories = (card.dataset.category || "")
+      .split(/\s+/)
+      .map((value) => value.trim())
+      .filter(Boolean);
+    const matches = currentAlbumFilter === "all" || categories.includes(currentAlbumFilter);
+    card.hidden = !matches;
+  });
+};
+
+export const refreshAlbumLinks = () => {
+  const controls = getAlbumFilterControls();
+  const cards = getAlbumFilterCards();
+
+  if (!controls.length) {
+    return;
+  }
+
+  const availableFilters = new Set(["all"]);
+  cards.forEach((card) => {
+    (card.dataset.category || "")
+      .split(/\s+/)
+      .map((value) => value.trim())
+      .filter(Boolean)
+      .forEach((value) => availableFilters.add(value));
+  });
+
+  controls.forEach((control) => {
+    const filter = control.dataset.filter || "all";
+    control.hidden = !availableFilters.has(filter);
+  });
+
+  if (!availableFilters.has(currentAlbumFilter)) {
+    currentAlbumFilter = "all";
+  }
+
+  applyAlbumFilter(currentAlbumFilter);
+};
 
 const getRevealObserver = () => {
   if (revealObserver) {
@@ -37,51 +89,23 @@ export const setupReveals = () => {
 };
 
 export const setupAlbumLinks = () => {
-  const controls = document.querySelectorAll(".album-link");
-  const cards = document.querySelectorAll(".album-card[data-category]");
+  const controls = getAlbumFilterControls();
 
   if (!controls.length) {
     return;
   }
 
-  const availableFilters = new Set(["all"]);
-  cards.forEach((card) => {
-    (card.dataset.category || "")
-      .split(/\s+/)
-      .map((value) => value.trim())
-      .filter(Boolean)
-      .forEach((value) => availableFilters.add(value));
-  });
-
   controls.forEach((control) => {
-    const filter = control.dataset.filter || "all";
-    control.hidden = !availableFilters.has(filter);
-  });
-
-  const applyFilter = (filter) => {
-    const activeFilter = filter || "all";
-
-    controls.forEach((control) => {
-      control.classList.toggle("is-active", control.dataset.filter === activeFilter);
-    });
-
-    cards.forEach((card) => {
-      const categories = (card.dataset.category || "")
-        .split(/\s+/)
-        .map((value) => value.trim())
-        .filter(Boolean);
-      const matches = activeFilter === "all" || categories.includes(activeFilter);
-      card.hidden = !matches;
-    });
-  };
-
-  controls.forEach((control) => {
+    if (control.dataset.filterBound === "true") {
+      return;
+    }
+    control.dataset.filterBound = "true";
     control.addEventListener("click", () => {
-      applyFilter(control.dataset.filter || "all");
+      applyAlbumFilter(control.dataset.filter || "all");
     });
   });
 
-  applyFilter("all");
+  refreshAlbumLinks();
 };
 
 export const setupMobileMenu = () => {
