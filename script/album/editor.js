@@ -189,6 +189,7 @@ export const setupAlbumEditor = async () => {
     }
 
     window.requestAnimationFrame(() => {
+      markProgrammaticScroll("subalbum");
       target.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -226,6 +227,10 @@ export const setupAlbumEditor = async () => {
   const debugPanel = document.createElement("aside");
   const debugTitle = document.createElement("div");
   const debugLog = document.createElement("div");
+  let debugProgrammaticScrollUntil = 0;
+  let lastDebugScrollY = window.scrollY || window.pageYOffset || 0;
+  let lastDebugScrollTs = performance.now();
+  let lastDebugResizeTs = 0;
   debugPanel.className = "album-debug-panel";
   debugTitle.className = "album-debug-title";
   debugTitle.textContent = "Debug";
@@ -278,12 +283,20 @@ export const setupAlbumEditor = async () => {
         time,
         count: 1,
       });
-      if (debugEntries.length > 16) {
-        debugEntries.splice(0, debugEntries.length - 16);
+      if (debugEntries.length > 28) {
+        debugEntries.splice(0, debugEntries.length - 28);
       }
     }
 
     renderDebugPanel();
+  };
+
+  const markProgrammaticScroll = (reason) => {
+    debugProgrammaticScrollUntil = performance.now() + 1400;
+    logDebug("programmatic-scroll", {
+      reason,
+      y: Math.round(window.scrollY || window.pageYOffset || 0),
+    });
   };
 
   const captureRenderAnchor = () => {
@@ -358,6 +371,7 @@ export const setupAlbumEditor = async () => {
     const desiredTop = viewportAnchorY() + anchor.topOffset;
     const delta = target.getBoundingClientRect().top - desiredTop;
     if (Math.abs(delta) > 1) {
+      markProgrammaticScroll("restore-anchor");
       logDebug("restore-anchor", {
         target: anchor.type === "photo" ? "photo" : anchor.id,
         delta: delta.toFixed(1),
@@ -665,6 +679,107 @@ export const setupAlbumEditor = async () => {
     });
     renderDebugPanel();
   };
+
+  const logScrollJump = () => {
+    const now = performance.now();
+    const currentY = window.scrollY || window.pageYOffset || 0;
+    const deltaY = currentY - lastDebugScrollY;
+    const deltaTime = now - lastDebugScrollTs;
+    const isProgrammatic = now < debugProgrammaticScrollUntil;
+
+    if (!isProgrammatic && deltaTime < 450 && deltaY < -80) {
+      logDebug("scroll-jump", {
+        from: Math.round(lastDebugScrollY),
+        to: Math.round(currentY),
+        dy: Math.round(deltaY),
+      });
+    }
+
+    lastDebugScrollY = currentY;
+    lastDebugScrollTs = now;
+  };
+
+  const logResizeEvent = (label) => {
+    const now = performance.now();
+    if (now - lastDebugResizeTs < 120) {
+      return;
+    }
+
+    lastDebugResizeTs = now;
+    logDebug(label, {
+      w: Math.round(window.innerWidth || document.documentElement.clientWidth || 0),
+      h: Math.round(window.innerHeight || document.documentElement.clientHeight || 0),
+      y: Math.round(window.scrollY || window.pageYOffset || 0),
+    });
+  };
+
+  const observeSizeShifts = (element, label) => {
+    if (!(element instanceof HTMLElement) || typeof window.ResizeObserver !== "function") {
+      return () => {};
+    }
+
+    let lastHeight = Math.round(element.getBoundingClientRect().height);
+    const observer = new window.ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) {
+        return;
+      }
+
+      const nextHeight = Math.round(entry.contentRect.height);
+      const delta = nextHeight - lastHeight;
+      if (Math.abs(delta) >= 24) {
+        logDebug("layout-shift", {
+          target: label,
+          from: lastHeight,
+          to: nextHeight,
+          dy: delta,
+          y: Math.round(window.scrollY || window.pageYOffset || 0),
+        });
+      }
+      lastHeight = nextHeight;
+    });
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  };
+
+  const cleanupHeaderSizeObserver = observeSizeShifts(header, "header");
+  const cleanupGridSizeObserver = observeSizeShifts(grid, "grid");
+  window.addEventListener("scroll", logScrollJump, { passive: true });
+  document.addEventListener("scroll", logScrollJump, { passive: true, capture: true });
+  window.addEventListener("resize", () => logResizeEvent("resize"));
+  window.addEventListener("orientationchange", () => logResizeEvent("orientation"));
+  window.visualViewport?.addEventListener?.("resize", () => logResizeEvent("visual-viewport"));
+  window.visualViewport?.addEventListener?.("scroll", () => {
+    logDebug("visual-scroll", {
+      top: Math.round(window.visualViewport?.offsetTop || 0),
+      left: Math.round(window.visualViewport?.offsetLeft || 0),
+      y: Math.round(window.scrollY || window.pageYOffset || 0),
+    });
+  });
+  window.addEventListener("hashchange", () => {
+    logDebug("hashchange", {
+      hash: window.location.hash || "-",
+      y: Math.round(window.scrollY || window.pageYOffset || 0),
+    });
+  });
+  document.addEventListener(
+    "focusin",
+    (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) {
+        return;
+      }
+      if (!target.matches("input, textarea, select, button, a")) {
+        return;
+      }
+      logDebug("focus", {
+        tag: target.tagName.toLowerCase(),
+        cls: target.className || "-",
+      });
+    },
+    true
+  );
 
   const render = () => {
     const renderAnchor = hasMarkedReady ? captureRenderAnchor() : null;
