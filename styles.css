@@ -860,7 +860,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .home-page .masthead-title {
-  font-family: var(--site-font-family);
+  font-family: var(--site-display-font-family);
   max-width: min(100%, 20ch);
   font-size: calc(clamp(1.54rem, 2.98vw, 3.12rem) * var(--homepage-masthead-scale, 1));
   line-height: 0.98;
@@ -868,7 +868,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .masthead-attribution {
   margin: 1rem 0 var(--homepage-quote-bottom-space, 1rem);
-  font-family: var(--site-font-family);
+  font-family: var(--site-display-font-family);
   color: var(--muted);
   font-size: 0.74rem;
   letter-spacing: 0.18em;
@@ -1029,6 +1029,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   justify-self: start;
   width: 100%;
   text-align: left;
+  font-family: var(--site-display-font-family);
 }
 
 .album-card-date {
