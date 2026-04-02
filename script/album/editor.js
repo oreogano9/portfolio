@@ -5,6 +5,7 @@ import {
   getSavedState,
   getSettingsSignature,
   normalizeEffect,
+  normalizeEffectSettings,
   normalizeIntro,
   normalizeMobileRotateClockwise,
   normalizePhoto,
@@ -42,6 +43,7 @@ export const setupAlbumEditor = async () => {
   const previewButtons = Array.from(document.querySelectorAll('[data-album-action="preview"]'));
   const saveButtons = Array.from(document.querySelectorAll('[data-album-action="save"]'));
   const exportButtons = Array.from(document.querySelectorAll('[data-album-action="export"]'));
+  const actionGroups = Array.from(document.querySelectorAll(".floating-editor-actions, .mobile-home-section"));
   const previewToggle = previewButtons[0];
 
   if (
@@ -141,6 +143,7 @@ export const setupAlbumEditor = async () => {
     spacing: ["tight", "default", "airy"].includes(preferredState?.spacing) ? preferredState.spacing : "tight",
     topSpacer: normalizeTopSpacer(preferredState?.topSpacer),
     effect: normalizeEffect(preferredState?.effect),
+    effectSettings: normalizeEffectSettings(preferredState?.effectSettings),
     intro: normalizeIntro(preferredState?.intro),
     photos: mergePhotos(preferredState?.photos),
     sections: normalizeSections(preferredState?.sections).length
@@ -152,7 +155,60 @@ export const setupAlbumEditor = async () => {
     previewing: false,
     showDeleted: false,
     runtimeMobileSideviewActive: false,
+    selectedPhotoIndexes: new Set(),
+    zoomedOut: false,
+    previewRotated: false,
   };
+
+  const zoomButtons = actionGroups.map((group) => {
+    const button = document.createElement("button");
+    const isMobile = group.classList.contains("mobile-home-section");
+    button.className = isMobile ? "mobile-home-button album-zoom-button" : "preview-toggle album-zoom-button";
+    button.type = "button";
+    button.dataset.albumAction = "zoom-out";
+    button.textContent = "Zoom Out";
+    if (isMobile) {
+      const exportButton = group.querySelector('[data-album-action="export"]');
+      group.insertBefore(button, exportButton || null);
+    } else {
+      const previewButton = group.querySelector('[data-album-action="preview"]');
+      group.insertBefore(button, previewButton ? previewButton.nextSibling : null);
+    }
+    return button;
+  });
+
+  const clearSelectionButtons = actionGroups.map((group) => {
+    const button = document.createElement("button");
+    const isMobile = group.classList.contains("mobile-home-section");
+    button.className = isMobile ? "mobile-home-button album-unselect-button" : "preview-toggle album-unselect-button";
+    button.type = "button";
+    button.dataset.albumAction = "clear-selection";
+    button.textContent = "Unselect";
+    if (isMobile) {
+      const homeLink = group.querySelector('a.mobile-home-button[href="/index.html"]');
+      group.insertBefore(button, homeLink ? homeLink.nextSibling : group.firstChild);
+    } else {
+      group.insertBefore(button, group.firstChild);
+    }
+    return button;
+  });
+
+  const rotatePreviewButtons = actionGroups.map((group) => {
+    const button = document.createElement("button");
+    const isMobile = group.classList.contains("mobile-home-section");
+    button.className = isMobile ? "mobile-home-button album-rotate-preview-button" : "preview-toggle album-rotate-preview-button";
+    button.type = "button";
+    button.dataset.albumAction = "rotate-preview";
+    button.textContent = "Rotated View";
+    if (isMobile) {
+      const saveButton = group.querySelector('[data-album-action="save"]');
+      group.insertBefore(button, saveButton || null);
+    } else {
+      const editButton = group.querySelector('[data-album-action="edit"]');
+      group.insertBefore(button, editButton || null);
+    }
+    return button;
+  });
 
   const persistLocalState = (dirty = true, syncedSignature = "") => {
     window.localStorage.setItem(
@@ -605,6 +661,76 @@ export const setupAlbumEditor = async () => {
     render();
   };
 
+  const getSelectedIndexes = () => Array.from(state.selectedPhotoIndexes).sort((a, b) => a - b);
+
+  const clampIndexSelection = () => {
+    state.selectedPhotoIndexes = new Set(
+      getSelectedIndexes().filter((index) => Number.isInteger(index) && index >= 0 && index < state.photos.length)
+    );
+  };
+
+  const togglePhotoSelection = (index, forceChecked) => {
+    if (!Number.isInteger(index) || index < 0 || index >= state.photos.length) {
+      return;
+    }
+    const nextChecked = typeof forceChecked === "boolean" ? forceChecked : !state.selectedPhotoIndexes.has(index);
+    if (nextChecked) {
+      state.selectedPhotoIndexes.add(index);
+    } else {
+      state.selectedPhotoIndexes.delete(index);
+    }
+    render();
+  };
+
+  const applyToSelection = (callback, finalize = () => {}) => {
+    const indexes = getSelectedIndexes();
+    if (!indexes.length) {
+      return false;
+    }
+    indexes.forEach((index) => {
+      if (state.photos[index]) {
+        callback(state.photos[index], index);
+      }
+    });
+    finalize(indexes);
+    clampIndexSelection();
+    save();
+    render();
+    return true;
+  };
+
+  const moveSelectedPhotos = (direction) => {
+    const indexes = getSelectedIndexes();
+    if (!indexes.length) {
+      return;
+    }
+
+    if (direction < 0) {
+      for (let cursor = 0; cursor < indexes.length; cursor += 1) {
+        const index = indexes[cursor];
+        if (index === 0 || state.selectedPhotoIndexes.has(index - 1)) {
+          continue;
+        }
+        [state.photos[index - 1], state.photos[index]] = [state.photos[index], state.photos[index - 1]];
+        state.selectedPhotoIndexes.delete(index);
+        state.selectedPhotoIndexes.add(index - 1);
+      }
+    } else {
+      for (let cursor = indexes.length - 1; cursor >= 0; cursor -= 1) {
+        const index = indexes[cursor];
+        if (index >= state.photos.length - 1 || state.selectedPhotoIndexes.has(index + 1)) {
+          continue;
+        }
+        [state.photos[index + 1], state.photos[index]] = [state.photos[index], state.photos[index + 1]];
+        state.selectedPhotoIndexes.delete(index);
+        state.selectedPhotoIndexes.add(index + 1);
+      }
+    }
+
+    save();
+    render();
+  };
+
   const normalizeDeletedNeighbors = (index) => {
     const current = state.photos[index];
     if (!current) {
@@ -628,6 +754,40 @@ export const setupAlbumEditor = async () => {
   const updateSpacer = (index, value) => {
     const numeric = Math.max(0, Math.min(50, Number(value) || 0));
     state.photos[index].spacerAfter = numeric;
+    save();
+    render();
+  };
+
+  const normalizeAllJoinStates = () => {
+    state.photos.forEach((photo, index) => {
+      if (photo.deleted) {
+        photo.joinWithPrevious = false;
+        return;
+      }
+      if (photo.joinWithPrevious && !canJoinPhoto(state, index, normalizeEffect)) {
+        photo.joinWithPrevious = false;
+      }
+    });
+  };
+
+  const getPropagationIndexes = (sourceIndex) => {
+    const selectedIndexes = getSelectedIndexes();
+    if (selectedIndexes.length <= 1 || !state.selectedPhotoIndexes.has(sourceIndex)) {
+      return [sourceIndex];
+    }
+    return selectedIndexes;
+  };
+
+  const applyPhotoChange = ({ sourceIndex, callback, finalize = () => {} }) => {
+    const indexes = getPropagationIndexes(sourceIndex);
+    indexes.forEach((index) => {
+      const photo = state.photos[index];
+      if (photo) {
+        callback(photo, index);
+      }
+    });
+    finalize(indexes);
+    clampIndexSelection();
     save();
     render();
   };
@@ -667,15 +827,67 @@ export const setupAlbumEditor = async () => {
     updateSpacer(toIndex, spacerClipboard);
   };
 
+  const syncSpacerUiForIndexes = (indexes) => {
+    indexes.forEach((photoIndex) => {
+      const photo = state.photos[photoIndex];
+      if (!photo) {
+        return;
+      }
+      const photoWrapper = grid.querySelector(`.editable-photo[data-index="${photoIndex}"]`);
+      photoWrapper?.classList.toggle("has-spacer", photo.spacerAfter > 0);
+      photoWrapper?.style.setProperty("--photo-after-space", `${photo.spacerAfter.toFixed(2)}rem`);
+      const valueLabel = photoWrapper?.querySelector(".spacer-value");
+      if (valueLabel) {
+        valueLabel.textContent = `${photo.spacerAfter.toFixed(2)}rem`;
+      }
+      const slider = photoWrapper?.querySelector(".spacer-slider");
+      if (slider) {
+        slider.value = String(photo.spacerAfter);
+      }
+    });
+  };
+
+  const updateEffectSetting = (effectName, key, value) => {
+    if (!state.effectSettings[effectName]) {
+      return;
+    }
+    const normalized = normalizeEffectSettings({
+      ...state.effectSettings,
+      [effectName]: {
+        ...state.effectSettings[effectName],
+        [key]: value,
+      },
+    });
+    state.effectSettings = normalized;
+    save();
+    render();
+    effects.queueEffectUpdate();
+  };
+
   const syncModeUi = () => {
     toggleButtons.forEach((button) => {
       button.textContent = state.editing ? "Done" : "Edit";
     });
     body.classList.toggle("is-editing", state.editing);
     body.classList.toggle("is-previewing", state.editing && state.previewing);
+    body.classList.toggle("is-zoomed-out-edit", state.editing && state.zoomedOut);
+    body.classList.toggle("has-manual-rotate-preview", state.editing && state.previewRotated);
     previewButtons.forEach((button) => {
       button.textContent = state.previewing ? "Show Editor" : "Preview";
       button.setAttribute("aria-pressed", state.previewing ? "true" : "false");
+    });
+    zoomButtons.forEach((button) => {
+      button.textContent = state.zoomedOut ? "Normal View" : "Zoom Out";
+      button.disabled = !state.editing;
+      button.setAttribute("aria-pressed", state.editing && state.zoomedOut ? "true" : "false");
+    });
+    clearSelectionButtons.forEach((button) => {
+      button.disabled = !state.editing || state.selectedPhotoIndexes.size === 0;
+    });
+    rotatePreviewButtons.forEach((button) => {
+      button.textContent = state.previewRotated ? "Normal Rotation" : "Rotated View";
+      button.disabled = !state.editing;
+      button.setAttribute("aria-pressed", state.editing && state.previewRotated ? "true" : "false");
     });
     renderDebugPanel();
   };
@@ -797,6 +1009,7 @@ export const setupAlbumEditor = async () => {
       topSpacer: normalizeTopSpacer(state.topSpacer),
       spacing: state.spacing,
       effect: state.effect,
+      effectSettings: state.effectSettings,
       introMode: state.intro.mode,
       showArrow: state.intro.showArrow,
       mobileRotateClockwise: state.mobileRotateClockwise,
@@ -826,6 +1039,9 @@ export const setupAlbumEditor = async () => {
         save();
         render();
         effects.queueEffectUpdate();
+      },
+      onEffectSettingChange: (effectName, key, value) => {
+        updateEffectSetting(effectName, key, value);
       },
       onIntroModeChange: (value) => {
         state.intro.mode = value === "hero" ? "hero" : "default";
@@ -955,6 +1171,17 @@ export const setupAlbumEditor = async () => {
   window.screen?.orientation?.addEventListener?.("change", syncReactiveSideviewRender);
 
   grid.addEventListener("click", (event) => {
+    const selectionButton = event.target.closest(".photo-select-indicator");
+    if (selectionButton) {
+      const wrapper = event.target.closest(".editable-photo");
+      if (!wrapper || !state.editing) {
+        return;
+      }
+      event.preventDefault();
+      togglePhotoSelection(Number(wrapper.dataset.index));
+      return;
+    }
+
     const button = event.target.closest(
       ".photo-control-button, .spacer-reset, .spacer-copy-button, .photo-join-button, .photo-hero-button, .photo-delete-button"
     );
@@ -972,9 +1199,19 @@ export const setupAlbumEditor = async () => {
     const action = button.dataset.action;
 
     if (action === "up") {
-      movePhoto(index, -1);
+      const shouldMoveSelection = state.selectedPhotoIndexes.has(index) && getSelectedIndexes().length > 1;
+      if (shouldMoveSelection) {
+        moveSelectedPhotos(-1);
+      } else {
+        movePhoto(index, -1);
+      }
     } else if (action === "down") {
-      movePhoto(index, 1);
+      const shouldMoveSelection = state.selectedPhotoIndexes.has(index) && getSelectedIndexes().length > 1;
+      if (shouldMoveSelection) {
+        moveSelectedPhotos(1);
+      } else {
+        movePhoto(index, 1);
+      }
     } else if (action === "hero-toggle") {
       if (state.photos[index].deleted) {
         return;
@@ -983,28 +1220,119 @@ export const setupAlbumEditor = async () => {
       save();
       render();
     } else if (action === "spacer-reset") {
-      updateSpacer(index, 0);
+      applyPhotoChange({
+        sourceIndex: index,
+        callback: (photo) => {
+          photo.spacerAfter = 0;
+        },
+        finalize: (indexes) => {
+          syncSpacerUiForIndexes(indexes);
+        },
+      });
     } else if (action === "spacer-copy-value") {
       copySpacerValue(index);
     } else if (action === "spacer-paste-value") {
-      pasteSpacerValue(index);
-    } else if (action === "join-toggle") {
-      if (state.photos[index].joinWithPrevious) {
-        state.photos[index].joinWithPrevious = false;
-      } else if (canJoinPhoto(state, index, normalizeEffect)) {
-        state.photos[index].joinWithPrevious = true;
+      if (!Number.isFinite(spacerClipboard)) {
+        return;
       }
-      save();
-      render();
+      applyPhotoChange({
+        sourceIndex: index,
+        callback: (photo) => {
+          if (!photo.deleted) {
+            photo.spacerAfter = Math.max(0, Math.min(50, Number(spacerClipboard) || 0));
+          }
+        },
+        finalize: (indexes) => {
+          syncSpacerUiForIndexes(indexes);
+        },
+      });
+    } else if (action === "edit-spacer-value") {
+      const valueButton = button.closest(".spacer-value-button");
+      if (!(valueButton instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      const currentValue = Number(state.photos[index]?.spacerAfter) || 0;
+      const nextValue = window.prompt("Space after image (rem)", currentValue.toFixed(2));
+      if (nextValue === null) {
+        return;
+      }
+
+      applyPhotoChange({
+        sourceIndex: index,
+        callback: (photo) => {
+          photo.spacerAfter = Math.max(0, Math.min(50, Number(nextValue) || 0));
+        },
+        finalize: (indexes) => {
+          syncSpacerUiForIndexes(indexes);
+        },
+      });
+    } else if (action === "join-toggle") {
+      const shouldJoin = !state.photos[index].joinWithPrevious;
+      applyPhotoChange({
+        sourceIndex: index,
+        callback: (photo, photoIndex) => {
+          if (shouldJoin) {
+            photo.joinWithPrevious = canJoinPhoto(state, photoIndex, normalizeEffect);
+          } else {
+            photo.joinWithPrevious = false;
+          }
+        },
+        finalize: () => {
+          normalizeAllJoinStates();
+        },
+      });
     } else if (action === "delete-toggle") {
-      state.photos[index].deleted = !state.photos[index].deleted;
-      normalizeDeletedNeighbors(index);
-      save();
-      render();
+      const shouldDelete = !state.photos[index].deleted;
+      applyPhotoChange({
+        sourceIndex: index,
+        callback: (photo, photoIndex) => {
+          photo.deleted = shouldDelete;
+          normalizeDeletedNeighbors(photoIndex);
+        },
+        finalize: () => {
+          normalizeAllJoinStates();
+        },
+      });
     }
   });
 
+  grid.addEventListener("click", (event) => {
+    if (!state.editing) {
+      return;
+    }
+
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    if (target.closest(".photo-controls, .spacer-control, .photo-select-indicator, a, button, select, input, label")) {
+      return;
+    }
+
+    const wrapper = target.closest(".editable-photo");
+    if (!wrapper) {
+      return;
+    }
+
+    const image = target.closest("img");
+    const stage = target.closest(".photo-stage");
+    if (!image && !stage) {
+      return;
+    }
+
+    event.preventDefault();
+    togglePhotoSelection(Number(wrapper.dataset.index));
+  });
+
   grid.addEventListener("change", (event) => {
+    const effectNumber = event.target.closest(".photo-effect-setting-number");
+    if (effectNumber) {
+      updateEffectSetting(effectNumber.dataset.effectName, effectNumber.dataset.effectKey, effectNumber.value);
+      return;
+    }
+
     const select = event.target.closest(".photo-size-select, .photo-effect-select");
     const wrapper = event.target.closest(".editable-photo");
     if (!wrapper) {
@@ -1013,20 +1341,26 @@ export const setupAlbumEditor = async () => {
 
     const index = Number(wrapper.dataset.index);
     if (select?.classList.contains("photo-size-select")) {
-      if (select.value === "extended" && state.photos[index].landscape !== true) {
-        state.photos[index].size = "full";
-      } else if (sizeOptions.includes(select.value)) {
-        state.photos[index].size = select.value;
-      }
-      save();
-      render();
+      applyPhotoChange({
+        sourceIndex: index,
+        callback: (photo) => {
+          if (select.value === "extended" && photo.landscape !== true) {
+            photo.size = "full";
+          } else if (sizeOptions.includes(select.value)) {
+            photo.size = select.value;
+          }
+        },
+      });
       return;
     }
 
     if (select?.classList.contains("photo-effect-select")) {
-      state.photos[index].effect = normalizeEffect(select.value);
-      save();
-      render();
+      applyPhotoChange({
+        sourceIndex: index,
+        callback: (photo) => {
+          photo.effect = normalizeEffect(select.value);
+        },
+      });
       return;
     }
 
@@ -1037,6 +1371,17 @@ export const setupAlbumEditor = async () => {
   });
 
   grid.addEventListener("input", (event) => {
+    const effectSlider = event.target.closest(".photo-effect-setting-slider");
+    if (effectSlider) {
+      const wrapper = effectSlider.closest(".photo-effect-live-field");
+      const numberInput = wrapper?.querySelector(".photo-effect-setting-number");
+      if (numberInput) {
+        numberInput.value = effectSlider.value;
+      }
+      updateEffectSetting(effectSlider.dataset.effectName, effectSlider.dataset.effectKey, effectSlider.value);
+      return;
+    }
+
     const slider = event.target.closest(".spacer-slider");
     if (!slider) {
       return;
@@ -1048,13 +1393,17 @@ export const setupAlbumEditor = async () => {
     }
 
     const index = Number(wrapper.dataset.index);
-    state.photos[index].spacerAfter = Number(slider.value) || 0;
-    wrapper.classList.toggle("has-spacer", state.photos[index].spacerAfter > 0);
-    wrapper.style.setProperty("--photo-after-space", `${state.photos[index].spacerAfter.toFixed(2)}rem`);
-    const valueLabel = wrapper.querySelector(".spacer-value");
-    if (valueLabel) {
-      valueLabel.textContent = `${state.photos[index].spacerAfter.toFixed(2)}rem`;
-    }
+    const indexes = getPropagationIndexes(index);
+    indexes.forEach((photoIndex) => {
+      const photo = state.photos[photoIndex];
+      if (!photo) {
+        return;
+      }
+      photo.spacerAfter = Number(slider.value) || 0;
+      const photoWrapper = grid.querySelector(`.editable-photo[data-index="${photoIndex}"]`);
+      photoWrapper?.classList.toggle("has-spacer", photo.spacerAfter > 0);
+    });
+    syncSpacerUiForIndexes(indexes);
     save();
   });
 
@@ -1067,6 +1416,9 @@ export const setupAlbumEditor = async () => {
       state.editing = !state.editing;
       if (!state.editing) {
         state.previewing = false;
+        state.selectedPhotoIndexes.clear();
+        state.zoomedOut = false;
+        state.previewRotated = false;
       }
       if (requiresRerender) {
         render();
@@ -1091,6 +1443,36 @@ export const setupAlbumEditor = async () => {
       }
 
       syncModeUi();
+    });
+  });
+
+  zoomButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!state.editing) {
+        return;
+      }
+      state.zoomedOut = !state.zoomedOut;
+      render();
+    });
+  });
+
+  rotatePreviewButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!state.editing) {
+        return;
+      }
+      state.previewRotated = !state.previewRotated;
+      render();
+    });
+  });
+
+  clearSelectionButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!state.editing || state.selectedPhotoIndexes.size === 0) {
+        return;
+      }
+      state.selectedPhotoIndexes.clear();
+      render();
     });
   });
 

@@ -156,11 +156,13 @@ export const setupLightbox = () => {
     }
   };
 
+  const editingActive = () => document.body.classList.contains("is-editing");
+
   grid.addEventListener("click", (event) => {
     const image = event.target.closest("img");
     const insideControls = event.target.closest(".photo-controls, .spacer-control");
 
-    if (!image || insideControls) {
+    if (!image || insideControls || editingActive()) {
       return;
     }
 
@@ -169,7 +171,7 @@ export const setupLightbox = () => {
 
   document.querySelector(".album-hero-intro")?.addEventListener("click", (event) => {
     const image = event.target.closest(".album-hero-image");
-    if (!image) {
+    if (!image || editingActive()) {
       return;
     }
 

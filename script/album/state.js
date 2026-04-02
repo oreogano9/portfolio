@@ -1,4 +1,4 @@
-export const effectOptions = ["none", "focus", "monochrome", "lift", "blur", "glow", "tilt"];
+export const effectOptions = ["none", "focus", "monochrome", "lift", "blur"];
 export const sizeOptions = ["full", "extended", "medium", "small", "xsmall", "xxsmall"];
 export const spacingMap = {
   tight: "0.75rem",
@@ -6,7 +6,83 @@ export const spacingMap = {
   airy: "2.5rem",
 };
 
+const clampNumber = (value, min, max, fallback) => {
+  const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
+  return Math.max(min, Math.min(max, numeric));
+};
+
 export const normalizeEffect = (value, fallback = "none") => (effectOptions.includes(value) ? value : fallback);
+
+export const defaultEffectSettings = Object.freeze({
+  focus: {
+    nonFocusedOpacity: 12,
+    activeScale: 1.5,
+  },
+  monochrome: {
+    grayscaleAmount: 100,
+    nonFocusedOpacity: 38,
+    activeScale: 0,
+  },
+  lift: {
+    scaleAmount: 2.4,
+    nonFocusedOpacity: 34,
+    shadowOpacity: 12,
+  },
+  blur: {
+    blurRadius: 16,
+    scaleAmount: 1.2,
+    saturationDrop: 4,
+    nonFocusedOpacity: 100,
+  },
+});
+
+export const normalizeEffectSettings = (value = {}) => ({
+  focus: {
+    nonFocusedOpacity: clampNumber(
+      value?.focus?.nonFocusedOpacity,
+      0,
+      100,
+      defaultEffectSettings.focus.nonFocusedOpacity
+    ),
+    activeScale: clampNumber(value?.focus?.activeScale, 0, 8, defaultEffectSettings.focus.activeScale),
+  },
+  monochrome: {
+    grayscaleAmount: clampNumber(
+      value?.monochrome?.grayscaleAmount,
+      0,
+      100,
+      defaultEffectSettings.monochrome.grayscaleAmount
+    ),
+    nonFocusedOpacity: clampNumber(
+      value?.monochrome?.nonFocusedOpacity,
+      0,
+      100,
+      defaultEffectSettings.monochrome.nonFocusedOpacity
+    ),
+    activeScale: clampNumber(value?.monochrome?.activeScale, 0, 8, defaultEffectSettings.monochrome.activeScale),
+  },
+  lift: {
+    scaleAmount: clampNumber(value?.lift?.scaleAmount, 0, 8, defaultEffectSettings.lift.scaleAmount),
+    nonFocusedOpacity: clampNumber(
+      value?.lift?.nonFocusedOpacity,
+      0,
+      100,
+      defaultEffectSettings.lift.nonFocusedOpacity
+    ),
+    shadowOpacity: clampNumber(value?.lift?.shadowOpacity, 0, 40, defaultEffectSettings.lift.shadowOpacity),
+  },
+  blur: {
+    blurRadius: clampNumber(value?.blur?.blurRadius, 0, 24, defaultEffectSettings.blur.blurRadius),
+    scaleAmount: clampNumber(value?.blur?.scaleAmount, 0, 5, defaultEffectSettings.blur.scaleAmount),
+    saturationDrop: clampNumber(value?.blur?.saturationDrop, 0, 30, defaultEffectSettings.blur.saturationDrop),
+    nonFocusedOpacity: clampNumber(
+      value?.blur?.nonFocusedOpacity,
+      0,
+      100,
+      defaultEffectSettings.blur.nonFocusedOpacity
+    ),
+  },
+});
 
 export const normalizeAssetPath = (value) => {
   if (typeof value !== "string") {
@@ -140,6 +216,7 @@ export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} })
   spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "tight",
   topSpacer: normalizeTopSpacer(input.topSpacer),
   effect: normalizeEffect(input.effect),
+  effectSettings: normalizeEffectSettings(input.effectSettings),
   intro: normalizeIntro(input.intro),
   sections: normalizeSections(input.sections),
   photos: Array.isArray(input.photos) ? input.photos.map((photo) => normalizePhoto(photo)) : [],
@@ -191,6 +268,7 @@ export const serializeState = (state, galleryId) => ({
   spacing: state.spacing,
   topSpacer: normalizeTopSpacer(state.topSpacer),
   effect: state.effect,
+  effectSettings: normalizeEffectSettings(state.effectSettings),
   intro: {
     mode: state.intro.mode,
     heroImageSrc: normalizeAssetPath(state.intro.heroImageSrc),

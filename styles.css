@@ -1086,6 +1086,11 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   transition: gap 320ms ease;
 }
 
+.album-page.is-editing.is-zoomed-out-edit .album-detail-grid {
+  max-width: 12rem;
+  gap: calc(var(--album-gap) * 0.22);
+}
+
 .album-render-sentinel {
   width: 100%;
   height: 1px;
@@ -1149,13 +1154,32 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   margin-inline: auto;
 }
 
+.album-page.is-editing.is-zoomed-out-edit .editable-photo.size-medium {
+  width: 34%;
+}
+
 .editable-photo.size-extended {
   width: min(calc(100vw - 3rem), 92rem);
   margin-left: calc(50% - min(calc(100vw - 3rem), 92rem) / 2);
   margin-right: 0;
 }
 
+.album-page.is-editing.is-zoomed-out-edit .editable-photo.size-extended {
+  width: min(calc(100vw - 16rem), 22rem);
+  margin-left: calc(50% - min(calc(100vw - 16rem), 22rem) / 2);
+}
+
 .album-page.is-mobile-layout.has-mobile-sideview-grid .editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  min-height: 0;
+  height: var(--mobile-extended-frame-height, auto);
+  display: block;
+  overflow: visible;
+}
+
+.album-page.has-manual-rotate-preview .editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) {
   width: 100%;
   margin-left: 0;
   margin-right: 0;
@@ -1171,7 +1195,19 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   padding-inline: var(--mobile-rotate-inline-gutter);
 }
 
+.album-page.has-manual-rotate-preview .editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) {
+  --mobile-rotate-inline-gutter: 3px;
+  box-sizing: border-box;
+  padding-inline: var(--mobile-rotate-inline-gutter);
+}
+
 .album-page.is-mobile-layout.has-mobile-sideview-grid .editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) .photo-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.album-page.has-manual-rotate-preview .editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) .photo-stage {
   position: relative;
   width: 100%;
   height: 100%;
@@ -1189,7 +1225,23 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   transform-origin: center center;
 }
 
+.album-page.has-manual-rotate-preview .editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--mobile-extended-image-width, auto) !important;
+  max-width: none;
+  max-height: none;
+  height: var(--mobile-extended-image-height, auto);
+  transform: translate(-50%, -50%) rotate(90deg) !important;
+  transform-origin: center center;
+}
+
 .album-page.is-mobile-layout.has-mobile-sideview-grid .editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) img {
+  object-fit: contain;
+}
+
+.album-page.has-manual-rotate-preview .editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) img {
   object-fit: contain;
 }
 
@@ -1198,14 +1250,26 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   margin-inline: auto;
 }
 
+.album-page.is-editing.is-zoomed-out-edit .editable-photo.size-small {
+  width: 24%;
+}
+
 .editable-photo.size-xsmall {
   width: 62%;
   margin-inline: auto;
 }
 
+.album-page.is-editing.is-zoomed-out-edit .editable-photo.size-xsmall {
+  width: 18%;
+}
+
 .editable-photo.size-xxsmall {
   width: 46%;
   margin-inline: auto;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .editable-photo.size-xxsmall {
+  width: 12%;
 }
 
 .photo-stage {
@@ -1231,7 +1295,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.has-scroll-effect.effect-focus .editable-photo {
-  opacity: 0.12;
+  opacity: var(--effect-focus-opacity, 0.12);
   filter: none;
   transform: none;
 }
@@ -1239,76 +1303,48 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .album-page.has-scroll-effect.effect-focus .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
+  transform: scale(calc(1 + (var(--effect-focus-active-scale, 0.015) * var(--effect-strength))));
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo {
-  opacity: 1;
-  filter: grayscale(1);
+  opacity: var(--effect-monochrome-opacity, 0.38);
+  filter: grayscale(var(--effect-monochrome-grayscale, 100%));
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
-  transform: none;
+  transform: scale(calc(1 + (var(--effect-monochrome-active-scale, 0) * var(--effect-strength))));
 }
 
 .album-page.has-scroll-effect.effect-lift .editable-photo {
-  opacity: 1;
+  opacity: var(--effect-lift-opacity, 0.34);
   filter: none;
-  transform: scale(0.97);
+  transform: scale(calc(1 - var(--effect-lift-scale, 0.024)));
 }
 
 .album-page.has-scroll-effect.effect-lift .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
-  transform: scale(calc(0.992 + (var(--effect-strength) * 0.024)));
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.12);
+  transform: scale(calc(1 + (var(--effect-lift-scale, 0.024) * var(--effect-strength))));
+  box-shadow: 0 20px 44px rgba(0, 0, 0, calc(var(--effect-lift-shadow-opacity, 0.12) * var(--effect-strength)));
 }
 
 .album-page.has-scroll-effect.effect-blur .editable-photo {
-  opacity: calc(1 - (var(--effect-strength) * 0.76));
-  filter: blur(calc(var(--effect-strength) * 10px)) saturate(calc(1 - (var(--effect-strength) * 0.22)));
-  transform: scale(calc(1 - (var(--effect-strength) * 0.02)));
+  opacity: var(--effect-blur-opacity, 1);
+  filter: blur(calc(var(--effect-blur-radius, 12px) * var(--effect-strength))) saturate(calc(1 - (var(--effect-strength) * var(--effect-blur-saturation-drop, 0.04))));
+  transform: scale(calc(1 - (var(--effect-blur-scale, 0.012) * var(--effect-strength))));
 }
 
 .album-page.has-scroll-effect.effect-blur .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
-  transform: scale(calc(0.992 + (var(--effect-strength) * 0.018)));
-}
-
-.album-page.has-scroll-effect.effect-glow .editable-photo {
-  opacity: calc(1 - (var(--effect-strength) * 0.86));
-  filter: saturate(calc(1 - (var(--effect-strength) * 0.4))) brightness(calc(1 - (var(--effect-strength) * 0.18)));
-  transform: scale(calc(1 - (var(--effect-strength) * 0.018)));
-}
-
-.album-page.has-scroll-effect.effect-glow .editable-photo.is-effect-active {
-  opacity: 1;
-  filter: saturate(1) brightness(calc(1 + (var(--effect-strength) * 0.14)));
-  transform: scale(calc(0.995 + (var(--effect-strength) * 0.03)));
-  box-shadow:
-    0 24px 48px rgba(0, 0, 0, calc(var(--effect-strength) * 0.14)),
-    0 0 1.3rem rgba(255, 248, 224, calc(var(--effect-strength) * 0.45));
-}
-
-.album-page.has-scroll-effect.effect-tilt .editable-photo {
-  opacity: calc(1 - (var(--effect-strength) * 0.74));
-  filter: none;
-  transform:
-    translateY(calc(var(--effect-strength) * 0.55rem))
-    rotate(calc(var(--effect-strength) * -1.35deg))
-    scale(calc(1 - (var(--effect-strength) * 0.018)));
-}
-
-.album-page.has-scroll-effect.effect-tilt .editable-photo.is-effect-active {
-  opacity: 1;
-  filter: none;
-  transform: translateY(0) rotate(0deg) scale(calc(0.992 + (var(--effect-strength) * 0.018)));
-  box-shadow: 0 18px 36px rgba(0, 0, 0, calc(var(--effect-strength) * 0.1));
+  transform: scale(1);
 }
 
 .photo-controls,
+.photo-select-indicator,
+.photo-effect-live-panel,
 .header-edit-controls,
 .spacer-control {
   opacity: 0;
@@ -1319,10 +1355,28 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .album-page.is-editing .editable-photo:hover .photo-controls,
 .album-page.is-editing .editable-photo:focus-within .photo-controls,
+.album-page.is-editing .editable-photo:hover .photo-select-indicator,
+.album-page.is-editing .editable-photo:focus-within .photo-select-indicator,
+.album-page.is-editing.is-previewing .photo-effect-live-panel,
 .album-page.is-editing .editable-photo:hover .spacer-control,
 .album-page.is-editing .editable-photo:focus-within .spacer-control,
+.album-page.is-editing .header-edit-controls,
 .album-page.is-editing .album-page-header:hover .header-edit-controls,
 .album-page.is-editing .album-page-header:focus-within .header-edit-controls {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.album-page.is-editing .photo-select-indicator {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-controls,
+.album-page.is-editing.is-zoomed-out-edit .spacer-control,
+.album-page.is-editing.is-previewing.is-zoomed-out-edit .photo-effect-live-panel {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
@@ -1341,6 +1395,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.is-editing.is-previewing .photo-controls,
+.album-page.is-editing.is-previewing .photo-select-indicator,
 .album-page.is-editing.is-previewing .header-edit-controls,
 .album-page.is-editing.is-previewing .spacer-control {
   opacity: 0;
@@ -1366,7 +1421,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   overflow: hidden;
 }
 
-.album-page:not(.is-editing) .album-debug-panel {
+.album-debug-panel {
   display: none;
 }
 
@@ -1452,6 +1507,62 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   min-width: 0;
 }
 
+.photo-effect-live-panel {
+  position: absolute;
+  top: 0.55rem;
+  left: calc(100% + 0.8rem);
+  z-index: 4;
+  display: grid;
+  gap: 0.3rem;
+  width: min(13rem, calc(100vw - 2rem));
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(16, 16, 16, 0.1);
+  border-radius: 0.8rem;
+  background: rgba(252, 251, 248, 0.9);
+  backdrop-filter: blur(8px);
+}
+
+.photo-effect-live-panel-label {
+  color: var(--muted);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.photo-effect-live-field {
+  display: grid;
+  gap: 0.16rem;
+}
+
+.photo-effect-live-field > span {
+  color: var(--text);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.photo-effect-live-inputs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 3.6rem;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.photo-effect-setting-slider,
+.photo-effect-setting-number {
+  font: inherit;
+}
+
+.photo-effect-setting-number {
+  min-height: 1.65rem;
+  padding: 0 0.45rem;
+  border: 1px solid rgba(16, 16, 16, 0.13);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+  font-size: 0.72rem;
+}
+
 .spacer-copy-row {
   display: flex;
   gap: 0.22rem;
@@ -1480,6 +1591,13 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   text-transform: none;
   color: var(--text);
   white-space: nowrap;
+}
+
+.spacer-value-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
 .spacer-slider {
@@ -1579,7 +1697,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   flex-direction: column;
   gap: 0.4rem;
   align-items: flex-start;
-  z-index: 2;
+  z-index: 6;
 }
 
 .header-edit-row {
@@ -1589,6 +1707,158 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   align-items: center;
   width: auto;
   max-width: 100%;
+}
+
+.header-edit-effect-panel {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.55rem 0.7rem 0.65rem;
+  border: 1px solid rgba(16, 16, 16, 0.1);
+  border-radius: 0.9rem;
+  background: rgba(252, 251, 248, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.header-edit-effect-panel-label {
+  color: var(--muted);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.header-edit-effect-panel-empty {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.photo-select-indicator {
+  position: absolute;
+  right: 0.55rem;
+  bottom: 0.55rem;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.photo-select-indicator-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid rgba(16, 16, 16, 0.18);
+  border-radius: 0.2rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+.photo-select-indicator.is-selected .photo-select-indicator-box {
+  background: rgba(16, 16, 16, 0.92);
+  color: #fcfbf8;
+  border-color: rgba(16, 16, 16, 0.92);
+}
+
+.header-edit-row-effects {
+  padding-top: 0.05rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-controls {
+  top: 0;
+  left: calc(100% + 0.45rem);
+  right: auto;
+  width: 9.75rem;
+  max-width: 9.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.18rem;
+  padding: 0.22rem;
+  border-radius: 0.8rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-control-button,
+.album-page.is-editing.is-zoomed-out-edit .photo-toggle-button,
+.album-page.is-editing.is-zoomed-out-edit .photo-size-select,
+.album-page.is-editing.is-zoomed-out-edit .photo-effect-select {
+  min-width: 0;
+  min-height: 1.3rem;
+  width: 100%;
+  padding: 0 0.3rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-control-button,
+.album-page.is-editing.is-zoomed-out-edit .photo-toggle-button {
+  padding-inline: 0.2rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-toggle-button.photo-hero-button {
+  min-width: 0;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .spacer-control {
+  top: calc(100% + 0.35rem);
+  left: calc(100% + 0.45rem);
+  bottom: auto;
+  transform: none;
+  width: 8.5rem;
+  max-width: 8.5rem;
+  grid-template-columns: 1fr;
+  row-gap: 0.16rem;
+  padding: 0.2rem 0.24rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-select-indicator {
+  right: 0.35rem;
+  bottom: 0.35rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-effect-live-panel {
+  top: 0;
+  left: calc(100% + 10.7rem);
+  width: 10.25rem;
+  max-width: 10.25rem;
+  padding: 0.32rem 0.38rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-effect-live-inputs {
+  grid-template-columns: 1fr;
+  gap: 0.16rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-effect-setting-number {
+  min-height: 1.35rem;
+  font-size: 0.62rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .spacer-control label {
+  grid-template-columns: 1fr;
+  gap: 0.14rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .spacer-copy-row {
+  justify-content: center;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .spacer-value {
+  text-align: center;
+  font-size: 0.52rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .spacer-reset,
+.album-page.is-editing.is-zoomed-out-edit .spacer-copy-button {
+  min-height: 1rem;
+  font-size: 0.52rem;
 }
 
 .header-edit-stepper {

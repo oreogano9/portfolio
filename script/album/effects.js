@@ -1,6 +1,6 @@
 export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebug = () => {} }) => {
   const mobileLayoutQuery = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)");
-  const effectClassNames = ["effect-focus", "effect-monochrome", "effect-lift", "effect-blur", "effect-glow", "effect-tilt"];
+  const effectClassNames = ["effect-focus", "effect-monochrome", "effect-lift", "effect-blur"];
   const visiblePhotos = new Set();
   let effectFrame = null;
   let visibilityObserver = null;
@@ -29,10 +29,38 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
     visiblePhotos.clear();
     body.classList.remove("has-scroll-effect", ...effectClassNames);
     body.style.removeProperty("--effect-strength");
+    body.style.removeProperty("--effect-focus-opacity");
+    body.style.removeProperty("--effect-focus-active-scale");
+    body.style.removeProperty("--effect-monochrome-opacity");
+    body.style.removeProperty("--effect-monochrome-grayscale");
+    body.style.removeProperty("--effect-monochrome-active-scale");
+    body.style.removeProperty("--effect-lift-opacity");
+    body.style.removeProperty("--effect-lift-scale");
+    body.style.removeProperty("--effect-lift-shadow-opacity");
+    body.style.removeProperty("--effect-blur-radius");
+    body.style.removeProperty("--effect-blur-scale");
+    body.style.removeProperty("--effect-blur-saturation-drop");
+    body.style.removeProperty("--effect-blur-opacity");
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       photo.classList.remove("is-effect-active", "is-effect-visible");
       photo.style.removeProperty("--effect-strength");
     });
+  };
+
+  const syncEffectVariables = () => {
+    const settings = state.effectSettings || {};
+    body.style.setProperty("--effect-focus-opacity", String((settings.focus?.nonFocusedOpacity ?? 12) / 100));
+    body.style.setProperty("--effect-focus-active-scale", String((settings.focus?.activeScale ?? 1.5) / 100));
+    body.style.setProperty("--effect-monochrome-opacity", String((settings.monochrome?.nonFocusedOpacity ?? 38) / 100));
+    body.style.setProperty("--effect-monochrome-grayscale", `${settings.monochrome?.grayscaleAmount ?? 100}%`);
+    body.style.setProperty("--effect-monochrome-active-scale", String((settings.monochrome?.activeScale ?? 0) / 100));
+    body.style.setProperty("--effect-lift-opacity", String((settings.lift?.nonFocusedOpacity ?? 34) / 100));
+    body.style.setProperty("--effect-lift-scale", String((settings.lift?.scaleAmount ?? 2.4) / 100));
+    body.style.setProperty("--effect-lift-shadow-opacity", String((settings.lift?.shadowOpacity ?? 12) / 100));
+    body.style.setProperty("--effect-blur-radius", `${settings.blur?.blurRadius ?? 12}px`);
+    body.style.setProperty("--effect-blur-scale", String((settings.blur?.scaleAmount ?? 1.2) / 100));
+    body.style.setProperty("--effect-blur-saturation-drop", String((settings.blur?.saturationDrop ?? 4) / 100));
+    body.style.setProperty("--effect-blur-opacity", String((settings.blur?.nonFocusedOpacity ?? 100) / 100));
   };
 
   const effectsShouldRun = () =>
@@ -45,7 +73,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
       wrapper.style.removeProperty("--mobile-extended-image-height");
     });
 
-    if (!body.classList.contains("is-mobile-layout") || !body.classList.contains("has-mobile-sideview-grid")) {
+    const manualRotatePreview = body.classList.contains("has-manual-rotate-preview");
+    if (!manualRotatePreview && (!body.classList.contains("is-mobile-layout") || !body.classList.contains("has-mobile-sideview-grid"))) {
       return;
     }
 
@@ -54,6 +83,20 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
       logDebug("rotate-layout", {
         targets: rotateTargets.length,
       });
+    }
+
+    let manualNormalizedImageHeight = null;
+    if (manualRotatePreview && rotateTargets.length) {
+      const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+      const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
+      const safetyInset = 2;
+      const maxFrameWidth = Math.max(0, viewportWidth - 20 - safetyInset * 2);
+      const maxFrameHeight = Math.max(0, viewportHeight * 0.92 - safetyInset * 2);
+      const maxRatio = rotateTargets.reduce((largest, wrapper) => {
+        const ratio = Number(wrapper.dataset.ratio);
+        return Number.isFinite(ratio) && ratio > 0 ? Math.max(largest, ratio) : largest;
+      }, 1);
+      manualNormalizedImageHeight = Math.max(0, Math.min(maxFrameWidth, maxFrameHeight / maxRatio));
     }
 
     rotateTargets.forEach((wrapper) => {
@@ -74,8 +117,11 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
       const maxFrameWidth = Math.max(0, viewportWidth - 20 - safetyInset * 2);
       const maxFrameHeight = Math.max(0, viewportHeight * 0.92 - safetyInset * 2);
       const fittedFrameWidth = Math.min(frameWidth, maxFrameWidth);
-      const fittedFrameHeight = Math.min(fittedFrameWidth * ratio, maxFrameHeight);
-      const fittedImageHeight = fittedFrameHeight / ratio;
+      const fittedImageHeight =
+        manualRotatePreview && Number.isFinite(manualNormalizedImageHeight) && manualNormalizedImageHeight > 0
+          ? Math.min(fittedFrameWidth, manualNormalizedImageHeight)
+          : Math.min(fittedFrameWidth, maxFrameHeight / ratio);
+      const fittedFrameHeight = Math.min(fittedImageHeight * ratio, maxFrameHeight);
 
       wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
       wrapper.style.setProperty("--mobile-extended-image-width", `${fittedFrameHeight}px`);
@@ -176,8 +222,19 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
     body.classList.remove(...effectClassNames);
     body.classList.add("has-scroll-effect", `effect-${activeEffect}`);
     body.style.setProperty("--effect-strength", effectStrength.toFixed(3));
+    syncEffectVariables();
     activePhoto.classList.add("is-effect-active");
     activePhoto.style.setProperty("--effect-strength", effectStrength.toFixed(3));
+    photos.forEach((photo) => {
+      const photoEffect = normalizeEffect(photo.dataset.effect);
+      const strength =
+        photo === activePhoto
+          ? effectStrength
+          : photoEffect === activeEffect
+            ? Math.max(0.2, effectStrength)
+            : 0;
+      photo.style.setProperty("--effect-strength", strength.toFixed(3));
+    });
   };
 
   const queueEffectUpdate = () => {

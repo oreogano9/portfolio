@@ -4,6 +4,126 @@ const INITIAL_BLOCK_COUNT = 12;
 const SUBSEQUENT_BLOCK_COUNT = 16;
 const INITIAL_EAGER_GRID_IMAGES = 3;
 
+const getEffectSettingFields = (effect, effectSettings) => {
+  if (effect === "focus") {
+    return [
+      {
+        key: "nonFocusedOpacity",
+        label: "Others %",
+        min: 0,
+        max: 100,
+        step: 1,
+        value: effectSettings.focus.nonFocusedOpacity,
+      },
+      {
+        key: "activeScale",
+        label: "Zoom %",
+        min: 0,
+        max: 8,
+        step: 0.1,
+        value: effectSettings.focus.activeScale,
+      },
+    ];
+  }
+
+  if (effect === "monochrome") {
+    return [
+      {
+        key: "grayscaleAmount",
+        label: "Gray %",
+        min: 0,
+        max: 100,
+        step: 1,
+        value: effectSettings.monochrome.grayscaleAmount,
+      },
+      {
+        key: "nonFocusedOpacity",
+        label: "Others %",
+        min: 0,
+        max: 100,
+        step: 1,
+        value: effectSettings.monochrome.nonFocusedOpacity,
+      },
+      {
+        key: "activeScale",
+        label: "Zoom %",
+        min: 0,
+        max: 8,
+        step: 0.1,
+        value: effectSettings.monochrome.activeScale,
+      },
+    ];
+  }
+
+  if (effect === "lift") {
+    return [
+      {
+        key: "scaleAmount",
+        label: "Lift %",
+        min: 0,
+        max: 8,
+        step: 0.1,
+        value: effectSettings.lift.scaleAmount,
+      },
+      {
+        key: "nonFocusedOpacity",
+        label: "Others %",
+        min: 0,
+        max: 100,
+        step: 1,
+        value: effectSettings.lift.nonFocusedOpacity,
+      },
+      {
+        key: "shadowOpacity",
+        label: "Shadow %",
+        min: 0,
+        max: 40,
+        step: 1,
+        value: effectSettings.lift.shadowOpacity,
+      },
+    ];
+  }
+
+  if (effect === "blur") {
+    return [
+      {
+        key: "blurRadius",
+        label: "Blur px",
+        min: 0,
+        max: 24,
+        step: 0.5,
+        value: effectSettings.blur.blurRadius,
+      },
+      {
+        key: "scaleAmount",
+        label: "Shrink %",
+        min: 0,
+        max: 5,
+        step: 0.1,
+        value: effectSettings.blur.scaleAmount,
+      },
+      {
+        key: "saturationDrop",
+        label: "Mute %",
+        min: 0,
+        max: 30,
+        step: 1,
+        value: effectSettings.blur.saturationDrop,
+      },
+      {
+        key: "nonFocusedOpacity",
+        label: "Opacity %",
+        min: 0,
+        max: 100,
+        step: 1,
+        value: effectSettings.blur.nonFocusedOpacity,
+      },
+    ];
+  }
+
+  return [];
+};
+
 export const isReactiveMobileSideviewActive = (state) => {
   if (!state?.mobileRotateClockwise) {
     return false;
@@ -111,11 +231,12 @@ const createProgressiveImage = ({
 export const createPhotoFigure = ({ photo, index, state, normalizeEffect, renderOrder = 0, forceEager = false }) => {
   const isDeleted = photo.deleted === true;
   const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
+  const isSelected = state.selectedPhotoIndexes instanceof Set ? state.selectedPhotoIndexes.has(index) : false;
   const wrapper = document.createElement("figure");
   const isJoinable = !isDeleted && canJoinPhoto(state, index, normalizeEffect);
   const canShowUnjoin = !isDeleted && photo.joinWithPrevious;
   const isHeroImage = !isDeleted && state.intro.heroImageSrc === photo.src;
-  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}`;
+  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}${isSelected ? " is-selected-photo" : ""}`;
   wrapper.dataset.index = String(index);
   wrapper.dataset.src = photo.src;
   wrapper.dataset.effect = effectiveEffect;
@@ -127,9 +248,13 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
   const loading = shouldEagerLoad ? "eager" : "lazy";
   const fetchPriority = "auto";
   const decoding = shouldEagerLoad ? "sync" : "async";
+  const effectSettingFields = effectiveEffect !== "none" ? getEffectSettingFields(effectiveEffect, state.effectSettings) : [];
   wrapper.innerHTML = `
     <div class="photo-stage">
       ${isDeleted ? `<div class="photo-deleted-badge">DELETED</div>` : ""}
+      <button class="photo-select-indicator${isSelected ? " is-selected" : ""}" type="button" data-action="toggle-selection" aria-label="${isSelected ? "Unselect photo" : "Select photo"}" aria-pressed="${isSelected ? "true" : "false"}">
+        <span class="photo-select-indicator-box">${isSelected ? "✓" : ""}</span>
+      </button>
       <div class="photo-controls">
         <button class="photo-control-button" type="button" data-action="up" aria-label="Move image up">↑</button>
         <button class="photo-control-button" type="button" data-action="down" aria-label="Move image down">↓</button>
@@ -149,8 +274,6 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
           <option value="monochrome"${photo.effect === "monochrome" ? " selected" : ""}>MONOCHROME</option>
           <option value="lift"${photo.effect === "lift" ? " selected" : ""}>LIFT</option>
           <option value="blur"${photo.effect === "blur" ? " selected" : ""}>BLUR</option>
-          <option value="glow"${photo.effect === "glow" ? " selected" : ""}>GLOW</option>
-          <option value="tilt"${photo.effect === "tilt" ? " selected" : ""}>TILT</option>
         </select>
         <button class="photo-toggle-button photo-delete-button${isDeleted ? " is-active" : ""}" type="button" data-action="delete-toggle" aria-label="${isDeleted ? "Restore image" : "Remove image"}">${isDeleted ? "RESTORE" : "REMOVE"}</button>
       </div>
@@ -161,10 +284,28 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
           <button class="spacer-copy-button spacer-paste-button" type="button" data-action="spacer-paste-value" aria-label="Paste copied space amount"${isDeleted ? " disabled" : ""}>⎘</button>
         </div>
         <label aria-label="Space after image">
-          <span class="spacer-value">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</span>
+          <button class="spacer-value spacer-value-button" type="button" data-action="edit-spacer-value" aria-label="Edit space after image">${(Number(photo.spacerAfter) || 0).toFixed(2)}rem</button>
           <input class="spacer-slider" type="range" min="0" max="50" step="0.25" value="${Number(photo.spacerAfter) || 0}" aria-label="Space after image"${isDeleted ? " disabled" : ""} />
         </label>
       </div>
+      ${
+        effectSettingFields.length
+          ? `<div class="photo-effect-live-panel" data-effect-panel="${effectiveEffect}">
+        <div class="photo-effect-live-panel-label">${effectiveEffect.toUpperCase()} SETTINGS</div>
+        ${effectSettingFields
+          .map(
+            (field) => `<label class="photo-effect-live-field">
+          <span>${field.label}</span>
+          <div class="photo-effect-live-inputs">
+            <input class="photo-effect-setting-slider" type="range" min="${field.min}" max="${field.max}" step="${field.step}" value="${field.value}" data-effect-name="${effectiveEffect}" data-effect-key="${field.key}" aria-label="${field.label}" />
+            <input class="photo-effect-setting-number" type="number" min="${field.min}" max="${field.max}" step="${field.step}" value="${field.value}" data-effect-name="${effectiveEffect}" data-effect-key="${field.key}" aria-label="${field.label}" />
+          </div>
+        </label>`
+          )
+          .join("")}
+      </div>`
+          : ""
+      }
     </div>
   `;
   const stage = wrapper.querySelector(".photo-stage");

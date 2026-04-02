@@ -305,10 +305,12 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     showArrow,
     mobileRotateClockwise,
     showDeleted,
+    effectSettings,
     onTitleScaleChange,
     onTopSpacerChange,
     onSpacingChange,
     onEffectChange,
+    onEffectSettingChange,
     onIntroModeChange,
     onShowArrowChange,
     onMobileRotateChange,
@@ -325,6 +327,15 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     selectRow.className = "header-edit-row header-edit-row-select";
     const toggleRow = document.createElement("div");
     toggleRow.className = "header-edit-row header-edit-row-toggle";
+    const effectRow = document.createElement("div");
+    effectRow.className = "header-edit-row header-edit-row-effects";
+    const effectPanel = document.createElement("div");
+    effectPanel.className = "header-edit-effect-panel";
+
+    const effectPanelLabel = document.createElement("span");
+    effectPanelLabel.className = "header-edit-effect-panel-label";
+    effectPanelLabel.textContent = "Effect Settings";
+    effectPanel.appendChild(effectPanelLabel);
 
     numericRow.append(
       createAlbumStepper({
@@ -368,8 +379,6 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
           { value: "monochrome", label: "Monochrome" },
           { value: "lift", label: "Lift" },
           { value: "blur", label: "Blur" },
-          { value: "glow", label: "Glow" },
-          { value: "tilt", label: "Tilt" },
         ],
         onChange: onEffectChange,
       })
@@ -398,7 +407,136 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
       })
     );
 
+    if (effect === "focus") {
+      effectRow.append(
+        createNumberField({
+          label: "Focus Others %",
+          min: 0,
+          max: 100,
+          step: 1,
+          value: effectSettings.focus.nonFocusedOpacity,
+          onChange: (value) => onEffectSettingChange("focus", "nonFocusedOpacity", value),
+          compact: true,
+        }),
+        createNumberField({
+          label: "Focus Zoom %",
+          min: 0,
+          max: 8,
+          step: 0.1,
+          value: effectSettings.focus.activeScale,
+          onChange: (value) => onEffectSettingChange("focus", "activeScale", value),
+          compact: true,
+        })
+      );
+    } else if (effect === "monochrome") {
+      effectRow.append(
+        createNumberField({
+          label: "Gray %",
+          min: 0,
+          max: 100,
+          step: 1,
+          value: effectSettings.monochrome.grayscaleAmount,
+          onChange: (value) => onEffectSettingChange("monochrome", "grayscaleAmount", value),
+          compact: true,
+        }),
+        createNumberField({
+          label: "Others %",
+          min: 0,
+          max: 100,
+          step: 1,
+          value: effectSettings.monochrome.nonFocusedOpacity,
+          onChange: (value) => onEffectSettingChange("monochrome", "nonFocusedOpacity", value),
+          compact: true,
+        }),
+        createNumberField({
+          label: "Active Zoom %",
+          min: 0,
+          max: 8,
+          step: 0.1,
+          value: effectSettings.monochrome.activeScale,
+          onChange: (value) => onEffectSettingChange("monochrome", "activeScale", value),
+          compact: true,
+        })
+      );
+    } else if (effect === "lift") {
+      effectRow.append(
+        createNumberField({
+          label: "Lift Scale",
+          min: 0,
+          max: 8,
+          step: 0.1,
+          value: effectSettings.lift.scaleAmount,
+          onChange: (value) => onEffectSettingChange("lift", "scaleAmount", value),
+          compact: true,
+        }),
+        createNumberField({
+          label: "Others %",
+          min: 0,
+          max: 100,
+          step: 1,
+          value: effectSettings.lift.nonFocusedOpacity,
+          onChange: (value) => onEffectSettingChange("lift", "nonFocusedOpacity", value),
+          compact: true,
+        }),
+        createNumberField({
+          label: "Shadow %",
+          min: 0,
+          max: 40,
+          step: 1,
+          value: effectSettings.lift.shadowOpacity,
+          onChange: (value) => onEffectSettingChange("lift", "shadowOpacity", value),
+          compact: true,
+        })
+      );
+    } else if (effect === "blur") {
+      effectRow.append(
+        createNumberField({
+          label: "Blur px",
+          min: 0,
+          max: 24,
+          step: 0.5,
+          value: effectSettings.blur.blurRadius,
+          onChange: (value) => onEffectSettingChange("blur", "blurRadius", value),
+          compact: true,
+        }),
+        createNumberField({
+          label: "Shrink %",
+          min: 0,
+          max: 5,
+          step: 0.1,
+          value: effectSettings.blur.scaleAmount,
+          onChange: (value) => onEffectSettingChange("blur", "scaleAmount", value),
+          compact: true,
+        }),
+        createNumberField({
+          label: "Mute %",
+          min: 0,
+          max: 30,
+          step: 1,
+          value: effectSettings.blur.saturationDrop,
+          onChange: (value) => onEffectSettingChange("blur", "saturationDrop", value),
+          compact: true,
+        }),
+        createNumberField({
+          label: "Opacity %",
+          min: 0,
+          max: 100,
+          step: 1,
+          value: effectSettings.blur.nonFocusedOpacity,
+          onChange: (value) => onEffectSettingChange("blur", "nonFocusedOpacity", value),
+          compact: true,
+        })
+      );
+    } else {
+      const emptyState = document.createElement("span");
+      emptyState.className = "header-edit-effect-panel-empty";
+      emptyState.textContent = "Choose an album effect above to edit its settings.";
+      effectRow.appendChild(emptyState);
+    }
+
     container.append(numericRow, selectRow, toggleRow);
+    effectPanel.appendChild(effectRow);
+    container.append(effectPanel);
   },
   destroy() {
     clearElement(container);
