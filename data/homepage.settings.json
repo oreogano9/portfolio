@@ -6,7 +6,8 @@
   "mastheadTopSpace": 10,
   "quoteBottomSpace": 1,
   "fontFamily": "inter",
-  "displayFontFamily": "libre-baskerville",
+  "quoteFontFamily": "libre-baskerville",
+  "titleFontFamily": "libre-baskerville",
   "uiFontFamily": "inter",
   "albumsIndentMode": "quote-column",
   "albumCards": [
