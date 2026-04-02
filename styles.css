@@ -2178,6 +2178,9 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
   .home-page .masthead-title {
     font-size: calc(clamp(1.55rem, 7vw, 2.55rem) * var(--homepage-masthead-scale, 1));
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: manual;
   }
 
   .home-page .masthead {
