@@ -5,6 +5,9 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
   let effectFrame = null;
   let visibilityObserver = null;
   let lastResizeWidth = window.innerWidth || document.documentElement.clientWidth || 0;
+  let previousActivePhoto = null;
+  let previousActiveEffect = "none";
+  let previousEffectStrength = 0;
   const mobileSideviewGridSelector = '.editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""])';
 
   const syncMobileLayoutState = () => {
@@ -41,6 +44,9 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
     body.style.removeProperty("--effect-blur-scale");
     body.style.removeProperty("--effect-blur-saturation-drop");
     body.style.removeProperty("--effect-blur-opacity");
+    previousActivePhoto = null;
+    previousActiveEffect = "none";
+    previousEffectStrength = 0;
     grid.querySelectorAll(".editable-photo").forEach((photo) => {
       photo.classList.remove("is-effect-active", "is-effect-visible");
       photo.style.removeProperty("--effect-strength");
@@ -216,7 +222,34 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
     if (!activePhoto || activeEffect === "none") {
       body.classList.remove("has-scroll-effect", ...effectClassNames);
       body.style.removeProperty("--effect-strength");
+      previousActivePhoto = null;
+      previousActiveEffect = "none";
+      previousEffectStrength = 0;
       return;
+    }
+
+    if (
+      activeEffect === "lift" &&
+      previousActivePhoto instanceof HTMLElement &&
+      previousActivePhoto !== activePhoto &&
+      previousActiveEffect === "lift"
+    ) {
+      const previousRect = previousActivePhoto.getBoundingClientRect();
+      if (previousRect.bottom > 0 && previousRect.top < viewportHeight) {
+        const previousCenter = previousRect.top + previousRect.height / 2;
+        const previousDistance = Math.abs(previousCenter - viewportCenter);
+        const switchThreshold = 28;
+        if (previousDistance <= closestDistance + switchThreshold) {
+          activePhoto = previousActivePhoto;
+          closestDistance = previousDistance;
+          effectStrength = Math.max(0, Math.min(1, 1 - previousDistance / fadeRange));
+        }
+      }
+    }
+
+    if (activeEffect === previousActiveEffect) {
+      const smoothing = activeEffect === "lift" ? 0.18 : 0.35;
+      effectStrength = previousEffectStrength + (effectStrength - previousEffectStrength) * smoothing;
     }
 
     body.classList.remove(...effectClassNames);
@@ -235,6 +268,9 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
             : 0;
       photo.style.setProperty("--effect-strength", strength.toFixed(3));
     });
+    previousActivePhoto = activePhoto;
+    previousActiveEffect = activeEffect;
+    previousEffectStrength = effectStrength;
   };
 
   const queueEffectUpdate = () => {

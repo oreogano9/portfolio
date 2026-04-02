@@ -232,11 +232,12 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
   const isDeleted = photo.deleted === true;
   const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
   const isSelected = state.selectedPhotoIndexes instanceof Set ? state.selectedPhotoIndexes.has(index) : false;
+  const hasSettingsOpen = state.activeSettingsPhotoIndex === index;
   const wrapper = document.createElement("figure");
   const isJoinable = !isDeleted && canJoinPhoto(state, index, normalizeEffect);
   const canShowUnjoin = !isDeleted && photo.joinWithPrevious;
   const isHeroImage = !isDeleted && state.intro.heroImageSrc === photo.src;
-  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}${isSelected ? " is-selected-photo" : ""}`;
+  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}${isSelected ? " is-selected-photo" : ""}${hasSettingsOpen ? " has-settings-open" : ""}`;
   wrapper.dataset.index = String(index);
   wrapper.dataset.src = photo.src;
   wrapper.dataset.effect = effectiveEffect;
