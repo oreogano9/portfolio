@@ -131,21 +131,25 @@ const createCyclingSelectField = ({ label, ariaLabel, value, options, onChange, 
     const beforeRect = button.getBoundingClientRect();
     select.value = String(nextValue);
     onChange(nextValue);
-    window.requestAnimationFrame(() => {
-      if (!button.isConnected) {
+
+    let remainingFrames = 6;
+    const keepPinned = () => {
+      if (!button.isConnected || remainingFrames <= 0) {
         return;
       }
+
       const afterRect = button.getBoundingClientRect();
       const deltaX = afterRect.left - beforeRect.left;
       const deltaY = afterRect.top - beforeRect.top;
       if (Math.abs(deltaX) > 0.5 || Math.abs(deltaY) > 0.5) {
-        window.scrollBy({
-          left: deltaX,
-          top: deltaY,
-          behavior: "instant",
-        });
+        window.scrollBy(deltaX, deltaY);
       }
-    });
+
+      remainingFrames -= 1;
+      window.requestAnimationFrame(keepPinned);
+    };
+
+    window.requestAnimationFrame(keepPinned);
   };
 
   const previousButton = createIconButton({
