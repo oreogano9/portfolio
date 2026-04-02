@@ -4,6 +4,24 @@ const clearElement = (element) => {
   }
 };
 
+const sharedFontFamilyOptions = [
+  { value: "inter", label: "Inter" },
+  { value: "saint", label: "Saint" },
+  { value: "young-serif", label: "Young Serif" },
+  { value: "clash", label: "Clash Display" },
+  { value: "neue-haas", label: "Neue Haas" },
+  { value: "manrope", label: "Manrope" },
+  { value: "space-grotesk", label: "Space Grotesk" },
+  { value: "plus-jakarta-sans", label: "Plus Jakarta Sans" },
+  { value: "sora", label: "Sora" },
+  { value: "instrument-serif", label: "Instrument Serif" },
+  { value: "cormorant-garamond", label: "Cormorant Garamond" },
+  { value: "fraunces", label: "Fraunces" },
+  { value: "newsreader", label: "Newsreader" },
+  { value: "libre-baskerville", label: "Libre Baskerville" },
+  { value: "syne", label: "Syne" },
+];
+
 const createNumberField = ({ label, min, max, step, value, onChange, compact = false }) => {
   const field = document.createElement("label");
   field.className = compact ? "home-edit-field home-edit-field-compact" : "home-edit-field";
@@ -171,92 +189,28 @@ export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cards
         label: "Body Text",
         ariaLabel: "Body text font family",
         value: quoteState.fontFamily,
-        options: [
-          { value: "inter", label: "Inter" },
-          { value: "saint", label: "Saint" },
-          { value: "young-serif", label: "Young Serif" },
-          { value: "clash", label: "Clash Display" },
-          { value: "neue-haas", label: "Neue Haas" },
-          { value: "manrope", label: "Manrope" },
-          { value: "space-grotesk", label: "Space Grotesk" },
-          { value: "plus-jakarta-sans", label: "Plus Jakarta Sans" },
-          { value: "sora", label: "Sora" },
-          { value: "instrument-serif", label: "Instrument Serif" },
-          { value: "cormorant-garamond", label: "Cormorant Garamond" },
-          { value: "fraunces", label: "Fraunces" },
-          { value: "newsreader", label: "Newsreader" },
-          { value: "libre-baskerville", label: "Libre Baskerville" },
-          { value: "syne", label: "Syne" },
-        ],
+        options: sharedFontFamilyOptions,
         onChange: actions.setFontFamily,
       }),
       createSelectField({
         label: "Quote",
         ariaLabel: "Quote font family",
         value: quoteState.quoteFontFamily,
-        options: [
-          { value: "inter", label: "Inter" },
-          { value: "saint", label: "Saint" },
-          { value: "young-serif", label: "Young Serif" },
-          { value: "clash", label: "Clash Display" },
-          { value: "neue-haas", label: "Neue Haas" },
-          { value: "manrope", label: "Manrope" },
-          { value: "space-grotesk", label: "Space Grotesk" },
-          { value: "plus-jakarta-sans", label: "Plus Jakarta Sans" },
-          { value: "sora", label: "Sora" },
-          { value: "instrument-serif", label: "Instrument Serif" },
-          { value: "cormorant-garamond", label: "Cormorant Garamond" },
-          { value: "fraunces", label: "Fraunces" },
-          { value: "newsreader", label: "Newsreader" },
-          { value: "libre-baskerville", label: "Libre Baskerville" },
-          { value: "syne", label: "Syne" },
-        ],
+        options: sharedFontFamilyOptions,
         onChange: actions.setQuoteFontFamily,
       }),
       createSelectField({
         label: "Titles",
         ariaLabel: "Titles font family",
         value: quoteState.titleFontFamily,
-        options: [
-          { value: "inter", label: "Inter" },
-          { value: "saint", label: "Saint" },
-          { value: "young-serif", label: "Young Serif" },
-          { value: "clash", label: "Clash Display" },
-          { value: "neue-haas", label: "Neue Haas" },
-          { value: "manrope", label: "Manrope" },
-          { value: "space-grotesk", label: "Space Grotesk" },
-          { value: "plus-jakarta-sans", label: "Plus Jakarta Sans" },
-          { value: "sora", label: "Sora" },
-          { value: "instrument-serif", label: "Instrument Serif" },
-          { value: "cormorant-garamond", label: "Cormorant Garamond" },
-          { value: "fraunces", label: "Fraunces" },
-          { value: "newsreader", label: "Newsreader" },
-          { value: "libre-baskerville", label: "Libre Baskerville" },
-          { value: "syne", label: "Syne" },
-        ],
+        options: sharedFontFamilyOptions,
         onChange: actions.setTitleFontFamily,
       }),
       createSelectField({
         label: "Navigation, Labels, Buttons",
         ariaLabel: "Navigation, labels, and buttons font family",
         value: quoteState.uiFontFamily,
-        options: [
-          { value: "inter", label: "Inter" },
-          { value: "saint", label: "Saint" },
-          { value: "young-serif", label: "Young Serif" },
-          { value: "clash", label: "Clash Display" },
-          { value: "neue-haas", label: "Neue Haas" },
-          { value: "manrope", label: "Manrope" },
-          { value: "space-grotesk", label: "Space Grotesk" },
-          { value: "plus-jakarta-sans", label: "Plus Jakarta Sans" },
-          { value: "sora", label: "Sora" },
-          { value: "instrument-serif", label: "Instrument Serif" },
-          { value: "cormorant-garamond", label: "Cormorant Garamond" },
-          { value: "fraunces", label: "Fraunces" },
-          { value: "newsreader", label: "Newsreader" },
-          { value: "libre-baskerville", label: "Libre Baskerville" },
-          { value: "syne", label: "Syne" },
-        ],
+        options: sharedFontFamilyOptions,
         onChange: actions.setUiFontFamily,
       }),
       createNumberField({
@@ -297,6 +251,7 @@ export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cards
 
 export const mountAlbumReactHeaderUi = ({ container }) => ({
   render({
+    titleFontFamily,
     titleScale,
     topSpacer,
     spacing,
@@ -306,6 +261,7 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     mobileRotateClockwise,
     showDeleted,
     effectSettings,
+    onTitleFontFamilyChange,
     onTitleScaleChange,
     onTopSpacerChange,
     onSpacingChange,
@@ -336,6 +292,16 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     effectPanelLabel.className = "header-edit-effect-panel-label";
     effectPanelLabel.textContent = "Effect Settings";
     effectPanel.appendChild(effectPanelLabel);
+
+    numericRow.append(
+      createSelectField({
+        label: "Title Font",
+        ariaLabel: "Album title font family",
+        value: titleFontFamily,
+        options: sharedFontFamilyOptions,
+        onChange: onTitleFontFamilyChange,
+      }),
+    );
 
     numericRow.append(
       createAlbumStepper({

@@ -1,12 +1,14 @@
 import {
   fetchJsonState,
   fetchSiteBrand,
+  getAlbumTitleFontFamilyCssValue,
   getPersistedAlbumState,
   getSavedState,
   getSettingsSignature,
   normalizeEffect,
   normalizeEffectSettings,
   normalizeIntro,
+  normalizeAlbumTitleFontFamily,
   normalizeMobileRotateClockwise,
   normalizePhoto,
   normalizeSections,
@@ -138,6 +140,7 @@ export const setupAlbumEditor = async () => {
 
   const state = {
     title: (typeof preferredState?.title === "string" && preferredState.title.trim()) || title.textContent.trim(),
+    titleFontFamily: normalizeAlbumTitleFontFamily(preferredState?.titleFontFamily),
     titleScale: normalizeTitleScale(preferredState?.titleScale),
     mobileRotateClockwise: normalizeMobileRotateClockwise(preferredState?.mobileRotateClockwise),
     spacing: ["tight", "default", "airy"].includes(preferredState?.spacing) ? preferredState.spacing : "tight",
@@ -156,6 +159,7 @@ export const setupAlbumEditor = async () => {
     showDeleted: false,
     runtimeMobileSideviewActive: false,
     selectedPhotoIndexes: new Set(),
+    activeSettingsPhotoIndex: null,
     zoomedOut: false,
     previewRotated: false,
   };
@@ -667,6 +671,12 @@ export const setupAlbumEditor = async () => {
     state.selectedPhotoIndexes = new Set(
       getSelectedIndexes().filter((index) => Number.isInteger(index) && index >= 0 && index < state.photos.length)
     );
+    if (
+      !Number.isInteger(state.activeSettingsPhotoIndex) ||
+      !state.selectedPhotoIndexes.has(state.activeSettingsPhotoIndex)
+    ) {
+      state.activeSettingsPhotoIndex = getSelectedIndexes()[0] ?? null;
+    }
   };
 
   const togglePhotoSelection = (index, forceChecked) => {
@@ -676,8 +686,12 @@ export const setupAlbumEditor = async () => {
     const nextChecked = typeof forceChecked === "boolean" ? forceChecked : !state.selectedPhotoIndexes.has(index);
     if (nextChecked) {
       state.selectedPhotoIndexes.add(index);
+      state.activeSettingsPhotoIndex = index;
     } else {
       state.selectedPhotoIndexes.delete(index);
+      if (state.activeSettingsPhotoIndex === index) {
+        state.activeSettingsPhotoIndex = getSelectedIndexes().find((selectedIndex) => selectedIndex !== index) ?? null;
+      }
     }
     render();
   };
@@ -1001,10 +1015,12 @@ export const setupAlbumEditor = async () => {
       sideview: state.runtimeMobileSideviewActive ? 1 : 0,
     });
     body.style.setProperty("--album-title-scale", String(normalizeTitleScale(state.titleScale)));
+    body.style.setProperty("--album-title-font-family", getAlbumTitleFontFamilyCssValue(state.titleFontFamily));
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
     topSpacerSection?.style.setProperty("--album-top-spacer-height", `${normalizeTopSpacer(state.topSpacer)}rem`);
     syncModeUi();
     headerReactUi.render({
+      titleFontFamily: state.titleFontFamily,
       titleScale: normalizeTitleScale(state.titleScale),
       topSpacer: normalizeTopSpacer(state.topSpacer),
       spacing: state.spacing,
@@ -1014,6 +1030,12 @@ export const setupAlbumEditor = async () => {
       showArrow: state.intro.showArrow,
       mobileRotateClockwise: state.mobileRotateClockwise,
       showDeleted: state.showDeleted,
+      onTitleFontFamilyChange: (value) => {
+        state.titleFontFamily = normalizeAlbumTitleFontFamily(value, state.titleFontFamily);
+        body.style.setProperty("--album-title-font-family", getAlbumTitleFontFamilyCssValue(state.titleFontFamily));
+        save();
+        render();
+      },
       onTitleScaleChange: (value) => {
         state.titleScale = normalizeTitleScale(value, state.titleScale);
         body.style.setProperty("--album-title-scale", String(state.titleScale));
@@ -1417,6 +1439,7 @@ export const setupAlbumEditor = async () => {
       if (!state.editing) {
         state.previewing = false;
         state.selectedPhotoIndexes.clear();
+        state.activeSettingsPhotoIndex = null;
         state.zoomedOut = false;
         state.previewRotated = false;
       }

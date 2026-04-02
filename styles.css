@@ -176,6 +176,7 @@
   --ease: 650ms cubic-bezier(0.2, 0.65, 0.2, 1);
   --album-gap: 0.75rem;
   --album-title-scale: 1;
+  --album-title-font-family: var(--site-title-font-family);
   --site-font-family: "Inter", sans-serif;
   --site-quote-font-family: "YoungSerif", serif;
   --site-title-font-family: "YoungSerif", serif;
@@ -646,7 +647,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   max-width: min(100%, calc(14ch / var(--album-title-scale, 1)));
   margin-inline: auto;
   text-align: center;
-  font-family: var(--site-title-font-family);
+  font-family: var(--album-title-font-family, var(--site-title-font-family));
   font-size: calc(clamp(2rem, 4.5vw, 4.25rem) * var(--album-title-scale, 1));
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -864,6 +865,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   width: fit-content;
   max-width: min(100%, calc(12ch / var(--album-title-scale, 1)));
   font-size: calc(clamp(3.08rem, 5.95vw, 6.23rem) * var(--album-title-scale, 1));
+}
+
+.album-page .masthead-title {
+  font-family: var(--album-title-font-family, var(--site-title-font-family));
 }
 
 .home-page .masthead-title {
@@ -1113,6 +1118,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .subalbum-title {
   margin: 0;
+  font-family: var(--album-title-font-family, var(--site-title-font-family));
   font-size: clamp(1.6rem, 4vw, 2.6rem);
   font-weight: 500;
   letter-spacing: -0.04em;
@@ -1279,6 +1285,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .editable-photo img {
   display: block;
   width: 100%;
+  transition:
+    transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .album-page.has-scroll-effect .editable-photo {
@@ -1303,42 +1313,76 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .album-page.has-scroll-effect.effect-focus .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
+  transform: none;
+}
+
+.album-page.has-scroll-effect.effect-focus .editable-photo img {
+  transform: scale(1);
+}
+
+.album-page.has-scroll-effect.effect-focus .editable-photo.is-effect-active img {
   transform: scale(calc(1 + (var(--effect-focus-active-scale, 0.015) * var(--effect-strength))));
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo {
   opacity: var(--effect-monochrome-opacity, 0.38);
   filter: grayscale(var(--effect-monochrome-grayscale, 100%));
+  transform: none;
 }
 
 .album-page.has-scroll-effect.effect-monochrome .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
+  transform: none;
+}
+
+.album-page.has-scroll-effect.effect-monochrome .editable-photo img {
+  transform: scale(1);
+}
+
+.album-page.has-scroll-effect.effect-monochrome .editable-photo.is-effect-active img {
   transform: scale(calc(1 + (var(--effect-monochrome-active-scale, 0) * var(--effect-strength))));
 }
 
 .album-page.has-scroll-effect.effect-lift .editable-photo {
   opacity: var(--effect-lift-opacity, 0.34);
   filter: none;
-  transform: scale(calc(1 - var(--effect-lift-scale, 0.024)));
+  transform: none;
 }
 
 .album-page.has-scroll-effect.effect-lift .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
-  transform: scale(calc(1 + (var(--effect-lift-scale, 0.024) * var(--effect-strength))));
+  transform: none;
+}
+
+.album-page.has-scroll-effect.effect-lift .editable-photo img {
+  transform: scale(calc(1 - (var(--effect-lift-scale, 0.024) * 0.2)));
+  box-shadow: none;
+}
+
+.album-page.has-scroll-effect.effect-lift .editable-photo.is-effect-active img {
+  transform: scale(calc(1 + (var(--effect-lift-scale, 0.024) * 0.8 * var(--effect-strength))));
   box-shadow: 0 20px 44px rgba(0, 0, 0, calc(var(--effect-lift-shadow-opacity, 0.12) * var(--effect-strength)));
 }
 
 .album-page.has-scroll-effect.effect-blur .editable-photo {
   opacity: var(--effect-blur-opacity, 1);
   filter: blur(calc(var(--effect-blur-radius, 12px) * var(--effect-strength))) saturate(calc(1 - (var(--effect-strength) * var(--effect-blur-saturation-drop, 0.04))));
-  transform: scale(calc(1 - (var(--effect-blur-scale, 0.012) * var(--effect-strength))));
+  transform: none;
 }
 
 .album-page.has-scroll-effect.effect-blur .editable-photo.is-effect-active {
   opacity: 1;
   filter: none;
+  transform: none;
+}
+
+.album-page.has-scroll-effect.effect-blur .editable-photo img {
+  transform: scale(calc(1 - (var(--effect-blur-scale, 0.012) * var(--effect-strength))));
+}
+
+.album-page.has-scroll-effect.effect-blur .editable-photo.is-effect-active img {
   transform: scale(1);
 }
 
@@ -1353,13 +1397,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   transition: opacity 160ms ease, visibility 160ms ease;
 }
 
-.album-page.is-editing .editable-photo:hover .photo-controls,
-.album-page.is-editing .editable-photo:focus-within .photo-controls,
 .album-page.is-editing .editable-photo:hover .photo-select-indicator,
 .album-page.is-editing .editable-photo:focus-within .photo-select-indicator,
-.album-page.is-editing.is-previewing .photo-effect-live-panel,
-.album-page.is-editing .editable-photo:hover .spacer-control,
-.album-page.is-editing .editable-photo:focus-within .spacer-control,
 .album-page.is-editing .header-edit-controls,
 .album-page.is-editing .album-page-header:hover .header-edit-controls,
 .album-page.is-editing .album-page-header:focus-within .header-edit-controls {
@@ -1374,15 +1413,12 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   visibility: visible;
 }
 
-.album-page.is-editing.is-zoomed-out-edit .photo-controls,
-.album-page.is-editing.is-zoomed-out-edit .spacer-control,
-.album-page.is-editing.is-previewing.is-zoomed-out-edit .photo-effect-live-panel {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
-}
-
-.album-page.is-editing .editable-photo.has-spacer .spacer-control {
+.album-page.is-editing .editable-photo.has-settings-open .photo-controls,
+.album-page.is-editing .editable-photo.has-settings-open .spacer-control,
+.album-page.is-editing.is-previewing .editable-photo.has-settings-open .photo-effect-live-panel,
+.album-page.is-editing.is-zoomed-out-edit .editable-photo.has-settings-open .photo-controls,
+.album-page.is-editing.is-zoomed-out-edit .editable-photo.has-settings-open .spacer-control,
+.album-page.is-editing.is-previewing.is-zoomed-out-edit .editable-photo.has-settings-open .photo-effect-live-panel {
   opacity: 1;
   pointer-events: auto;
   visibility: visible;

@@ -5,6 +5,23 @@ export const spacingMap = {
   default: "1.25rem",
   airy: "2.5rem",
 };
+export const albumFontOptions = [
+  "inter",
+  "saint",
+  "clash",
+  "neue-haas",
+  "manrope",
+  "space-grotesk",
+  "plus-jakarta-sans",
+  "sora",
+  "instrument-serif",
+  "cormorant-garamond",
+  "fraunces",
+  "newsreader",
+  "libre-baskerville",
+  "syne",
+  "young-serif",
+];
 
 const clampNumber = (value, min, max, fallback) => {
   const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
@@ -12,6 +29,45 @@ const clampNumber = (value, min, max, fallback) => {
 };
 
 export const normalizeEffect = (value, fallback = "none") => (effectOptions.includes(value) ? value : fallback);
+
+export const normalizeAlbumTitleFontFamily = (value, fallback = "young-serif") =>
+  albumFontOptions.includes(value) ? value : fallback;
+
+export const getAlbumTitleFontFamilyCssValue = (value) => {
+  switch (normalizeAlbumTitleFontFamily(value)) {
+    case "saint":
+      return '"Saint", serif';
+    case "manrope":
+      return '"Manrope", sans-serif';
+    case "space-grotesk":
+      return '"SpaceGrotesk", sans-serif';
+    case "plus-jakarta-sans":
+      return '"PlusJakartaSans", sans-serif';
+    case "sora":
+      return '"Sora", sans-serif';
+    case "instrument-serif":
+      return '"InstrumentSerif", serif';
+    case "cormorant-garamond":
+      return '"CormorantGaramond", serif';
+    case "fraunces":
+      return '"Fraunces", serif';
+    case "newsreader":
+      return '"Newsreader", serif';
+    case "libre-baskerville":
+      return '"LibreBaskerville", serif';
+    case "syne":
+      return '"Syne", sans-serif';
+    case "young-serif":
+      return '"YoungSerif", serif';
+    case "clash":
+      return '"ClashDisplay", sans-serif';
+    case "neue-haas":
+      return '"NeueHaasDisplay", sans-serif';
+    case "inter":
+    default:
+      return '"Inter", sans-serif';
+  }
+};
 
 export const defaultEffectSettings = Object.freeze({
   focus: {
@@ -211,6 +267,7 @@ export const normalizePhoto = (photo, fallback = {}) => ({
 export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} }) => ({
   id: galleryId,
   title: typeof input.title === "string" ? input.title : titleFallback,
+  titleFontFamily: normalizeAlbumTitleFontFamily(input.titleFontFamily),
   titleScale: normalizeTitleScale(input.titleScale),
   mobileRotateClockwise: normalizeMobileRotateClockwise(input.mobileRotateClockwise),
   spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "tight",
@@ -263,6 +320,7 @@ export const fetchSiteBrand = async () => {
 export const serializeState = (state, galleryId) => ({
   id: galleryId,
   title: state.title,
+  titleFontFamily: normalizeAlbumTitleFontFamily(state.titleFontFamily),
   titleScale: normalizeTitleScale(state.titleScale),
   mobileRotateClockwise: normalizeMobileRotateClockwise(state.mobileRotateClockwise),
   spacing: state.spacing,
