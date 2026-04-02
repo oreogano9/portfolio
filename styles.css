@@ -1830,9 +1830,83 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   letter-spacing: -0.04em;
 }
 
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.experiment-link {
+  width: fit-content;
+  font-family: var(--site-ui-font-family);
+  color: var(--muted);
+  font-size: 0.84rem;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 .mobile-home-section {
   display: block;
   text-align: center;
+}
+
+.freeform-experiment-shell {
+  padding: 2rem 2.5rem 5rem;
+}
+
+.freeform-experiment-header {
+  display: grid;
+  grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+  gap: 1rem 2rem;
+  align-items: start;
+  margin-bottom: 2.5rem;
+}
+
+.freeform-experiment-copy {
+  max-width: 34rem;
+}
+
+.freeform-experiment-copy .masthead-title {
+  margin-bottom: 0.75rem;
+}
+
+.freeform-experiment-stage-section {
+  position: relative;
+}
+
+.freeform-experiment-stage {
+  position: relative;
+  min-height: var(--freeform-stage-height, 140vh);
+}
+
+.freeform-experiment-item {
+  position: absolute;
+  left: var(--freeform-x, 0%);
+  top: var(--freeform-y, 0%);
+  z-index: var(--freeform-z, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: var(--freeform-scale, 40%);
+  color: inherit;
+  text-decoration: none;
+}
+
+.freeform-experiment-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  object-fit: cover;
+}
+
+.freeform-experiment-label {
+  max-width: 16ch;
+  font-family: var(--site-display-font-family);
+  font-size: clamp(1rem, 1.2vw, 1.35rem);
+  line-height: 1.02;
 }
 
 .mobile-home-button {
@@ -2661,6 +2735,29 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
   .mobile-home-section {
     padding: 1.5rem 0;
+  }
+
+  .freeform-experiment-shell {
+    padding: 1.15rem 1rem 3rem;
+  }
+
+  .freeform-experiment-header {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .freeform-experiment-stage {
+    min-height: var(--freeform-stage-height, 180vh);
+  }
+
+  .freeform-experiment-item {
+    width: var(--freeform-scale, 72%);
+  }
+
+  .freeform-experiment-label {
+    max-width: 14ch;
+    font-size: 1rem;
   }
 }
 

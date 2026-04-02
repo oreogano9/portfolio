@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cargo Freeform Experiment</title>
+    <meta
+      name="description"
+      content="Experimental freeform homepage layout inspired by Cargo's gallery-freeform model."
+    />
+    <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
+    <style>
+      body.freeform-experiment-page:not(.is-ready) .freeform-experiment-shell {
+        opacity: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body
+    class="freeform-experiment-page"
+    data-freeform-settings="/data/freeform-experiment.json"
+  >
+    <main class="freeform-experiment-shell" id="top">
+      <header class="freeform-experiment-header">
+        <a class="album-back-link" href="/index.html">Home</a>
+        <div class="freeform-experiment-copy">
+          <p class="rail-label">Experiment</p>
+          <h1 class="masthead-title">Cargo Freeform Study</h1>
+          <p class="section-text">
+            A separate page to test Cargo-style manually composed image placement, with independent
+            desktop and mobile coordinates.
+          </p>
+        </div>
+      </header>
+
+      <section class="freeform-experiment-stage-section">
+        <div class="freeform-experiment-stage" aria-label="Freeform album composition"></div>
+      </section>
+    </main>
+
+    <script type="module" src="/script/main.js"></script>
+  </body>
+</html>
