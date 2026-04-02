@@ -7,6 +7,7 @@
   "quoteBottomSpace": 1,
   "fontFamily": "inter",
   "displayFontFamily": "young-serif",
+  "uiFontFamily": "inter",
   "albumsIndentMode": "quote-column",
   "albumCards": [
     {

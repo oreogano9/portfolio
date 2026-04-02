@@ -71,6 +71,25 @@ const createSelect = ({ className, ariaLabel, value, options, onChange }) => {
   return select;
 };
 
+const createSelectField = ({ label, ariaLabel, value, options, onChange, compact = true }) => {
+  const field = document.createElement("label");
+  field.className = compact ? "home-edit-field home-edit-field-compact" : "home-edit-field";
+
+  const labelText = document.createElement("span");
+  labelText.textContent = label;
+
+  const select = createSelect({
+    className: "home-edit-select",
+    ariaLabel,
+    value,
+    options,
+    onChange,
+  });
+
+  field.append(labelText, select);
+  return field;
+};
+
 const createAlbumStepper = ({ label, value, min, max, step, onChange, unit = "" }) => {
   const field = document.createElement("div");
   field.className = "header-edit-stepper";
@@ -148,9 +167,9 @@ export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cards
     );
 
     quoteContainer.append(
-      createSelect({
-        className: "home-edit-select",
-        ariaLabel: "Homepage body font family",
+      createSelectField({
+        label: "Body Text",
+        ariaLabel: "Body text font family",
         value: quoteState.fontFamily,
         options: [
           { value: "inter", label: "Inter" },
@@ -171,28 +190,51 @@ export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cards
         ],
         onChange: actions.setFontFamily,
       }),
-      createSelect({
-        className: "home-edit-select",
-        ariaLabel: "Homepage title font family",
+      createSelectField({
+        label: "Titles And Quotes",
+        ariaLabel: "Titles and quotes font family",
         value: quoteState.displayFontFamily,
         options: [
-          { value: "inter", label: "Titles: Inter" },
-          { value: "saint", label: "Titles: Saint" },
-          { value: "young-serif", label: "Titles: Young Serif" },
-          { value: "clash", label: "Titles: Clash Display" },
-          { value: "neue-haas", label: "Titles: Neue Haas" },
-          { value: "manrope", label: "Titles: Manrope" },
-          { value: "space-grotesk", label: "Titles: Space Grotesk" },
-          { value: "plus-jakarta-sans", label: "Titles: Plus Jakarta Sans" },
-          { value: "sora", label: "Titles: Sora" },
-          { value: "instrument-serif", label: "Titles: Instrument Serif" },
-          { value: "cormorant-garamond", label: "Titles: Cormorant Garamond" },
-          { value: "fraunces", label: "Titles: Fraunces" },
-          { value: "newsreader", label: "Titles: Newsreader" },
-          { value: "libre-baskerville", label: "Titles: Libre Baskerville" },
-          { value: "syne", label: "Titles: Syne" },
+          { value: "inter", label: "Inter" },
+          { value: "saint", label: "Saint" },
+          { value: "young-serif", label: "Young Serif" },
+          { value: "clash", label: "Clash Display" },
+          { value: "neue-haas", label: "Neue Haas" },
+          { value: "manrope", label: "Manrope" },
+          { value: "space-grotesk", label: "Space Grotesk" },
+          { value: "plus-jakarta-sans", label: "Plus Jakarta Sans" },
+          { value: "sora", label: "Sora" },
+          { value: "instrument-serif", label: "Instrument Serif" },
+          { value: "cormorant-garamond", label: "Cormorant Garamond" },
+          { value: "fraunces", label: "Fraunces" },
+          { value: "newsreader", label: "Newsreader" },
+          { value: "libre-baskerville", label: "Libre Baskerville" },
+          { value: "syne", label: "Syne" },
         ],
         onChange: actions.setDisplayFontFamily,
+      }),
+      createSelectField({
+        label: "Navigation, Labels, Buttons",
+        ariaLabel: "Navigation, labels, and buttons font family",
+        value: quoteState.uiFontFamily,
+        options: [
+          { value: "inter", label: "Inter" },
+          { value: "saint", label: "Saint" },
+          { value: "young-serif", label: "Young Serif" },
+          { value: "clash", label: "Clash Display" },
+          { value: "neue-haas", label: "Neue Haas" },
+          { value: "manrope", label: "Manrope" },
+          { value: "space-grotesk", label: "Space Grotesk" },
+          { value: "plus-jakarta-sans", label: "Plus Jakarta Sans" },
+          { value: "sora", label: "Sora" },
+          { value: "instrument-serif", label: "Instrument Serif" },
+          { value: "cormorant-garamond", label: "Cormorant Garamond" },
+          { value: "fraunces", label: "Fraunces" },
+          { value: "newsreader", label: "Newsreader" },
+          { value: "libre-baskerville", label: "Libre Baskerville" },
+          { value: "syne", label: "Syne" },
+        ],
+        onChange: actions.setUiFontFamily,
       }),
       createNumberField({
         label: "Quote Size",

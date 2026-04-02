@@ -5,6 +5,7 @@ const DEFAULT_SETTINGS_PATH = "data/homepage.settings.json";
 const DEFAULT_INDENT_MODE = "quote-column";
 const DEFAULT_FONT_FAMILY = "inter";
 const DEFAULT_DISPLAY_FONT_FAMILY = "inter";
+const DEFAULT_UI_FONT_FAMILY = "inter";
 const FONT_FAMILY_OPTIONS = [
   "inter",
   "saint",
@@ -118,6 +119,7 @@ const serializeHomepageState = (state) => ({
   quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
   fontFamily: normalizeFontFamily(state.fontFamily),
   displayFontFamily: normalizeFontFamily(state.displayFontFamily, DEFAULT_DISPLAY_FONT_FAMILY),
+  uiFontFamily: normalizeFontFamily(state.uiFontFamily, DEFAULT_UI_FONT_FAMILY),
   albumsIndentMode: normalizeIndentMode(state.albumsIndentMode),
   albumCards: state.albumCards.map((card) => normalizeCard(card)),
 });
@@ -187,6 +189,7 @@ export const setupHomeEditor = async () => {
     quoteBottomSpace: 1,
     fontFamily: DEFAULT_FONT_FAMILY,
     displayFontFamily: DEFAULT_DISPLAY_FONT_FAMILY,
+    uiFontFamily: DEFAULT_UI_FONT_FAMILY,
     albumsIndentMode: DEFAULT_INDENT_MODE,
     albumCards: cardElements.map((card) => ({
       href: card.dataset.homeCardId || card.getAttribute("href") || "",
@@ -211,6 +214,7 @@ export const setupHomeEditor = async () => {
     quoteBottomSpace: normalizeQuoteBottomSpace(jsonState?.quoteBottomSpace, defaults.quoteBottomSpace),
     fontFamily: normalizeFontFamily(jsonState?.fontFamily, defaults.fontFamily),
     displayFontFamily: normalizeFontFamily(jsonState?.displayFontFamily, defaults.displayFontFamily),
+    uiFontFamily: normalizeFontFamily(jsonState?.uiFontFamily, defaults.uiFontFamily),
     albumsIndentMode: normalizeIndentMode(jsonState?.albumsIndentMode, defaults.albumsIndentMode),
     albumCards: mergeAlbumCards(jsonState?.albumCards, defaults.albumCards),
   };
@@ -231,6 +235,7 @@ export const setupHomeEditor = async () => {
     quoteBottomSpace: normalizeQuoteBottomSpace(preferredState?.quoteBottomSpace, baseState.quoteBottomSpace),
     fontFamily: normalizeFontFamily(preferredState?.fontFamily, baseState.fontFamily),
     displayFontFamily: normalizeFontFamily(preferredState?.displayFontFamily, baseState.displayFontFamily),
+    uiFontFamily: normalizeFontFamily(preferredState?.uiFontFamily, baseState.uiFontFamily),
     albumsIndentMode: normalizeIndentMode(preferredState?.albumsIndentMode, baseState.albumsIndentMode),
     albumCards: mergeAlbumCards(preferredState?.albumCards, defaults.albumCards),
     editing: false,
@@ -488,6 +493,7 @@ export const setupHomeEditor = async () => {
     const siteFontFamilyValue = getFontFamilyCssValue(state.fontFamily);
     body.style.setProperty("--site-font-family", siteFontFamilyValue);
     body.style.setProperty("--site-display-font-family", getFontFamilyCssValue(state.displayFontFamily));
+    body.style.setProperty("--site-ui-font-family", getFontFamilyCssValue(state.uiFontFamily));
     body.dataset.siteFontFamily = normalizeFontFamily(state.fontFamily);
     body.classList.toggle("has-homepage-indent", state.albumsIndentMode === DEFAULT_INDENT_MODE);
     body.classList.toggle("is-home-editing", state.editing);
@@ -558,6 +564,7 @@ export const setupHomeEditor = async () => {
         quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
         fontFamily: normalizeFontFamily(state.fontFamily),
         displayFontFamily: normalizeFontFamily(state.displayFontFamily, DEFAULT_DISPLAY_FONT_FAMILY),
+        uiFontFamily: normalizeFontFamily(state.uiFontFamily, DEFAULT_UI_FONT_FAMILY),
       },
       cards: state.albumCards,
       actions: {
@@ -601,6 +608,11 @@ export const setupHomeEditor = async () => {
         },
         setDisplayFontFamily: (value) => {
           state.displayFontFamily = normalizeFontFamily(value, state.displayFontFamily);
+          saveDraft();
+          render();
+        },
+        setUiFontFamily: (value) => {
+          state.uiFontFamily = normalizeFontFamily(value, state.uiFontFamily);
           saveDraft();
           render();
         },

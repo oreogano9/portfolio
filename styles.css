@@ -178,6 +178,7 @@
   --album-title-scale: 1;
   --site-font-family: "Inter", sans-serif;
   --site-display-font-family: "YoungSerif", serif;
+  --site-ui-font-family: "Inter", sans-serif;
 }
 
 *,
@@ -257,6 +258,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .brand {
   display: inline-block;
   padding-top: 0.75rem;
+  font-family: var(--site-ui-font-family);
   font-size: 1.02rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -271,6 +273,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .section-label,
 .rail-label {
   margin: 0;
+  font-family: var(--site-ui-font-family);
   color: var(--muted);
   font-size: 0.74rem;
   letter-spacing: 0.18em;
@@ -370,6 +373,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .preview-toggle {
+  font-family: var(--site-ui-font-family);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -744,6 +748,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .subalbum-index-link {
   flex: 0 0 auto;
+  font-family: var(--site-ui-font-family);
   color: var(--muted);
   font-size: 0.94rem;
   letter-spacing: 0.075em;
@@ -802,6 +807,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   z-index: 24;
   width: fit-content;
   border-bottom: 1px solid transparent;
+  font-family: var(--site-ui-font-family);
   color: var(--muted);
   font-size: 0.82rem;
   letter-spacing: 0.045em;
@@ -969,7 +975,9 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   -webkit-appearance: none;
   border-radius: 0;
   box-shadow: none;
-  font: inherit;
+  font-family: var(--site-ui-font-family);
+  font-size: inherit;
+  line-height: inherit;
   color: inherit;
   cursor: pointer;
   background: transparent;
@@ -1828,6 +1836,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .mobile-home-button {
+  font-family: var(--site-ui-font-family);
   display: inline-flex;
   align-items: center;
   justify-content: center;
