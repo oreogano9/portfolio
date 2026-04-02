@@ -108,6 +108,52 @@ const createSelectField = ({ label, ariaLabel, value, options, onChange, compact
   return field;
 };
 
+const getWrappedOptionValue = ({ options, currentValue, direction }) => {
+  const values = options.map((option) => option.value);
+  const currentIndex = Math.max(0, values.indexOf(currentValue));
+  const nextIndex = (currentIndex + direction + values.length) % values.length;
+  return values[nextIndex];
+};
+
+const createCyclingSelectField = ({ label, ariaLabel, value, options, onChange, compact = true }) => {
+  const field = document.createElement("div");
+  field.className = compact
+    ? "home-edit-field home-edit-field-compact home-edit-field-cycling"
+    : "home-edit-field home-edit-field-cycling";
+
+  const labelText = document.createElement("span");
+  labelText.textContent = label;
+
+  const controls = document.createElement("div");
+  controls.className = "home-edit-cycling-controls";
+
+  const previousButton = createIconButton({
+    className: "home-edit-cycle-button",
+    text: "←",
+    ariaLabel: `Previous ${label.toLowerCase()}`,
+    onClick: () => onChange(getWrappedOptionValue({ options, currentValue: value, direction: -1 })),
+  });
+
+  const select = createSelect({
+    className: "home-edit-select",
+    ariaLabel,
+    value,
+    options,
+    onChange,
+  });
+
+  const nextButton = createIconButton({
+    className: "home-edit-cycle-button",
+    text: "→",
+    ariaLabel: `Next ${label.toLowerCase()}`,
+    onClick: () => onChange(getWrappedOptionValue({ options, currentValue: value, direction: 1 })),
+  });
+
+  controls.append(previousButton, select, nextButton);
+  field.append(labelText, controls);
+  return field;
+};
+
 const createAlbumStepper = ({ label, value, min, max, step, onChange, unit = "" }) => {
   const field = document.createElement("div");
   field.className = "header-edit-stepper";
@@ -294,7 +340,7 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     effectPanel.appendChild(effectPanelLabel);
 
     numericRow.append(
-      createSelectField({
+      createCyclingSelectField({
         label: "Title Font",
         ariaLabel: "Album title font family",
         value: titleFontFamily,
