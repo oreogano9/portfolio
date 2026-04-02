@@ -5,6 +5,8 @@
   "mastheadScale": 1,
   "mastheadTopSpace": 10,
   "quoteBottomSpace": 1,
+  "fontFamily": "inter",
+  "displayFontFamily": "young-serif",
   "albumsIndentMode": "quote-column",
   "albumCards": [
     {

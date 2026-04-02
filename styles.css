@@ -1,8 +1,25 @@
 @font-face {
+  font-family: "Inter";
+  src: url("/fonts/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/InterVariable-Italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "ClashDisplay";
   src: url("/fonts/ClashDisplay-Light.otf") format("opentype");
   font-weight: 300;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -10,6 +27,7 @@
   src: url("/fonts/ClashDisplay-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -17,6 +35,7 @@
   src: url("/fonts/ClashDisplay-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -24,6 +43,7 @@
   src: url("/fonts/ClashDisplay-Semibold.otf") format("opentype");
   font-weight: 600;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -31,6 +51,7 @@
   src: url("/fonts/ClashDisplay-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -38,6 +59,7 @@
   src: url("/assets/fonts/NeueHaasDisplayRoman.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -45,6 +67,103 @@
   src: url("/assets/fonts/NeueHaasDisplayBold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Saint";
+  src: url("/fonts/Saint-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/Manrope-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpaceGrotesk";
+  src: url("/fonts/SpaceGrotesk-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PlusJakartaSans";
+  src: url("/fonts/PlusJakartaSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sora";
+  src: url("/fonts/Sora-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "InstrumentSerif";
+  src: url("/fonts/InstrumentSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "CormorantGaramond";
+  src: url("/fonts/CormorantGaramond-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Newsreader";
+  src: url("/fonts/Newsreader-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreBaskerville";
+  src: url("/fonts/LibreBaskerville-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Syne";
+  src: url("/fonts/Syne-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "YoungSerif";
+  src: url("/fonts/YoungSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -57,6 +176,8 @@
   --ease: 650ms cubic-bezier(0.2, 0.65, 0.2, 1);
   --album-gap: 0.75rem;
   --album-title-scale: 1;
+  --site-font-family: "Inter", sans-serif;
+  --site-display-font-family: "YoungSerif", serif;
 }
 
 *,
@@ -75,7 +196,7 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: "ClashDisplay", sans-serif;
+  font-family: var(--site-font-family);
   overflow-x: hidden;
   transition: background-color 920ms cubic-bezier(0.16, 0.84, 0.24, 1), color 920ms cubic-bezier(0.16, 0.84, 0.24, 1);
 }
@@ -300,7 +421,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .home-edit-field input,
-.home-edit-field textarea {
+.home-edit-field textarea,
+.home-edit-select {
   width: 100%;
   min-width: 0;
   padding: 0.7rem 0.8rem;
@@ -309,6 +431,12 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   color: var(--text);
   font: inherit;
   resize: vertical;
+}
+
+.home-edit-select {
+  max-width: 12rem;
+  appearance: none;
+  border-radius: 0;
 }
 
 .home-edit-field-compact {
@@ -513,7 +641,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   max-width: min(100%, calc(14ch / var(--album-title-scale, 1)));
   margin-inline: auto;
   text-align: center;
-  font-family: "ClashDisplay", sans-serif;
+  font-family: var(--site-display-font-family);
   font-size: calc(clamp(2rem, 4.5vw, 4.25rem) * var(--album-title-scale, 1));
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -719,7 +847,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .statement,
 .about-title {
   margin: 0;
-  font-family: "ClashDisplay", sans-serif;
+  font-family: var(--site-display-font-family);
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 0.9;
@@ -732,6 +860,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .home-page .masthead-title {
+  font-family: var(--site-font-family);
   max-width: min(100%, 20ch);
   font-size: calc(clamp(1.54rem, 2.98vw, 3.12rem) * var(--homepage-masthead-scale, 1));
   line-height: 0.98;
@@ -739,6 +868,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .masthead-attribution {
   margin: 1rem 0 var(--homepage-quote-bottom-space, 1rem);
+  font-family: var(--site-font-family);
   color: var(--muted);
   font-size: 0.74rem;
   letter-spacing: 0.18em;
@@ -1686,7 +1816,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .contact-link {
   width: fit-content;
   border-bottom: 1px solid transparent;
-  font-family: "ClashDisplay", sans-serif;
+  font-family: var(--site-display-font-family);
   font-size: clamp(1.35rem, 2.6vw, 2.45rem);
   letter-spacing: -0.04em;
 }

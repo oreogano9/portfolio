@@ -3,6 +3,25 @@ import { mountHomeReactEditorUi } from "./editor-react-ui.js";
 
 const DEFAULT_SETTINGS_PATH = "data/homepage.settings.json";
 const DEFAULT_INDENT_MODE = "quote-column";
+const DEFAULT_FONT_FAMILY = "inter";
+const DEFAULT_DISPLAY_FONT_FAMILY = "inter";
+const FONT_FAMILY_OPTIONS = [
+  "inter",
+  "saint",
+  "clash",
+  "neue-haas",
+  "manrope",
+  "space-grotesk",
+  "plus-jakarta-sans",
+  "sora",
+  "instrument-serif",
+  "cormorant-garamond",
+  "fraunces",
+  "newsreader",
+  "libre-baskerville",
+  "syne",
+  "young-serif",
+];
 
 const normalizeHomepageSettingsPath = (value) => {
   if (typeof value !== "string") {
@@ -31,6 +50,49 @@ const normalizeQuoteBottomSpace = (value, fallback = 1) => {
 const normalizeIndentMode = (value, fallback = DEFAULT_INDENT_MODE) =>
   value === "full-width" || value === DEFAULT_INDENT_MODE ? value : fallback;
 
+const normalizeFontFamily = (value, fallback = DEFAULT_FONT_FAMILY) => {
+  if (FONT_FAMILY_OPTIONS.includes(value)) {
+    return value;
+  }
+  return fallback;
+};
+
+const getFontFamilyCssValue = (value) => {
+  switch (normalizeFontFamily(value)) {
+    case "saint":
+      return '"Saint", serif';
+    case "manrope":
+      return '"Manrope", sans-serif';
+    case "space-grotesk":
+      return '"SpaceGrotesk", sans-serif';
+    case "plus-jakarta-sans":
+      return '"PlusJakartaSans", sans-serif';
+    case "sora":
+      return '"Sora", sans-serif';
+    case "instrument-serif":
+      return '"InstrumentSerif", serif';
+    case "cormorant-garamond":
+      return '"CormorantGaramond", serif';
+    case "fraunces":
+      return '"Fraunces", serif';
+    case "newsreader":
+      return '"Newsreader", serif';
+    case "libre-baskerville":
+      return '"LibreBaskerville", serif';
+    case "syne":
+      return '"Syne", sans-serif';
+    case "young-serif":
+      return '"YoungSerif", serif';
+    case "clash":
+      return '"ClashDisplay", sans-serif';
+    case "neue-haas":
+      return '"NeueHaasDisplay", sans-serif';
+    case "inter":
+    default:
+      return '"Inter", sans-serif';
+  }
+};
+
 const normalizeCard = (card, fallback = {}) => ({
   href: typeof card?.href === "string" && card.href.trim() ? card.href : fallback.href || "",
   title: typeof card?.title === "string" && card.title.trim() ? card.title : fallback.title || "",
@@ -54,6 +116,8 @@ const serializeHomepageState = (state) => ({
   mastheadScale: normalizeMastheadScale(state.mastheadScale),
   mastheadTopSpace: normalizeMastheadTopSpace(state.mastheadTopSpace),
   quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
+  fontFamily: normalizeFontFamily(state.fontFamily),
+  displayFontFamily: normalizeFontFamily(state.displayFontFamily, DEFAULT_DISPLAY_FONT_FAMILY),
   albumsIndentMode: normalizeIndentMode(state.albumsIndentMode),
   albumCards: state.albumCards.map((card) => normalizeCard(card)),
 });
@@ -121,6 +185,8 @@ export const setupHomeEditor = async () => {
     mastheadScale: 1,
     mastheadTopSpace: 10,
     quoteBottomSpace: 1,
+    fontFamily: DEFAULT_FONT_FAMILY,
+    displayFontFamily: DEFAULT_DISPLAY_FONT_FAMILY,
     albumsIndentMode: DEFAULT_INDENT_MODE,
     albumCards: cardElements.map((card) => ({
       href: card.dataset.homeCardId || card.getAttribute("href") || "",
@@ -143,6 +209,8 @@ export const setupHomeEditor = async () => {
     mastheadScale: normalizeMastheadScale(jsonState?.mastheadScale, defaults.mastheadScale),
     mastheadTopSpace: normalizeMastheadTopSpace(jsonState?.mastheadTopSpace, defaults.mastheadTopSpace),
     quoteBottomSpace: normalizeQuoteBottomSpace(jsonState?.quoteBottomSpace, defaults.quoteBottomSpace),
+    fontFamily: normalizeFontFamily(jsonState?.fontFamily, defaults.fontFamily),
+    displayFontFamily: normalizeFontFamily(jsonState?.displayFontFamily, defaults.displayFontFamily),
     albumsIndentMode: normalizeIndentMode(jsonState?.albumsIndentMode, defaults.albumsIndentMode),
     albumCards: mergeAlbumCards(jsonState?.albumCards, defaults.albumCards),
   };
@@ -161,6 +229,8 @@ export const setupHomeEditor = async () => {
     mastheadScale: normalizeMastheadScale(preferredState?.mastheadScale, baseState.mastheadScale),
     mastheadTopSpace: normalizeMastheadTopSpace(preferredState?.mastheadTopSpace, baseState.mastheadTopSpace),
     quoteBottomSpace: normalizeQuoteBottomSpace(preferredState?.quoteBottomSpace, baseState.quoteBottomSpace),
+    fontFamily: normalizeFontFamily(preferredState?.fontFamily, baseState.fontFamily),
+    displayFontFamily: normalizeFontFamily(preferredState?.displayFontFamily, baseState.displayFontFamily),
     albumsIndentMode: normalizeIndentMode(preferredState?.albumsIndentMode, baseState.albumsIndentMode),
     albumCards: mergeAlbumCards(preferredState?.albumCards, defaults.albumCards),
     editing: false,
@@ -415,6 +485,10 @@ export const setupHomeEditor = async () => {
     body.style.setProperty("--homepage-masthead-scale", String(normalizeMastheadScale(state.mastheadScale)));
     body.style.setProperty("--homepage-masthead-top-space", `${normalizeMastheadTopSpace(state.mastheadTopSpace)}rem`);
     body.style.setProperty("--homepage-quote-bottom-space", `${normalizeQuoteBottomSpace(state.quoteBottomSpace)}rem`);
+    const siteFontFamilyValue = getFontFamilyCssValue(state.fontFamily);
+    body.style.setProperty("--site-font-family", siteFontFamilyValue);
+    body.style.setProperty("--site-display-font-family", getFontFamilyCssValue(state.displayFontFamily));
+    body.dataset.siteFontFamily = normalizeFontFamily(state.fontFamily);
     body.classList.toggle("has-homepage-indent", state.albumsIndentMode === DEFAULT_INDENT_MODE);
     body.classList.toggle("is-home-editing", state.editing);
     applyInlineText({
@@ -482,6 +556,8 @@ export const setupHomeEditor = async () => {
         mastheadScale: normalizeMastheadScale(state.mastheadScale),
         mastheadTopSpace: normalizeMastheadTopSpace(state.mastheadTopSpace),
         quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
+        fontFamily: normalizeFontFamily(state.fontFamily),
+        displayFontFamily: normalizeFontFamily(state.displayFontFamily, DEFAULT_DISPLAY_FONT_FAMILY),
       },
       cards: state.albumCards,
       actions: {
@@ -515,6 +591,16 @@ export const setupHomeEditor = async () => {
         },
         setQuoteBottomSpace: (value) => {
           state.quoteBottomSpace = normalizeQuoteBottomSpace(value, state.quoteBottomSpace);
+          saveDraft();
+          render();
+        },
+        setFontFamily: (value) => {
+          state.fontFamily = normalizeFontFamily(value, state.fontFamily);
+          saveDraft();
+          render();
+        },
+        setDisplayFontFamily: (value) => {
+          state.displayFontFamily = normalizeFontFamily(value, state.displayFontFamily);
           saveDraft();
           render();
         },
