@@ -197,6 +197,23 @@ export const setupAlbumEditor = async () => {
     return button;
   });
 
+  const selectAllButtons = actionGroups.map((group) => {
+    const button = document.createElement("button");
+    const isMobile = group.classList.contains("mobile-home-section");
+    button.className = isMobile ? "mobile-home-button album-select-all-button" : "preview-toggle album-select-all-button";
+    button.type = "button";
+    button.dataset.albumAction = "select-all";
+    button.textContent = "Select All";
+    if (isMobile) {
+      const unselectButton = group.querySelector('[data-album-action="clear-selection"]');
+      group.insertBefore(button, unselectButton || null);
+    } else {
+      const unselectButton = group.querySelector('[data-album-action="clear-selection"]');
+      group.insertBefore(button, unselectButton || group.firstChild);
+    }
+    return button;
+  });
+
   const rotatePreviewButtons = actionGroups.map((group) => {
     const button = document.createElement("button");
     const isMobile = group.classList.contains("mobile-home-section");
@@ -898,6 +915,9 @@ export const setupAlbumEditor = async () => {
     clearSelectionButtons.forEach((button) => {
       button.disabled = !state.editing || state.selectedPhotoIndexes.size === 0;
     });
+    selectAllButtons.forEach((button) => {
+      button.disabled = !state.editing || state.selectedPhotoIndexes.size >= state.photos.length;
+    });
     rotatePreviewButtons.forEach((button) => {
       button.textContent = state.previewRotated ? "Normal Rotation" : "Rotated View";
       button.disabled = !state.editing;
@@ -1034,7 +1054,6 @@ export const setupAlbumEditor = async () => {
         state.titleFontFamily = normalizeAlbumTitleFontFamily(value, state.titleFontFamily);
         body.style.setProperty("--album-title-font-family", getAlbumTitleFontFamilyCssValue(state.titleFontFamily));
         save();
-        render();
       },
       onTitleScaleChange: (value) => {
         state.titleScale = normalizeTitleScale(value, state.titleScale);
@@ -1495,6 +1514,18 @@ export const setupAlbumEditor = async () => {
         return;
       }
       state.selectedPhotoIndexes.clear();
+      state.activeSettingsPhotoIndex = null;
+      render();
+    });
+  });
+
+  selectAllButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!state.editing || state.photos.length === 0) {
+        return;
+      }
+      state.selectedPhotoIndexes = new Set(state.photos.map((_, index) => index));
+      state.activeSettingsPhotoIndex = 0;
       render();
     });
   });

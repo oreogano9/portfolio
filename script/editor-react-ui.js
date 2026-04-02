@@ -127,11 +127,36 @@ const createCyclingSelectField = ({ label, ariaLabel, value, options, onChange, 
   const controls = document.createElement("div");
   controls.className = "home-edit-cycling-controls";
 
+  const preserveButtonPosition = (button, nextValue) => {
+    const beforeRect = button.getBoundingClientRect();
+    select.value = String(nextValue);
+    onChange(nextValue);
+    window.requestAnimationFrame(() => {
+      if (!button.isConnected) {
+        return;
+      }
+      const afterRect = button.getBoundingClientRect();
+      const deltaX = afterRect.left - beforeRect.left;
+      const deltaY = afterRect.top - beforeRect.top;
+      if (Math.abs(deltaX) > 0.5 || Math.abs(deltaY) > 0.5) {
+        window.scrollBy({
+          left: deltaX,
+          top: deltaY,
+          behavior: "instant",
+        });
+      }
+    });
+  };
+
   const previousButton = createIconButton({
     className: "home-edit-cycle-button",
     text: "←",
     ariaLabel: `Previous ${label.toLowerCase()}`,
-    onClick: () => onChange(getWrappedOptionValue({ options, currentValue: value, direction: -1 })),
+    onClick: (event) =>
+      preserveButtonPosition(
+        event.currentTarget,
+        getWrappedOptionValue({ options, currentValue: select.value, direction: -1 })
+      ),
   });
 
   const select = createSelect({
@@ -146,7 +171,11 @@ const createCyclingSelectField = ({ label, ariaLabel, value, options, onChange, 
     className: "home-edit-cycle-button",
     text: "→",
     ariaLabel: `Next ${label.toLowerCase()}`,
-    onClick: () => onChange(getWrappedOptionValue({ options, currentValue: value, direction: 1 })),
+    onClick: (event) =>
+      preserveButtonPosition(
+        event.currentTarget,
+        getWrappedOptionValue({ options, currentValue: select.value, direction: 1 })
+      ),
   });
 
   controls.append(previousButton, select, nextButton);
