@@ -230,6 +230,25 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
     const viewportHeight = window.visualViewport?.height || window.innerHeight;
     const viewportCenter = viewportHeight * 0.5;
     const fadeRange = viewportHeight * 0.72;
+    const getPhotoEffectDistance = (rect, effectName = "none") => {
+      const photoCenter = rect.top + rect.height / 2;
+      const centerDistance = Math.abs(photoCenter - viewportCenter);
+
+      if (effectName !== "blur") {
+        return centerDistance;
+      }
+
+      const blurLeadIn = Math.min(viewportHeight * 0.14, Math.max(28, rect.height * 0.18));
+      if (viewportCenter >= rect.top - blurLeadIn && viewportCenter <= rect.bottom + blurLeadIn) {
+        return 0;
+      }
+
+      return Math.min(
+        Math.abs(rect.top - blurLeadIn - viewportCenter),
+        Math.abs(rect.bottom + blurLeadIn - viewportCenter),
+        centerDistance
+      );
+    };
     const visiblePool = photos.filter((photo) => visiblePhotos.has(photo));
     const overallPool = visiblePool.length ? visiblePool : photos;
     const candidates = effectPhotos.filter((photo) => visiblePhotos.has(photo));
@@ -254,8 +273,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
         return;
       }
 
-      const photoCenter = rect.top + rect.height / 2;
-      const distance = Math.abs(photoCenter - viewportCenter);
+      const distance = getPhotoEffectDistance(rect, normalizeEffect(photo.dataset.effect));
       if (distance < nearestDistance) {
         nearestDistance = distance;
         nearestPhoto = photo;
@@ -268,12 +286,12 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
         return;
       }
 
-      const photoCenter = rect.top + rect.height / 2;
-      const distance = Math.abs(photoCenter - viewportCenter);
+      const photoEffect = normalizeEffect(photo.dataset.effect);
+      const distance = getPhotoEffectDistance(rect, photoEffect);
       if (distance < closestDistance) {
         closestDistance = distance;
         activePhoto = photo;
-        activeEffect = normalizeEffect(photo.dataset.effect);
+        activeEffect = photoEffect;
         effectStrength = Math.max(0, Math.min(1, 1 - distance / fadeRange));
       }
     });
