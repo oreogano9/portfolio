@@ -69,8 +69,17 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
     body.style.setProperty("--effect-blur-opacity", String((settings.blur?.nonFocusedOpacity ?? 100) / 100));
   };
 
-  const effectsShouldRun = () =>
-    (state.effect !== "none" || state.photos.some((photo) => photo.effect !== "none")) && (!state.editing || state.previewing);
+  const effectsShouldRun = () => {
+    const sideviewActive =
+      body.classList.contains("has-mobile-sideview-grid") &&
+      mobileLayoutQuery.matches &&
+      !body.classList.contains("has-manual-rotate-preview");
+    if (sideviewActive) {
+      return false;
+    }
+
+    return (state.effect !== "none" || state.photos.some((photo) => photo.effect !== "none")) && (!state.editing || state.previewing);
+  };
 
   const updateMobileExtendedLayout = ({ recalculateFrames = true } = {}) => {
     grid.querySelectorAll(".editable-photo").forEach((wrapper) => {
