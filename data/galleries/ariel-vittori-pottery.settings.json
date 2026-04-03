@@ -1,11 +1,34 @@
 {
   "id": "ariel-vittori-pottery",
   "title": "Ariel Vittori - Pottery",
+  "titleFontFamily": "young-serif",
   "titleScale": 0.6,
   "mobileRotateClockwise": true,
   "spacing": "tight",
   "topSpacer": 5,
   "effect": "none",
+  "effectSettings": {
+    "focus": {
+      "nonFocusedOpacity": 12,
+      "activeScale": 1.5
+    },
+    "monochrome": {
+      "grayscaleAmount": 37,
+      "nonFocusedOpacity": 100,
+      "activeScale": 8
+    },
+    "lift": {
+      "scaleAmount": 2.4,
+      "nonFocusedOpacity": 34,
+      "shadowOpacity": 12
+    },
+    "blur": {
+      "blurRadius": 3,
+      "scaleAmount": 4.8,
+      "saturationDrop": 25,
+      "nonFocusedOpacity": 100
+    }
+  },
   "intro": {
     "mode": "hero",
     "heroImageSrc": "/images/Ariel%20Vittori%20-%20Pottery/DSC01872.jpg",
@@ -59,7 +82,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "monochrome",
+      "effect": "blur",
       "joinWithPrevious": false,
       "deleted": false,
       "landscape": true,
@@ -72,7 +95,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "monochrome",
+      "effect": "blur",
       "joinWithPrevious": false,
       "deleted": false,
       "landscape": true,
@@ -85,7 +108,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 0,
-      "effect": "monochrome",
+      "effect": "blur",
       "joinWithPrevious": false,
       "deleted": false,
       "landscape": true,
@@ -98,7 +121,7 @@
       "section": "",
       "size": "full",
       "spacerAfter": 10,
-      "effect": "monochrome",
+      "effect": "blur",
       "joinWithPrevious": false,
       "deleted": false,
       "landscape": true,
