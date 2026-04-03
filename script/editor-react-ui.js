@@ -386,7 +386,7 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
       createAlbumStepper({
         label: "Title",
         value: titleScaleDelta,
-        min: 0,
+        min: -0.55,
         max: 1.2,
         step: 0.1,
         onChange: (delta) => onTitleScaleChange((defaultTitleScale + delta).toFixed(2)),

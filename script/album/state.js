@@ -190,12 +190,12 @@ export const normalizeSections = (value) =>
 
 export const normalizeTopSpacer = (value, fallback = 7) => {
   const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
-  return Math.max(0, Math.min(40, numeric || 0));
+  return Math.max(-40, Math.min(40, numeric || 0));
 };
 
 export const normalizeTitleScale = (value, fallback = 0.6) => {
   const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
-  return Math.max(0.6, Math.min(1.8, Number.isFinite(numeric) ? numeric : 0.6));
+  return Math.max(0.05, Math.min(1.8, Number.isFinite(numeric) ? numeric : 0.6));
 };
 
 export const normalizeMobileRotateClockwise = (value, fallback = false) => {
