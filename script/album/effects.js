@@ -130,11 +130,14 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
       const maxFrameWidth = Math.max(0, (isExtended ? viewportWidth : viewportWidth - 20) - safetyInset * 2);
       const maxFrameHeight = Math.max(0, viewportHeight * 0.92 - safetyInset * 2);
       const fittedFrameWidth = Math.min(frameWidth, maxFrameWidth);
-      const fittedImageHeight =
-        manualRotatePreview && Number.isFinite(manualNormalizedImageHeight) && manualNormalizedImageHeight > 0
+      const fittedImageHeight = isExtended
+        ? fittedFrameWidth
+        : manualRotatePreview && Number.isFinite(manualNormalizedImageHeight) && manualNormalizedImageHeight > 0
           ? Math.min(fittedFrameWidth, manualNormalizedImageHeight)
           : Math.min(fittedFrameWidth, maxFrameHeight / ratio);
-      const fittedFrameHeight = Math.min(fittedImageHeight * ratio, maxFrameHeight);
+      const fittedFrameHeight = isExtended
+        ? fittedImageHeight * ratio
+        : Math.min(fittedImageHeight * ratio, maxFrameHeight);
 
       wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
       wrapper.style.setProperty("--mobile-extended-image-width", `${fittedFrameHeight}px`);
