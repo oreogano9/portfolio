@@ -28,7 +28,13 @@ export const setupLightbox = () => {
   };
 
   const applyImageTransform = () => {
-    lightboxImage.style.transform = `translate(${gesture.translateX}px, ${gesture.translateY}px) scale(${gesture.scale}) rotate(${gesture.rotation}deg)`;
+    if (currentUsesRotatedMobileFrame) {
+      lightboxImage.style.transform =
+        `translate(calc(-50% + ${gesture.translateX}px), calc(-50% + ${gesture.translateY}px)) ` +
+        `scale(${gesture.scale}) rotate(${gesture.rotation}deg)`;
+    } else {
+      lightboxImage.style.transform = `translate(${gesture.translateX}px, ${gesture.translateY}px) scale(${gesture.scale}) rotate(${gesture.rotation}deg)`;
+    }
     lightboxImage.style.cursor = gesture.scale > 1 ? "grab" : "";
   };
 
