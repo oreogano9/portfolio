@@ -72,11 +72,13 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
   const effectsShouldRun = () =>
     (state.effect !== "none" || state.photos.some((photo) => photo.effect !== "none")) && (!state.editing || state.previewing);
 
-  const updateMobileExtendedLayout = () => {
+  const updateMobileExtendedLayout = ({ recalculateFrames = true } = {}) => {
     grid.querySelectorAll(".editable-photo").forEach((wrapper) => {
-      wrapper.style.removeProperty("--mobile-extended-frame-height");
-      wrapper.style.removeProperty("--mobile-extended-image-width");
-      wrapper.style.removeProperty("--mobile-extended-image-height");
+      if (recalculateFrames) {
+        wrapper.style.removeProperty("--mobile-extended-frame-height");
+        wrapper.style.removeProperty("--mobile-extended-image-width");
+        wrapper.style.removeProperty("--mobile-extended-image-height");
+      }
       wrapper.style.removeProperty("--mobile-extended-image-scale");
       wrapper.style.removeProperty("--mobile-photo-stage-scale");
       wrapper.classList.remove("is-mobile-extended-active", "is-mobile-extended-neighbor");
@@ -93,14 +95,14 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
     }
 
     const rotateTargets = hasSideviewGrid ? Array.from(grid.querySelectorAll(mobileSideviewGridSelector)) : [];
-    if (rotateTargets.length) {
+    if (recalculateFrames && rotateTargets.length) {
       logDebug("rotate-layout", {
         targets: rotateTargets.length,
       });
     }
 
     let manualNormalizedImageHeight = null;
-    if (manualRotatePreview && rotateTargets.length) {
+    if (recalculateFrames && manualRotatePreview && rotateTargets.length) {
       const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
       const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
       const safetyInset = 2;
@@ -113,7 +115,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
       manualNormalizedImageHeight = Math.max(0, Math.min(maxFrameWidth, maxFrameHeight / maxRatio));
     }
 
-    rotateTargets.forEach((wrapper) => {
+    if (recalculateFrames) {
+      rotateTargets.forEach((wrapper) => {
       const ratio = Number(wrapper.dataset.ratio);
       const computedStyle = window.getComputedStyle(wrapper);
       const gutter =
@@ -140,7 +143,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
       wrapper.style.setProperty("--mobile-extended-frame-height", `${fittedFrameHeight}px`);
       wrapper.style.setProperty("--mobile-extended-image-width", `${fittedFrameHeight}px`);
       wrapper.style.setProperty("--mobile-extended-image-height", `${fittedImageHeight}px`);
-    });
+      });
+    }
 
     const extendedTargets = Array.from(grid.querySelectorAll(".editable-photo.size-extended:not(.is-deleted-photo)"));
     if (!extendedTargets.length) {
@@ -405,7 +409,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
   const bind = () => {
     const handleScroll = () => {
       syncMobileLayoutState();
-      updateMobileExtendedLayout();
+      updateMobileExtendedLayout({ recalculateFrames: false });
       queueEffectUpdate();
     };
 
@@ -423,7 +427,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
       const widthChanged = Math.abs(nextWidth - lastResizeWidth) >= 24;
       if (widthChanged) {
         lastResizeWidth = nextWidth;
-        updateMobileExtendedLayout();
+        updateMobileExtendedLayout({ recalculateFrames: true });
         refreshEffectObservers();
         return;
       }
@@ -432,11 +436,11 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
     });
     window.addEventListener("orientationchange", () => {
       syncMobileLayoutState();
-      updateMobileExtendedLayout();
+      updateMobileExtendedLayout({ recalculateFrames: true });
       refreshEffectObservers();
     });
     window.addEventListener("load", () => {
-      updateMobileExtendedLayout();
+      updateMobileExtendedLayout({ recalculateFrames: true });
       refreshEffectObservers();
     });
     window.addEventListener("scroll", handleScroll, { passive: true });
