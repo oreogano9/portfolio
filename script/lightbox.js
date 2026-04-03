@@ -11,6 +11,7 @@ export const setupLightbox = () => {
 
   let currentImageRatio = 0;
   let currentUsesRotatedMobileFrame = false;
+  const getBaseRotation = () => (currentUsesRotatedMobileFrame ? 90 : 0);
 
   const gesture = {
     scale: 1,
@@ -78,7 +79,7 @@ export const setupLightbox = () => {
     gesture.scale = 1;
     gesture.translateX = 0;
     gesture.translateY = 0;
-    gesture.rotation = 0;
+    gesture.rotation = getBaseRotation();
     gesture.pinchDistance = 0;
     gesture.pinchCenterX = 0;
     gesture.pinchCenterY = 0;
@@ -150,10 +151,7 @@ export const setupLightbox = () => {
     document.body.style.overflow = "hidden";
     resetImageTransform();
     updateLightboxFrame();
-    if (currentUsesRotatedMobileFrame) {
-      gesture.rotation = 90;
-      applyImageTransform();
-    }
+    applyImageTransform();
   };
 
   const editingActive = () => document.body.classList.contains("is-editing");
