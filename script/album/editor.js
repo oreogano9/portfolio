@@ -677,12 +677,22 @@ export const setupAlbumEditor = async () => {
       return;
     }
 
-    [state.photos[index], state.photos[targetIndex]] = [state.photos[targetIndex], state.photos[index]];
-    save();
-    render();
+    reorderPhotoIndexes([index], direction < 0 ? index - 1 : index + 1);
   };
 
   const getSelectedIndexes = () => Array.from(state.selectedPhotoIndexes).sort((a, b) => a - b);
+
+  const getSelectedSectionId = () => {
+    const indexes = getSelectedIndexes();
+    if (!indexes.length) {
+      return null;
+    }
+
+    const sectionIds = new Set(
+      indexes.map((index) => (typeof state.photos[index]?.section === "string" ? state.photos[index].section : ""))
+    );
+    return sectionIds.size === 1 ? Array.from(sectionIds)[0] : null;
+  };
 
   const clampIndexSelection = () => {
     state.selectedPhotoIndexes = new Set(
@@ -744,46 +754,103 @@ export const setupAlbumEditor = async () => {
     return true;
   };
 
+  const getNormalizedReorderResult = (indexes, destinationIndex) => {
+    const selectedIndexes = Array.from(new Set(indexes))
+      .filter((index) => Number.isInteger(index) && index >= 0 && index < state.photos.length)
+      .sort((a, b) => a - b);
+    if (!selectedIndexes.length) {
+      return null;
+    }
+
+    const clampedDestinationIndex = Math.max(0, Math.min(state.photos.length, Number(destinationIndex) || 0));
+    const selectedSet = new Set(selectedIndexes);
+    const selectedPhotos = selectedIndexes.map((index) => state.photos[index]);
+    const selectedOriginalPositions = new Map(selectedIndexes.map((index, offset) => [index, offset]));
+    const originalGaps = state.photos.map((photo) => Math.max(0, Math.min(50, Number(photo.spacerAfter) || 0)));
+    const remainingPhotos = state.photos.filter((_, index) => !selectedSet.has(index));
+    const insertionIndex = Math.max(
+      0,
+      Math.min(
+        remainingPhotos.length,
+        clampedDestinationIndex - selectedIndexes.filter((index) => index < clampedDestinationIndex).length
+      )
+    );
+    const nextPhotos = [
+      ...remainingPhotos.slice(0, insertionIndex),
+      ...selectedPhotos,
+      ...remainingPhotos.slice(insertionIndex),
+    ];
+
+    nextPhotos.forEach((photo, index) => {
+      photo.spacerAfter = originalGaps[index] ?? 0;
+    });
+
+    const nextSelectedIndexes = selectedPhotos.map((_, offset) => insertionIndex + offset);
+    return {
+      nextPhotos,
+      nextSelectedIndexes,
+      insertionIndex,
+      selectedOriginalPositions,
+    };
+  };
+
+  const reorderPhotoIndexes = (indexes, destinationIndex) => {
+    const result = getNormalizedReorderResult(indexes, destinationIndex);
+    if (!result) {
+      return false;
+    }
+
+    const {
+      nextPhotos,
+    } = result;
+    const previouslySelectedPhotos = getSelectedIndexes()
+      .map((index) => state.photos[index])
+      .filter(Boolean);
+    const previousActivePhoto =
+      Number.isInteger(state.activeSettingsPhotoIndex) && state.photos[state.activeSettingsPhotoIndex]
+        ? state.photos[state.activeSettingsPhotoIndex]
+        : null;
+    state.photos = nextPhotos;
+    const nextSelectedIndexes = previouslySelectedPhotos
+      .map((photo) => nextPhotos.indexOf(photo))
+      .filter((index) => index >= 0);
+    state.selectedPhotoIndexes = new Set(nextSelectedIndexes);
+    const nextActiveIndex = previousActivePhoto ? nextPhotos.indexOf(previousActivePhoto) : -1;
+    state.activeSettingsPhotoIndex = nextActiveIndex >= 0 ? nextActiveIndex : nextSelectedIndexes[0] ?? null;
+
+    normalizeAllJoinStates();
+    clampIndexSelection();
+    save();
+    render();
+    return true;
+  };
+
+  const insertSelectedPhotosAt = (destinationIndex) => {
+    if (getSelectedSectionId() === null) {
+      return false;
+    }
+    return reorderPhotoIndexes(getSelectedIndexes(), destinationIndex);
+  };
+
   const moveSelectedPhotos = (direction) => {
     const indexes = getSelectedIndexes();
     if (!indexes.length || !areIndexesContiguous(indexes)) {
       return;
     }
-
-    const previousActiveIndex = Number.isInteger(state.activeSettingsPhotoIndex) ? state.activeSettingsPhotoIndex : null;
-
+    const startIndex = indexes[0];
+    const endIndex = indexes[indexes.length - 1];
     if (direction < 0) {
-      const startIndex = indexes[0];
       if (startIndex === 0) {
         return;
       }
-
-      const beforePhoto = state.photos[startIndex - 1];
-      const block = state.photos.slice(startIndex, indexes[indexes.length - 1] + 1);
-      state.photos.splice(startIndex - 1, block.length + 1, ...block, beforePhoto);
-      state.selectedPhotoIndexes = new Set(indexes.map((index) => index - 1));
-      state.activeSettingsPhotoIndex =
-        Number.isInteger(previousActiveIndex) && indexes.includes(previousActiveIndex)
-          ? previousActiveIndex - 1
-          : Math.max(0, startIndex - 1);
-    } else {
-      const endIndex = indexes[indexes.length - 1];
-      if (endIndex >= state.photos.length - 1) {
-        return;
-      }
-
-      const afterPhoto = state.photos[endIndex + 1];
-      const block = state.photos.slice(indexes[0], endIndex + 1);
-      state.photos.splice(indexes[0], block.length + 1, afterPhoto, ...block);
-      state.selectedPhotoIndexes = new Set(indexes.map((index) => index + 1));
-      state.activeSettingsPhotoIndex =
-        Number.isInteger(previousActiveIndex) && indexes.includes(previousActiveIndex)
-          ? previousActiveIndex + 1
-          : Math.min(state.photos.length - 1, endIndex + 1);
+      reorderPhotoIndexes(indexes, startIndex - 1);
+      return;
     }
 
-    save();
-    render();
+    if (endIndex >= state.photos.length - 1) {
+      return;
+    }
+    reorderPhotoIndexes(indexes, endIndex + 2);
   };
 
   const normalizeDeletedNeighbors = (index) => {
@@ -1062,6 +1129,27 @@ export const setupAlbumEditor = async () => {
     body.style.setProperty("--album-title-font-family", getAlbumTitleFontFamilyCssValue(state.titleFontFamily));
     grid.style.setProperty("--album-gap", spacingMap[state.spacing]);
     topSpacerSection?.style.setProperty("--album-top-spacer-height", `${normalizeTopSpacer(state.topSpacer)}rem`);
+    const includeDeleted = state.editing && !state.previewing && state.showDeleted;
+    const activeInsertSection = getSelectedSectionId();
+    const visiblePhotos = state.photos
+      .map((photo, index) => ({ photo, index }))
+      .filter(({ photo }) => (includeDeleted ? true : !photo.deleted));
+    state.__activeInsertSection = activeInsertSection;
+    state.__sectionFirstIndexes = new Set();
+    state.__sectionLastIndexes = new Set();
+    visiblePhotos.forEach(({ photo, index }, visibleIndex) => {
+      if (photo.section !== activeInsertSection) {
+        return;
+      }
+      const previous = visiblePhotos[visibleIndex - 1];
+      const next = visiblePhotos[visibleIndex + 1];
+      if (!previous || previous.photo.section !== photo.section) {
+        state.__sectionFirstIndexes.add(index);
+      }
+      if (!next || next.photo.section !== photo.section) {
+        state.__sectionLastIndexes.add(index);
+      }
+    });
     syncModeUi();
     headerReactUi.render({
       titleFontFamily: state.titleFontFamily,
@@ -1167,7 +1255,7 @@ export const setupAlbumEditor = async () => {
     const blocks = buildAlbumBlocks({
       state,
       normalizeEffect,
-      includeDeleted: state.editing && !state.previewing && state.showDeleted,
+      includeDeleted,
     });
     const priorityPhotos = collectHeadingAdjacentPhotos(blocks, 2).filter((photo) => !photo.deleted);
     const priorityPhotoSources = new Set(priorityPhotos.map((photo) => photo.src));
@@ -1247,6 +1335,19 @@ export const setupAlbumEditor = async () => {
       return;
     }
 
+    const insertButton = event.target.closest(".photo-insert-target");
+    if (insertButton) {
+      const wrapper = event.target.closest(".editable-photo");
+      if (!wrapper || !state.editing) {
+        return;
+      }
+      event.preventDefault();
+      const index = Number(wrapper.dataset.index);
+      const destinationIndex = insertButton.dataset.action === "insert-before" ? index : index + 1;
+      insertSelectedPhotosAt(destinationIndex);
+      return;
+    }
+
     const button = event.target.closest(
       ".photo-control-button, .spacer-reset, .spacer-copy-button, .photo-join-button, .photo-hero-button, .photo-delete-button"
     );
@@ -1262,16 +1363,16 @@ export const setupAlbumEditor = async () => {
     event.preventDefault();
     const index = Number(wrapper.dataset.index);
     const action = button.dataset.action;
+    const selectedIndexes = getSelectedIndexes();
+    const shouldMoveSelection = state.selectedPhotoIndexes.has(index) && selectedIndexes.length > 1 && areIndexesContiguous(selectedIndexes);
 
     if (action === "up") {
-      const shouldMoveSelection = state.selectedPhotoIndexes.has(index) && getSelectedIndexes().length > 1;
       if (shouldMoveSelection) {
         moveSelectedPhotos(-1);
       } else {
         movePhoto(index, -1);
       }
     } else if (action === "down") {
-      const shouldMoveSelection = state.selectedPhotoIndexes.has(index) && getSelectedIndexes().length > 1;
       if (shouldMoveSelection) {
         moveSelectedPhotos(1);
       } else {
