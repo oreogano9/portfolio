@@ -79,16 +79,12 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
         wrapper.style.removeProperty("--mobile-extended-image-width");
         wrapper.style.removeProperty("--mobile-extended-image-height");
       }
-      wrapper.style.removeProperty("--mobile-extended-image-scale");
-      wrapper.style.removeProperty("--mobile-photo-stage-scale");
-      wrapper.classList.remove("is-mobile-extended-active", "is-mobile-extended-neighbor");
     });
 
     const manualRotatePreview = body.classList.contains("has-manual-rotate-preview");
     const shouldRunMobileExtendedEffect =
       (body.classList.contains("is-mobile-layout") || manualRotatePreview) && (!state.editing || state.previewing);
     const hasSideviewGrid = body.classList.contains("has-mobile-sideview-grid") || manualRotatePreview;
-    body.classList.remove("has-mobile-extended-focus");
 
     if (!shouldRunMobileExtendedEffect) {
       return;
@@ -146,64 +142,6 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
       });
     }
 
-    const extendedTargets = Array.from(grid.querySelectorAll(".editable-photo.size-extended:not(.is-deleted-photo)"));
-    if (!extendedTargets.length) {
-      return;
-    }
-
-    const viewportHeight = window.visualViewport?.height || window.innerHeight;
-    const viewportCenter = viewportHeight * 0.5;
-    const fadeRange = viewportHeight * 0.9;
-    let activeExtended = null;
-    let activeStrength = 0;
-    let activeDistance = Number.POSITIVE_INFINITY;
-    let activeCenter = viewportCenter;
-
-    extendedTargets.forEach((wrapper) => {
-      const rect = wrapper.getBoundingClientRect();
-      if (rect.bottom <= 0 || rect.top >= viewportHeight) {
-        return;
-      }
-
-      let distance = 0;
-      if (viewportCenter < rect.top) {
-        distance = rect.top - viewportCenter;
-      } else if (viewportCenter > rect.bottom) {
-        distance = viewportCenter - rect.bottom;
-      }
-
-      if (distance < activeDistance) {
-        activeDistance = distance;
-        activeExtended = wrapper;
-        activeStrength = Math.max(0, Math.min(1, 1 - distance / fadeRange));
-        activeCenter = rect.top + rect.height / 2;
-      }
-    });
-
-    if (!(activeExtended instanceof HTMLElement) || activeStrength <= 0.01) {
-      return;
-    }
-
-    body.classList.add("has-mobile-extended-focus");
-    activeExtended.classList.add("is-mobile-extended-active");
-    activeExtended.style.setProperty("--mobile-extended-image-scale", String(1 + activeStrength * 0.34));
-    activeExtended.style.setProperty("--mobile-photo-stage-scale", "1");
-
-    const neighborRange = viewportHeight * 1.1;
-    Array.from(grid.querySelectorAll(".editable-photo")).forEach((wrapper) => {
-      if (wrapper === activeExtended) {
-        return;
-      }
-
-      const rect = wrapper.getBoundingClientRect();
-      const photoCenter = rect.top + rect.height / 2;
-      const relative = Math.max(0, 1 - Math.abs(photoCenter - activeCenter) / neighborRange);
-      const stageScale = 1 - activeStrength * relative * 0.08;
-      if (stageScale < 0.999) {
-        wrapper.classList.add("is-mobile-extended-neighbor");
-        wrapper.style.setProperty("--mobile-photo-stage-scale", stageScale.toFixed(3));
-      }
-    });
   };
 
   const updateEffects = () => {
