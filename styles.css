@@ -1232,6 +1232,13 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   padding-inline: var(--mobile-rotate-inline-gutter);
 }
 
+.album-page.is-mobile-layout.has-mobile-sideview-grid .editable-photo.size-extended:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  --mobile-rotate-inline-gutter: 0px;
+}
+
 .album-page.has-manual-rotate-preview .editable-photo:not(.is-deleted-photo)[data-ratio]:not([data-ratio=""]) {
   --mobile-rotate-inline-gutter: 3px;
   box-sizing: border-box;
@@ -1258,7 +1265,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   max-width: none;
   max-height: none;
   height: var(--mobile-extended-image-height, auto);
-  transform: translate(-50%, -50%) rotate(90deg) !important;
+  transform: translate(-50%, -50%) rotate(90deg) scale(var(--mobile-extended-image-scale, 1)) !important;
   transform-origin: center center;
 }
 
@@ -1270,7 +1277,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   max-width: none;
   max-height: none;
   height: var(--mobile-extended-image-height, auto);
-  transform: translate(-50%, -50%) rotate(90deg) !important;
+  transform: translate(-50%, -50%) rotate(90deg) scale(var(--mobile-extended-image-scale, 1)) !important;
   transform-origin: center center;
 }
 
@@ -1311,6 +1318,9 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .photo-stage {
   position: relative;
+  transform: scale(var(--mobile-photo-stage-scale, 1));
+  transform-origin: center center;
+  transition: transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .editable-photo img {
@@ -2953,10 +2963,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   }
 
   .editable-photo.size-extended {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    min-height: calc(100vw - 2rem);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    min-height: 100vw;
     display: grid;
     place-items: center;
     overflow: visible;
@@ -2965,8 +2975,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   .editable-photo.size-extended img {
     width: auto;
     max-width: none;
-    height: min(88vw, 70vh);
-    transform: rotate(90deg);
+    height: min(100vw, 82vh);
+    transform: rotate(90deg) scale(var(--mobile-extended-image-scale, 1));
     transform-origin: center center;
   }
 
