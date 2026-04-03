@@ -1173,6 +1173,11 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
     box-shadow 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
+.album-page.is-editing .editable-photo {
+  margin-bottom: 0;
+  padding-bottom: var(--photo-after-space, 0);
+}
+
 .photo-join-row {
   display: grid;
   grid-template-columns: var(--photo-join-template, repeat(var(--photo-join-columns, 2), minmax(0, 1fr)));
@@ -1438,6 +1443,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .album-page.is-editing .editable-photo:hover .photo-select-indicator,
 .album-page.is-editing .editable-photo:hover .photo-insert-target,
+.album-page.is-editing .editable-photo:has(+ .editable-photo:hover) .photo-insert-target-after,
 .album-page.is-editing .editable-photo:focus-within .photo-insert-target,
 .album-page.is-editing .editable-photo:focus-within .photo-select-indicator,
 .album-page.is-editing .header-edit-controls,
@@ -1878,6 +1884,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   bottom: calc(-0.55rem - var(--photo-after-space, 0) - var(--album-gap) / 2);
 }
 
+.album-page.is-editing .photo-insert-target-after {
+  bottom: calc(-0.55rem - var(--album-gap) / 2);
+}
+
 .photo-insert-target:hover,
 .photo-insert-target:focus-visible {
   border-color: rgba(16, 16, 16, 0.34);
@@ -1945,7 +1955,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.is-editing.is-zoomed-out-edit .photo-insert-target-after {
-  bottom: calc(-0.45rem - var(--photo-after-space, 0) - var(--album-gap) / 2);
+  bottom: calc(-0.45rem - var(--album-gap) / 2);
 }
 
 .album-page.is-editing.is-zoomed-out-edit .photo-effect-live-panel {
