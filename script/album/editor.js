@@ -730,32 +730,56 @@ export const setupAlbumEditor = async () => {
     return true;
   };
 
+  const areIndexesContiguous = (indexes) => {
+    if (indexes.length <= 1) {
+      return true;
+    }
+
+    for (let cursor = 1; cursor < indexes.length; cursor += 1) {
+      if (indexes[cursor] !== indexes[cursor - 1] + 1) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const moveSelectedPhotos = (direction) => {
     const indexes = getSelectedIndexes();
-    if (!indexes.length) {
+    if (!indexes.length || !areIndexesContiguous(indexes)) {
       return;
     }
 
+    const previousActiveIndex = Number.isInteger(state.activeSettingsPhotoIndex) ? state.activeSettingsPhotoIndex : null;
+
     if (direction < 0) {
-      for (let cursor = 0; cursor < indexes.length; cursor += 1) {
-        const index = indexes[cursor];
-        if (index === 0 || state.selectedPhotoIndexes.has(index - 1)) {
-          continue;
-        }
-        [state.photos[index - 1], state.photos[index]] = [state.photos[index], state.photos[index - 1]];
-        state.selectedPhotoIndexes.delete(index);
-        state.selectedPhotoIndexes.add(index - 1);
+      const startIndex = indexes[0];
+      if (startIndex === 0) {
+        return;
       }
+
+      const beforePhoto = state.photos[startIndex - 1];
+      const block = state.photos.slice(startIndex, indexes[indexes.length - 1] + 1);
+      state.photos.splice(startIndex - 1, block.length + 1, ...block, beforePhoto);
+      state.selectedPhotoIndexes = new Set(indexes.map((index) => index - 1));
+      state.activeSettingsPhotoIndex =
+        Number.isInteger(previousActiveIndex) && indexes.includes(previousActiveIndex)
+          ? previousActiveIndex - 1
+          : Math.max(0, startIndex - 1);
     } else {
-      for (let cursor = indexes.length - 1; cursor >= 0; cursor -= 1) {
-        const index = indexes[cursor];
-        if (index >= state.photos.length - 1 || state.selectedPhotoIndexes.has(index + 1)) {
-          continue;
-        }
-        [state.photos[index + 1], state.photos[index]] = [state.photos[index], state.photos[index + 1]];
-        state.selectedPhotoIndexes.delete(index);
-        state.selectedPhotoIndexes.add(index + 1);
+      const endIndex = indexes[indexes.length - 1];
+      if (endIndex >= state.photos.length - 1) {
+        return;
       }
+
+      const afterPhoto = state.photos[endIndex + 1];
+      const block = state.photos.slice(indexes[0], endIndex + 1);
+      state.photos.splice(indexes[0], block.length + 1, afterPhoto, ...block);
+      state.selectedPhotoIndexes = new Set(indexes.map((index) => index + 1));
+      state.activeSettingsPhotoIndex =
+        Number.isInteger(previousActiveIndex) && indexes.includes(previousActiveIndex)
+          ? previousActiveIndex + 1
+          : Math.min(state.photos.length - 1, endIndex + 1);
     }
 
     save();
