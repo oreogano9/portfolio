@@ -37,9 +37,9 @@
   "sections": [],
   "photos": [
     {
-      "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01708.jpg",
-      "previewSrc": "/images/Ariel%20Vittori%20-%20Pottery/thumbs/DSC01708.jpg",
-      "alt": "Ariel Vittori - Pottery - DSC01708.jpg",
+      "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01723.jpg",
+      "previewSrc": "/images/Ariel%20Vittori%20-%20Pottery/thumbs/DSC01723.jpg",
+      "alt": "Ariel Vittori - Pottery - DSC01723.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -47,7 +47,20 @@
       "joinWithPrevious": false,
       "deleted": false,
       "landscape": true,
-      "aspectRatio": 1.19
+      "aspectRatio": 1.1899557637262554
+    },
+    {
+      "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01724.jpg",
+      "previewSrc": "/images/Ariel%20Vittori%20-%20Pottery/thumbs/DSC01724.jpg",
+      "alt": "Ariel Vittori - Pottery - DSC01724.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 5.25,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5001382361072713
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01710-2.jpg",
@@ -55,23 +68,10 @@
       "alt": "Ariel Vittori - Pottery - DSC01710-2.jpg",
       "section": "",
       "size": "full",
-      "spacerAfter": 4.5,
+      "spacerAfter": 5.25,
       "effect": "none",
       "joinWithPrevious": false,
       "deleted": false,
-      "landscape": true,
-      "aspectRatio": 1.5001268713524487
-    },
-    {
-      "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01710.jpg",
-      "previewSrc": "/images/Ariel%20Vittori%20-%20Pottery/thumbs/DSC01710.jpg",
-      "alt": "Ariel Vittori - Pottery - DSC01710.jpg",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 10,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001268713524487
     },
@@ -154,6 +154,32 @@
       "aspectRatio": 1.5
     },
     {
+      "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01710.jpg",
+      "previewSrc": "/images/Ariel%20Vittori%20-%20Pottery/thumbs/DSC01710.jpg",
+      "alt": "Ariel Vittori - Pottery - DSC01710.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 5.25,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": true,
+      "landscape": true,
+      "aspectRatio": 1.5001268713524487
+    },
+    {
+      "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01708.jpg",
+      "previewSrc": "/images/Ariel%20Vittori%20-%20Pottery/thumbs/DSC01708.jpg",
+      "alt": "Ariel Vittori - Pottery - DSC01708.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.19
+    },
+    {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01721-2.jpg",
       "previewSrc": "/images/Ariel%20Vittori%20-%20Pottery/thumbs/DSC01721-2.jpg",
       "alt": "Ariel Vittori - Pottery - DSC01721-2.jpg",
@@ -165,32 +191,6 @@
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.5
-    },
-    {
-      "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01723.jpg",
-      "previewSrc": "/images/Ariel%20Vittori%20-%20Pottery/thumbs/DSC01723.jpg",
-      "alt": "Ariel Vittori - Pottery - DSC01723.jpg",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false,
-      "landscape": true,
-      "aspectRatio": 1.1899557637262554
-    },
-    {
-      "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01724.jpg",
-      "previewSrc": "/images/Ariel%20Vittori%20-%20Pottery/thumbs/DSC01724.jpg",
-      "alt": "Ariel Vittori - Pottery - DSC01724.jpg",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false,
-      "landscape": true,
-      "aspectRatio": 1.5001382361072713
     },
     {
       "src": "/images/Ariel%20Vittori%20-%20Pottery/DSC01727.jpg",
