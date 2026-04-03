@@ -1503,7 +1503,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-debug-panel {
-  display: none;
+  display: grid;
 }
 
 .album-debug-title {
