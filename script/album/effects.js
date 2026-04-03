@@ -102,13 +102,12 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
       const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
       const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
       const safetyInset = 2;
-      const maxFrameWidth = Math.max(0, viewportWidth - 20 - safetyInset * 2);
       const maxFrameHeight = Math.max(0, viewportHeight * 0.92 - safetyInset * 2);
       const maxRatio = rotateTargets.reduce((largest, wrapper) => {
         const ratio = Number(wrapper.dataset.ratio);
         return Number.isFinite(ratio) && ratio > 0 ? Math.max(largest, ratio) : largest;
       }, 1);
-      manualNormalizedImageHeight = Math.max(0, Math.min(maxFrameWidth, maxFrameHeight / maxRatio));
+      manualNormalizedImageHeight = Math.max(0, Math.min(viewportWidth, maxFrameHeight / maxRatio));
     }
 
     if (recalculateFrames) {
@@ -127,7 +126,8 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
 
       const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
       const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
-      const maxFrameWidth = Math.max(0, viewportWidth - 20 - safetyInset * 2);
+      const isExtended = wrapper.classList.contains("size-extended");
+      const maxFrameWidth = Math.max(0, (isExtended ? viewportWidth : viewportWidth - 20) - safetyInset * 2);
       const maxFrameHeight = Math.max(0, viewportHeight * 0.92 - safetyInset * 2);
       const fittedFrameWidth = Math.min(frameWidth, maxFrameWidth);
       const fittedImageHeight =
