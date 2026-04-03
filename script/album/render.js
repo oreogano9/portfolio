@@ -233,6 +233,10 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
   const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
   const isSelected = state.selectedPhotoIndexes instanceof Set ? state.selectedPhotoIndexes.has(index) : false;
   const hasSettingsOpen = state.activeSettingsPhotoIndex === index;
+  const selectedSection = state.__activeInsertSection ?? null;
+  const canShowInsertTargets = selectedSection !== null && photo.section === selectedSection;
+  const isFirstInSection = state.__sectionFirstIndexes instanceof Set && state.__sectionFirstIndexes.has(index);
+  const isLastInSection = state.__sectionLastIndexes instanceof Set && state.__sectionLastIndexes.has(index);
   const wrapper = document.createElement("figure");
   const isJoinable = !isDeleted && canJoinPhoto(state, index, normalizeEffect);
   const canShowUnjoin = !isDeleted && photo.joinWithPrevious;
@@ -253,6 +257,11 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
   wrapper.innerHTML = `
     <div class="photo-stage">
       ${isDeleted ? `<div class="photo-deleted-badge">DELETED</div>` : ""}
+      ${
+        canShowInsertTargets && isFirstInSection
+          ? `<button class="photo-insert-target photo-insert-target-before" type="button" data-action="insert-before" aria-label="Insert selected photos before this image">+</button>`
+          : ""
+      }
       <button class="photo-select-indicator${isSelected ? " is-selected" : ""}" type="button" data-action="toggle-selection" aria-label="${isSelected ? "Unselect photo" : "Select photo"}" aria-pressed="${isSelected ? "true" : "false"}">
         <span class="photo-select-indicator-box">${isSelected ? "✓" : ""}</span>
       </button>
@@ -305,6 +314,11 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
           )
           .join("")}
       </div>`
+          : ""
+      }
+      ${
+        canShowInsertTargets
+          ? `<button class="photo-insert-target photo-insert-target-after${isLastInSection ? " is-section-end" : ""}" type="button" data-action="insert-after" aria-label="Insert selected photos after this image">+</button>`
           : ""
       }
     </div>

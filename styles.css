@@ -1426,6 +1426,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .photo-controls,
 .photo-select-indicator,
+.photo-insert-target,
 .photo-effect-live-panel,
 .header-edit-controls,
 .spacer-control {
@@ -1436,6 +1437,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .album-page.is-editing .editable-photo:hover .photo-select-indicator,
+.album-page.is-editing .editable-photo:hover .photo-insert-target,
+.album-page.is-editing .editable-photo:focus-within .photo-insert-target,
 .album-page.is-editing .editable-photo:focus-within .photo-select-indicator,
 .album-page.is-editing .header-edit-controls,
 .album-page.is-editing .album-page-header:hover .header-edit-controls,
@@ -1474,6 +1477,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .album-page.is-editing.is-previewing .photo-controls,
 .album-page.is-editing.is-previewing .photo-select-indicator,
+.album-page.is-editing.is-previewing .photo-insert-target,
 .album-page.is-editing.is-previewing .header-edit-controls,
 .album-page.is-editing.is-previewing .spacer-control {
   opacity: 0;
@@ -1846,6 +1850,39 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   border-color: rgba(16, 16, 16, 0.92);
 }
 
+.photo-insert-target {
+  position: absolute;
+  left: 50%;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  padding: 0;
+  border: 1px solid rgba(16, 16, 16, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.78rem;
+  line-height: 1;
+  transform: translateX(-50%);
+}
+
+.photo-insert-target-before {
+  top: calc(-0.55rem - var(--album-gap) / 2);
+}
+
+.photo-insert-target-after {
+  bottom: calc(-0.55rem - var(--photo-after-space, 0) - var(--album-gap) / 2);
+}
+
+.photo-insert-target:hover,
+.photo-insert-target:focus-visible {
+  border-color: rgba(16, 16, 16, 0.34);
+}
+
 .header-edit-row-effects {
   padding-top: 0.05rem;
 }
@@ -1901,6 +1938,14 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .album-page.is-editing.is-zoomed-out-edit .photo-select-indicator {
   right: 0.35rem;
   bottom: 0.35rem;
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-insert-target-before {
+  top: calc(-0.45rem - var(--album-gap) / 2);
+}
+
+.album-page.is-editing.is-zoomed-out-edit .photo-insert-target-after {
+  bottom: calc(-0.45rem - var(--photo-after-space, 0) - var(--album-gap) / 2);
 }
 
 .album-page.is-editing.is-zoomed-out-edit .photo-effect-live-panel {
