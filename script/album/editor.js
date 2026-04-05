@@ -677,7 +677,7 @@ export const setupAlbumEditor = async () => {
       return;
     }
 
-    reorderPhotoIndexes([index], direction < 0 ? index - 1 : index + 1);
+    reorderPhotoIndexes([index], direction < 0 ? index - 1 : index + 2);
   };
 
   const getSelectedIndexes = () => Array.from(state.selectedPhotoIndexes).sort((a, b) => a - b);
