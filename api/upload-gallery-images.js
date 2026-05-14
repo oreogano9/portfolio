@@ -213,6 +213,20 @@ export default async function handler(request, response) {
 
       const fullBase64 = decodeDataUrlBase64(file?.fullDataUrl);
       const thumbBase64 = decodeDataUrlBase64(file?.thumbDataUrl);
+      const existingFullAsset = await fetchRepoEntry({
+        owner,
+        repo,
+        branch,
+        token,
+        path: fullRepoPath,
+      });
+      const existingThumbAsset = await fetchRepoEntry({
+        owner,
+        repo,
+        branch,
+        token,
+        path: thumbRepoPath,
+      });
 
       const fullWrite = await writeRepoFile({
         owner,
@@ -220,7 +234,7 @@ export default async function handler(request, response) {
         branch,
         token,
         path: fullRepoPath,
-        sha: null,
+        sha: existingFullAsset?.sha || null,
         message: `Upload image to gallery: ${galleryId}`,
         base64Content: fullBase64,
       });
@@ -232,7 +246,7 @@ export default async function handler(request, response) {
         branch,
         token,
         path: thumbRepoPath,
-        sha: null,
+        sha: existingThumbAsset?.sha || null,
         message: `Upload thumbnail to gallery: ${galleryId}`,
         base64Content: thumbBase64,
       });

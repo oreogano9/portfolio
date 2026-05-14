@@ -492,7 +492,9 @@ export const setupAlbumEditor = async () => {
   const debugTitle = document.createElement("div");
   const debugLog = document.createElement("div");
   const apiErrorPanel = document.createElement("aside");
+  const apiErrorHeader = document.createElement("div");
   const apiErrorTitle = document.createElement("div");
+  const apiErrorCopyButton = document.createElement("button");
   const apiErrorBody = document.createElement("pre");
   let debugProgrammaticScrollUntil = 0;
   let lastDebugScrollY = window.scrollY || window.pageYOffset || 0;
@@ -513,6 +515,20 @@ export const setupAlbumEditor = async () => {
   apiErrorPanel.style.overflow = "auto";
   apiErrorTitle.className = "album-debug-title";
   apiErrorTitle.textContent = "API Error";
+  apiErrorHeader.style.display = "flex";
+  apiErrorHeader.style.alignItems = "center";
+  apiErrorHeader.style.justifyContent = "space-between";
+  apiErrorCopyButton.type = "button";
+  apiErrorCopyButton.textContent = "Copy";
+  apiErrorCopyButton.style.border = "1px solid rgba(16, 16, 16, 0.14)";
+  apiErrorCopyButton.style.borderRadius = "999px";
+  apiErrorCopyButton.style.background = "rgba(252, 251, 248, 0.9)";
+  apiErrorCopyButton.style.padding = "0.2rem 0.55rem";
+  apiErrorCopyButton.style.margin = "0.45rem 0.45rem 0 0";
+  apiErrorCopyButton.style.font = "inherit";
+  apiErrorCopyButton.style.fontSize = "0.68rem";
+  apiErrorCopyButton.style.cursor = "pointer";
+  apiErrorCopyButton.style.display = "none";
   apiErrorBody.className = "album-debug-log";
   apiErrorBody.style.margin = "0";
   apiErrorBody.style.padding = "0.65rem";
@@ -520,7 +536,8 @@ export const setupAlbumEditor = async () => {
   apiErrorBody.style.wordBreak = "break-word";
   apiErrorBody.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, monospace";
   apiErrorBody.style.fontSize = "0.72rem";
-  apiErrorPanel.append(apiErrorTitle, apiErrorBody);
+  apiErrorHeader.append(apiErrorTitle, apiErrorCopyButton);
+  apiErrorPanel.append(apiErrorHeader, apiErrorBody);
   body.appendChild(debugPanel);
   body.appendChild(apiErrorPanel);
 
@@ -571,6 +588,7 @@ export const setupAlbumEditor = async () => {
   const renderApiDebugPanel = () => {
     const shouldShow = state.editing && Boolean(apiDebugState.message || apiDebugState.details);
     apiErrorPanel.style.display = shouldShow ? "block" : "none";
+    apiErrorCopyButton.style.display = shouldShow ? "inline-flex" : "none";
     if (!shouldShow) {
       apiErrorBody.textContent = "";
       return;
@@ -585,6 +603,21 @@ export const setupAlbumEditor = async () => {
       .filter(Boolean)
       .join("\n");
   };
+
+  apiErrorCopyButton.addEventListener("click", async () => {
+    if (!apiErrorBody.textContent) {
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(apiErrorBody.textContent);
+      apiErrorCopyButton.textContent = "Copied";
+    } catch {
+      apiErrorCopyButton.textContent = "Select text";
+    }
+    window.setTimeout(() => {
+      apiErrorCopyButton.textContent = "Copy";
+    }, 1200);
+  });
 
   const logDebug = (label, details = {}) => {
     const time = new Date().toLocaleTimeString("en-GB", {
