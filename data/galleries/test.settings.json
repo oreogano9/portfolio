@@ -107,10 +107,10 @@
       "aspectRatio": 0.7501831501831502
     },
     {
-      "id": "/images/test/PRIDE2025-03835-2.jpg",
-      "src": "/images/test/PRIDE2025-03835-2.jpg",
-      "previewSrc": "/images/test/thumbs/PRIDE2025-03835-2.jpg",
-      "alt": "PRIDE 2025 - PRIDE2025-03835-2.jpg",
+      "id": "/images/test/PRIDE2025-03779.jpg",
+      "src": "/images/test/PRIDE2025-03779.jpg",
+      "previewSrc": "/images/test/thumbs/PRIDE2025-03779.jpg",
+      "alt": "PRIDE 2025 - PRIDE2025-03779.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -121,10 +121,10 @@
       "aspectRatio": 1.499267935578331
     },
     {
-      "id": "/images/test/PRIDE2025-03779.jpg",
-      "src": "/images/test/PRIDE2025-03779.jpg",
-      "previewSrc": "/images/test/thumbs/PRIDE2025-03779.jpg",
-      "alt": "PRIDE 2025 - PRIDE2025-03779.jpg",
+      "id": "/images/test/PRIDE2025-03835-2.jpg",
+      "src": "/images/test/PRIDE2025-03835-2.jpg",
+      "previewSrc": "/images/test/thumbs/PRIDE2025-03835-2.jpg",
+      "alt": "PRIDE 2025 - PRIDE2025-03835-2.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -1852,11 +1852,11 @@
     },
     {
       "type": "photo",
-      "photoId": "/images/test/PRIDE2025-03835-2.jpg"
+      "photoId": "/images/test/PRIDE2025-03779.jpg"
     },
     {
       "type": "photo",
-      "photoId": "/images/test/PRIDE2025-03779.jpg"
+      "photoId": "/images/test/PRIDE2025-03835-2.jpg"
     },
     {
       "type": "photo",
