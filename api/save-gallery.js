@@ -2,6 +2,9 @@ export const config = {
   runtime: "nodejs",
 };
 
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+
 const isSafeSettingsPath = (value) =>
   typeof value === "string" &&
   value.startsWith("data/galleries/") &&
@@ -69,6 +72,12 @@ const writeRepoJson = async ({ owner, repo, branch, token, path, sha, message, j
   };
 };
 
+const writeLocalRepoJson = async (relativePath, json) => {
+  const absolutePath = path.join(process.cwd(), relativePath);
+  await mkdir(path.dirname(absolutePath), { recursive: true });
+  await writeFile(absolutePath, `${JSON.stringify(json, null, 2)}\n`);
+};
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -124,6 +133,8 @@ export default async function handler(request, response) {
       return response.status(500).json({ error: "Failed to write settings file to GitHub", details: galleryWrite.details });
     }
 
+    await writeLocalRepoJson(settingsPath, settings);
+
     let syncedHomepage = false;
     if (typeof settings.title === "string") {
       const existingHomepage = await fetchRepoJson({
@@ -175,6 +186,10 @@ export default async function handler(request, response) {
         }
 
         syncedHomepage = true;
+        await writeLocalRepoJson(HOMEPAGE_SETTINGS_PATH, {
+          ...existingHomepage.parsed,
+          albumCards: syncedAlbumCards,
+        });
       }
     }
 

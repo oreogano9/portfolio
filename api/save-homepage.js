@@ -2,6 +2,9 @@ export const config = {
   runtime: "nodejs",
 };
 
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+
 const SETTINGS_PATH = "data/homepage.settings.json";
 
 const isSafeSettingsPath = (value) => value === SETTINGS_PATH;
@@ -84,6 +87,12 @@ const getGallerySettingsPathFromHref = (href) => {
   return `data/galleries/${match[1]}.settings.json`;
 };
 
+const writeLocalRepoJson = async (relativePath, json) => {
+  const absolutePath = path.join(process.cwd(), relativePath);
+  await mkdir(path.dirname(absolutePath), { recursive: true });
+  await writeFile(absolutePath, `${JSON.stringify(json, null, 2)}\n`);
+};
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -139,6 +148,8 @@ export default async function handler(request, response) {
       return response.status(500).json({ error: "Failed to write homepage settings to GitHub", details: homepageWrite.details });
     }
 
+    await writeLocalRepoJson(SETTINGS_PATH, settings);
+
     const syncedGalleries = [];
     for (const card of Array.isArray(settings.albumCards) ? settings.albumCards : []) {
       const gallerySettingsPath = getGallerySettingsPathFromHref(card?.href);
@@ -187,6 +198,7 @@ export default async function handler(request, response) {
       }
 
       syncedGalleries.push(gallerySettingsPath);
+      await writeLocalRepoJson(gallerySettingsPath, syncedGallery);
     }
 
     return response.status(200).json({

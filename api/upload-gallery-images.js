@@ -2,6 +2,9 @@ export const config = {
   runtime: "nodejs",
 };
 
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+
 const isSafeSettingsPath = (value) =>
   typeof value === "string" &&
   value.startsWith("data/galleries/") &&
@@ -90,6 +93,19 @@ const decodeDataUrlBase64 = (value) => {
     throw new Error("Invalid data URL payload");
   }
   return match[1];
+};
+
+const writeLocalRepoBinary = async (relativePath, dataUrl) => {
+  const absolutePath = path.join(process.cwd(), relativePath);
+  await mkdir(path.dirname(absolutePath), { recursive: true });
+  const base64 = decodeDataUrlBase64(dataUrl);
+  await writeFile(absolutePath, Buffer.from(base64, "base64"));
+};
+
+const writeLocalRepoJson = async (relativePath, json) => {
+  const absolutePath = path.join(process.cwd(), relativePath);
+  await mkdir(path.dirname(absolutePath), { recursive: true });
+  await writeFile(absolutePath, `${JSON.stringify(json, null, 2)}\n`);
 };
 
 const ensureUniqueFilename = (filename, used) => {
@@ -213,6 +229,9 @@ export default async function handler(request, response) {
       });
       commits.push(thumbWrite.commitSha);
 
+      await writeLocalRepoBinary(fullRepoPath, file?.fullDataUrl);
+      await writeLocalRepoBinary(thumbRepoPath, file?.thumbDataUrl);
+
       const width = Number(file?.width);
       const height = Number(file?.height);
       uploadedPhotos.push({
@@ -256,6 +275,7 @@ export default async function handler(request, response) {
       base64Content: Buffer.from(JSON.stringify(nextSettings, null, 2)).toString("base64"),
     });
     commits.push(settingsWrite.commitSha);
+    await writeLocalRepoJson(settingsPath, nextSettings);
 
     return response.status(200).json({
       ok: true,

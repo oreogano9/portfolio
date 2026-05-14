@@ -8,7 +8,7 @@ const bootstrap = async () => {
 
   try {
     await setupHomeEditor();
-    setupHomePage();
+    await setupHomePage();
     await setupAlbumEditor();
     setupLightbox();
   } finally {

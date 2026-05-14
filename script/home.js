@@ -3,6 +3,52 @@ let currentAlbumFilter = "all";
 
 const getAlbumFilterControls = () => Array.from(document.querySelectorAll(".album-link"));
 const getAlbumFilterCards = () => Array.from(document.querySelectorAll(".album-card[data-category]"));
+const normalizeHomepageSettingsPath = (value) => {
+  if (typeof value !== "string") {
+    return "data/homepage.settings.json";
+  }
+
+  const normalized = value.replace(/^\/+/, "").replace(/^\.\//, "").trim();
+  return normalized || "data/homepage.settings.json";
+};
+
+const createAlbumCardElement = (card, index) => {
+  const element = document.createElement("a");
+  element.className = "album-card reveal-up";
+  element.href = card.href || "";
+  element.dataset.category = card.category || "";
+  element.dataset.homeCardId = card.href || "";
+
+  const number = document.createElement("span");
+  number.className = "album-number";
+  number.textContent = String(index + 1).padStart(2, "0");
+
+  const copy = document.createElement("div");
+  copy.className = "album-card-copy";
+
+  const title = document.createElement("h3");
+  title.className = "album-card-title";
+  title.textContent = card.title || "";
+
+  const date = document.createElement("p");
+  date.className = "album-card-date";
+  date.setAttribute("aria-label", "Album date");
+  date.textContent = card.date || "";
+
+  const tags = document.createElement("p");
+  tags.className = "album-card-tags";
+  tags.setAttribute("aria-label", "Album tags");
+  tags.textContent = card.category || "";
+
+  const description = document.createElement("p");
+  description.className = "album-card-description";
+  description.textContent = card.description || "";
+
+  copy.append(title, date, tags, description);
+  element.append(number, copy);
+  return element;
+};
+
 const syncSiteBrand = () => {
   const brandText = document.body?.dataset.siteBrand?.trim();
   if (!brandText) {
@@ -157,8 +203,45 @@ export const setupMobileMenu = () => {
 
 export const setupParallax = () => {};
 
-export const setupHomePage = () => {
+const syncHomepageCardsFromSettings = async () => {
+  const body = document.body;
+  const albumGrid = document.querySelector(".album-grid");
+  if (!body?.classList.contains("home-page") || !(albumGrid instanceof HTMLElement)) {
+    return;
+  }
+
+  const settingsPath = normalizeHomepageSettingsPath(body.dataset.homepageSettings);
+
+  try {
+    const response = await fetch(`/${settingsPath}`, { cache: "no-store" });
+    if (!response.ok) {
+      return;
+    }
+
+    const settings = await response.json();
+    const cards = Array.isArray(settings?.albumCards) ? settings.albumCards : [];
+    if (!cards.length) {
+      return;
+    }
+
+    const currentHrefs = Array.from(albumGrid.querySelectorAll(".album-card[data-home-card-id]")).map(
+      (card) => card.dataset.homeCardId || card.getAttribute("href") || ""
+    );
+    const nextHrefs = cards.map((card) => card?.href || "");
+    const shouldRebuild =
+      currentHrefs.length !== nextHrefs.length || currentHrefs.some((href, index) => href !== nextHrefs[index]);
+
+    if (shouldRebuild) {
+      albumGrid.replaceChildren(...cards.map((card, index) => createAlbumCardElement(card, index)));
+    }
+  } catch {
+    return;
+  }
+};
+
+export const setupHomePage = async () => {
   syncSiteBrand();
+  await syncHomepageCardsFromSettings();
   setupReveals();
   setupAlbumLinks();
   setupMobileMenu();

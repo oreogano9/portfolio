@@ -2,6 +2,9 @@ export const config = {
   runtime: "nodejs",
 };
 
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+
 const SETTINGS_PATH = "data/homepage.settings.json";
 
 const isSafeSettingsPath = (value) => value === SETTINGS_PATH;
@@ -177,6 +180,12 @@ const buildGallerySettings = ({ galleryId, title }) => ({
   blocks: [],
 });
 
+const writeLocalRepoFile = async (relativePath, contents) => {
+  const absolutePath = path.join(process.cwd(), relativePath);
+  await mkdir(path.dirname(absolutePath), { recursive: true });
+  await writeFile(absolutePath, contents);
+};
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -216,10 +225,6 @@ export default async function handler(request, response) {
       token,
       path: albumHtmlPath,
     });
-    if (existingAlbum) {
-      return response.status(409).json({ error: "Album already exists", href, galleryId });
-    }
-
     const homepageEntry = await fetchRepoEntry({
       owner,
       repo,
@@ -235,6 +240,46 @@ export default async function handler(request, response) {
       category: "",
       description: "",
     };
+
+    if (existingAlbum) {
+      const existingCards = Array.isArray(homepageSettings.albumCards) ? homepageSettings.albumCards : [];
+      const alreadyListed = existingCards.some((card) => card?.href === href);
+      if (alreadyListed) {
+        return response.status(409).json({ error: "Album already exists", href, galleryId });
+      }
+
+      const repairedHomepageSettings = {
+        ...homepageSettings,
+        albumCards: [...existingCards, nextCard],
+      };
+
+      const homepageRepair = await writeRepoFile({
+        owner,
+        repo,
+        branch,
+        token,
+        path: SETTINGS_PATH,
+        sha: homepageEntry?.sha || null,
+        message: `Repair homepage album entry: ${galleryId}`,
+        base64Content: Buffer.from(JSON.stringify(repairedHomepageSettings, null, 2)).toString("base64"),
+      });
+
+      await writeLocalRepoFile(SETTINGS_PATH, `${JSON.stringify(repairedHomepageSettings, null, 2)}\n`);
+
+      return response.status(200).json({
+        ok: true,
+        repaired: true,
+        album: {
+          galleryId,
+          href,
+          title: normalizedTitle,
+          settingsPath: gallerySettingsPath,
+        },
+        homepageSettings: repairedHomepageSettings,
+        commitShas: [homepageRepair.commitSha].filter(Boolean),
+      });
+    }
+
     const nextHomepageSettings = {
       ...homepageSettings,
       albumCards: [...(Array.isArray(homepageSettings.albumCards) ? homepageSettings.albumCards : []), nextCard],
@@ -290,6 +335,10 @@ export default async function handler(request, response) {
         })
       ).commitSha
     );
+
+    await writeLocalRepoFile(albumHtmlPath, buildAlbumHtml({ title: normalizedTitle, galleryId }));
+    await writeLocalRepoFile(gallerySettingsPath, `${JSON.stringify(gallerySettings, null, 2)}\n`);
+    await writeLocalRepoFile(SETTINGS_PATH, `${JSON.stringify(nextHomepageSettings, null, 2)}\n`);
 
     return response.status(200).json({
       ok: true,
