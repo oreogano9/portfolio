@@ -503,6 +503,10 @@ export const setupAlbumEditor = async () => {
   let lastDebugScrollY = window.scrollY || window.pageYOffset || 0;
   let lastDebugScrollTs = performance.now();
   let lastDebugResizeTs = 0;
+  const viewportModeQuery = window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)");
+  let lastViewportModeWidth = Math.round(window.innerWidth || document.documentElement.clientWidth || 0);
+  let lastViewportModeVisualWidth = Math.round(window.visualViewport?.width || lastViewportModeWidth);
+  let lastViewportModeMatches = viewportModeQuery.matches;
   debugPanel.className = "album-debug-panel";
   debugTitle.className = "album-debug-title";
   debugTitle.textContent = "Debug";
@@ -2184,6 +2188,31 @@ export const setupAlbumEditor = async () => {
     });
   };
 
+  const scheduleViewportModeSync = ({ source = "resize", useVisualViewport = false } = {}) => {
+    const nextWidth = Math.round(window.innerWidth || document.documentElement.clientWidth || 0);
+    const nextVisualWidth = Math.round(window.visualViewport?.width || nextWidth);
+    const nextMatches = viewportModeQuery.matches;
+    const widthChanged = Math.abs(nextWidth - lastViewportModeWidth) >= 24;
+    const visualWidthChanged = Math.abs(nextVisualWidth - lastViewportModeVisualWidth) >= 24;
+    const modeChanged = nextMatches !== lastViewportModeMatches;
+
+    lastViewportModeWidth = nextWidth;
+    lastViewportModeVisualWidth = nextVisualWidth;
+    lastViewportModeMatches = nextMatches;
+
+    if (!widthChanged && !visualWidthChanged && !modeChanged) {
+      logDebug("skip-viewport-sync", {
+        source,
+        visual: useVisualViewport ? 1 : 0,
+        w: nextWidth,
+        vw: nextVisualWidth,
+      });
+      return;
+    }
+
+    window.requestAnimationFrame(syncViewportModeUi);
+  };
+
   const shouldRerenderForModeToggle = () => {
     if (state.showDeleted) {
       return true;
@@ -2272,9 +2301,11 @@ export const setupAlbumEditor = async () => {
   window.addEventListener("resize", () => logResizeEvent("resize"));
   window.addEventListener("orientationchange", () => logResizeEvent("orientation"));
   window.visualViewport?.addEventListener?.("resize", () => logResizeEvent("visual-viewport"));
-  window.addEventListener("resize", () => window.requestAnimationFrame(syncViewportModeUi));
-  window.addEventListener("orientationchange", () => window.requestAnimationFrame(syncViewportModeUi));
-  window.visualViewport?.addEventListener?.("resize", () => window.requestAnimationFrame(syncViewportModeUi));
+  window.addEventListener("resize", () => scheduleViewportModeSync({ source: "resize" }));
+  window.addEventListener("orientationchange", () => scheduleViewportModeSync({ source: "orientation" }));
+  window.visualViewport?.addEventListener?.("resize", () =>
+    scheduleViewportModeSync({ source: "visual-viewport", useVisualViewport: true })
+  );
   window.visualViewport?.addEventListener?.("scroll", () => {
     logDebug("visual-scroll", {
       top: Math.round(window.visualViewport?.offsetTop || 0),
