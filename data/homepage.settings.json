@@ -38,6 +38,13 @@
       "date": "25/02/26",
       "category": "artistic portraits",
       "description": ""
+    },
+    {
+      "href": "/albums/album-test.html",
+      "title": "test",
+      "date": "",
+      "category": "",
+      "description": ""
     }
   ]
 }
