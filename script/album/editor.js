@@ -265,8 +265,11 @@ export const setupAlbumEditor = async () => {
 
     const baseBySrc = new Map(basePhotos.map((photo) => [photo.src, photo]));
     const merged = savedPhotos
-      .filter((photo) => typeof photo?.src === "string" && (baseBySrc.has(normalizePhoto(photo).src) || !basePhotos.length))
-      .map((photo) => normalizePhoto(photo, baseBySrc.get(normalizePhoto(photo).src)));
+      .filter((photo) => typeof photo?.src === "string" && normalizePhoto(photo).src)
+      .map((photo) => {
+        const normalized = normalizePhoto(photo);
+        return normalizePhoto(photo, baseBySrc.get(normalized.src));
+      });
 
     basePhotos.forEach((photo) => {
       if (!merged.some((item) => item.src === photo.src)) {
