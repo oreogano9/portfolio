@@ -1,0 +1,1752 @@
+{
+  "id": "daniel-and-paulina-in-rome",
+  "title": "Daniel and Paulina in Rome",
+  "titleFontFamily": "libre-baskerville",
+  "titleScale": 0.6,
+  "mobileRotateClockwise": false,
+  "spacing": "tight",
+  "topSpacer": 7,
+  "effect": "none",
+  "effectSettings": {
+    "focus": {
+      "nonFocusedOpacity": 12,
+      "activeScale": 1.5
+    },
+    "monochrome": {
+      "grayscaleAmount": 100,
+      "nonFocusedOpacity": 38,
+      "activeScale": 0
+    },
+    "lift": {
+      "scaleAmount": 2.4,
+      "nonFocusedOpacity": 34,
+      "shadowOpacity": 12
+    },
+    "blur": {
+      "blurRadius": 16,
+      "scaleAmount": 1.2,
+      "saturationDrop": 4,
+      "nonFocusedOpacity": 100
+    }
+  },
+  "intro": {
+    "mode": "default",
+    "heroImageSrc": "",
+    "showArrow": true
+  },
+  "sections": [],
+  "photos": [
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC08997copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC08997copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC08997copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC08997copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09002-1.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09002-1.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09002-1.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09002-1.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09002.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09002.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09002.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09002.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09009copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09009copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09009copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09009copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09021.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09021.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09021.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09021.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09023.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09023.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09023.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09023.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09051copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09051copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09051copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09051copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09062.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09062.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09062.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09062.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09072.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09072.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09072.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09072.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09078copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09078copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09078copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09078copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09098copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09098copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09098copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09098copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09104copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09104copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09104copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09104copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09111.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09111.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09111.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09111.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09120.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09120.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09120.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09120.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09125.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09125.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09125.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09125.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09128.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09128.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09128.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09128.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09133copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09133copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09133copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09133copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09142copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09142copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09142copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09142copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09151copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09151copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09151copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09151copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09162copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09162copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09162copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09162copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09179copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09179copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09179copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09179copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09182.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09182.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09182.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09182.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09188.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09188.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09188.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09188.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09194.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09194.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09194.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09194.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09204copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09204copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09204copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09204copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09206copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09206copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09206copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09206copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09214copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09214copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09214copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09214copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09220copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09220copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09220copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09220copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09222copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09222copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09222copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09222copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09294.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09294.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09294.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09294.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09307.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09307.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09307.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09307.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09318.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09318.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09318.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09318.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09326copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09326copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09326copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09326copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09334.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09334.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09334.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09334.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09341.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09341.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09341.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09341.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09344.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09344.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09344.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09344.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09362.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09362.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09362.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09362.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09365.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09365.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09365.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09365.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09379-2.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09379-2.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09379-2.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09379-2.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09380-3.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09380-3.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09380-3.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09380-3.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09381.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09381.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09381.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09381.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09385.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09385.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09385.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09385.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09388.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09388.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09388.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09388.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09402.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09402.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09402.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09402.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09412.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09412.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09412.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09412.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09417copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09417copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09417copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09417copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09429.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09429.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09429.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09429.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09462copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09462copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09462copy.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09462copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09480-2.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09480-2.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/DSC09480-2.jpg",
+      "alt": "Daniel and Paulina in Rome - DSC09480-2.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002882copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002882copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002882copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002882copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002888copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002888copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002888copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002888copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002899.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002899.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002899.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002899.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002900.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002900.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002900.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002900.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002905.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002905.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002905.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002905.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002925.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002925.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002925.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002925.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002938copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002938copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002938copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002938copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002962.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002962.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002962.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002962.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002976.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002976.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002976.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002976.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002983copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002983copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002983copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002983copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002984copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002984copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0002984copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0002984copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003012copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003012copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003012copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003012copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003046.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003046.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003046.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003046.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3298701298701299
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003049.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003049.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003049.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003049.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3298701298701299
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003051.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003051.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003051.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003051.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3298701298701299
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003052.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003052.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003052.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003052.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.7518355359765051
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003053.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003053.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003053.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003053.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003059.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003059.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003059.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003059.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3298701298701299
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003088.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003088.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003088.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003088.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003097copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003097copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003097copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003097copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003098copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003098copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003098copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003098copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003108.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003108.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003108.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003108.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003129copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003129copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003129copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003129copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003187.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003187.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003187.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003187.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003198.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003198.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003198.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003198.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003207.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003207.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003207.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003207.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003213.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003213.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003213.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003213.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003236.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003236.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003236.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003236.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003250.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003250.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003250.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003250.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003263.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003263.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003263.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003263.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003275.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003275.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003275.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003275.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003277.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003277.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003277.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003277.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003278.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003278.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003278.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003278.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003310.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003310.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003310.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003310.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003311copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003311copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003311copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003311copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003316.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003316.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003316.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003316.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003325.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003325.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003325.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003325.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003341copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003341copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003341copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003341copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003348copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003348copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003348copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003348copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3298701298701299
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003360.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003360.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003360.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003360.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003372.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003372.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003372.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003372.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003386copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003386copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003386copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003386copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3298701298701299
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003436copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003436copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003436copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003436copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3298701298701299
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003442.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003442.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003442.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003442.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003495copy2.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003495copy2.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003495copy2.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003495copy2.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003500copy.jpg",
+      "src": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003500copy.jpg",
+      "previewSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/thumbs/R0003500copy.jpg",
+      "alt": "Daniel and Paulina in Rome - R0003500copy.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3298701298701299
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC08997copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09002-1.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09002.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09009copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09021.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09023.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09051copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09062.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09072.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09078copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09098copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09104copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09111.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09120.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09125.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09128.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09133copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09142copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09151copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09162copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09179copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09182.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09188.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09194.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09204copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09206copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09214copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09220copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09222copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09294.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09307.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09318.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09326copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09334.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09341.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09344.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09362.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09365.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09379-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09380-3.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09381.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09385.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09388.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09402.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09412.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09417copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09429.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09462copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09480-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002882copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002888copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002899.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002900.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002905.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002925.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002938copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002962.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002976.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002983copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0002984copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003012copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003046.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003049.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003051.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003052.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003053.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003059.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003088.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003097copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003098copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003108.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003129copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003187.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003198.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003207.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003213.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003236.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003250.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003263.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003275.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003277.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003278.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003310.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003311copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003316.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003325.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003341copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003348copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003360.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003372.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003386copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003436copy.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003442.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003495copy2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003500copy.jpg"
+    }
+  ]
+}
