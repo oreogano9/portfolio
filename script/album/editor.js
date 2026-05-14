@@ -475,6 +475,12 @@ export const setupAlbumEditor = async () => {
     pending: false,
     message: "",
   };
+  let apiDebugState = {
+    action: "",
+    status: "",
+    message: "",
+    details: "",
+  };
   const prefetchedPrioritySources = new Set();
   let hasMarkedReady = false;
   let cleanupRenderedBlocks = () => {};
@@ -485,6 +491,9 @@ export const setupAlbumEditor = async () => {
   const debugPanel = document.createElement("aside");
   const debugTitle = document.createElement("div");
   const debugLog = document.createElement("div");
+  const apiErrorPanel = document.createElement("aside");
+  const apiErrorTitle = document.createElement("div");
+  const apiErrorBody = document.createElement("pre");
   let debugProgrammaticScrollUntil = 0;
   let lastDebugScrollY = window.scrollY || window.pageYOffset || 0;
   let lastDebugScrollTs = performance.now();
@@ -494,7 +503,26 @@ export const setupAlbumEditor = async () => {
   debugTitle.textContent = "Debug";
   debugLog.className = "album-debug-log";
   debugPanel.append(debugTitle, debugLog);
+  apiErrorPanel.className = "album-debug-panel";
+  apiErrorPanel.style.display = "none";
+  apiErrorPanel.style.top = "auto";
+  apiErrorPanel.style.bottom = "1rem";
+  apiErrorPanel.style.right = "1rem";
+  apiErrorPanel.style.maxWidth = "min(32rem, calc(100vw - 2rem))";
+  apiErrorPanel.style.maxHeight = "40vh";
+  apiErrorPanel.style.overflow = "auto";
+  apiErrorTitle.className = "album-debug-title";
+  apiErrorTitle.textContent = "API Error";
+  apiErrorBody.className = "album-debug-log";
+  apiErrorBody.style.margin = "0";
+  apiErrorBody.style.padding = "0.65rem";
+  apiErrorBody.style.whiteSpace = "pre-wrap";
+  apiErrorBody.style.wordBreak = "break-word";
+  apiErrorBody.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, monospace";
+  apiErrorBody.style.fontSize = "0.72rem";
+  apiErrorPanel.append(apiErrorTitle, apiErrorBody);
   body.appendChild(debugPanel);
+  body.appendChild(apiErrorPanel);
 
   const viewportAnchorY = () => (window.visualViewport?.height || window.innerHeight) * 0.33;
 
@@ -515,6 +543,47 @@ export const setupAlbumEditor = async () => {
         return `<div class="album-debug-entry"><span class="album-debug-time">${entry.time}</span><span class="album-debug-label">${entry.label}${count}</span><span class="album-debug-details">${entry.summary}</span></div>`;
       })
       .join("");
+  };
+
+  const clearApiDebug = () => {
+    apiDebugState = {
+      action: "",
+      status: "",
+      message: "",
+      details: "",
+    };
+  };
+
+  const setApiDebug = ({ action, status, message, details }) => {
+    apiDebugState = {
+      action: action || "",
+      status: status || "",
+      message: message || "",
+      details:
+        typeof details === "string"
+          ? details
+          : details && typeof details === "object"
+            ? JSON.stringify(details, null, 2)
+            : "",
+    };
+  };
+
+  const renderApiDebugPanel = () => {
+    const shouldShow = state.editing && Boolean(apiDebugState.message || apiDebugState.details);
+    apiErrorPanel.style.display = shouldShow ? "block" : "none";
+    if (!shouldShow) {
+      apiErrorBody.textContent = "";
+      return;
+    }
+
+    apiErrorBody.textContent = [
+      apiDebugState.action ? `action: ${apiDebugState.action}` : "",
+      apiDebugState.status ? `status: ${apiDebugState.status}` : "",
+      apiDebugState.message ? `message: ${apiDebugState.message}` : "",
+      apiDebugState.details ? `details:\n${apiDebugState.details}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
   };
 
   const logDebug = (label, details = {}) => {
@@ -836,6 +905,7 @@ export const setupAlbumEditor = async () => {
       pending: true,
       message: "Saving...",
     };
+    clearApiDebug();
     render();
 
     try {
@@ -853,6 +923,12 @@ export const setupAlbumEditor = async () => {
 
       const result = await response.json().catch(() => ({}));
       if (!response.ok) {
+        setApiDebug({
+          action: "save-gallery",
+          status: String(response.status),
+          message: result.error || "Save failed",
+          details: result.details || result,
+        });
         throw new Error(result.error || "Save failed");
       }
 
@@ -990,6 +1066,7 @@ export const setupAlbumEditor = async () => {
       pending: true,
       message: "Uploading...",
     };
+    clearApiDebug();
     render();
 
     try {
@@ -1009,6 +1086,12 @@ export const setupAlbumEditor = async () => {
 
       const result = await response.json().catch(() => ({}));
       if (!response.ok) {
+        setApiDebug({
+          action: "upload-gallery-images",
+          status: String(response.status),
+          message: result.error || result.details || "Upload failed",
+          details: result.details || result,
+        });
         throw new Error(result.error || result.details || "Upload failed");
       }
 
@@ -2047,6 +2130,7 @@ export const setupAlbumEditor = async () => {
     });
     renderFloatingPhotoEditor();
     renderDebugPanel();
+    renderApiDebugPanel();
   };
 
   const syncViewportModeUi = () => {
