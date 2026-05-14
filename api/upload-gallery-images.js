@@ -195,8 +195,17 @@ export default async function handler(request, response) {
     const galleryFolder = deriveGalleryFolder({ settings, galleryId });
     const repoImageFolder = `images/${galleryFolder}`;
     const repoThumbFolder = `${repoImageFolder}/thumbs`;
+    const existingPhotos = Array.isArray(settings.photos) ? settings.photos : [];
+    const existingPhotoByFilename = new Map(
+      existingPhotos
+        .map((photo) => {
+          const filename = String(photo?.src || "").split("/").pop();
+          return filename ? [filename.toLowerCase(), photo] : null;
+        })
+        .filter(Boolean)
+    );
     const usedNames = new Set(
-      (Array.isArray(settings.photos) ? settings.photos : [])
+      existingPhotos
         .map((photo) => String(photo?.src || "").split("/").pop()?.toLowerCase())
         .filter(Boolean)
     );
@@ -207,7 +216,11 @@ export default async function handler(request, response) {
     for (const file of files) {
       const extension = sanitizeExtension(file?.name, file?.type);
       const stem = sanitizeFileStem(file?.name || "image");
-      const filename = ensureUniqueFilename(`${stem}.${extension}`, usedNames);
+      const candidateFilename = `${stem}.${extension}`;
+      const existingPhoto = existingPhotoByFilename.get(candidateFilename.toLowerCase()) || null;
+      const filename = existingPhoto
+        ? String(existingPhoto.src).split("/").pop() || candidateFilename
+        : ensureUniqueFilename(candidateFilename, usedNames);
       const fullRepoPath = `${repoImageFolder}/${filename}`;
       const thumbRepoPath = `${repoThumbFolder}/${filename}`;
 
@@ -257,20 +270,22 @@ export default async function handler(request, response) {
 
       const width = Number(file?.width);
       const height = Number(file?.height);
-      uploadedPhotos.push({
-        id: buildPublicAssetPath(fullRepoPath),
-        src: buildPublicAssetPath(fullRepoPath),
-        previewSrc: buildPublicAssetPath(thumbRepoPath),
-        alt: `${settings.title || galleryId} - ${filename}`,
-        section: "",
-        size: "full",
-        spacerAfter: 0,
-        effect: "none",
-        joinWithPrevious: false,
-        deleted: false,
-        landscape: Number.isFinite(width) && Number.isFinite(height) ? width > height : null,
-        aspectRatio: Number.isFinite(width) && Number.isFinite(height) && height > 0 ? width / height : null,
-      });
+      if (!existingPhoto) {
+        uploadedPhotos.push({
+          id: buildPublicAssetPath(fullRepoPath),
+          src: buildPublicAssetPath(fullRepoPath),
+          previewSrc: buildPublicAssetPath(thumbRepoPath),
+          alt: `${settings.title || galleryId} - ${filename}`,
+          section: "",
+          size: "full",
+          spacerAfter: 0,
+          effect: "none",
+          joinWithPrevious: false,
+          deleted: false,
+          landscape: Number.isFinite(width) && Number.isFinite(height) ? width > height : null,
+          aspectRatio: Number.isFinite(width) && Number.isFinite(height) && height > 0 ? width / height : null,
+        });
+      }
     }
 
     const nextSettings = {
