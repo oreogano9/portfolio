@@ -247,6 +247,14 @@ const createProgressiveImage = ({
       highRes.src = fullSrc;
     };
 
+    image.addEventListener("error", () => {
+      if (image.dataset.upgraded === "true") {
+        return;
+      }
+      image.dataset.upgraded = "true";
+      image.src = fullSrc;
+      image.classList.add("is-full-res");
+    });
     image.addEventListener("load", upgradeToFull, { once: true });
   } else {
     image.src = fullSrc;
