@@ -1,7 +1,7 @@
 {
   "id": "test",
-  "title": "test",
-  "titleFontFamily": "libre-baskerville",
+  "title": "PRIDE 2025",
+  "titleFontFamily": "saint",
   "titleScale": 0.6,
   "mobileRotateClockwise": false,
   "spacing": "tight",
@@ -30,7 +30,7 @@
     }
   },
   "intro": {
-    "mode": "default",
+    "mode": "hero",
     "heroImageSrc": "",
     "showArrow": true
   },
