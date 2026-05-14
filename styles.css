@@ -343,6 +343,125 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   opacity: 1;
 }
 
+.portfolio-page {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top, rgba(196, 180, 154, 0.22), transparent 34%),
+    linear-gradient(180deg, #f8f3ea 0%, #f2ebde 44%, #efe6d8 100%);
+  color: #171512;
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+
+.portfolio-page.is-ready {
+  opacity: 1;
+}
+
+.portfolio-shell {
+  min-height: 100vh;
+  padding: 2rem 0 2.5rem;
+}
+
+.portfolio-header,
+.portfolio-footer {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+}
+
+.portfolio-header {
+  padding: 0 1rem 1.4rem;
+}
+
+.portfolio-brand {
+  margin: 0;
+  color: #171512;
+  font-family: "Sora", sans-serif;
+  font-size: clamp(0.96rem, 1.7vw, 1.18rem);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.portfolio-cascade-section {
+  position: relative;
+  width: 100%;
+  padding: 0 0 1.8rem;
+}
+
+.portfolio-cascade {
+  position: relative;
+  width: 100%;
+}
+
+.portfolio-cascade-card {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 0.95rem;
+  background: rgba(255, 252, 246, 0.96);
+  box-shadow:
+    0 1.1rem 2.5rem rgba(39, 28, 14, 0.11),
+    0 0 0 1px rgba(95, 78, 54, 0.08);
+  transform-origin: center center;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.portfolio-cascade-card:hover {
+  box-shadow:
+    0 1.45rem 2.8rem rgba(39, 28, 14, 0.16),
+    0 0 0 1px rgba(95, 78, 54, 0.1);
+  transform: translateY(-3px) rotate(0deg) !important;
+}
+
+.portfolio-cascade-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.portfolio-footer {
+  padding: 1rem 1rem 0;
+}
+
+.portfolio-home-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.6rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(23, 21, 18, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 252, 246, 0.92);
+  color: #171512;
+  font-family: "Sora", sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 0.5rem 1.5rem rgba(39, 28, 14, 0.08);
+}
+
+@media (max-width: 720px) {
+  .portfolio-shell {
+    padding-top: 1.35rem;
+  }
+
+  .portfolio-header {
+    padding-bottom: 0.95rem;
+  }
+
+  .portfolio-brand {
+    font-size: 0.84rem;
+    letter-spacing: 0.26em;
+  }
+
+  .portfolio-cascade-card {
+    border-radius: 0.78rem;
+  }
+}
+
 .home-page:not(.is-ready) .masthead,
 .home-page:not(.is-ready) .albums-section {
   opacity: 0;

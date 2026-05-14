@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Konrad Parada Photos Portfolio</title>
+    <meta
+      name="description"
+      content="A hidden portfolio wall of Konrad Parada Photos arranged in a persistent cascade."
+    />
+    <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
+    <style>
+      body.portfolio-page:not(.is-ready) {
+        opacity: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="portfolio-page" data-site-brand="Konrad Parada Photos">
+    <main class="portfolio-shell">
+      <header class="portfolio-header">
+        <p class="portfolio-brand">KONRAD PARADA PHOTOS</p>
+      </header>
+
+      <section class="portfolio-cascade-section" aria-label="Portfolio cascade">
+        <div class="portfolio-cascade" id="portfolio-cascade"></div>
+      </section>
+
+      <footer class="portfolio-footer">
+        <a class="portfolio-home-link" href="/index.html">Home</a>
+      </footer>
+    </main>
+
+    <script type="module" src="/script/portfolio.js"></script>
+  </body>
+</html>

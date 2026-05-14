@@ -158,11 +158,14 @@ export default async function handler(request, response) {
         return response.status(500).json({ error: "Failed to read homepage settings for title sync" });
       }
 
-      const expectedHref = `/albums/album-${galleryId}.html`;
+      const expectedHrefs = [`/albums/album-${galleryId}.html`];
+      if (galleryId === "test") {
+        expectedHrefs.push("/albums/pride2025.html");
+      }
       const albumCards = Array.isArray(existingHomepage.parsed.albumCards) ? existingHomepage.parsed.albumCards : [];
       let changed = false;
       const syncedAlbumCards = albumCards.map((card) => {
-        if (card?.href !== expectedHref || card?.title === settings.title) {
+        if (!expectedHrefs.includes(card?.href) || card?.title === settings.title) {
           return card;
         }
         changed = true;

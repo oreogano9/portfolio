@@ -79,12 +79,21 @@ const getGallerySettingsPathFromHref = (href) => {
     return "";
   }
 
-  const match = href.match(/^\/albums\/album-(.+)\.html$/);
-  if (!match) {
+  const prefixedMatch = href.match(/^\/albums\/album-(.+)\.html$/);
+  if (prefixedMatch) {
+    return `data/galleries/${prefixedMatch[1]}.settings.json`;
+  }
+
+  const plainMatch = href.match(/^\/albums\/([^/]+)\.html$/);
+  if (!plainMatch) {
     return "";
   }
 
-  return `data/galleries/${match[1]}.settings.json`;
+  if (plainMatch[1] === "pride2025") {
+    return "data/galleries/test.settings.json";
+  }
+
+  return `data/galleries/${plainMatch[1]}.settings.json`;
 };
 
 const writeLocalRepoJson = async (relativePath, json) => {
