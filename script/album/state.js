@@ -5,6 +5,7 @@ export const spacingMap = {
   default: "1.25rem",
   airy: "2.5rem",
 };
+export const SITE_BRAND = "Konrad Parada Photos";
 export const albumFontOptions = [
   "inter",
   "saint",
@@ -30,7 +31,7 @@ const clampNumber = (value, min, max, fallback) => {
 
 export const normalizeEffect = (value, fallback = "none") => (effectOptions.includes(value) ? value : fallback);
 
-export const normalizeAlbumTitleFontFamily = (value, fallback = "young-serif") =>
+export const normalizeAlbumTitleFontFamily = (value, fallback = "libre-baskerville") =>
   albumFontOptions.includes(value) ? value : fallback;
 
 export const getAlbumTitleFontFamilyCssValue = (value) => {
@@ -227,6 +228,12 @@ export const normalizeIntro = (value, fallback = {}) => ({
 });
 
 export const normalizePhoto = (photo, fallback = {}) => ({
+  id:
+    typeof photo?.id === "string" && photo.id.trim()
+      ? photo.id.trim()
+      : typeof fallback.id === "string" && fallback.id.trim()
+        ? fallback.id.trim()
+        : normalizeAssetPath(photo?.src || fallback.src || ""),
   src: typeof photo?.src === "string" ? normalizeAssetPath(photo.src) : normalizeAssetPath(fallback.src || ""),
   previewSrc:
     typeof photo?.previewSrc === "string"
@@ -264,6 +271,62 @@ export const normalizePhoto = (photo, fallback = {}) => ({
       : null,
 });
 
+const normalizeBlockWidth = (value, fallback = "medium") =>
+  ["small", "medium", "full"].includes(value) ? value : fallback;
+
+const normalizeBlockTextSize = (value, fallback = "normal") =>
+  ["small", "normal", "large"].includes(value) ? value : fallback;
+
+const normalizeBlockAlign = (value, fallback = "left") =>
+  ["left", "center", "right"].includes(value) ? value : fallback;
+
+const normalizeBlockRotatedPosition = (value, fallback = "middle") =>
+  ["top", "middle", "bottom"].includes(value) ? value : fallback;
+
+export const normalizeContentBlock = (block) => {
+  if (block?.type === "text") {
+    return {
+      type: "text",
+      id:
+        typeof block?.id === "string" && block.id.trim()
+          ? block.id.trim()
+          : `text-${Math.random().toString(36).slice(2, 10)}`,
+      html: typeof block?.html === "string" ? block.html : "<p>Text</p>",
+      size: normalizeBlockTextSize(block?.size),
+      width: normalizeBlockWidth(block?.width),
+      align: normalizeBlockAlign(block?.align),
+      rotatedPosition: normalizeBlockRotatedPosition(block?.rotatedPosition),
+    };
+  }
+
+  if (block?.type === "space") {
+    return {
+      type: "space",
+      id:
+        typeof block?.id === "string" && block.id.trim()
+          ? block.id.trim()
+          : `space-${Math.random().toString(36).slice(2, 10)}`,
+      value: clampNumber(block?.value, 0, 50, 0),
+    };
+  }
+
+  if (block?.type === "photo") {
+    const photoId = typeof block?.photoId === "string" ? normalizeAssetPath(block.photoId) : "";
+    if (!photoId) {
+      return null;
+    }
+    return {
+      type: "photo",
+      photoId,
+    };
+  }
+
+  return null;
+};
+
+export const normalizeBlocks = (value) =>
+  Array.isArray(value) ? value.map((block) => normalizeContentBlock(block)).filter(Boolean) : [];
+
 export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} }) => ({
   id: galleryId,
   title: typeof input.title === "string" ? input.title : titleFallback,
@@ -277,6 +340,7 @@ export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} })
   intro: normalizeIntro(input.intro),
   sections: normalizeSections(input.sections),
   photos: Array.isArray(input.photos) ? input.photos.map((photo) => normalizePhoto(photo)) : [],
+  blocks: normalizeBlocks(input.blocks),
 });
 
 export const getSettingsSignature = ({ galleryId, titleFallback = "", input = {} }) =>
@@ -304,17 +368,7 @@ export const fetchJsonState = async (settingsUrl) => {
 };
 
 export const fetchSiteBrand = async () => {
-  try {
-    const response = await fetch("/index.html", { cache: "no-store" });
-    if (!response.ok) {
-      return "Konrad Parada Photos";
-    }
-    const markup = await response.text();
-    const doc = new DOMParser().parseFromString(markup, "text/html");
-    return doc.querySelector(".brand")?.textContent?.trim() || "Konrad Parada Photos";
-  } catch {
-    return "Konrad Parada Photos";
-  }
+  return SITE_BRAND;
 };
 
 export const serializeState = (state, galleryId) => ({
@@ -334,6 +388,7 @@ export const serializeState = (state, galleryId) => ({
   },
   sections: state.sections,
   photos: state.photos.map((photo) => ({
+    id: photo.id,
     src: normalizeAssetPath(photo.src),
     previewSrc: normalizeAssetPath(photo.previewSrc),
     alt: photo.alt,
@@ -346,6 +401,37 @@ export const serializeState = (state, galleryId) => ({
     landscape: typeof photo.landscape === "boolean" ? photo.landscape : null,
     aspectRatio: Number.isFinite(Number(photo.aspectRatio)) ? Number(photo.aspectRatio) : null,
   })),
+  blocks: Array.isArray(state.blocks)
+    ? state.blocks
+        .map((block) => {
+          if (block?.type === "photo") {
+            return {
+              type: "photo",
+              photoId: typeof block.photoId === "string" ? normalizeAssetPath(block.photoId) : "",
+            };
+          }
+          if (block?.type === "space") {
+            return {
+              type: "space",
+              id: block.id,
+              value: clampNumber(block.value, 0, 50, 0),
+            };
+          }
+          if (block?.type === "text") {
+            return {
+              type: "text",
+              id: block.id,
+              html: typeof block.html === "string" ? block.html : "<p>Text</p>",
+              size: normalizeBlockTextSize(block.size),
+              width: normalizeBlockWidth(block.width),
+              align: normalizeBlockAlign(block.align),
+              rotatedPosition: normalizeBlockRotatedPosition(block.rotatedPosition),
+            };
+          }
+          return null;
+        })
+        .filter(Boolean)
+    : [],
 });
 
 export const getPersistedAlbumState = ({ state, galleryId, currentSyncedSignature, dirty = true, syncedSignature = "" }) => ({

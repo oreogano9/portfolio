@@ -92,7 +92,7 @@ export const createAlbumEffects = ({ body, grid, state, normalizeEffect, logDebu
 
     const manualRotatePreview = body.classList.contains("has-manual-rotate-preview");
     const shouldRunMobileExtendedEffect =
-      (body.classList.contains("is-mobile-layout") || manualRotatePreview) && (!state.editing || state.previewing);
+      manualRotatePreview || (body.classList.contains("is-mobile-layout") && (!state.editing || state.previewing));
     const hasSideviewGrid = body.classList.contains("has-mobile-sideview-grid") || manualRotatePreview;
 
     if (!shouldRunMobileExtendedEffect) {

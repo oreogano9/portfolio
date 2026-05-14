@@ -249,12 +249,26 @@ export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cards
     clearElement(quoteContainer);
     clearElement(cardsContainer);
 
-    toolbarContainer.append(
+    const toolbarButtons = [
       createButton({
         className: "preview-toggle",
         text: editing ? "Done" : "Edit",
         onClick: actions.toggleEdit,
       }),
+    ];
+
+    if (editing) {
+      toolbarButtons.push(
+        createButton({
+          className: "preview-toggle",
+          text: "New Album",
+          disabled: saveState.pending,
+          onClick: actions.createAlbum,
+        })
+      );
+    }
+
+    toolbarButtons.push(
       createButton({
         className: "preview-toggle",
         text: saveState.pending ? "Saving..." : saveState.message || "Save",
@@ -262,6 +276,8 @@ export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cards
         onClick: actions.saveToGitHub,
       })
     );
+
+    toolbarContainer.append(...toolbarButtons);
 
     quoteContainer.append(
       createSelectField({

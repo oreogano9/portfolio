@@ -3,6 +3,16 @@ let currentAlbumFilter = "all";
 
 const getAlbumFilterControls = () => Array.from(document.querySelectorAll(".album-link"));
 const getAlbumFilterCards = () => Array.from(document.querySelectorAll(".album-card[data-category]"));
+const syncSiteBrand = () => {
+  const brandText = document.body?.dataset.siteBrand?.trim();
+  if (!brandText) {
+    return;
+  }
+
+  document.querySelectorAll("[data-site-brand-target]").forEach((element) => {
+    element.textContent = brandText;
+  });
+};
 
 const applyAlbumFilter = (filter) => {
   const controls = getAlbumFilterControls();
@@ -148,6 +158,7 @@ export const setupMobileMenu = () => {
 export const setupParallax = () => {};
 
 export const setupHomePage = () => {
+  syncSiteBrand();
   setupReveals();
   setupAlbumLinks();
   setupMobileMenu();

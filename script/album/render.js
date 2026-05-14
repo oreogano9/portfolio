@@ -149,8 +149,16 @@ export const getHeroIntroState = (state) => {
   const heroPhoto = state.photos.find((photo) => photo.src === heroSrc) || null;
   const hasHeroIntro = state.intro.mode === "hero" && Boolean(heroPhoto);
   const heroAspectRatio = Number(heroPhoto?.aspectRatio);
-  const hasMobileSideviewHero =
-    hasHeroIntro && isReactiveMobileSideviewActive(state) && Number.isFinite(heroAspectRatio) && heroAspectRatio > 0;
+  const canRenderMobileSideviewHero =
+    hasHeroIntro &&
+    Number.isFinite(heroAspectRatio) &&
+    heroAspectRatio > 0 &&
+    window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)").matches;
+  const hasMobileSideviewHero = canRenderMobileSideviewHero
+    ? typeof state?.mobileSideviewOverride === "boolean"
+      ? state.mobileSideviewOverride
+      : isReactiveMobileSideviewActive(state)
+    : false;
 
   return {
     heroPhoto,
@@ -170,6 +178,26 @@ const getBlockEntries = (block) => {
   }
 
   return [];
+};
+
+const getTextBlockWidthClass = (value) => {
+  if (value === "small") {
+    return "album-text-block--small";
+  }
+  if (value === "full") {
+    return "album-text-block--full";
+  }
+  return "album-text-block--medium";
+};
+
+const getTextBlockSizeClass = (value) => {
+  if (value === "small") {
+    return "album-text-block--text-small";
+  }
+  if (value === "large") {
+    return "album-text-block--text-large";
+  }
+  return "album-text-block--text-normal";
 };
 
 const createProgressiveImage = ({
@@ -228,27 +256,54 @@ const createProgressiveImage = ({
   return image;
 };
 
-export const createPhotoFigure = ({ photo, index, state, normalizeEffect, renderOrder = 0, forceEager = false }) => {
+export const createPhotoFigure = ({
+  photo,
+  index,
+  state,
+  normalizeEffect,
+  renderOrder = 0,
+  forceEager = false,
+  layoutSpacerAfter = photo?.spacerAfter,
+}) => {
   const isDeleted = photo.deleted === true;
   const effectiveEffect = isDeleted ? "none" : photo.effect !== "none" ? photo.effect : state.effect;
+  const shouldFlattenJoinedStateForManualRotatePreview =
+    state?.editing === true &&
+    state?.previewRotated === true &&
+    window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)").matches;
   const isSelected = state.selectedPhotoIndexes instanceof Set ? state.selectedPhotoIndexes.has(index) : false;
   const hasSettingsOpen = state.activeSettingsPhotoIndex === index;
   const selectedSection = state.__activeInsertSection ?? null;
-  const canShowInsertTargets = selectedSection !== null && photo.section === selectedSection;
+  const hasSelection = state.selectedPhotoIndexes instanceof Set && state.selectedPhotoIndexes.size > 0;
+  const canShowInsertTargets = state.editing && (selectedSection === null || photo.section === selectedSection);
   const isFirstInSection = state.__sectionFirstIndexes instanceof Set && state.__sectionFirstIndexes.has(index);
   const isLastInSection = state.__sectionLastIndexes instanceof Set && state.__sectionLastIndexes.has(index);
+  const previousPhoto = index > 0 ? state.photos[index - 1] : null;
+  const canAddSpacerBefore =
+    hasSelection &&
+    canShowInsertTargets &&
+    previousPhoto &&
+    previousPhoto.deleted !== true &&
+    previousPhoto.section === photo.section &&
+    Number(previousPhoto.spacerAfter) <= 0;
+  const canAddSpacerAfter =
+    canShowInsertTargets &&
+    !isLastInSection &&
+    !isDeleted &&
+    Number(photo.spacerAfter) <= 0;
   const wrapper = document.createElement("figure");
   const isJoinable = !isDeleted && canJoinPhoto(state, index, normalizeEffect);
-  const canShowUnjoin = !isDeleted && photo.joinWithPrevious;
+  const effectiveJoinWithPrevious = shouldFlattenJoinedStateForManualRotatePreview ? false : photo.joinWithPrevious;
+  const canShowUnjoin = !isDeleted && effectiveJoinWithPrevious;
   const isHeroImage = !isDeleted && state.intro.heroImageSrc === photo.src;
-  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${photo.joinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}${isSelected ? " is-selected-photo" : ""}${hasSettingsOpen ? " has-settings-open" : ""}`;
+  wrapper.className = `editable-photo size-${photo.size}${Number(photo.spacerAfter) > 0 ? " has-spacer" : ""}${effectiveJoinWithPrevious && isJoinable ? " is-joined-photo" : ""}${isDeleted ? " is-deleted-photo" : ""}${isSelected ? " is-selected-photo" : ""}${hasSettingsOpen ? " has-settings-open" : ""}`;
   wrapper.dataset.index = String(index);
   wrapper.dataset.src = photo.src;
   wrapper.dataset.effect = effectiveEffect;
   wrapper.dataset.landscape = String(photo.landscape === true);
   wrapper.dataset.ratio = Number.isFinite(photo.aspectRatio) ? String(photo.aspectRatio) : "";
   wrapper.dataset.deleted = String(isDeleted);
-  wrapper.style.setProperty("--photo-after-space", getSpacerValue(photo.spacerAfter));
+  wrapper.style.setProperty("--photo-after-space", getSpacerValue(layoutSpacerAfter));
   const shouldEagerLoad = forceEager || renderOrder < INITIAL_EAGER_GRID_IMAGES;
   const loading = shouldEagerLoad ? "eager" : "lazy";
   const fetchPriority = "auto";
@@ -258,7 +313,7 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
     <div class="photo-stage">
       ${isDeleted ? `<div class="photo-deleted-badge">DELETED</div>` : ""}
       ${
-        canShowInsertTargets && isFirstInSection
+        canAddSpacerBefore
           ? `<button class="photo-insert-target photo-insert-target-before" type="button" data-action="insert-before" aria-label="Insert selected photos before this image">+</button>`
           : ""
       }
@@ -288,6 +343,19 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
         <button class="photo-toggle-button photo-delete-button${isDeleted ? " is-active" : ""}" type="button" data-action="delete-toggle" aria-label="${isDeleted ? "Restore image" : "Remove image"}">${isDeleted ? "RESTORE" : "REMOVE"}</button>
       </div>
       <div class="spacer-control">
+        <div class="spacer-preset-row">
+          <button class="spacer-preset-button${state.selectedSpacerPreset === 8.875 ? " is-primary" : ""}" type="button" data-action="spacer-preset" data-value="8.875" aria-label="Select small spacer size" aria-pressed="${state.selectedSpacerPreset === 8.875 ? "true" : "false"}">Small</button>
+          <button class="spacer-preset-button${state.selectedSpacerPreset === 17.75 ? " is-primary" : ""}" type="button" data-action="spacer-preset" data-value="17.75" aria-label="Select normal spacer size" aria-pressed="${state.selectedSpacerPreset === 17.75 ? "true" : "false"}">Normal</button>
+          <button class="spacer-preset-button${state.selectedSpacerPreset === 35.5 ? " is-primary" : ""}" type="button" data-action="spacer-preset" data-value="35.5" aria-label="Select big spacer size" aria-pressed="${state.selectedSpacerPreset === 35.5 ? "true" : "false"}">Big</button>
+          <div class="spacer-place-row">
+            <button class="spacer-place-button" type="button" data-action="spacer-place-before" aria-label="Place selected spacer above image">↑</button>
+            <button class="spacer-place-button" type="button" data-action="spacer-place-after" aria-label="Place selected spacer below image">↓</button>
+          </div>
+          <div class="text-place-row">
+            <button class="spacer-preset-button" type="button" data-action="text-insert-before" aria-label="Insert text block above image">Text ↑</button>
+            <button class="spacer-preset-button" type="button" data-action="text-insert-after" aria-label="Insert text block below image">Text ↓</button>
+          </div>
+        </div>
         <button class="spacer-reset" type="button" data-action="spacer-reset" aria-label="Reset space after image">Reset</button>
         <div class="spacer-copy-row">
           <button class="spacer-copy-button" type="button" data-action="spacer-copy-value" aria-label="Copy this space amount"${isDeleted ? " disabled" : ""}>⧉</button>
@@ -317,7 +385,7 @@ export const createPhotoFigure = ({ photo, index, state, normalizeEffect, render
           : ""
       }
       ${
-        canShowInsertTargets
+        canAddSpacerAfter
           ? `<button class="photo-insert-target photo-insert-target-after${isLastInSection ? " is-section-end" : ""}" type="button" data-action="insert-after" aria-label="Insert selected photos after this image">+</button>`
           : ""
       }
@@ -365,35 +433,39 @@ const blockMatchesAnchor = (block, anchor) => {
 
 export const buildAlbumBlocks = ({ state, normalizeEffect, includeDeleted = false }) => {
   const sectionOrder = state.sections.length ? state.sections : deriveSectionsFromPhotos(state.photos);
-  const sectionsToRender = sectionOrder.length ? sectionOrder : [{ id: "", title: "" }];
+  const photoById = new Map(state.photos.map((photo, index) => [photo.id || photo.src, { photo, index }]));
+  const sectionTitleById = new Map(sectionOrder.map((section) => [section.id, section.title || section.id]));
   const blocks = [];
+  let activeSectionId = null;
+  const shouldFlattenJoinedRowsForManualRotatePreview =
+    state?.editing === true &&
+    state?.previewRotated === true &&
+    window.matchMedia("(max-width: 760px), (hover: none), (pointer: coarse)").matches;
 
-  sectionsToRender.forEach((section, sectionIndex) => {
-    const sectionPhotos = state.photos
-      .map((photo, index) => ({ photo, index }))
-      .filter(({ photo }) => {
-        const inSection = section.id ? photo.section === section.id : !photo.section;
-        if (!inSection) {
-          return false;
+  state.blocks.forEach((block) => {
+    if (block?.type === "photo") {
+      const entry = photoById.get(block.photoId);
+      if (!entry) {
+        return;
+      }
+      if (!includeDeleted && entry.photo.deleted) {
+        return;
+      }
+      const sectionId = typeof entry.photo.section === "string" ? entry.photo.section : "";
+      if (sectionId !== activeSectionId) {
+        activeSectionId = sectionId;
+        if (sectionId) {
+          blocks.push({
+            type: "heading",
+            id: `subalbum-${sectionId}`,
+            title: sectionTitleById.get(sectionId) || sectionId,
+          });
         }
-        return includeDeleted ? true : !photo.deleted;
-      });
+      }
 
-    if (!sectionPhotos.length) {
-      return;
-    }
-
-    if (section.id) {
-      blocks.push({
-        type: "heading",
-        id: `subalbum-${section.id}`,
-        title: section.title || section.id,
-      });
-    }
-
-    sectionPhotos.forEach((entry) => {
       const previousBlock = blocks[blocks.length - 1];
       if (
+        !shouldFlattenJoinedRowsForManualRotatePreview &&
         entry.photo.joinWithPrevious &&
         canJoinPhoto(state, entry.index, normalizeEffect) &&
         previousBlock &&
@@ -414,8 +486,27 @@ export const buildAlbumBlocks = ({ state, normalizeEffect, includeDeleted = fals
         type: "photo",
         entry,
       });
-    });
+      return;
+    }
 
+    if (block?.type === "space" && Number(block.value) > 0) {
+      blocks.push({
+        type: "space",
+        id: block.id,
+        value: Number(block.value),
+      });
+      return;
+    }
+
+    if (block?.type === "text") {
+      blocks.push({
+        type: "text",
+        id: block.id,
+        html: block.html,
+        width: block.width || "medium",
+        align: block.align || "left",
+      });
+    }
   });
 
   return blocks;
@@ -503,7 +594,7 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
   }
 
   const { heroPhoto, hasHeroIntro, heroAspectRatio, hasMobileSideviewHero } = getHeroIntroState(state);
-  const shouldRotateHeroMobile = hasMobileSideviewHero;
+  const shouldRotateHeroMobile = hasMobileSideviewHero && (!state.editing || state.previewing || state.previewRotated === true);
 
   heroIntro.classList.toggle("is-hidden", !hasHeroIntro);
   heroIntro.classList.toggle("mobile-sideview-hero", shouldRotateHeroMobile);
@@ -568,7 +659,7 @@ export const renderHeroIntro = ({ heroIntro, state, siteBrand }) => {
 
   return {
     hasHeroIntro,
-    hasMobileSideviewHero,
+    hasMobileSideviewHero: shouldRotateHeroMobile,
   };
 };
 
@@ -632,7 +723,7 @@ export const collectHeadingAdjacentPhotos = (blocks, countPerSide = 2) => {
   return photos;
 };
 
-const createBlockNode = ({ block, state, normalizeEffect, renderState, priorityPhotoSources = new Set() }) => {
+const createBlockNode = ({ block, nextBlock = null, state, normalizeEffect, renderState, priorityPhotoSources = new Set() }) => {
   if (block.type === "heading") {
     const heading = document.createElement("section");
     heading.className = "subalbum-section-heading";
@@ -650,6 +741,7 @@ const createBlockNode = ({ block, state, normalizeEffect, renderState, priorityP
     row.style.setProperty("--photo-join-template", buildJoinTemplate(block.entries));
     row.style.setProperty("--photo-join-template-mobile-rotate", buildJoinTemplate(block.entries, true));
     block.entries.forEach((entry) => {
+      const isTrailingEntry = entry === block.entries[block.entries.length - 1];
       row.appendChild(
         createPhotoFigure({
           photo: entry.photo,
@@ -658,10 +750,44 @@ const createBlockNode = ({ block, state, normalizeEffect, renderState, priorityP
           normalizeEffect,
           renderOrder: renderState.photoCount++,
           forceEager: priorityPhotoSources.has(entry.photo.src),
+          layoutSpacerAfter: nextBlock?.type === "space" && isTrailingEntry ? 0 : entry.photo.spacerAfter,
         })
       );
     });
     return row;
+  }
+
+  if (block.type === "space") {
+    const spacer = document.createElement("div");
+    spacer.className = `album-space-block${state.activeSpaceBlockId === block.id ? " is-active-space-block" : ""}`;
+    spacer.dataset.blockType = "space";
+    spacer.dataset.blockId = block.id;
+    spacer.style.setProperty("--album-space-height", `${Math.max(0, Number(block.value) || 0)}rem`);
+    return spacer;
+  }
+
+  if (block.type === "text") {
+    const shell = document.createElement("div");
+    shell.className = "album-text-block-shell";
+    shell.dataset.blockType = "text";
+    shell.dataset.blockId = block.id;
+    shell.dataset.rotatedPosition = block.rotatedPosition || "middle";
+    shell.style.setProperty("--album-rotated-text-justify", block.rotatedPosition === "top" ? "flex-end" : block.rotatedPosition === "bottom" ? "flex-start" : "center");
+    const textBlock = document.createElement("div");
+    textBlock.className = `album-text-block ${getTextBlockWidthClass(block.width)} ${getTextBlockSizeClass(block.size)}`;
+    textBlock.dataset.blockType = "text";
+    textBlock.dataset.blockId = block.id;
+    textBlock.dataset.size = block.size || "normal";
+    textBlock.dataset.align = block.align || "left";
+    textBlock.dataset.rotatedPosition = block.rotatedPosition || "middle";
+    textBlock.style.setProperty("--album-text-align", block.align || "left");
+    if (state.editing) {
+      textBlock.contentEditable = "true";
+      textBlock.spellcheck = true;
+    }
+    textBlock.innerHTML = block.html || "<p>Text</p>";
+    shell.appendChild(textBlock);
+    return shell;
   }
 
   return createPhotoFigure({
@@ -671,6 +797,7 @@ const createBlockNode = ({ block, state, normalizeEffect, renderState, priorityP
     normalizeEffect,
     renderOrder: renderState.photoCount++,
     forceEager: priorityPhotoSources.has(block.entry.photo.src),
+    layoutSpacerAfter: nextBlock?.type === "space" ? 0 : block.entry.photo.spacerAfter,
   });
 };
 
@@ -703,7 +830,16 @@ export const mountAlbumBlocks = ({
     const fragment = document.createDocumentFragment();
     const end = Math.min(blocks.length, renderedCount + count);
     for (let index = renderedCount; index < end; index += 1) {
-      fragment.appendChild(createBlockNode({ block: blocks[index], state, normalizeEffect, renderState, priorityPhotoSources }));
+      fragment.appendChild(
+        createBlockNode({
+          block: blocks[index],
+          nextBlock: blocks[index + 1] || null,
+          state,
+          normalizeEffect,
+          renderState,
+          priorityPhotoSources,
+        })
+      );
     }
     grid.appendChild(fragment);
     renderedCount = end;

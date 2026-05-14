@@ -1,11 +1,11 @@
-import { refreshAlbumLinks } from "./home.js";
+import { observeReveals, refreshAlbumLinks } from "./home.js";
 import { mountHomeReactEditorUi } from "./editor-react-ui.js";
 
 const DEFAULT_SETTINGS_PATH = "data/homepage.settings.json";
 const DEFAULT_INDENT_MODE = "quote-column";
 const DEFAULT_FONT_FAMILY = "inter";
-const DEFAULT_QUOTE_FONT_FAMILY = "inter";
-const DEFAULT_TITLE_FONT_FAMILY = "inter";
+const DEFAULT_QUOTE_FONT_FAMILY = "libre-baskerville";
+const DEFAULT_TITLE_FONT_FAMILY = "libre-baskerville";
 const DEFAULT_UI_FONT_FAMILY = "inter";
 const FONT_FAMILY_OPTIONS = [
   "inter",
@@ -177,7 +177,7 @@ export const setupHomeEditor = async () => {
   const mastheadCopy = document.querySelector(".masthead-copy");
   const albumsSection = document.querySelector(".albums-section");
   const albumGrid = albumsSection?.querySelector(".album-grid");
-  const cardElements = Array.from(document.querySelectorAll(".album-card[data-home-card-id]"));
+  let cardElements = Array.from(document.querySelectorAll(".album-card[data-home-card-id]"));
 
   if (!quote || !attribution || !mastheadCopy || !albumsSection || !albumGrid || !cardElements.length) {
     return;
@@ -297,6 +297,65 @@ export const setupHomeEditor = async () => {
     cardsContainer: albumEditorList,
   });
   let activeInlineField = null;
+
+  const createAlbumCardElement = (card, index) => {
+    const element = document.createElement("a");
+    element.className = "album-card reveal-up";
+    element.href = card.href;
+    element.dataset.category = card.category || "";
+    element.dataset.homeCardId = card.href;
+
+    const number = document.createElement("span");
+    number.className = "album-number";
+    number.textContent = String(index + 1).padStart(2, "0");
+
+    const copy = document.createElement("div");
+    copy.className = "album-card-copy";
+
+    const title = document.createElement("h3");
+    title.className = "album-card-title";
+    title.textContent = card.title || "";
+
+    const date = document.createElement("p");
+    date.className = "album-card-date";
+    date.setAttribute("aria-label", "Album date");
+    date.textContent = card.date || "";
+
+    const tags = document.createElement("p");
+    tags.className = "album-card-tags";
+    tags.setAttribute("aria-label", "Album tags");
+    tags.textContent = card.category || "";
+
+    const description = document.createElement("p");
+    description.className = "album-card-description";
+    description.textContent = card.description || "";
+
+    copy.append(title, date, tags, description);
+    element.append(number, copy);
+    return element;
+  };
+
+  const syncAlbumGridCards = () => {
+    const expectedHrefs = state.albumCards.map((card) => card.href);
+    const currentCards = Array.from(albumGrid.querySelectorAll(".album-card[data-home-card-id]"));
+    const currentHrefs = currentCards.map((card) => card.dataset.homeCardId || card.getAttribute("href") || "");
+    const shouldRebuild =
+      currentHrefs.length !== expectedHrefs.length ||
+      currentHrefs.some((href, index) => href !== expectedHrefs[index]);
+
+    if (shouldRebuild) {
+      albumGrid.replaceChildren(...state.albumCards.map((card, index) => createAlbumCardElement(card, index)));
+      observeReveals(albumGrid);
+    }
+
+    cardElements = Array.from(albumGrid.querySelectorAll(".album-card[data-home-card-id]"));
+    cardElements.forEach((cardElement, index) => {
+      const number = cardElement.querySelector(".album-number");
+      if (number) {
+        number.textContent = String(index + 1).padStart(2, "0");
+      }
+    });
+  };
 
   const getCardByHref = (href) => state.albumCards.find((entry) => entry.href === href) || null;
 
@@ -528,6 +587,8 @@ export const setupHomeEditor = async () => {
       placeholder: "Add attribution",
     });
 
+    syncAlbumGridCards();
+
     cardElements.forEach((card) => {
       const href = card.dataset.homeCardId || card.getAttribute("href") || "";
       const config = state.albumCards.find((entry) => entry.href === href);
@@ -666,6 +727,62 @@ export const setupHomeEditor = async () => {
           card.category = normalizeCategoryString(value);
           saveDraft();
           render();
+        },
+        createAlbum: async () => {
+          const nextTitle = window.prompt("Album title");
+          if (!nextTitle || !nextTitle.trim()) {
+            return;
+          }
+
+          saveState = {
+            pending: true,
+            message: "Creating...",
+          };
+          render();
+
+          try {
+            const payload = serializeHomepageState(state);
+            const response = await fetch("/api/create-album", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                settingsPath,
+                settings: payload,
+                title: nextTitle.trim(),
+              }),
+            });
+
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) {
+              throw new Error(result.error || "Album creation failed");
+            }
+
+            state.albumCards = Array.isArray(result.homepageSettings?.albumCards)
+              ? mergeAlbumCards(result.homepageSettings.albumCards, defaults.albumCards)
+              : state.albumCards;
+            currentSyncedSignature = getHomepageSettingsSignature(result.homepageSettings || serializeHomepageState(state));
+            persistLocalState(false, currentSyncedSignature);
+            saveState = {
+              pending: false,
+              message: "Album created",
+            };
+          } catch (error) {
+            saveState = {
+              pending: false,
+              message: error instanceof Error ? error.message : "Album creation failed",
+            };
+          }
+
+          render();
+          window.setTimeout(() => {
+            saveState = {
+              pending: false,
+              message: "",
+            };
+            render();
+          }, 2500);
         },
       },
     });
