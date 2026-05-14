@@ -78,6 +78,15 @@ const writeLocalRepoJson = async (relativePath, json) => {
   await writeFile(absolutePath, `${JSON.stringify(json, null, 2)}\n`);
 };
 
+const tryWriteLocal = async (writer) => {
+  try {
+    await writer();
+  } catch {
+    return false;
+  }
+  return true;
+};
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -133,7 +142,7 @@ export default async function handler(request, response) {
       return response.status(500).json({ error: "Failed to write settings file to GitHub", details: galleryWrite.details });
     }
 
-    await writeLocalRepoJson(settingsPath, settings);
+    await tryWriteLocal(() => writeLocalRepoJson(settingsPath, settings));
 
     let syncedHomepage = false;
     if (typeof settings.title === "string") {
@@ -186,10 +195,10 @@ export default async function handler(request, response) {
         }
 
         syncedHomepage = true;
-        await writeLocalRepoJson(HOMEPAGE_SETTINGS_PATH, {
+        await tryWriteLocal(() => writeLocalRepoJson(HOMEPAGE_SETTINGS_PATH, {
           ...existingHomepage.parsed,
           albumCards: syncedAlbumCards,
-        });
+        }));
       }
     }
 

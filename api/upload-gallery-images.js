@@ -108,6 +108,15 @@ const writeLocalRepoJson = async (relativePath, json) => {
   await writeFile(absolutePath, `${JSON.stringify(json, null, 2)}\n`);
 };
 
+const tryWriteLocal = async (writer) => {
+  try {
+    await writer();
+  } catch {
+    return false;
+  }
+  return true;
+};
+
 const ensureUniqueFilename = (filename, used) => {
   const extensionIndex = filename.lastIndexOf(".");
   const base = extensionIndex >= 0 ? filename.slice(0, extensionIndex) : filename;
@@ -229,8 +238,8 @@ export default async function handler(request, response) {
       });
       commits.push(thumbWrite.commitSha);
 
-      await writeLocalRepoBinary(fullRepoPath, file?.fullDataUrl);
-      await writeLocalRepoBinary(thumbRepoPath, file?.thumbDataUrl);
+      await tryWriteLocal(() => writeLocalRepoBinary(fullRepoPath, file?.fullDataUrl));
+      await tryWriteLocal(() => writeLocalRepoBinary(thumbRepoPath, file?.thumbDataUrl));
 
       const width = Number(file?.width);
       const height = Number(file?.height);
@@ -275,7 +284,7 @@ export default async function handler(request, response) {
       base64Content: Buffer.from(JSON.stringify(nextSettings, null, 2)).toString("base64"),
     });
     commits.push(settingsWrite.commitSha);
-    await writeLocalRepoJson(settingsPath, nextSettings);
+    await tryWriteLocal(() => writeLocalRepoJson(settingsPath, nextSettings));
 
     return response.status(200).json({
       ok: true,

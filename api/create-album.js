@@ -186,6 +186,15 @@ const writeLocalRepoFile = async (relativePath, contents) => {
   await writeFile(absolutePath, contents);
 };
 
+const tryWriteLocal = async (writer) => {
+  try {
+    await writer();
+  } catch {
+    return false;
+  }
+  return true;
+};
+
 export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -264,7 +273,7 @@ export default async function handler(request, response) {
         base64Content: Buffer.from(JSON.stringify(repairedHomepageSettings, null, 2)).toString("base64"),
       });
 
-      await writeLocalRepoFile(SETTINGS_PATH, `${JSON.stringify(repairedHomepageSettings, null, 2)}\n`);
+      await tryWriteLocal(() => writeLocalRepoFile(SETTINGS_PATH, `${JSON.stringify(repairedHomepageSettings, null, 2)}\n`));
 
       return response.status(200).json({
         ok: true,
@@ -336,9 +345,9 @@ export default async function handler(request, response) {
       ).commitSha
     );
 
-    await writeLocalRepoFile(albumHtmlPath, buildAlbumHtml({ title: normalizedTitle, galleryId }));
-    await writeLocalRepoFile(gallerySettingsPath, `${JSON.stringify(gallerySettings, null, 2)}\n`);
-    await writeLocalRepoFile(SETTINGS_PATH, `${JSON.stringify(nextHomepageSettings, null, 2)}\n`);
+    await tryWriteLocal(() => writeLocalRepoFile(albumHtmlPath, buildAlbumHtml({ title: normalizedTitle, galleryId })));
+    await tryWriteLocal(() => writeLocalRepoFile(gallerySettingsPath, `${JSON.stringify(gallerySettings, null, 2)}\n`));
+    await tryWriteLocal(() => writeLocalRepoFile(SETTINGS_PATH, `${JSON.stringify(nextHomepageSettings, null, 2)}\n`));
 
     return response.status(200).json({
       ok: true,
