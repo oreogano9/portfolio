@@ -1,0 +1,40 @@
+{
+  "id": "test",
+  "title": "test",
+  "titleFontFamily": "libre-baskerville",
+  "titleScale": 0.6,
+  "mobileRotateClockwise": false,
+  "spacing": "tight",
+  "topSpacer": 7,
+  "effect": "none",
+  "effectSettings": {
+    "focus": {
+      "nonFocusedOpacity": 12,
+      "activeScale": 1.5
+    },
+    "monochrome": {
+      "grayscaleAmount": 100,
+      "nonFocusedOpacity": 38,
+      "activeScale": 0
+    },
+    "lift": {
+      "scaleAmount": 2.4,
+      "nonFocusedOpacity": 34,
+      "shadowOpacity": 12
+    },
+    "blur": {
+      "blurRadius": 16,
+      "scaleAmount": 1.2,
+      "saturationDrop": 4,
+      "nonFocusedOpacity": 100
+    }
+  },
+  "intro": {
+    "mode": "default",
+    "heroImageSrc": "",
+    "showArrow": true
+  },
+  "sections": [],
+  "photos": [],
+  "blocks": []
+}
