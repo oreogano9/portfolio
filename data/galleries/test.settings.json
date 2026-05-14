@@ -35,6 +35,26 @@
     "showArrow": true
   },
   "sections": [],
-  "photos": [],
-  "blocks": []
+  "photos": [
+    {
+      "id": "/images/test/PRIDE2025-03745.jpg",
+      "src": "/images/test/PRIDE2025-03745.jpg",
+      "previewSrc": "/images/test/thumbs/PRIDE2025-03745.jpg",
+      "alt": "test - PRIDE2025-03745.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499267935578331
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "photoId": "/images/test/PRIDE2025-03745.jpg"
+    }
+  ]
 }
