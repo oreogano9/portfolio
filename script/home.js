@@ -13,6 +13,12 @@ const normalizeHomepageSettingsPath = (value) => {
 };
 
 const createAlbumCardElement = (card, index) => {
+  const applyInlineEmptyState = (element, value) => {
+    const text = typeof value === "string" ? value.trim() : "";
+    element.textContent = text;
+    element.classList.toggle("is-inline-empty", !text);
+  };
+
   const element = document.createElement("a");
   element.className = "album-card reveal-up";
   element.href = card.href || "";
@@ -33,16 +39,16 @@ const createAlbumCardElement = (card, index) => {
   const date = document.createElement("p");
   date.className = "album-card-date";
   date.setAttribute("aria-label", "Album date");
-  date.textContent = card.date || "";
+  applyInlineEmptyState(date, card.date);
 
   const tags = document.createElement("p");
   tags.className = "album-card-tags";
   tags.setAttribute("aria-label", "Album tags");
-  tags.textContent = card.category || "";
+  applyInlineEmptyState(tags, card.category);
 
   const description = document.createElement("p");
   description.className = "album-card-description";
-  description.textContent = card.description || "";
+  applyInlineEmptyState(description, card.description);
 
   copy.append(title, date, tags, description);
   element.append(number, copy);
