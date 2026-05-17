@@ -5,6 +5,7 @@
   "mastheadScale": 1,
   "mastheadTopSpace": 10,
   "quoteBottomSpace": 1,
+  "showSplashOnEnter": true,
   "fontFamily": "inter",
   "quoteFontFamily": "libre-baskerville",
   "titleFontFamily": "libre-baskerville",

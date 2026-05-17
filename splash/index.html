@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Konrad Parada</title>
+    <meta
+      name="description"
+      content="Entry splash for Konrad Parada photography."
+    />
+    <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
+    <style>
+      body.splash-page:not(.is-ready) {
+        opacity: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="splash-page" data-splash-target="/index.html">
+    <main class="splash-shell">
+      <div
+        class="splash-backdrop"
+        aria-hidden="true"
+        style="background-image: url('/assets/splash/hero.png');"
+      ></div>
+      <div class="splash-overlay" aria-hidden="true"></div>
+
+      <div class="splash-center">
+        <a class="splash-title-link" href="/index.html" data-splash-enter>
+          <span class="splash-title">KONRAD PARADA</span>
+        </a>
+      </div>
+
+      <div class="splash-prompt" aria-hidden="true">
+        <span>Scroll to enter</span>
+      </div>
+    </main>
+
+    <script type="module" src="/script/splash.js"></script>
+  </body>
+</html>

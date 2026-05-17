@@ -334,6 +334,11 @@ export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cards
         value: quoteState.quoteBottomSpace,
         onChange: actions.setQuoteBottomSpace,
         compact: true,
+      }),
+      createSwitchField({
+        label: "Splash on Enter",
+        checked: quoteState.showSplashOnEnter === true,
+        onChange: actions.setShowSplashOnEnter,
       })
     );
   },

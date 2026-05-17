@@ -7,6 +7,7 @@ const DEFAULT_FONT_FAMILY = "inter";
 const DEFAULT_QUOTE_FONT_FAMILY = "libre-baskerville";
 const DEFAULT_TITLE_FONT_FAMILY = "libre-baskerville";
 const DEFAULT_UI_FONT_FAMILY = "inter";
+const DEFAULT_SHOW_SPLASH_ON_ENTER = true;
 const FONT_FAMILY_OPTIONS = [
   "inter",
   "saint",
@@ -59,6 +60,14 @@ const normalizeFontFamily = (value, fallback = DEFAULT_FONT_FAMILY) => {
   return fallback;
 };
 
+const normalizeShowSplashOnEnter = (value, fallback = DEFAULT_SHOW_SPLASH_ON_ENTER) => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  return fallback;
+};
+
 const getFontFamilyCssValue = (value) => {
   switch (normalizeFontFamily(value)) {
     case "saint":
@@ -101,6 +110,7 @@ const normalizeCard = (card, fallback = {}) => ({
   date: typeof card?.date === "string" ? card.date : fallback.date || "",
   category: typeof card?.category === "string" ? card.category : fallback.category || "",
   description: typeof card?.description === "string" ? card.description : fallback.description || "",
+  private: card?.private === true || fallback.private === true,
 });
 
 const normalizeCategoryString = (value) => {
@@ -111,6 +121,8 @@ const normalizeCategoryString = (value) => {
   return value.trim().replace(/\s+/g, " ");
 };
 
+const isPrivateAlbumCard = (card) => card?.private === true;
+
 const serializeHomepageState = (state) => ({
   id: "homepage",
   quoteText: state.quoteText,
@@ -118,6 +130,7 @@ const serializeHomepageState = (state) => ({
   mastheadScale: normalizeMastheadScale(state.mastheadScale),
   mastheadTopSpace: normalizeMastheadTopSpace(state.mastheadTopSpace),
   quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
+  showSplashOnEnter: normalizeShowSplashOnEnter(state.showSplashOnEnter),
   fontFamily: normalizeFontFamily(state.fontFamily),
   quoteFontFamily: normalizeFontFamily(state.quoteFontFamily, DEFAULT_QUOTE_FONT_FAMILY),
   titleFontFamily: normalizeFontFamily(state.titleFontFamily, DEFAULT_TITLE_FONT_FAMILY),
@@ -179,7 +192,7 @@ export const setupHomeEditor = async () => {
   const albumGrid = albumsSection?.querySelector(".album-grid");
   let cardElements = Array.from(document.querySelectorAll(".album-card[data-home-card-id]"));
 
-  if (!quote || !attribution || !mastheadCopy || !albumsSection || !albumGrid || !cardElements.length) {
+  if (!quote || !attribution || !mastheadCopy || !albumsSection || !albumGrid) {
     return;
   }
 
@@ -189,6 +202,7 @@ export const setupHomeEditor = async () => {
     mastheadScale: 1,
     mastheadTopSpace: 10,
     quoteBottomSpace: 1,
+    showSplashOnEnter: DEFAULT_SHOW_SPLASH_ON_ENTER,
     fontFamily: DEFAULT_FONT_FAMILY,
     quoteFontFamily: DEFAULT_QUOTE_FONT_FAMILY,
     titleFontFamily: DEFAULT_TITLE_FONT_FAMILY,
@@ -200,6 +214,7 @@ export const setupHomeEditor = async () => {
       date: card.querySelector(".album-card-date")?.textContent?.trim() || "",
       category: card.dataset.category || "",
       description: card.querySelector(".album-card-description")?.textContent?.trim() || "",
+      private: card.dataset.private === "true",
     })),
   };
 
@@ -215,6 +230,7 @@ export const setupHomeEditor = async () => {
     mastheadScale: normalizeMastheadScale(jsonState?.mastheadScale, defaults.mastheadScale),
     mastheadTopSpace: normalizeMastheadTopSpace(jsonState?.mastheadTopSpace, defaults.mastheadTopSpace),
     quoteBottomSpace: normalizeQuoteBottomSpace(jsonState?.quoteBottomSpace, defaults.quoteBottomSpace),
+    showSplashOnEnter: normalizeShowSplashOnEnter(jsonState?.showSplashOnEnter, defaults.showSplashOnEnter),
     fontFamily: normalizeFontFamily(jsonState?.fontFamily, defaults.fontFamily),
     quoteFontFamily: normalizeFontFamily(
       jsonState?.quoteFontFamily,
@@ -243,6 +259,7 @@ export const setupHomeEditor = async () => {
     mastheadScale: normalizeMastheadScale(preferredState?.mastheadScale, baseState.mastheadScale),
     mastheadTopSpace: normalizeMastheadTopSpace(preferredState?.mastheadTopSpace, baseState.mastheadTopSpace),
     quoteBottomSpace: normalizeQuoteBottomSpace(preferredState?.quoteBottomSpace, baseState.quoteBottomSpace),
+    showSplashOnEnter: normalizeShowSplashOnEnter(preferredState?.showSplashOnEnter, baseState.showSplashOnEnter),
     fontFamily: normalizeFontFamily(preferredState?.fontFamily, baseState.fontFamily),
     quoteFontFamily: normalizeFontFamily(
       preferredState?.quoteFontFamily,
@@ -304,6 +321,7 @@ export const setupHomeEditor = async () => {
     element.href = card.href;
     element.dataset.category = card.category || "";
     element.dataset.homeCardId = card.href;
+    element.dataset.private = card.private ? "true" : "false";
 
     const number = document.createElement("span");
     number.className = "album-number";
@@ -330,13 +348,21 @@ export const setupHomeEditor = async () => {
     description.className = "album-card-description";
     description.textContent = card.description || "";
 
+    const privateToggle = document.createElement("span");
+    privateToggle.className = "album-card-private-toggle";
+    privateToggle.setAttribute("role", "switch");
+    privateToggle.setAttribute("tabindex", "0");
+
     copy.append(title, date, tags, description);
-    element.append(number, copy);
+    element.append(number, copy, privateToggle);
     return element;
   };
 
+  const getVisibleAlbumCards = () => (state.editing ? state.albumCards : state.albumCards.filter((card) => !isPrivateAlbumCard(card)));
+
   const syncAlbumGridCards = () => {
-    const expectedHrefs = state.albumCards.map((card) => card.href);
+    const visibleCards = getVisibleAlbumCards();
+    const expectedHrefs = visibleCards.map((card) => card.href);
     const currentCards = Array.from(albumGrid.querySelectorAll(".album-card[data-home-card-id]"));
     const currentHrefs = currentCards.map((card) => card.dataset.homeCardId || card.getAttribute("href") || "");
     const shouldRebuild =
@@ -344,7 +370,7 @@ export const setupHomeEditor = async () => {
       currentHrefs.some((href, index) => href !== expectedHrefs[index]);
 
     if (shouldRebuild) {
-      albumGrid.replaceChildren(...state.albumCards.map((card, index) => createAlbumCardElement(card, index)));
+      albumGrid.replaceChildren(...visibleCards.map((card, index) => createAlbumCardElement(card, index)));
       observeReveals(albumGrid);
     }
 
@@ -597,10 +623,13 @@ export const setupHomeEditor = async () => {
       }
 
       card.dataset.category = config.category;
+      card.dataset.private = config.private ? "true" : "false";
+      card.classList.toggle("is-private", config.private === true);
       const titleElement = card.querySelector(".album-card-title");
       const dateElement = card.querySelector(".album-card-date");
       const tagsElement = card.querySelector(".album-card-tags");
       const descriptionElement = card.querySelector(".album-card-description");
+      const privateToggle = card.querySelector(".album-card-private-toggle");
       applyInlineText({
         element: titleElement,
         fieldId: `card-title:${href}`,
@@ -628,6 +657,11 @@ export const setupHomeEditor = async () => {
         placeholder: "Add description",
         hideWhenEmpty: true,
       });
+      if (privateToggle instanceof HTMLElement) {
+        privateToggle.textContent = config.private ? "Private" : "Public";
+        privateToggle.setAttribute("aria-label", `${config.private ? "Make public" : "Make private"}: ${config.title || "album"}`);
+        privateToggle.setAttribute("aria-checked", config.private ? "true" : "false");
+      }
     });
 
     refreshAlbumLinks();
@@ -641,6 +675,7 @@ export const setupHomeEditor = async () => {
         mastheadScale: normalizeMastheadScale(state.mastheadScale),
         mastheadTopSpace: normalizeMastheadTopSpace(state.mastheadTopSpace),
         quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
+        showSplashOnEnter: normalizeShowSplashOnEnter(state.showSplashOnEnter),
         fontFamily: normalizeFontFamily(state.fontFamily),
         quoteFontFamily: normalizeFontFamily(state.quoteFontFamily, DEFAULT_QUOTE_FONT_FAMILY),
         titleFontFamily: normalizeFontFamily(state.titleFontFamily, DEFAULT_TITLE_FONT_FAMILY),
@@ -678,6 +713,11 @@ export const setupHomeEditor = async () => {
         },
         setQuoteBottomSpace: (value) => {
           state.quoteBottomSpace = normalizeQuoteBottomSpace(value, state.quoteBottomSpace);
+          saveDraft();
+          render();
+        },
+        setShowSplashOnEnter: (value) => {
+          state.showSplashOnEnter = normalizeShowSplashOnEnter(value, state.showSplashOnEnter);
           saveDraft();
           render();
         },
@@ -725,6 +765,15 @@ export const setupHomeEditor = async () => {
             return;
           }
           card.category = normalizeCategoryString(value);
+          saveDraft();
+          render();
+        },
+        setCardPrivate: (href, value) => {
+          const card = state.albumCards.find((entry) => entry.href === href);
+          if (!card) {
+            return;
+          }
+          card.private = value === true;
           saveDraft();
           render();
         },
@@ -821,6 +870,20 @@ export const setupHomeEditor = async () => {
       return;
     }
 
+    const privateToggle = target.closest(".album-card-private-toggle");
+    if (privateToggle instanceof HTMLElement) {
+      const card = privateToggle.closest(".album-card");
+      const href = card?.dataset.homeCardId || card?.getAttribute("href") || "";
+      const config = getCardByHref(href);
+      if (config) {
+        event.preventDefault();
+        config.private = config.private !== true;
+        saveDraft();
+        render();
+      }
+      return;
+    }
+
     const titleElement = target.closest(".album-card-title");
     if (titleElement instanceof HTMLElement) {
       const card = titleElement.closest(".album-card");
@@ -863,6 +926,29 @@ export const setupHomeEditor = async () => {
         startInlineEdit({ fieldId: `card-description:${href}`, element: descriptionElement, multiline: true });
       }
     }
+  });
+
+  albumGrid.addEventListener("keydown", (event) => {
+    if (!state.editing || (event.key !== "Enter" && event.key !== " ")) {
+      return;
+    }
+
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !target.classList.contains("album-card-private-toggle")) {
+      return;
+    }
+
+    const card = target.closest(".album-card");
+    const href = card?.dataset.homeCardId || card?.getAttribute("href") || "";
+    const config = getCardByHref(href);
+    if (!config) {
+      return;
+    }
+
+    event.preventDefault();
+    config.private = config.private !== true;
+    saveDraft();
+    render();
   });
 
   const saveDraft = () => {
