@@ -342,7 +342,7 @@ export const setupAlbumEditor = async () => {
     button.dataset.albumAction = "clear-selection";
     button.textContent = "Unselect";
     if (isMobile) {
-      const homeLink = group.querySelector('a.mobile-home-button[href="/index.html"]');
+      const homeLink = group.querySelector('a.mobile-home-button[href="/index/"]');
       group.insertBefore(button, homeLink ? homeLink.nextSibling : group.firstChild);
     } else {
       group.insertBefore(button, group.firstChild);
