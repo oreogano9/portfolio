@@ -10,8 +10,12 @@ const normalizeHomepageSettingsPath = (value) => {
 };
 
 const shouldSkipSplash = async (body) => {
-  const target = body.dataset.splashTarget || "/index/";
   const settingsPath = normalizeHomepageSettingsPath(body.dataset.homepageSettings);
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.has("home")) {
+    return true;
+  }
 
   try {
     const response = await fetch(settingsPath, { cache: "no-store" });
@@ -24,10 +28,46 @@ const shouldSkipSplash = async (body) => {
       return false;
     }
 
-    window.location.replace(target);
     return true;
   } catch {
     return false;
+  }
+};
+
+const appendPrefetchHint = (href, as) => {
+  if (!href) {
+    return;
+  }
+
+  const url = new URL(href, window.location.href).href;
+  const exists = Array.from(document.head.querySelectorAll('link[rel="prefetch"]')).some((link) => link.href === url);
+  if (exists) {
+    return;
+  }
+
+  const link = document.createElement("link");
+  link.rel = "prefetch";
+  link.href = href;
+  if (as) {
+    link.as = as;
+  }
+  document.head.appendChild(link);
+};
+
+const warmHomepageAssets = async (body) => {
+  const settingsPath = normalizeHomepageSettingsPath(body.dataset.homepageSettings);
+
+  appendPrefetchHint("/styles.css", "style");
+  appendPrefetchHint("/script/main.js", "script");
+  appendPrefetchHint("/script/home.js", "script");
+
+  try {
+    await Promise.allSettled([
+      fetch("/styles.css", { cache: "force-cache" }),
+      fetch(settingsPath, { cache: "force-cache" }),
+    ]);
+  } catch {
+    return;
   }
 };
 
@@ -37,11 +77,22 @@ const setupSplash = () => {
     return;
   }
 
-  const target = body.dataset.splashTarget || "/index/";
+  const isInlineHome = body.classList.contains("home-page");
+  const target = body.dataset.splashTarget || "/?home=1";
   const enterLink = document.querySelector("[data-splash-enter]");
+  const splashShell = document.querySelector("[data-splash-shell]");
 
   let hasEntered = false;
   let touchStartY = 0;
+
+  const revealInlineHome = () => {
+    body.classList.remove("has-active-splash");
+    body.classList.add("has-entered-splash");
+    splashShell?.setAttribute("aria-hidden", "true");
+    if (window.location.search) {
+      window.history.replaceState({}, "", window.location.pathname || "/");
+    }
+  };
 
   const enter = () => {
     if (hasEntered) {
@@ -49,6 +100,11 @@ const setupSplash = () => {
     }
 
     hasEntered = true;
+    if (isInlineHome) {
+      revealInlineHome();
+      return;
+    }
+
     body.classList.add("is-leaving");
     window.setTimeout(() => {
       window.location.href = target;
@@ -84,7 +140,10 @@ const setupSplash = () => {
   window.addEventListener("touchstart", handleTouchStart, { passive: true });
   window.addEventListener("touchmove", handleTouchMove, { passive: true });
 
+  body.classList.add("has-active-splash");
   body.classList.add("is-ready");
+
+  return revealInlineHome;
 };
 
 const bootstrapSplash = async () => {
@@ -93,11 +152,15 @@ const bootstrapSplash = async () => {
     return;
   }
 
+  const revealInlineHome = setupSplash();
+
   if (await shouldSkipSplash(body)) {
+    revealInlineHome?.();
+    body.classList.add("is-ready");
     return;
   }
 
-  setupSplash();
+  warmHomepageAssets(body);
 };
 
 bootstrapSplash();

@@ -9,6 +9,9 @@
       content="Entry splash for Konrad Parada photography."
     />
     <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
+    <link rel="modulepreload" href="/script/main.js" />
+    <link rel="modulepreload" href="/script/home.js" />
+    <link rel="prefetch" href="/data/homepage.settings.json" as="fetch" crossorigin="anonymous" />
     <style>
       body.splash-page:not(.is-ready) {
         opacity: 0;
@@ -18,7 +21,7 @@
   </head>
   <body
     class="splash-page"
-    data-splash-target="/index/"
+    data-splash-target="/?home=1"
     data-homepage-settings="/data/homepage.settings.json"
   >
     <main class="splash-shell">
@@ -30,7 +33,7 @@
       <div class="splash-overlay" aria-hidden="true"></div>
 
       <div class="splash-center">
-        <a class="splash-title-link" href="/index/" data-splash-enter>
+        <a class="splash-title-link" href="/?home=1" data-splash-enter>
           <span class="splash-title">KONRAD PARADA</span>
         </a>
       </div>

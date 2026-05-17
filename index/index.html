@@ -4,89 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Konrad Parada Photos</title>
-    <meta
-      name="description"
-      content="A minimalist photography portfolio with album selection, scroll-based text reveals, and an about section."
-    />
-    <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
-    <style>
-      body.home-page:not(.is-ready) .masthead,
-      body.home-page:not(.is-ready) .albums-section {
-        opacity: 0;
-      }
-    </style>
-    <link rel="stylesheet" href="/styles.css" />
+    <meta http-equiv="refresh" content="0; url=/?home=1" />
+    <link rel="canonical" href="/" />
+    <script>
+      window.location.replace("/?home=1");
+    </script>
   </head>
-  <body
-    class="home-page"
-    data-homepage-settings="/data/homepage.settings.json"
-    data-site-brand="Konrad Parada Photos"
-  >
-    <div class="mobile-menu-drawer" id="mobile-menu-drawer" aria-hidden="true">
-      <div class="mobile-menu-panel">
-        <button class="mobile-menu-close" type="button" aria-label="Close menu">Close</button>
-        <div class="mobile-menu-section">
-          <p class="rail-label">Index</p>
-          <nav class="rail-nav" aria-label="Mobile primary">
-            <a href="#albums">Albums</a>
-            <a href="#contact">Contact</a>
-          </nav>
-        </div>
-      </div>
-    </div>
-    <div class="site-frame">
-      <aside class="identity-rail">
-        <div class="rail-block">
-          <a class="brand" href="#top" data-site-brand-target>Konrad Parada Photos</a>
-        </div>
-
-        <div class="rail-block rail-block-nav">
-          <p class="rail-label">Index</p>
-          <nav class="rail-nav" aria-label="Primary">
-            <a href="#albums">Albums</a>
-            <a href="#contact">Contact</a>
-          </nav>
-        </div>
-      </aside>
-
-      <main class="content-column" id="top">
-        <div class="mobile-brand-wrap">
-          <a class="brand mobile-brand" href="#top" data-site-brand-target>Konrad Parada Photos</a>
-        </div>
-        <section class="masthead section">
-          <div class="masthead-copy">
-            <h1 class="masthead-title reveal-words homepage-quote">
-              “What is the purpose of life?...To be the eyes and ears and conscience of the Creator of the Universe, you fool!”
-            </h1>
-            <p class="masthead-attribution reveal-up homepage-quote-attribution">- Kurt Vonnegut</p>
-          </div>
-        </section>
-
-        <section class="section albums-section" id="albums">
-          <div class="album-list reveal-up" aria-label="Album category navigation">
-            <button class="album-link is-active" type="button" data-filter="all">All</button>
-            <button class="album-link" type="button" data-filter="street-photography">Street Photography</button>
-            <button class="album-link" type="button" data-filter="events">Events</button>
-            <button class="album-link" type="button" data-filter="artistic">Artistic</button>
-            <button class="album-link" type="button" data-filter="portraits">Portraits</button>
-          </div>
-
-          <div class="album-grid" aria-live="polite"></div>
-        </section>
-
-        <section class="section spacer-section" aria-hidden="true"></section>
-
-        <footer class="section footer-section" id="contact">
-          <div class="footer-grid">
-            <p class="section-label reveal-up">Contact</p>
-            <div class="footer-links">
-              <a class="contact-link reveal-words" href="https://www.instagram.com/konradparada_photos/" target="_blank" rel="noreferrer">@konradparada_photos</a>
-            </div>
-          </div>
-        </footer>
-      </main>
-    </div>
-
-    <script type="module" src="/script/main.js"></script>
+  <body>
+    <a href="/?home=1">Home</a>
   </body>
 </html>

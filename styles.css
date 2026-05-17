@@ -346,10 +346,17 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .splash-page {
   min-height: 100vh;
   margin: 0;
-  background: #060606;
-  color: #ffffff;
   opacity: 0;
   transition: opacity 240ms ease;
+}
+
+.splash-page:not(.home-page) {
+  background: #060606;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.splash-page.home-page.has-active-splash {
   overflow: hidden;
 }
 
@@ -357,13 +364,31 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   opacity: 1;
 }
 
-.splash-page.is-leaving {
+.splash-page:not(.home-page).is-leaving {
   opacity: 0;
 }
 
 .splash-shell {
   position: relative;
   min-height: 100vh;
+}
+
+.splash-page.home-page .splash-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  min-height: 100vh;
+  background: #060606;
+  color: #ffffff;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 260ms ease, visibility 260ms ease;
+}
+
+.splash-page.home-page.has-entered-splash .splash-shell {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .splash-backdrop,

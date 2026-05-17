@@ -159,7 +159,7 @@ const syncPortfolioImagesFromSettings = async (cards) => {
   const galleries = await Promise.all(
     galleryEntries.map(async ({ card, settingsPath }) => {
       try {
-        const response = await fetch(`/${settingsPath}`, { cache: "no-store" });
+        const response = await fetch(`/${settingsPath}`);
         if (!response.ok) {
           return [];
         }
@@ -398,7 +398,7 @@ const syncHomepageCardsFromSettings = async () => {
   const settingsPath = normalizeHomepageSettingsPath(body.dataset.homepageSettings);
 
   try {
-    const response = await fetch(`/${settingsPath}`, { cache: "no-store" });
+    const response = await fetch(`/${settingsPath}`);
     if (!response.ok) {
       return;
     }
