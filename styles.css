@@ -358,6 +358,9 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .splash-page.home-page.has-active-splash {
   overflow: hidden;
+  position: fixed;
+  inset: 0;
+  width: 100%;
 }
 
 .splash-page.is-ready {

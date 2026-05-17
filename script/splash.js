@@ -89,6 +89,7 @@ const setupSplash = () => {
     body.classList.remove("has-active-splash");
     body.classList.add("has-entered-splash");
     splashShell?.setAttribute("aria-hidden", "true");
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     if (window.location.search) {
       window.history.replaceState({}, "", window.location.pathname || "/");
     }
@@ -112,11 +113,11 @@ const setupSplash = () => {
   };
 
   const maybeEnterFromWheel = (event) => {
+    event.preventDefault();
     if (Math.abs(event.deltaY) < 8) {
       return;
     }
 
-    event.preventDefault();
     enter();
   };
 
@@ -125,6 +126,7 @@ const setupSplash = () => {
   };
 
   const handleTouchMove = (event) => {
+    event.preventDefault();
     const currentY = event.touches[0]?.clientY || 0;
     if (touchStartY - currentY > 18) {
       enter();
@@ -138,10 +140,11 @@ const setupSplash = () => {
 
   window.addEventListener("wheel", maybeEnterFromWheel, { passive: false });
   window.addEventListener("touchstart", handleTouchStart, { passive: true });
-  window.addEventListener("touchmove", handleTouchMove, { passive: true });
+  window.addEventListener("touchmove", handleTouchMove, { passive: false });
 
   body.classList.add("has-active-splash");
   body.classList.add("is-ready");
+  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 
   return revealInlineHome;
 };
