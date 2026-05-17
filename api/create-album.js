@@ -248,6 +248,7 @@ export default async function handler(request, response) {
       date: "",
       category: "",
       description: "",
+      private: false,
     };
 
     if (existingAlbum) {
