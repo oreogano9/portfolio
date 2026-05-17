@@ -183,7 +183,9 @@ export const setupHomeEditor = async () => {
     return;
   }
 
-  body.classList.remove("is-ready");
+  if (!body.classList.contains("has-active-splash")) {
+    body.classList.remove("is-ready");
+  }
 
   const quote = document.querySelector(".homepage-quote");
   const attribution = document.querySelector(".homepage-quote-attribution");

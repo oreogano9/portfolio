@@ -12,7 +12,71 @@
     <link rel="modulepreload" href="/script/main.js" />
     <link rel="modulepreload" href="/script/home.js" />
     <link rel="prefetch" href="/data/homepage.settings.json" as="fetch" crossorigin="anonymous" />
+    <script>
+      if (new URLSearchParams(window.location.search).has("home")) {
+        document.documentElement.classList.add("skip-splash");
+      }
+    </script>
     <style>
+      body.home-page.splash-page.has-active-splash {
+        margin: 0;
+        background: #060606;
+        color: #ffffff;
+        overflow: hidden;
+      }
+
+      body.home-page.splash-page.has-active-splash .splash-shell {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        min-height: 100vh;
+        background: #060606;
+        color: #ffffff;
+      }
+
+      body.home-page.splash-page.has-active-splash .splash-backdrop,
+      body.home-page.splash-page.has-active-splash .splash-overlay,
+      body.home-page.splash-page.has-active-splash .splash-center,
+      body.home-page.splash-page.has-active-splash .splash-prompt {
+        position: absolute;
+        inset: 0;
+      }
+
+      body.home-page.splash-page.has-active-splash .splash-backdrop {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      body.home-page.splash-page.has-active-splash .splash-center {
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      body.home-page.splash-page.has-active-splash .splash-title {
+        color: #ffffff;
+        font-family: sans-serif;
+        font-size: clamp(2.5rem, 6vw, 5.5rem);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .skip-splash body.home-page.splash-page.has-active-splash {
+        background: #fcfbf8;
+        color: #111111;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .skip-splash body.home-page.splash-page.has-active-splash .splash-shell {
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+      }
+
       body.home-page:not(.is-ready) .masthead,
       body.home-page:not(.is-ready) .albums-section {
         opacity: 0;

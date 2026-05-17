@@ -81,11 +81,15 @@ const setupSplash = () => {
   const target = body.dataset.splashTarget || "/?home=1";
   const enterLink = document.querySelector("[data-splash-enter]");
   const splashShell = document.querySelector("[data-splash-shell]");
+  const activeListeners = new AbortController();
+
+  const isSplashActive = () => body.classList.contains("has-active-splash");
 
   let hasEntered = false;
   let touchStartY = 0;
 
   const revealInlineHome = () => {
+    activeListeners.abort();
     body.classList.remove("has-active-splash");
     body.classList.add("has-entered-splash");
     splashShell?.setAttribute("aria-hidden", "true");
@@ -113,6 +117,10 @@ const setupSplash = () => {
   };
 
   const maybeEnterFromWheel = (event) => {
+    if (!isSplashActive()) {
+      return;
+    }
+
     event.preventDefault();
     if (Math.abs(event.deltaY) < 8) {
       return;
@@ -122,10 +130,18 @@ const setupSplash = () => {
   };
 
   const handleTouchStart = (event) => {
+    if (!isSplashActive()) {
+      return;
+    }
+
     touchStartY = event.touches[0]?.clientY || 0;
   };
 
   const handleTouchMove = (event) => {
+    if (!isSplashActive()) {
+      return;
+    }
+
     event.preventDefault();
     const currentY = event.touches[0]?.clientY || 0;
     if (touchStartY - currentY > 18) {
@@ -134,13 +150,17 @@ const setupSplash = () => {
   };
 
   enterLink?.addEventListener("click", (event) => {
+    if (!isSplashActive()) {
+      return;
+    }
+
     event.preventDefault();
     enter();
-  });
+  }, { signal: activeListeners.signal });
 
-  window.addEventListener("wheel", maybeEnterFromWheel, { passive: false });
-  window.addEventListener("touchstart", handleTouchStart, { passive: true });
-  window.addEventListener("touchmove", handleTouchMove, { passive: false });
+  window.addEventListener("wheel", maybeEnterFromWheel, { passive: false, signal: activeListeners.signal });
+  window.addEventListener("touchstart", handleTouchStart, { passive: true, signal: activeListeners.signal });
+  window.addEventListener("touchmove", handleTouchMove, { passive: false, signal: activeListeners.signal });
 
   body.classList.add("has-active-splash");
   body.classList.add("is-ready");
