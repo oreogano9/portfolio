@@ -1,5 +1,4 @@
 const HOMEPAGE_SETTINGS_PATH = "/data/homepage.settings.json";
-const SPLASH_SESSION_KEY = "homepage-splash-seen";
 
 const normalizeHomepageSettingsPath = (value) => {
   if (typeof value !== "string") {
@@ -13,11 +12,6 @@ const normalizeHomepageSettingsPath = (value) => {
 const shouldSkipSplash = async (body) => {
   const target = body.dataset.splashTarget || "/index/";
   const settingsPath = normalizeHomepageSettingsPath(body.dataset.homepageSettings);
-
-  if (window.sessionStorage.getItem(SPLASH_SESSION_KEY) === "true") {
-    window.location.replace(target);
-    return true;
-  }
 
   try {
     const response = await fetch(settingsPath, { cache: "no-store" });
@@ -55,7 +49,6 @@ const setupSplash = () => {
     }
 
     hasEntered = true;
-    window.sessionStorage.setItem(SPLASH_SESSION_KEY, "true");
     body.classList.add("is-leaving");
     window.setTimeout(() => {
       window.location.href = target;
