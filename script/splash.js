@@ -166,9 +166,32 @@ const getSplashCurvePath = (settings) => {
 
 const getRandomSplashImageIndex = () => Math.floor(Math.random() * SPLASH_IMAGE_URLS.length);
 
+const getInitialSplashImageIndex = () => {
+  const earlyIndex = Number(window.__KONRAD_SPLASH_INITIAL_IMAGE_INDEX__);
+  if (Number.isInteger(earlyIndex) && earlyIndex >= 0 && earlyIndex < SPLASH_IMAGE_URLS.length) {
+    return earlyIndex;
+  }
+
+  return getRandomSplashImageIndex();
+};
+
 const preloadSplashImage = (url) => {
   const image = new Image();
   image.src = url;
+};
+
+const revealSplashTitleWhenFontReady = (settings) => {
+  const root = document.documentElement;
+  const fontCss = SPLASH_TITLE_FONT_OPTIONS[settings.titleFontFamily]?.css || SPLASH_TITLE_FONT_OPTIONS.inter.css;
+  const finish = () => root.classList.remove("is-splash-font-loading");
+
+  if (!document.fonts?.load) {
+    finish();
+    return;
+  }
+
+  document.fonts.load(`500 4rem ${fontCss}`).then(finish, finish);
+  window.setTimeout(finish, 900);
 };
 
 const getSecondsLabel = (milliseconds) => {
@@ -487,7 +510,7 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
 
   const shell = document.querySelector("[data-splash-shell]");
   let activeLayerIndex = 0;
-  let activeImageIndex = getRandomSplashImageIndex();
+  let activeImageIndex = getInitialSplashImageIndex();
   let timerId = 0;
   let transitionTimerId = 0;
   let currentSettings = settings;
@@ -794,6 +817,7 @@ const setupSplash = (homepageSettings = null) => {
   const timingSettings = loadSplashTimingSettings(homepageSettings?.splashSettings);
 
   applySplashTimingSettings(timingSettings);
+  revealSplashTitleWhenFontReady(timingSettings);
   const splashRipple = setupSplashRippleInvert({ enterLink, signal: visualListeners.signal });
   const imageRotation = setupSplashImageRotation({
     settings: timingSettings,

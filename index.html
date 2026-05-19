@@ -20,9 +20,22 @@
         document.documentElement.classList.add("skip-splash");
       } else {
         document.documentElement.classList.add("has-active-splash-root");
+        document.documentElement.classList.add("is-splash-font-loading");
       }
 
       (function applyEarlySplashSettings() {
+        var splashImages = [
+          "/assets/splash/hero.png",
+          "/assets/splash/DSC05857_copy-d0fe7bc7-2500.jpg",
+          "/assets/splash/IMG_8893_DxO_copy-b2c0bb74-2500.jpg",
+          "/assets/splash/IMG_0821-34f437b6-2500.jpg",
+          "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg"
+        ];
+        var focalPoints = {
+          "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg": {
+            mobile: "right center"
+          }
+        };
         var fontOptions = {
           inter: '"Inter", sans-serif',
           "moonbase-alpha": '"MoonbaseAlpha", sans-serif',
@@ -69,8 +82,16 @@
 
         var titleFontFamily = Object.prototype.hasOwnProperty.call(fontOptions, settings.titleFontFamily) ? settings.titleFontFamily : "inter";
         var letterSpacing = Number.isFinite(Number(settings.titleLetterSpacing)) ? Math.min(0.5, Math.max(0, Number(settings.titleLetterSpacing))) : 0.16;
+        var imageIndex = Math.floor(Math.random() * splashImages.length);
+        var imageUrl = splashImages[imageIndex] || splashImages[0];
+        var focalPoint = focalPoints[imageUrl] || {};
+        window.__KONRAD_SPLASH_INITIAL_IMAGE_INDEX__ = imageIndex;
+        window.__KONRAD_SPLASH_EARLY_SETTINGS__ = settings;
         document.documentElement.style.setProperty("--splash-title-font-family", fontOptions[titleFontFamily]);
         document.documentElement.style.setProperty("--splash-title-letter-spacing", letterSpacing.toFixed(3) + "em");
+        document.documentElement.style.setProperty("--splash-initial-image", "url('" + imageUrl + "')");
+        document.documentElement.style.setProperty("--splash-image-position", focalPoint.default || "center center");
+        document.documentElement.style.setProperty("--splash-image-position-mobile", focalPoint.mobile || focalPoint.default || "center center");
       })();
     </script>
     <style>
@@ -175,6 +196,16 @@
         text-transform: uppercase;
       }
 
+      html.is-splash-font-loading body.home-page.splash-page.has-active-splash .splash-title-link {
+        visibility: hidden;
+      }
+
+      @media (max-width: 720px) {
+        body.home-page.splash-page.has-active-splash .splash-backdrop {
+          background-position: var(--splash-image-position-mobile, var(--splash-image-position, center center));
+        }
+      }
+
       .skip-splash body.home-page.splash-page.has-active-splash {
         background: var(--bg, #fcfbf8);
         color: var(--text, #111111);
@@ -193,7 +224,7 @@
         opacity: 0;
       }
     </style>
-    <link rel="stylesheet" href="/styles.css?v=20260519-30" />
+    <link rel="stylesheet" href="/styles.css?v=20260519-31" />
   </head>
   <body
     class="home-page splash-page has-active-splash is-ready"
@@ -205,7 +236,7 @@
         class="splash-backdrop is-active"
         aria-hidden="true"
         data-splash-backdrop-layer="0"
-        style="background-image: url('/assets/splash/hero.png');"
+        style="background-image: var(--splash-initial-image, url('/assets/splash/hero.png'));"
       ></div>
       <div class="splash-backdrop" aria-hidden="true" data-splash-backdrop-layer="1"></div>
       <canvas class="splash-ripple-invert" data-splash-ripple-invert aria-hidden="true"></canvas>
@@ -283,7 +314,7 @@
       </main>
     </div>
 
-    <script type="module" src="/script/splash.js?v=20260519-18"></script>
+    <script type="module" src="/script/splash.js?v=20260519-19"></script>
     <script type="module" src="/script/main.js?v=20260519-4"></script>
   </body>
 </html>
