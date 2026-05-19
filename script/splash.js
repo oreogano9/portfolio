@@ -7,6 +7,11 @@ const SPLASH_IMAGE_URLS = [
   "/assets/splash/IMG_0821-34f437b6-2500.jpg",
   "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg",
 ];
+const SPLASH_IMAGE_FOCAL_POINTS = {
+  "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg": {
+    mobile: "right center",
+  },
+};
 const SPLASH_IMAGE_TRANSITION_MODES = new Set(["fade", "cut", "off"]);
 const SPLASH_REVEAL_FEELS = {
   smooth: { label: "Smooth ease", easeX1: 0.85, easeY1: 0, easeX2: 0.15, easeY2: 1 },
@@ -103,12 +108,12 @@ const normalizeSplashTimingSettings = (settings = {}) => {
   };
 };
 
-const loadSplashTimingSettings = () => {
+const loadSplashTimingSettings = (savedSettings = {}) => {
   try {
     const storedSettings = JSON.parse(window.localStorage.getItem(SPLASH_TIMING_STORAGE_KEY) || "{}");
-    return normalizeSplashTimingSettings(storedSettings);
+    return normalizeSplashTimingSettings({ ...savedSettings, ...storedSettings });
   } catch {
-    return normalizeSplashTimingSettings();
+    return normalizeSplashTimingSettings(savedSettings);
   }
 };
 
@@ -180,29 +185,33 @@ const normalizeHomepageSettingsPath = (value) => {
   return normalized ? `/${normalized}` : HOMEPAGE_SETTINGS_PATH;
 };
 
-const shouldSkipSplash = async (body) => {
+const fetchHomepageSettings = async (body, { cache = "no-store" } = {}) => {
   const settingsPath = normalizeHomepageSettingsPath(body.dataset.homepageSettings);
+
+  try {
+    const response = await fetch(settingsPath, { cache });
+    if (!response.ok) {
+      return null;
+    }
+
+    return response.json();
+  } catch {
+    return null;
+  }
+};
+
+const shouldSkipSplash = (settings) => {
   const params = new URLSearchParams(window.location.search);
 
   if (params.has("home")) {
     return true;
   }
 
-  try {
-    const response = await fetch(settingsPath, { cache: "no-store" });
-    if (!response.ok) {
-      return false;
-    }
-
-    const settings = await response.json();
-    if (settings?.showSplashOnEnter === true) {
-      return false;
-    }
-
-    return true;
-  } catch {
+  if (!settings || settings.showSplashOnEnter === true) {
     return false;
   }
+
+  return true;
 };
 
 const appendPrefetchHint = (href, as) => {
@@ -242,7 +251,7 @@ const warmHomepageAssets = async (body) => {
   }
 };
 
-const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
+const setupSplashTimingEditor = ({ body, settings, onChange, onSave, signal }) => {
   const panel = document.createElement("aside");
   panel.className = "splash-timing-panel";
   panel.setAttribute("aria-hidden", "true");
@@ -352,6 +361,7 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
     </label>
     <div class="splash-timing-actions">
       <button class="splash-timing-copy" type="button" data-splash-timing-copy>Copy settings</button>
+      <button class="splash-timing-save" type="button" data-splash-timing-save>Save to site</button>
       <button class="splash-timing-reset" type="button" data-splash-timing-reset>Reset settings</button>
     </div>
   `;
@@ -363,6 +373,7 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
   const inputs = Array.from(panel.querySelectorAll("[data-splash-timing-input], [data-splash-timing-number]"));
   const selects = Array.from(panel.querySelectorAll("[data-splash-timing-select]"));
   const outputs = Array.from(panel.querySelectorAll("[data-output-for]"));
+  const saveButton = panel.querySelector("[data-splash-timing-save]");
 
   const render = () => {
     inputs.forEach((input) => {
@@ -441,6 +452,29 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
     }, 1200);
   }, { signal });
 
+  saveButton?.addEventListener("click", async () => {
+    if (!onSave) {
+      return;
+    }
+
+    saveButton.disabled = true;
+    saveButton.textContent = "Saving...";
+
+    try {
+      await onSave(normalizeSplashTimingSettings(settings));
+      saveButton.textContent = "Saved";
+    } catch (error) {
+      saveButton.textContent = error instanceof Error ? error.message : "Save failed";
+    }
+
+    window.setTimeout(() => {
+      if (saveButton.isConnected) {
+        saveButton.disabled = false;
+        saveButton.textContent = "Save to site";
+      }
+    }, 1800);
+  }, { signal });
+
   render();
   return panel;
 };
@@ -459,7 +493,10 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
   let currentSettings = settings;
 
   const setLayerImage = (layer, url) => {
+    const focalPoint = SPLASH_IMAGE_FOCAL_POINTS[url] || {};
     layer.style.backgroundImage = `url("${url}")`;
+    layer.style.setProperty("--splash-image-position", focalPoint.default || "center center");
+    layer.style.setProperty("--splash-image-position-mobile", focalPoint.mobile || focalPoint.default || "center center");
   };
 
   const clearWipeState = () => {
@@ -711,7 +748,38 @@ const setupSplashRippleInvert = ({ enterLink, signal }) => {
   return { setImage, start };
 };
 
-const setupSplash = () => {
+const saveSplashSettingsToGitHub = async (body, splashSettings, fallbackHomepageSettings = null) => {
+  const settingsPath = normalizeHomepageSettingsPath(body.dataset.homepageSettings).replace(/^\//, "");
+  const homepageSettings = fallbackHomepageSettings || await fetchHomepageSettings(body);
+
+  if (!homepageSettings || typeof homepageSettings !== "object") {
+    throw new Error("Settings unavailable");
+  }
+
+  const response = await fetch("/api/save-homepage", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      documentId: "homepage",
+      settingsPath,
+      settings: {
+        ...homepageSettings,
+        splashSettings: normalizeSplashTimingSettings(splashSettings),
+      },
+    }),
+  });
+
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(result.error || "Save failed");
+  }
+
+  saveSplashTimingSettings(splashSettings);
+};
+
+const setupSplash = (homepageSettings = null) => {
   const body = document.body;
   if (!body.classList.contains("splash-page")) {
     return;
@@ -723,7 +791,7 @@ const setupSplash = () => {
   const splashShell = document.querySelector("[data-splash-shell]");
   const uiListeners = new AbortController();
   const visualListeners = new AbortController();
-  const timingSettings = loadSplashTimingSettings();
+  const timingSettings = loadSplashTimingSettings(homepageSettings?.splashSettings);
 
   applySplashTimingSettings(timingSettings);
   const splashRipple = setupSplashRippleInvert({ enterLink, signal: visualListeners.signal });
@@ -740,6 +808,7 @@ const setupSplash = () => {
     body,
     settings: timingSettings,
     onChange: handleTimingChange,
+    onSave: (nextSettings) => saveSplashSettingsToGitHub(body, nextSettings, homepageSettings),
     signal: uiListeners.signal,
   });
 
@@ -952,9 +1021,10 @@ const bootstrapSplash = async () => {
     return;
   }
 
-  const revealInlineHome = setupSplash();
+  const homepageSettings = await fetchHomepageSettings(body);
+  const revealInlineHome = setupSplash(homepageSettings);
 
-  if (await shouldSkipSplash(body)) {
+  if (shouldSkipSplash(homepageSettings)) {
     revealInlineHome?.();
     body.classList.add("is-ready");
     return;

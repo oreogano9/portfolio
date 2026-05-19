@@ -1,4 +1,4 @@
-import { observeReveals, refreshAlbumLinks } from "./home.js?v=20260519-1";
+import { observeReveals, refreshAlbumLinks } from "./home.js?v=20260519-2";
 import { mountHomeReactEditorUi } from "./editor-react-ui.js?v=20260519-1";
 
 const DEFAULT_SETTINGS_PATH = "data/homepage.settings.json";
@@ -69,6 +69,14 @@ const normalizeShowSplashOnEnter = (value, fallback = DEFAULT_SHOW_SPLASH_ON_ENT
   }
 
   return fallback;
+};
+
+const normalizeSplashSettings = (value, fallback = {}) => {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return { ...value };
+  }
+
+  return fallback && typeof fallback === "object" && !Array.isArray(fallback) ? { ...fallback } : {};
 };
 
 const normalizeDarkMode = (value, fallback = DEFAULT_DARK_MODE) => {
@@ -147,6 +155,7 @@ const serializeHomepageState = (state) => ({
   quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
   showSplashOnEnter: normalizeShowSplashOnEnter(state.showSplashOnEnter),
   darkMode: normalizeDarkMode(state.darkMode),
+  splashSettings: normalizeSplashSettings(state.splashSettings),
   fontFamily: normalizeFontFamily(state.fontFamily),
   quoteFontFamily: normalizeFontFamily(state.quoteFontFamily, DEFAULT_QUOTE_FONT_FAMILY),
   titleFontFamily: normalizeFontFamily(state.titleFontFamily, DEFAULT_TITLE_FONT_FAMILY),
@@ -222,6 +231,7 @@ export const setupHomeEditor = async () => {
     quoteBottomSpace: 1,
     showSplashOnEnter: DEFAULT_SHOW_SPLASH_ON_ENTER,
     darkMode: DEFAULT_DARK_MODE,
+    splashSettings: {},
     fontFamily: DEFAULT_FONT_FAMILY,
     quoteFontFamily: DEFAULT_QUOTE_FONT_FAMILY,
     titleFontFamily: DEFAULT_TITLE_FONT_FAMILY,
@@ -251,6 +261,7 @@ export const setupHomeEditor = async () => {
     quoteBottomSpace: normalizeQuoteBottomSpace(jsonState?.quoteBottomSpace, defaults.quoteBottomSpace),
     showSplashOnEnter: normalizeShowSplashOnEnter(jsonState?.showSplashOnEnter, defaults.showSplashOnEnter),
     darkMode: normalizeDarkMode(jsonState?.darkMode, defaults.darkMode),
+    splashSettings: normalizeSplashSettings(jsonState?.splashSettings, defaults.splashSettings),
     fontFamily: normalizeFontFamily(jsonState?.fontFamily, defaults.fontFamily),
     quoteFontFamily: normalizeFontFamily(
       jsonState?.quoteFontFamily,
@@ -281,6 +292,7 @@ export const setupHomeEditor = async () => {
     quoteBottomSpace: normalizeQuoteBottomSpace(preferredState?.quoteBottomSpace, baseState.quoteBottomSpace),
     showSplashOnEnter: normalizeShowSplashOnEnter(preferredState?.showSplashOnEnter, baseState.showSplashOnEnter),
     darkMode: normalizeDarkMode(preferredState?.darkMode, baseState.darkMode),
+    splashSettings: normalizeSplashSettings(preferredState?.splashSettings, baseState.splashSettings),
     fontFamily: normalizeFontFamily(preferredState?.fontFamily, baseState.fontFamily),
     quoteFontFamily: normalizeFontFamily(
       preferredState?.quoteFontFamily,

@@ -528,7 +528,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .splash-backdrop {
-  background-position: center center;
+  background-position: var(--splash-image-position, center center);
   background-repeat: no-repeat;
   background-size: cover;
   filter: brightness(var(--splash-background-brightness, 1)) blur(0);
@@ -846,6 +846,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 @media (max-width: 720px) {
+  .splash-backdrop {
+    background-position: var(--splash-image-position-mobile, var(--splash-image-position, center center));
+  }
+
   .splash-title {
     font-size: clamp(2.2rem, 11vw, 4rem);
     letter-spacing: 0.12em;

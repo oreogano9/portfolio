@@ -1,5 +1,5 @@
-import { setupHomePage } from "./home.js?v=20260519-1";
-import { setupHomeEditor } from "./home-editor.js?v=20260519-1";
+import { setupHomePage } from "./home.js?v=20260519-2";
+import { setupHomeEditor } from "./home-editor.js?v=20260519-2";
 import { setupAlbumEditor } from "./album/editor.js";
 import { setupLightbox } from "./lightbox.js";
 
