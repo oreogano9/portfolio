@@ -470,7 +470,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .splash-page.home-page.has-active-splash {
-  background: var(--bg);
+  background: #060606;
   color: var(--text);
   overflow: hidden;
 }
@@ -486,13 +486,23 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .splash-shell {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
 }
 
 .splash-page.home-page .splash-shell {
+  --splash-title-size: clamp(2.5rem, 6vw, 5.5rem);
+  --splash-title-effective-letter-spacing: var(--splash-title-letter-spacing, 0.16em);
   position: fixed;
   inset: 0;
   z-index: 2000;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
   min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
   background: #060606;
   color: #ffffff;
   cursor: pointer;
@@ -525,6 +535,9 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .splash-prompt {
   position: absolute;
   inset: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
 }
 
 .splash-backdrop {
@@ -573,9 +586,12 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .splash-title-link {
   color: #ffffff;
   display: inline-block;
+  line-height: 1;
+  max-width: calc(100vw - 2rem);
   position: relative;
   text-decoration: none;
   transition: opacity var(--splash-title-fade-duration, 1400ms) linear;
+  white-space: nowrap;
 }
 
 .splash-title-link::after {
@@ -599,13 +615,16 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .splash-title {
+  box-sizing: border-box;
   display: inline-block;
   padding: 0.08em 0.03em;
   font-family: var(--splash-title-font-family, "Ledlight", sans-serif);
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-size: var(--splash-title-size);
   font-weight: 500;
   position: relative;
-  letter-spacing: var(--splash-title-letter-spacing, 0.16em);
+  letter-spacing: var(--splash-title-effective-letter-spacing);
+  line-height: 1;
+  max-width: 100%;
   text-transform: uppercase;
   text-align: center;
   transform: scale(1);
@@ -647,13 +666,14 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   content: attr(data-text);
   position: absolute;
   inset: 0;
+  box-sizing: border-box;
   display: inline-block;
   padding: 0.08em 0.03em;
   font-family: var(--splash-title-font-family, "Ledlight", sans-serif);
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-size: var(--splash-title-size);
   font-weight: 500;
-  letter-spacing: var(--splash-title-letter-spacing, 0.16em);
-  line-height: normal;
+  letter-spacing: var(--splash-title-effective-letter-spacing);
+  line-height: 1;
   text-align: center;
   text-transform: uppercase;
   white-space: nowrap;
@@ -846,13 +866,17 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 @media (max-width: 720px) {
+  .splash-page.home-page .splash-shell {
+    --splash-title-size: clamp(1.45rem, 7.4vw, 3.4rem);
+    --splash-title-effective-letter-spacing: var(--splash-title-letter-spacing, 0.16em);
+  }
+
   .splash-backdrop {
     background-position: var(--splash-image-position-mobile, var(--splash-image-position, center center));
   }
 
-  .splash-title {
-    font-size: clamp(2.2rem, 11vw, 4rem);
-    letter-spacing: 0.12em;
+  .splash-title-link {
+    max-width: calc(100vw - 1.25rem);
   }
 
   .splash-prompt {
