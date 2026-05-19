@@ -9,19 +9,34 @@
       content="A minimalist photography portfolio with album selection, scroll-based text reveals, and an about section."
     />
     <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
+    <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
     <link rel="modulepreload" href="/script/main.js" />
     <link rel="modulepreload" href="/script/home.js" />
     <link rel="prefetch" href="/data/homepage.settings.json" as="fetch" crossorigin="anonymous" />
     <script>
       if (new URLSearchParams(window.location.search).has("home")) {
         document.documentElement.classList.add("skip-splash");
+      } else {
+        document.documentElement.classList.add("has-active-splash-root");
       }
     </script>
     <style>
+      @font-face {
+        font-family: "Inter";
+        src: url("/fonts/InterVariable.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: block;
+      }
+
+      html.has-active-splash-root {
+        overflow: hidden;
+      }
+
       body.home-page.splash-page.has-active-splash {
         margin: 0;
-        background: #060606;
-        color: #ffffff;
+        background: #fcfbf8;
+        color: #111111;
         overflow: hidden;
       }
 
@@ -32,6 +47,16 @@
         min-height: 100vh;
         background: #060606;
         color: #ffffff;
+        opacity: 1;
+        transition: opacity 600ms ease, visibility 600ms ease;
+      }
+
+      body.home-page.splash-page.has-entering-splash .splash-shell {
+        opacity: 0;
+      }
+
+      body.home-page.splash-page.has-entered-splash .splash-shell {
+        opacity: 0;
       }
 
       body.home-page.splash-page.has-active-splash .splash-backdrop,
@@ -58,7 +83,10 @@
 
       body.home-page.splash-page.has-active-splash .splash-title {
         color: #ffffff;
-        font-family: sans-serif;
+        font-family: "Inter", sans-serif;
+        font-weight: 500;
+        mix-blend-mode: difference;
+        position: relative;
         font-size: clamp(2.5rem, 6vw, 5.5rem);
         letter-spacing: 0.16em;
         text-transform: uppercase;
@@ -82,7 +110,7 @@
         opacity: 0;
       }
     </style>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css?v=20260518-7" />
   </head>
   <body
     class="home-page splash-page has-active-splash is-ready"
@@ -95,6 +123,7 @@
         aria-hidden="true"
         style="background-image: url('/assets/splash/hero.png');"
       ></div>
+      <canvas class="splash-ripple-invert" data-splash-ripple-invert aria-hidden="true"></canvas>
       <div class="splash-overlay" aria-hidden="true"></div>
 
       <div class="splash-center">
@@ -103,9 +132,6 @@
         </a>
       </div>
 
-      <div class="splash-prompt" aria-hidden="true">
-        <span>Scroll to enter</span>
-      </div>
     </main>
 
     <div class="mobile-menu-drawer" id="mobile-menu-drawer" aria-hidden="true">
@@ -173,7 +199,7 @@
       </main>
     </div>
 
-    <script type="module" src="/script/splash.js"></script>
+    <script type="module" src="/script/splash.js?v=20260518-12"></script>
     <script type="module" src="/script/main.js"></script>
   </body>
 </html>
