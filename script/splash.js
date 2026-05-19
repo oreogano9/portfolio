@@ -14,16 +14,43 @@ const SPLASH_REVEAL_FEELS = {
   soft: { label: "Soft fade", easeX1: 0.42, easeY1: 0, easeX2: 0.2, easeY2: 1 },
   direct: { label: "Direct", easeX1: 0.25, easeY1: 0.1, easeX2: 0.25, easeY2: 1 },
 };
+const SPLASH_TITLE_FONT_OPTIONS = {
+  inter: { label: "Inter", css: '"Inter", sans-serif' },
+  "moonbase-alpha": { label: "Moonbase Alpha", css: '"MoonbaseAlpha", sans-serif' },
+  ledlight: { label: "LED Light", css: '"Ledlight", sans-serif' },
+  saint: { label: "Saint", css: '"Saint", serif' },
+  "young-serif": { label: "Young Serif", css: '"YoungSerif", serif' },
+  clash: { label: "Clash Display", css: '"ClashDisplay", sans-serif' },
+  "neue-haas": { label: "Neue Haas", css: '"NeueHaasDisplay", sans-serif' },
+  manrope: { label: "Manrope", css: '"Manrope", sans-serif' },
+  "space-grotesk": { label: "Space Grotesk", css: '"SpaceGrotesk", sans-serif' },
+  "plus-jakarta-sans": { label: "Plus Jakarta Sans", css: '"PlusJakartaSans", sans-serif' },
+  sora: { label: "Sora", css: '"Sora", sans-serif' },
+  "instrument-serif": { label: "Instrument Serif", css: '"InstrumentSerif", serif' },
+  "cormorant-garamond": { label: "Cormorant Garamond", css: '"CormorantGaramond", serif' },
+  fraunces: { label: "Fraunces", css: '"Fraunces", serif' },
+  newsreader: { label: "Newsreader", css: '"Newsreader", serif' },
+  "libre-baskerville": { label: "Libre Baskerville", css: '"LibreBaskerville", serif' },
+  syne: { label: "Syne", css: '"Syne", sans-serif' },
+};
 const DEFAULT_SPLASH_TIMING_SETTINGS = {
   fadeDelay: 400,
   fadeDuration: 1600,
+  textFadeLead: 200,
   imageRotationMode: "fade",
   imageHoldDuration: 5000,
   imageFadeDuration: 2000,
+  backgroundImageDarkness: 0,
   imagePunchScale: 0.99,
+  titleFontFamily: "inter",
+  titleLetterSpacing: 0.16,
   textPunchScale: 1.08,
   punchDuration: 1500,
   textGlassEnabled: true,
+  textDifferenceBlendEnabled: false,
+  differenceTextOpacity: 1,
+  differenceBlendStrength: 1,
+  differenceBlackWhiteStrength: 1,
   revealFeel: "direct",
   easeX1: 0.25,
   easeY1: 0.1,
@@ -49,15 +76,25 @@ const normalizeSplashTimingSettings = (settings = {}) => {
   return {
     fadeDelay: clampNumber(settings.fadeDelay, 0, 3000, DEFAULT_SPLASH_TIMING_SETTINGS.fadeDelay),
     fadeDuration: clampNumber(settings.fadeDuration, 100, 4000, DEFAULT_SPLASH_TIMING_SETTINGS.fadeDuration),
+    textFadeLead: clampNumber(settings.textFadeLead, 0, 2000, DEFAULT_SPLASH_TIMING_SETTINGS.textFadeLead),
     imageRotationMode: SPLASH_IMAGE_TRANSITION_MODES.has(settings.imageRotationMode)
       ? settings.imageRotationMode
       : DEFAULT_SPLASH_TIMING_SETTINGS.imageRotationMode,
     imageHoldDuration: clampNumber(settings.imageHoldDuration, 500, 12000, DEFAULT_SPLASH_TIMING_SETTINGS.imageHoldDuration),
     imageFadeDuration: clampNumber(settings.imageFadeDuration, 100, 5000, DEFAULT_SPLASH_TIMING_SETTINGS.imageFadeDuration),
+    backgroundImageDarkness: clampNumber(settings.backgroundImageDarkness, 0, 0.85, DEFAULT_SPLASH_TIMING_SETTINGS.backgroundImageDarkness),
     imagePunchScale: clampNumber(settings.imagePunchScale, 0.85, 1.1, DEFAULT_SPLASH_TIMING_SETTINGS.imagePunchScale),
+    titleFontFamily: Object.prototype.hasOwnProperty.call(SPLASH_TITLE_FONT_OPTIONS, settings.titleFontFamily)
+      ? settings.titleFontFamily
+      : DEFAULT_SPLASH_TIMING_SETTINGS.titleFontFamily,
+    titleLetterSpacing: clampNumber(settings.titleLetterSpacing, 0, 0.5, DEFAULT_SPLASH_TIMING_SETTINGS.titleLetterSpacing),
     textPunchScale: clampNumber(settings.textPunchScale, 0.9, 1.3, DEFAULT_SPLASH_TIMING_SETTINGS.textPunchScale),
     punchDuration: clampNumber(settings.punchDuration, 100, 4000, DEFAULT_SPLASH_TIMING_SETTINGS.punchDuration),
     textGlassEnabled: settings.textGlassEnabled !== false,
+    textDifferenceBlendEnabled: settings.textDifferenceBlendEnabled === true,
+    differenceTextOpacity: clampNumber(settings.differenceTextOpacity, 0.05, 1, DEFAULT_SPLASH_TIMING_SETTINGS.differenceTextOpacity),
+    differenceBlendStrength: clampNumber(settings.differenceBlendStrength, 0.05, 1, DEFAULT_SPLASH_TIMING_SETTINGS.differenceBlendStrength),
+    differenceBlackWhiteStrength: clampNumber(settings.differenceBlackWhiteStrength, 0, 1, DEFAULT_SPLASH_TIMING_SETTINGS.differenceBlackWhiteStrength),
     revealFeel,
     easeX1: revealPreset.easeX1,
     easeY1: revealPreset.easeY1,
@@ -85,16 +122,25 @@ const saveSplashTimingSettings = (settings) => {
 
 const applySplashTimingSettings = (settings) => {
   const root = document.documentElement;
+  const titleFadeDuration = Math.max(100, Math.round(settings.fadeDelay + settings.fadeDuration - settings.textFadeLead));
   root.style.setProperty("--splash-fade-duration", `${Math.round(settings.fadeDuration)}ms`);
+  root.style.setProperty("--splash-title-fade-duration", `${titleFadeDuration}ms`);
+  root.style.setProperty("--splash-background-brightness", (1 - settings.backgroundImageDarkness).toFixed(3));
   root.style.setProperty("--splash-image-fade-duration", `${Math.round(settings.imageFadeDuration)}ms`);
   root.style.setProperty("--splash-image-punch-scale", settings.imagePunchScale.toFixed(3));
+  root.style.setProperty("--splash-title-font-family", SPLASH_TITLE_FONT_OPTIONS[settings.titleFontFamily].css);
+  root.style.setProperty("--splash-title-letter-spacing", `${settings.titleLetterSpacing.toFixed(3)}em`);
   root.style.setProperty("--splash-text-punch-scale", settings.textPunchScale.toFixed(3));
   root.style.setProperty("--splash-punch-duration", `${Math.round(settings.punchDuration)}ms`);
+  root.style.setProperty("--splash-difference-text-opacity", settings.differenceTextOpacity.toFixed(3));
+  root.style.setProperty("--splash-difference-blend-strength", settings.differenceBlendStrength.toFixed(3));
+  root.style.setProperty("--splash-difference-bw-strength", settings.differenceBlackWhiteStrength.toFixed(3));
   root.style.setProperty("--splash-ease-x1", settings.easeX1.toFixed(3));
   root.style.setProperty("--splash-ease-y1", settings.easeY1.toFixed(3));
   root.style.setProperty("--splash-ease-x2", settings.easeX2.toFixed(3));
   root.style.setProperty("--splash-ease-y2", settings.easeY2.toFixed(3));
   document.body?.classList.toggle("has-splash-glass-text", settings.textGlassEnabled);
+  document.body?.classList.toggle("has-splash-difference-text", settings.textDifferenceBlendEnabled);
 };
 
 const getCubicPoint = (time, x1, y1, x2, y2) => {
@@ -222,6 +268,10 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
       <input data-splash-timing-input="fadeDuration" type="range" min="100" max="4000" step="50">
     </label>
     <label class="splash-timing-field">
+      <span>Text fade early by <output data-output-for="textFadeLead"></output></span>
+      <input data-splash-timing-input="textFadeLead" type="range" min="0" max="2000" step="50">
+    </label>
+    <label class="splash-timing-field">
       <span>Fade feel</span>
       <select class="splash-timing-select" data-splash-timing-select="revealFeel">
         <option value="smooth">Smooth ease</option>
@@ -236,8 +286,22 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
       <input data-splash-timing-input="imagePunchScale" type="range" min="0.85" max="1.1" step="0.005">
     </label>
     <label class="splash-timing-field">
+      <span>Background darkness <output data-output-for="backgroundImageDarkness"></output></span>
+      <input data-splash-timing-input="backgroundImageDarkness" type="range" min="0" max="0.85" step="0.01">
+    </label>
+    <label class="splash-timing-field">
       <span>Text punch <output data-output-for="textPunchScale"></output></span>
       <input data-splash-timing-input="textPunchScale" type="range" min="0.9" max="1.3" step="0.005">
+    </label>
+    <label class="splash-timing-field">
+      <span>Splash font</span>
+      <select class="splash-timing-select" data-splash-timing-select="titleFontFamily">
+        ${Object.entries(SPLASH_TITLE_FONT_OPTIONS).map(([value, option]) => `<option value="${value}">${option.label}</option>`).join("")}
+      </select>
+    </label>
+    <label class="splash-timing-field">
+      <span>Letter spacing <output data-output-for="titleLetterSpacing"></output></span>
+      <input data-splash-timing-input="titleLetterSpacing" type="range" min="0" max="0.5" step="0.005">
     </label>
     <label class="splash-timing-field">
       <span>Punch duration <output data-output-for="punchDuration"></output></span>
@@ -249,6 +313,25 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
         <option value="true">On</option>
         <option value="false">Off</option>
       </select>
+    </label>
+    <label class="splash-timing-field">
+      <span>Difference blend</span>
+      <select class="splash-timing-select" data-splash-timing-select="textDifferenceBlendEnabled">
+        <option value="false">Off</option>
+        <option value="true">On</option>
+      </select>
+    </label>
+    <label class="splash-timing-field">
+      <span>Difference text opacity <output data-output-for="differenceTextOpacity"></output></span>
+      <input data-splash-timing-input="differenceTextOpacity" type="range" min="0.05" max="1" step="0.01">
+    </label>
+    <label class="splash-timing-field">
+      <span>Difference strength <output data-output-for="differenceBlendStrength"></output></span>
+      <input data-splash-timing-input="differenceBlendStrength" type="range" min="0.05" max="1" step="0.01">
+    </label>
+    <label class="splash-timing-field">
+      <span>B&W strength <output data-output-for="differenceBlackWhiteStrength"></output></span>
+      <input data-splash-timing-input="differenceBlackWhiteStrength" type="range" min="0" max="1" step="0.01">
     </label>
     <div class="splash-timing-section-title">Image rotation</div>
     <label class="splash-timing-field">
@@ -267,7 +350,10 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
       <span>Image fade length <output data-output-for="imageFadeDuration"></output></span>
       <input data-splash-timing-input="imageFadeDuration" type="range" min="100" max="5000" step="100">
     </label>
-    <button class="splash-timing-reset" type="button" data-splash-timing-reset>Reset settings</button>
+    <div class="splash-timing-actions">
+      <button class="splash-timing-copy" type="button" data-splash-timing-copy>Copy settings</button>
+      <button class="splash-timing-reset" type="button" data-splash-timing-reset>Reset settings</button>
+    </div>
   `;
   document.body.appendChild(panel);
 
@@ -289,9 +375,10 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
     });
     outputs.forEach((output) => {
       const key = output.dataset.outputFor;
-      const isTime = key === "fadeDelay" || key === "fadeDuration" || key === "imageHoldDuration" || key === "imageFadeDuration" || key === "punchDuration";
-      const isScale = key === "imagePunchScale" || key === "textPunchScale";
-      output.textContent = isTime ? getSecondsLabel(settings[key]) : isScale ? `${Math.round(settings[key] * 100)}%` : settings[key];
+      const isTime = key === "fadeDelay" || key === "fadeDuration" || key === "textFadeLead" || key === "imageHoldDuration" || key === "imageFadeDuration" || key === "punchDuration";
+      const isPercent = key === "imagePunchScale" || key === "textPunchScale" || key === "backgroundImageDarkness" || key === "differenceTextOpacity" || key === "differenceBlendStrength" || key === "differenceBlackWhiteStrength";
+      const isEm = key === "titleLetterSpacing";
+      output.textContent = isTime ? getSecondsLabel(settings[key]) : isPercent ? `${Math.round(settings[key] * 100)}%` : isEm ? `${settings[key].toFixed(3)}em` : settings[key];
     });
     curve?.setAttribute("points", getSplashCurvePath(settings));
     point1?.setAttribute("cx", String(settings.easeX1 * 160));
@@ -319,7 +406,8 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
   selects.forEach((select) => {
     select.addEventListener("change", () => {
       const key = select.dataset.splashTimingSelect;
-      updateSetting(key, key === "textGlassEnabled" ? select.value === "true" : select.value);
+      const isBoolean = key === "textGlassEnabled" || key === "textDifferenceBlendEnabled";
+      updateSetting(key, isBoolean ? select.value === "true" : select.value);
     }, { signal });
   });
 
@@ -333,6 +421,24 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
     onChange(settings);
     saveSplashTimingSettings(settings);
     render();
+  }, { signal });
+
+  panel.querySelector("[data-splash-timing-copy]")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    const settingsText = JSON.stringify(normalizeSplashTimingSettings(settings), null, 2);
+
+    try {
+      await navigator.clipboard.writeText(settingsText);
+      button.textContent = "Copied";
+    } catch {
+      button.textContent = "Copy failed";
+    }
+
+    window.setTimeout(() => {
+      if (button.isConnected) {
+        button.textContent = "Copy settings";
+      }
+    }, 1200);
   }, { signal });
 
   render();
@@ -654,27 +760,45 @@ const setupSplash = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   };
 
-  const finishInlineHomeReveal = () => {
+  const finishInlineHomeReveal = ({ keepSplashRuntime = false } = {}) => {
     document.documentElement.classList.remove("has-active-splash-root");
     document.documentElement.classList.add("has-unlocked-splash-root");
     body.classList.remove("has-active-splash", "has-entering-splash");
     body.classList.add("has-entered-splash");
     splashShell?.setAttribute("aria-hidden", "true");
-    visualListeners.abort();
+    if (!keepSplashRuntime) {
+      visualListeners.abort();
+    }
     forceTop();
     if (window.location.search) {
       window.history.replaceState({}, "", window.location.pathname || "/");
     }
   };
 
-  const revealInlineHome = ({ animate = false } = {}) => {
-    uiListeners.abort();
-    body.classList.remove("is-splash-timing-editing");
-    timingPanel?.setAttribute("aria-hidden", "true");
+  const restoreSplashForDebug = () => {
+    hasEntered = false;
+    document.documentElement.classList.remove("has-unlocked-splash-root");
+    document.documentElement.classList.add("has-active-splash-root");
+    body.classList.remove("has-entered-splash", "has-entering-splash", "is-splash-clicking");
+    body.classList.add("has-active-splash", "is-splash-timing-editing");
+    splashShell?.setAttribute("aria-hidden", "false");
+    timingPanel?.setAttribute("aria-hidden", "false");
+    forceTop();
+  };
+
+  const revealInlineHome = ({ animate = false, debugReturnToSplash = false } = {}) => {
+    if (!debugReturnToSplash) {
+      uiListeners.abort();
+      body.classList.remove("is-splash-timing-editing");
+      timingPanel?.setAttribute("aria-hidden", "true");
+    }
     forceTop();
 
     if (!animate || !splashShell) {
-      finishInlineHomeReveal();
+      finishInlineHomeReveal({ keepSplashRuntime: debugReturnToSplash });
+      if (debugReturnToSplash) {
+        window.setTimeout(restoreSplashForDebug, 1000);
+      }
       return;
     }
 
@@ -687,7 +811,10 @@ const setupSplash = () => {
       isFinished = true;
       window.clearTimeout(fallbackTimer);
       splashShell.removeEventListener("transitionend", handleTransitionEnd);
-      finishInlineHomeReveal();
+      finishInlineHomeReveal({ keepSplashRuntime: debugReturnToSplash });
+      if (debugReturnToSplash) {
+        window.setTimeout(restoreSplashForDebug, 1000);
+      }
     };
 
     const handleTransitionEnd = (event) => {
@@ -699,7 +826,7 @@ const setupSplash = () => {
     splashShell.addEventListener("transitionend", handleTransitionEnd);
     const fallbackTimer = window.setTimeout(finish, timingSettings.fadeDuration + 120);
     window.setTimeout(() => {
-      if (body.classList.contains("has-entered-splash")) {
+      if (!debugReturnToSplash && body.classList.contains("has-entered-splash")) {
         document.documentElement.classList.remove("has-active-splash-root");
         document.documentElement.classList.add("has-unlocked-splash-root");
       }
@@ -718,10 +845,11 @@ const setupSplash = () => {
 
     hasEntered = true;
     if (isInlineHome) {
+      const debugReturnToSplash = body.classList.contains("is-splash-timing-editing");
       splashRipple?.start();
       body.classList.add("is-splash-clicking");
       window.setTimeout(() => {
-        revealInlineHome({ animate: true });
+        revealInlineHome({ animate: true, debugReturnToSplash });
       }, timingSettings.fadeDelay);
       return;
     }

@@ -8,6 +8,8 @@ export const spacingMap = {
 export const SITE_BRAND = "Konrad Parada Photos";
 export const albumFontOptions = [
   "inter",
+  "moonbase-alpha",
+  "ledlight",
   "saint",
   "clash",
   "neue-haas",
@@ -36,6 +38,10 @@ export const normalizeAlbumTitleFontFamily = (value, fallback = "libre-baskervil
 
 export const getAlbumTitleFontFamilyCssValue = (value) => {
   switch (normalizeAlbumTitleFontFamily(value)) {
+    case "moonbase-alpha":
+      return '"MoonbaseAlpha", sans-serif';
+    case "ledlight":
+      return '"Ledlight", sans-serif';
     case "saint":
       return '"Saint", serif';
     case "manrope":

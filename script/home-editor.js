@@ -1,5 +1,5 @@
-import { observeReveals, refreshAlbumLinks } from "./home.js";
-import { mountHomeReactEditorUi } from "./editor-react-ui.js";
+import { observeReveals, refreshAlbumLinks } from "./home.js?v=20260519-1";
+import { mountHomeReactEditorUi } from "./editor-react-ui.js?v=20260519-1";
 
 const DEFAULT_SETTINGS_PATH = "data/homepage.settings.json";
 const DEFAULT_INDENT_MODE = "quote-column";
@@ -8,8 +8,11 @@ const DEFAULT_QUOTE_FONT_FAMILY = "libre-baskerville";
 const DEFAULT_TITLE_FONT_FAMILY = "libre-baskerville";
 const DEFAULT_UI_FONT_FAMILY = "inter";
 const DEFAULT_SHOW_SPLASH_ON_ENTER = true;
+const DEFAULT_DARK_MODE = false;
 const FONT_FAMILY_OPTIONS = [
   "inter",
+  "moonbase-alpha",
+  "ledlight",
   "saint",
   "clash",
   "neue-haas",
@@ -68,8 +71,20 @@ const normalizeShowSplashOnEnter = (value, fallback = DEFAULT_SHOW_SPLASH_ON_ENT
   return fallback;
 };
 
+const normalizeDarkMode = (value, fallback = DEFAULT_DARK_MODE) => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  return fallback;
+};
+
 const getFontFamilyCssValue = (value) => {
   switch (normalizeFontFamily(value)) {
+    case "moonbase-alpha":
+      return '"MoonbaseAlpha", sans-serif';
+    case "ledlight":
+      return '"Ledlight", sans-serif';
     case "saint":
       return '"Saint", serif';
     case "manrope":
@@ -131,6 +146,7 @@ const serializeHomepageState = (state) => ({
   mastheadTopSpace: normalizeMastheadTopSpace(state.mastheadTopSpace),
   quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
   showSplashOnEnter: normalizeShowSplashOnEnter(state.showSplashOnEnter),
+  darkMode: normalizeDarkMode(state.darkMode),
   fontFamily: normalizeFontFamily(state.fontFamily),
   quoteFontFamily: normalizeFontFamily(state.quoteFontFamily, DEFAULT_QUOTE_FONT_FAMILY),
   titleFontFamily: normalizeFontFamily(state.titleFontFamily, DEFAULT_TITLE_FONT_FAMILY),
@@ -205,6 +221,7 @@ export const setupHomeEditor = async () => {
     mastheadTopSpace: 10,
     quoteBottomSpace: 1,
     showSplashOnEnter: DEFAULT_SHOW_SPLASH_ON_ENTER,
+    darkMode: DEFAULT_DARK_MODE,
     fontFamily: DEFAULT_FONT_FAMILY,
     quoteFontFamily: DEFAULT_QUOTE_FONT_FAMILY,
     titleFontFamily: DEFAULT_TITLE_FONT_FAMILY,
@@ -233,6 +250,7 @@ export const setupHomeEditor = async () => {
     mastheadTopSpace: normalizeMastheadTopSpace(jsonState?.mastheadTopSpace, defaults.mastheadTopSpace),
     quoteBottomSpace: normalizeQuoteBottomSpace(jsonState?.quoteBottomSpace, defaults.quoteBottomSpace),
     showSplashOnEnter: normalizeShowSplashOnEnter(jsonState?.showSplashOnEnter, defaults.showSplashOnEnter),
+    darkMode: normalizeDarkMode(jsonState?.darkMode, defaults.darkMode),
     fontFamily: normalizeFontFamily(jsonState?.fontFamily, defaults.fontFamily),
     quoteFontFamily: normalizeFontFamily(
       jsonState?.quoteFontFamily,
@@ -262,6 +280,7 @@ export const setupHomeEditor = async () => {
     mastheadTopSpace: normalizeMastheadTopSpace(preferredState?.mastheadTopSpace, baseState.mastheadTopSpace),
     quoteBottomSpace: normalizeQuoteBottomSpace(preferredState?.quoteBottomSpace, baseState.quoteBottomSpace),
     showSplashOnEnter: normalizeShowSplashOnEnter(preferredState?.showSplashOnEnter, baseState.showSplashOnEnter),
+    darkMode: normalizeDarkMode(preferredState?.darkMode, baseState.darkMode),
     fontFamily: normalizeFontFamily(preferredState?.fontFamily, baseState.fontFamily),
     quoteFontFamily: normalizeFontFamily(
       preferredState?.quoteFontFamily,
@@ -600,6 +619,7 @@ export const setupHomeEditor = async () => {
     body.style.setProperty("--site-title-font-family", getFontFamilyCssValue(state.titleFontFamily));
     body.style.setProperty("--site-ui-font-family", getFontFamilyCssValue(state.uiFontFamily));
     body.dataset.siteFontFamily = normalizeFontFamily(state.fontFamily);
+    body.classList.toggle("is-site-dark", state.darkMode === true);
     body.classList.toggle("has-homepage-indent", state.albumsIndentMode === DEFAULT_INDENT_MODE);
     body.classList.toggle("is-home-editing", state.editing);
     applyInlineText({
@@ -678,6 +698,7 @@ export const setupHomeEditor = async () => {
         mastheadTopSpace: normalizeMastheadTopSpace(state.mastheadTopSpace),
         quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
         showSplashOnEnter: normalizeShowSplashOnEnter(state.showSplashOnEnter),
+        darkMode: normalizeDarkMode(state.darkMode),
         fontFamily: normalizeFontFamily(state.fontFamily),
         quoteFontFamily: normalizeFontFamily(state.quoteFontFamily, DEFAULT_QUOTE_FONT_FAMILY),
         titleFontFamily: normalizeFontFamily(state.titleFontFamily, DEFAULT_TITLE_FONT_FAMILY),
@@ -720,6 +741,11 @@ export const setupHomeEditor = async () => {
         },
         setShowSplashOnEnter: (value) => {
           state.showSplashOnEnter = normalizeShowSplashOnEnter(value, state.showSplashOnEnter);
+          saveDraft();
+          render();
+        },
+        setDarkMode: (value) => {
+          state.darkMode = normalizeDarkMode(value, state.darkMode);
           saveDraft();
           render();
         },

@@ -6,6 +6,8 @@ const clearElement = (element) => {
 
 const sharedFontFamilyOptions = [
   { value: "inter", label: "Inter" },
+  { value: "moonbase-alpha", label: "Moonbase Alpha" },
+  { value: "ledlight", label: "LED Light" },
   { value: "saint", label: "Saint" },
   { value: "young-serif", label: "Young Serif" },
   { value: "clash", label: "Clash Display" },
@@ -339,6 +341,11 @@ export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cards
         label: "Splash on Enter",
         checked: quoteState.showSplashOnEnter === true,
         onChange: actions.setShowSplashOnEnter,
+      }),
+      createSwitchField({
+        label: "Dark Mode",
+        checked: quoteState.darkMode === true,
+        onChange: actions.setDarkMode,
       })
     );
   },

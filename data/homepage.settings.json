@@ -6,6 +6,7 @@
   "mastheadTopSpace": 10,
   "quoteBottomSpace": 1,
   "showSplashOnEnter": true,
+  "darkMode": false,
   "fontFamily": "inter",
   "quoteFontFamily": "libre-baskerville",
   "titleFontFamily": "libre-baskerville",

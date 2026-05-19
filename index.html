@@ -10,7 +10,9 @@
     />
     <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
     <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-    <link rel="modulepreload" href="/script/main.js" />
+    <link rel="preload" href="/fonts/MoonbaseAlpha-Regular.otf" as="font" type="font/otf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Ledlight-Regular.otf" as="font" type="font/otf" crossorigin="anonymous" />
+    <link rel="modulepreload" href="/script/main.js?v=20260519-3" />
     <link rel="modulepreload" href="/script/home.js" />
     <link rel="prefetch" href="/data/homepage.settings.json" as="fetch" crossorigin="anonymous" />
     <script>
@@ -29,14 +31,38 @@
         font-display: block;
       }
 
+      @font-face {
+        font-family: "MoonbaseAlpha";
+        src: url("/fonts/MoonbaseAlpha-Regular.otf") format("opentype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "MoonbaseAlpha";
+        src: url("/fonts/MoonbaseAlpha-Medium.ttf") format("truetype");
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "Ledlight";
+        src: url("/fonts/Ledlight-Regular.otf") format("opentype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
       html.has-active-splash-root {
         overflow: hidden;
       }
 
       body.home-page.splash-page.has-active-splash {
         margin: 0;
-        background: #fcfbf8;
-        color: #111111;
+        background: var(--bg, #fcfbf8);
+        color: var(--text, #111111);
         overflow: hidden;
       }
 
@@ -82,7 +108,6 @@
       }
 
       body.home-page.splash-page.has-active-splash .splash-center {
-        z-index: 2;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -91,18 +116,17 @@
 
       body.home-page.splash-page.has-active-splash .splash-title {
         color: #ffffff;
-        font-family: "Inter", sans-serif;
+        font-family: var(--splash-title-font-family, "Inter", sans-serif);
         font-weight: 500;
-        mix-blend-mode: difference;
         position: relative;
         font-size: clamp(2.5rem, 6vw, 5.5rem);
-        letter-spacing: 0.16em;
+        letter-spacing: var(--splash-title-letter-spacing, 0.16em);
         text-transform: uppercase;
       }
 
       .skip-splash body.home-page.splash-page.has-active-splash {
-        background: #fcfbf8;
-        color: #111111;
+        background: var(--bg, #fcfbf8);
+        color: var(--text, #111111);
         overflow-x: hidden;
         overflow-y: auto;
       }
@@ -118,7 +142,7 @@
         opacity: 0;
       }
     </style>
-    <link rel="stylesheet" href="/styles.css?v=20260519-10" />
+    <link rel="stylesheet" href="/styles.css?v=20260519-29" />
   </head>
   <body
     class="home-page splash-page has-active-splash is-ready"
@@ -136,7 +160,7 @@
       <canvas class="splash-ripple-invert" data-splash-ripple-invert aria-hidden="true"></canvas>
       <div class="splash-overlay" aria-hidden="true"></div>
       <div class="splash-center">
-        <a class="splash-title-link" href="#top" data-splash-enter>
+        <a class="splash-title-link" href="#top" data-splash-enter data-text="KONRAD PARADA">
           <span class="splash-title" data-text="KONRAD PARADA">KONRAD PARADA</span>
         </a>
       </div>
@@ -208,7 +232,7 @@
       </main>
     </div>
 
-    <script type="module" src="/script/splash.js?v=20260519-9"></script>
-    <script type="module" src="/script/main.js"></script>
+    <script type="module" src="/script/splash.js?v=20260519-16"></script>
+    <script type="module" src="/script/main.js?v=20260519-3"></script>
   </body>
 </html>
