@@ -6,7 +6,7 @@
   "mastheadTopSpace": 10,
   "quoteBottomSpace": 1,
   "showSplashOnEnter": true,
-  "darkMode": false,
+  "darkMode": true,
   "splashSettings": {
     "fadeDelay": 200,
     "fadeDuration": 1600,
@@ -20,7 +20,7 @@
     "titleLetterSpacing": 0.16,
     "textPunchScale": 1.08,
     "punchDuration": 1500,
-    "textGlassEnabled": false,
+    "textGlassEnabled": true,
     "textDifferenceBlendEnabled": true,
     "differenceTextOpacity": 1,
     "differenceBlendStrength": 1,
@@ -42,42 +42,48 @@
       "title": "Museo Della Civilta 26",
       "date": "04/01/26",
       "category": "postcards artistic",
-      "description": ""
+      "description": "",
+      "private": false
     },
     {
       "href": "/albums/album-ninas-50th-vesuvio-edition.html",
       "title": "Nina’s 50th: Vesuvio Edition",
       "date": "18-20/07/25",
       "category": "events portraits",
-      "description": ""
+      "description": "",
+      "private": false
     },
     {
       "href": "/albums/album-ilaria-paolucci-ceramiche.html",
       "title": "Ilaria Paolucci - Pottery",
       "date": "",
       "category": "artistic",
-      "description": ""
+      "description": "",
+      "private": false
     },
     {
       "href": "/albums/album-ariel-vittori-pottery.html",
       "title": "Ariel Vittori - Pottery",
       "date": "25/02/26",
       "category": "artistic portraits",
-      "description": ""
+      "description": "",
+      "private": false
     },
     {
       "href": "/albums/pride2025.html",
       "title": "PRIDE 2025",
       "date": "",
       "category": "",
-      "description": ""
+      "description": "",
+      "private": false
     },
     {
       "href": "/albums/album-daniel-and-paulina-in-rome.html",
       "title": "Daniel and Paulina in Rome",
       "date": "",
       "category": "",
-      "description": ""
+      "description": "",
+      "private": false
     }
   ]
 }
