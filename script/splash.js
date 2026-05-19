@@ -7,7 +7,7 @@ const SPLASH_IMAGE_URLS = [
   "/assets/splash/IMG_0821-34f437b6-2500.jpg",
   "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg",
 ];
-const SPLASH_IMAGE_TRANSITION_MODES = new Set(["fade", "wipeBlur", "cut", "off"]);
+const SPLASH_IMAGE_TRANSITION_MODES = new Set(["fade", "cut", "off"]);
 const SPLASH_REVEAL_FEELS = {
   smooth: { label: "Smooth ease", easeX1: 0.85, easeY1: 0, easeX2: 0.15, easeY2: 1 },
   slowStart: { label: "Slow start", easeX1: 0.92, easeY1: 0, easeX2: 0.2, easeY2: 1 },
@@ -20,6 +20,10 @@ const DEFAULT_SPLASH_TIMING_SETTINGS = {
   imageRotationMode: "fade",
   imageHoldDuration: 5000,
   imageFadeDuration: 2000,
+  imagePunchScale: 0.99,
+  textPunchScale: 1.08,
+  punchDuration: 1500,
+  textGlassEnabled: true,
   revealFeel: "direct",
   easeX1: 0.25,
   easeY1: 0.1,
@@ -50,6 +54,10 @@ const normalizeSplashTimingSettings = (settings = {}) => {
       : DEFAULT_SPLASH_TIMING_SETTINGS.imageRotationMode,
     imageHoldDuration: clampNumber(settings.imageHoldDuration, 500, 12000, DEFAULT_SPLASH_TIMING_SETTINGS.imageHoldDuration),
     imageFadeDuration: clampNumber(settings.imageFadeDuration, 100, 5000, DEFAULT_SPLASH_TIMING_SETTINGS.imageFadeDuration),
+    imagePunchScale: clampNumber(settings.imagePunchScale, 0.85, 1.1, DEFAULT_SPLASH_TIMING_SETTINGS.imagePunchScale),
+    textPunchScale: clampNumber(settings.textPunchScale, 0.9, 1.3, DEFAULT_SPLASH_TIMING_SETTINGS.textPunchScale),
+    punchDuration: clampNumber(settings.punchDuration, 100, 4000, DEFAULT_SPLASH_TIMING_SETTINGS.punchDuration),
+    textGlassEnabled: settings.textGlassEnabled !== false,
     revealFeel,
     easeX1: revealPreset.easeX1,
     easeY1: revealPreset.easeY1,
@@ -79,10 +87,14 @@ const applySplashTimingSettings = (settings) => {
   const root = document.documentElement;
   root.style.setProperty("--splash-fade-duration", `${Math.round(settings.fadeDuration)}ms`);
   root.style.setProperty("--splash-image-fade-duration", `${Math.round(settings.imageFadeDuration)}ms`);
+  root.style.setProperty("--splash-image-punch-scale", settings.imagePunchScale.toFixed(3));
+  root.style.setProperty("--splash-text-punch-scale", settings.textPunchScale.toFixed(3));
+  root.style.setProperty("--splash-punch-duration", `${Math.round(settings.punchDuration)}ms`);
   root.style.setProperty("--splash-ease-x1", settings.easeX1.toFixed(3));
   root.style.setProperty("--splash-ease-y1", settings.easeY1.toFixed(3));
   root.style.setProperty("--splash-ease-x2", settings.easeX2.toFixed(3));
   root.style.setProperty("--splash-ease-y2", settings.easeY2.toFixed(3));
+  document.body?.classList.toggle("has-splash-glass-text", settings.textGlassEnabled);
 };
 
 const getCubicPoint = (time, x1, y1, x2, y2) => {
@@ -218,12 +230,31 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
         <option value="direct">Direct</option>
       </select>
     </label>
+    <div class="splash-timing-section-title">Punch in</div>
+    <label class="splash-timing-field">
+      <span>Image punch <output data-output-for="imagePunchScale"></output></span>
+      <input data-splash-timing-input="imagePunchScale" type="range" min="0.85" max="1.1" step="0.005">
+    </label>
+    <label class="splash-timing-field">
+      <span>Text punch <output data-output-for="textPunchScale"></output></span>
+      <input data-splash-timing-input="textPunchScale" type="range" min="0.9" max="1.3" step="0.005">
+    </label>
+    <label class="splash-timing-field">
+      <span>Punch duration <output data-output-for="punchDuration"></output></span>
+      <input data-splash-timing-input="punchDuration" type="range" min="100" max="4000" step="50">
+    </label>
+    <label class="splash-timing-field">
+      <span>Glass text</span>
+      <select class="splash-timing-select" data-splash-timing-select="textGlassEnabled">
+        <option value="true">On</option>
+        <option value="false">Off</option>
+      </select>
+    </label>
     <div class="splash-timing-section-title">Image rotation</div>
     <label class="splash-timing-field">
       <span>Image behavior</span>
       <select class="splash-timing-select" data-splash-timing-select="imageRotationMode">
         <option value="fade">Fade cycle</option>
-        <option value="wipeBlur">Wipe blur cycle</option>
         <option value="cut">Instant cycle</option>
         <option value="off">Random image only</option>
       </select>
@@ -258,8 +289,9 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
     });
     outputs.forEach((output) => {
       const key = output.dataset.outputFor;
-      const isTime = key === "fadeDelay" || key === "fadeDuration" || key === "imageHoldDuration" || key === "imageFadeDuration";
-      output.textContent = isTime ? getSecondsLabel(settings[key]) : settings[key];
+      const isTime = key === "fadeDelay" || key === "fadeDuration" || key === "imageHoldDuration" || key === "imageFadeDuration" || key === "punchDuration";
+      const isScale = key === "imagePunchScale" || key === "textPunchScale";
+      output.textContent = isTime ? getSecondsLabel(settings[key]) : isScale ? `${Math.round(settings[key] * 100)}%` : settings[key];
     });
     curve?.setAttribute("points", getSplashCurvePath(settings));
     point1?.setAttribute("cx", String(settings.easeX1 * 160));
@@ -287,7 +319,7 @@ const setupSplashTimingEditor = ({ body, settings, onChange, signal }) => {
   selects.forEach((select) => {
     select.addEventListener("change", () => {
       const key = select.dataset.splashTimingSelect;
-      updateSetting(key, select.value);
+      updateSetting(key, key === "textGlassEnabled" ? select.value === "true" : select.value);
     }, { signal });
   });
 
@@ -325,10 +357,9 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
   };
 
   const clearWipeState = () => {
-    shell?.classList.remove("is-wipe-blur-transition");
+    shell?.classList.remove("is-wipe-forward", "is-wipe-backward");
     layers.forEach((layer) => {
       layer.classList.remove("is-wipe-in", "is-wipe-out");
-      layer.style.removeProperty("clip-path");
       layer.style.removeProperty("filter");
       layer.style.removeProperty("opacity");
     });
@@ -363,31 +394,6 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
     if (immediate || currentSettings.imageRotationMode === "cut") {
       previousLayer.classList.remove("is-active");
       nextLayer.classList.add("is-active");
-    } else if (currentSettings.imageRotationMode === "wipeBlur") {
-      const startsFromLeft = direction > 0;
-      const startClip = startsFromLeft ? "inset(0 100% 0 0)" : "inset(0 0 0 100%)";
-      const endClip = startsFromLeft ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)";
-
-      shell?.classList.add("is-wipe-blur-transition");
-      previousLayer.classList.add("is-wipe-out");
-      nextLayer.classList.add("is-wipe-in");
-      nextLayer.style.clipPath = startClip;
-      nextLayer.style.filter = "blur(18px)";
-      nextLayer.style.opacity = "1";
-      previousLayer.style.clipPath = "inset(0 0 0 0)";
-      previousLayer.style.filter = "blur(0)";
-      previousLayer.style.opacity = "1";
-
-      window.requestAnimationFrame(() => {
-        previousLayer.classList.remove("is-active");
-        nextLayer.classList.add("is-active");
-        nextLayer.style.clipPath = "inset(0 0 0 0)";
-        nextLayer.style.filter = "blur(0)";
-        previousLayer.style.clipPath = endClip;
-        previousLayer.style.filter = "blur(18px)";
-      });
-
-      transitionTimerId = window.setTimeout(clearWipeState, currentSettings.imageFadeDuration + 80);
     } else {
       window.requestAnimationFrame(() => {
         previousLayer.classList.remove("is-active");
