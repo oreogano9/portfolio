@@ -180,20 +180,6 @@ const preloadSplashImage = (url) => {
   image.src = url;
 };
 
-const revealSplashTitleWhenFontReady = (settings) => {
-  const root = document.documentElement;
-  const fontCss = SPLASH_TITLE_FONT_OPTIONS[settings.titleFontFamily]?.css || SPLASH_TITLE_FONT_OPTIONS.inter.css;
-  const finish = () => root.classList.remove("is-splash-font-loading");
-
-  if (!document.fonts?.load) {
-    finish();
-    return;
-  }
-
-  document.fonts.load(`500 4rem ${fontCss}`).then(finish, finish);
-  window.setTimeout(finish, 900);
-};
-
 const getSecondsLabel = (milliseconds) => {
   const seconds = milliseconds / 1000;
   return `${Number.isInteger(seconds) ? seconds.toFixed(0) : seconds.toFixed(1)}s`;
@@ -817,7 +803,6 @@ const setupSplash = (homepageSettings = null) => {
   const timingSettings = loadSplashTimingSettings(homepageSettings?.splashSettings);
 
   applySplashTimingSettings(timingSettings);
-  revealSplashTitleWhenFontReady(timingSettings);
   const splashRipple = setupSplashRippleInvert({ enterLink, signal: visualListeners.signal });
   const imageRotation = setupSplashImageRotation({
     settings: timingSettings,

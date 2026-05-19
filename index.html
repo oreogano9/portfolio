@@ -20,7 +20,6 @@
         document.documentElement.classList.add("skip-splash");
       } else {
         document.documentElement.classList.add("has-active-splash-root");
-        document.documentElement.classList.add("is-splash-font-loading");
       }
 
       (function applyEarlySplashSettings() {
@@ -108,7 +107,7 @@
         src: url("/fonts/MoonbaseAlpha-Regular.otf") format("opentype");
         font-weight: 400;
         font-style: normal;
-        font-display: swap;
+        font-display: block;
       }
 
       @font-face {
@@ -116,7 +115,7 @@
         src: url("/fonts/MoonbaseAlpha-Medium.ttf") format("truetype");
         font-weight: 500;
         font-style: normal;
-        font-display: swap;
+        font-display: block;
       }
 
       @font-face {
@@ -124,7 +123,7 @@
         src: url("/fonts/Ledlight-Regular.otf") format("opentype");
         font-weight: 400;
         font-style: normal;
-        font-display: swap;
+        font-display: block;
       }
 
       html.has-active-splash-root {
@@ -188,16 +187,12 @@
 
       body.home-page.splash-page.has-active-splash .splash-title {
         color: #ffffff;
-        font-family: var(--splash-title-font-family, "Inter", sans-serif);
+        font-family: var(--splash-title-font-family, "Ledlight", sans-serif);
         font-weight: 500;
         position: relative;
         font-size: clamp(2.5rem, 6vw, 5.5rem);
         letter-spacing: var(--splash-title-letter-spacing, 0.16em);
         text-transform: uppercase;
-      }
-
-      html.is-splash-font-loading body.home-page.splash-page.has-active-splash .splash-title-link {
-        visibility: hidden;
       }
 
       @media (max-width: 720px) {
@@ -224,7 +219,7 @@
         opacity: 0;
       }
     </style>
-    <link rel="stylesheet" href="/styles.css?v=20260519-31" />
+    <link rel="stylesheet" href="/styles.css?v=20260519-32" />
   </head>
   <body
     class="home-page splash-page has-active-splash is-ready"
@@ -314,7 +309,7 @@
       </main>
     </div>
 
-    <script type="module" src="/script/splash.js?v=20260519-19"></script>
+    <script type="module" src="/script/splash.js?v=20260519-20"></script>
     <script type="module" src="/script/main.js?v=20260519-4"></script>
   </body>
 </html>

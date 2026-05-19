@@ -83,7 +83,7 @@
   src: url("/fonts/MoonbaseAlpha-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -91,7 +91,7 @@
   src: url("/fonts/MoonbaseAlpha-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -99,7 +99,7 @@
   src: url("/fonts/Ledlight-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -601,7 +601,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .splash-title {
   display: inline-block;
   padding: 0.08em 0.03em;
-  font-family: var(--splash-title-font-family, "Inter", sans-serif);
+  font-family: var(--splash-title-font-family, "Ledlight", sans-serif);
   font-size: clamp(2.5rem, 6vw, 5.5rem);
   font-weight: 500;
   position: relative;
@@ -649,7 +649,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   inset: 0;
   display: inline-block;
   padding: 0.08em 0.03em;
-  font-family: var(--splash-title-font-family, "Inter", sans-serif);
+  font-family: var(--splash-title-font-family, "Ledlight", sans-serif);
   font-size: clamp(2.5rem, 6vw, 5.5rem);
   font-weight: 500;
   letter-spacing: var(--splash-title-letter-spacing, 0.16em);
