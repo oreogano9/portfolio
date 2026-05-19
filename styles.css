@@ -464,15 +464,20 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .splash-page:not(.home-page) {
-  background: #060606;
+  background: #0d0d0d;
   color: #ffffff;
   overflow: hidden;
 }
 
 .splash-page.home-page.has-active-splash {
-  background: #060606;
+  background: #0d0d0d;
   color: var(--text);
   overflow: hidden;
+}
+
+.splash-page.home-page.has-active-splash.has-splash-scroll-unlocked {
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .splash-page.is-ready {
@@ -503,7 +508,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   min-height: 100vh;
   min-height: 100svh;
   min-height: 100dvh;
-  background: #060606;
+  background: #0d0d0d;
   color: #ffffff;
   cursor: pointer;
   opacity: 1;
@@ -516,6 +521,10 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .splash-page.home-page.has-entering-splash .splash-shell {
   opacity: 0;
+}
+
+.splash-page.home-page.has-splash-scroll-unlocked .splash-shell {
+  pointer-events: none;
 }
 
 .splash-page.home-page.has-entering-splash .splash-backdrop {

@@ -838,16 +838,23 @@ const setupSplash = (homepageSettings = null) => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   };
 
-  const finishInlineHomeReveal = ({ keepSplashRuntime = false } = {}) => {
+  const unlockInlineHomeScroll = () => {
     document.documentElement.classList.remove("has-active-splash-root");
     document.documentElement.classList.add("has-unlocked-splash-root");
+    body.classList.add("has-splash-scroll-unlocked");
+  };
+
+  const finishInlineHomeReveal = ({ keepSplashRuntime = false, preserveScroll = false } = {}) => {
+    unlockInlineHomeScroll();
     body.classList.remove("has-active-splash", "has-entering-splash");
     body.classList.add("has-entered-splash");
     splashShell?.setAttribute("aria-hidden", "true");
     if (!keepSplashRuntime) {
       visualListeners.abort();
     }
-    forceTop();
+    if (!preserveScroll) {
+      forceTop();
+    }
     if (window.location.search) {
       window.history.replaceState({}, "", window.location.pathname || "/");
     }
@@ -857,23 +864,25 @@ const setupSplash = (homepageSettings = null) => {
     hasEntered = false;
     document.documentElement.classList.remove("has-unlocked-splash-root");
     document.documentElement.classList.add("has-active-splash-root");
-    body.classList.remove("has-entered-splash", "has-entering-splash", "is-splash-clicking");
+    body.classList.remove("has-entered-splash", "has-entering-splash", "has-splash-scroll-unlocked", "is-splash-clicking");
     body.classList.add("has-active-splash", "is-splash-timing-editing");
     splashShell?.setAttribute("aria-hidden", "false");
     timingPanel?.setAttribute("aria-hidden", "false");
     forceTop();
   };
 
-  const revealInlineHome = ({ animate = false, debugReturnToSplash = false } = {}) => {
+  const revealInlineHome = ({ animate = false, debugReturnToSplash = false, preserveScroll = false } = {}) => {
     if (!debugReturnToSplash) {
       uiListeners.abort();
       body.classList.remove("is-splash-timing-editing");
       timingPanel?.setAttribute("aria-hidden", "true");
     }
-    forceTop();
+    if (!preserveScroll) {
+      forceTop();
+    }
 
     if (!animate || !splashShell) {
-      finishInlineHomeReveal({ keepSplashRuntime: debugReturnToSplash });
+      finishInlineHomeReveal({ keepSplashRuntime: debugReturnToSplash, preserveScroll });
       if (debugReturnToSplash) {
         window.setTimeout(restoreSplashForDebug, 1000);
       }
@@ -889,7 +898,7 @@ const setupSplash = (homepageSettings = null) => {
       isFinished = true;
       window.clearTimeout(fallbackTimer);
       splashShell.removeEventListener("transitionend", handleTransitionEnd);
-      finishInlineHomeReveal({ keepSplashRuntime: debugReturnToSplash });
+      finishInlineHomeReveal({ keepSplashRuntime: debugReturnToSplash, preserveScroll });
       if (debugReturnToSplash) {
         window.setTimeout(restoreSplashForDebug, 1000);
       }
@@ -911,7 +920,9 @@ const setupSplash = (homepageSettings = null) => {
     }, timingSettings.fadeDuration + 160);
 
     window.requestAnimationFrame(() => {
-      forceTop();
+      if (!preserveScroll) {
+        forceTop();
+      }
       body.classList.add("has-entering-splash");
     });
   };
@@ -925,9 +936,10 @@ const setupSplash = (homepageSettings = null) => {
     if (isInlineHome) {
       const debugReturnToSplash = body.classList.contains("is-splash-timing-editing");
       splashRipple?.start();
+      unlockInlineHomeScroll();
       body.classList.add("is-splash-clicking");
       window.setTimeout(() => {
-        revealInlineHome({ animate: true, debugReturnToSplash });
+        revealInlineHome({ animate: true, debugReturnToSplash, preserveScroll: true });
       }, timingSettings.fadeDelay);
       return;
     }
