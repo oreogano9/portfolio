@@ -20,7 +20,7 @@
     "titleLetterSpacing": 0.16,
     "textPunchScale": 1.08,
     "punchDuration": 1500,
-    "textGlassEnabled": true,
+    "textGlassEnabled": false,
     "textDifferenceBlendEnabled": true,
     "differenceTextOpacity": 1,
     "differenceBlendStrength": 1,
