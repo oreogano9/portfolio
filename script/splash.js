@@ -57,6 +57,8 @@ const DEFAULT_SPLASH_TIMING_SETTINGS = {
   differenceTextOpacity: 1,
   differenceBlendStrength: 1,
   differenceBlackWhiteStrength: 1,
+  touchInvertEnabled: false,
+  swipeLineEnterEnabled: false,
   revealFeel: "direct",
   easeX1: 0.25,
   easeY1: 0.1,
@@ -101,6 +103,8 @@ const normalizeSplashTimingSettings = (settings = {}) => {
     differenceTextOpacity: clampNumber(settings.differenceTextOpacity, 0.05, 1, DEFAULT_SPLASH_TIMING_SETTINGS.differenceTextOpacity),
     differenceBlendStrength: clampNumber(settings.differenceBlendStrength, 0.05, 1, DEFAULT_SPLASH_TIMING_SETTINGS.differenceBlendStrength),
     differenceBlackWhiteStrength: clampNumber(settings.differenceBlackWhiteStrength, 0, 1, DEFAULT_SPLASH_TIMING_SETTINGS.differenceBlackWhiteStrength),
+    touchInvertEnabled: settings.touchInvertEnabled === true,
+    swipeLineEnterEnabled: settings.swipeLineEnterEnabled === true,
     revealFeel,
     easeX1: revealPreset.easeX1,
     easeY1: revealPreset.easeY1,
@@ -136,6 +140,7 @@ const applySplashTimingSettings = (settings) => {
   root.style.setProperty("--splash-difference-text-opacity", settings.differenceTextOpacity.toFixed(3));
   root.style.setProperty("--splash-difference-blend-strength", settings.differenceBlendStrength.toFixed(3));
   root.style.setProperty("--splash-difference-bw-strength", settings.differenceBlackWhiteStrength.toFixed(3));
+  root.style.setProperty("--splash-touch-invert", settings.touchInvertEnabled ? root.style.getPropertyValue("--splash-touch-invert") || "0" : "0");
   root.style.setProperty("--splash-ease-x1", settings.easeX1.toFixed(3));
   root.style.setProperty("--splash-ease-y1", settings.easeY1.toFixed(3));
   root.style.setProperty("--splash-ease-x2", settings.easeX2.toFixed(3));
@@ -347,6 +352,20 @@ const setupSplashTimingEditor = ({ body, settings, onChange, onSave, signal }) =
       <span>B&W strength <output data-output-for="differenceBlackWhiteStrength"></output></span>
       <input data-splash-timing-input="differenceBlackWhiteStrength" type="range" min="0" max="1" step="0.01">
     </label>
+    <label class="splash-timing-field">
+      <span>Finger invert</span>
+      <select class="splash-timing-select" data-splash-timing-select="touchInvertEnabled">
+        <option value="false">Off</option>
+        <option value="true">On</option>
+      </select>
+    </label>
+    <label class="splash-timing-field">
+      <span>Swipe-up line enter</span>
+      <select class="splash-timing-select" data-splash-timing-select="swipeLineEnterEnabled">
+        <option value="false">Off</option>
+        <option value="true">On</option>
+      </select>
+    </label>
     <div class="splash-timing-section-title">Image rotation</div>
     <label class="splash-timing-field">
       <span>Image behavior</span>
@@ -422,7 +441,11 @@ const setupSplashTimingEditor = ({ body, settings, onChange, onSave, signal }) =
   selects.forEach((select) => {
     select.addEventListener("change", () => {
       const key = select.dataset.splashTimingSelect;
-      const isBoolean = key === "textGlassEnabled" || key === "textDifferenceBlendEnabled";
+      const isBoolean =
+        key === "textGlassEnabled" ||
+        key === "textDifferenceBlendEnabled" ||
+        key === "touchInvertEnabled" ||
+        key === "swipeLineEnterEnabled";
       updateSetting(key, isBoolean ? select.value === "true" : select.value);
     }, { signal });
   });
@@ -493,6 +516,8 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
   const shell = document.querySelector("[data-splash-shell]");
   let activeLayerIndex = 0;
   let activeImageIndex = getInitialSplashImageIndex();
+  const orderedImageIndexes = SPLASH_IMAGE_URLS.map((_, offset) => (activeImageIndex + offset) % SPLASH_IMAGE_URLS.length);
+  let activeOrderPosition = 0;
   let timerId = 0;
   let transitionTimerId = 0;
   let currentSettings = settings;
@@ -536,7 +561,9 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
 
     window.clearTimeout(transitionTimerId);
     clearWipeState();
-    preloadSplashImage(SPLASH_IMAGE_URLS[(imageIndex + 1) % SPLASH_IMAGE_URLS.length]);
+    const orderPosition = orderedImageIndexes.indexOf(imageIndex);
+    const nextOrderPosition = orderPosition >= 0 ? (orderPosition + 1) % orderedImageIndexes.length : 0;
+    preloadSplashImage(SPLASH_IMAGE_URLS[orderedImageIndexes[nextOrderPosition]]);
     setLayerImage(nextLayer, imageUrl);
 
     if (immediate || currentSettings.imageRotationMode === "cut") {
@@ -551,23 +578,27 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
 
     activeLayerIndex = nextLayerIndex;
     activeImageIndex = imageIndex;
+    activeOrderPosition = orderPosition >= 0 ? orderPosition : activeOrderPosition;
     onImageChange?.(imageUrl);
   };
 
   function showNextImage() {
-    showImage((activeImageIndex + 1) % SPLASH_IMAGE_URLS.length, { direction: 1 });
+    const nextOrderPosition = (activeOrderPosition + 1) % orderedImageIndexes.length;
+    showImage(orderedImageIndexes[nextOrderPosition], { direction: 1 });
     scheduleNext();
   }
 
   const showPreviousImage = () => {
     window.clearTimeout(timerId);
-    showImage((activeImageIndex - 1 + SPLASH_IMAGE_URLS.length) % SPLASH_IMAGE_URLS.length, { direction: -1 });
+    const previousOrderPosition = (activeOrderPosition - 1 + orderedImageIndexes.length) % orderedImageIndexes.length;
+    showImage(orderedImageIndexes[previousOrderPosition], { direction: -1 });
     scheduleNext();
   };
 
   const showManualNextImage = () => {
     window.clearTimeout(timerId);
-    showImage((activeImageIndex + 1) % SPLASH_IMAGE_URLS.length, { direction: 1 });
+    const nextOrderPosition = (activeOrderPosition + 1) % orderedImageIndexes.length;
+    showImage(orderedImageIndexes[nextOrderPosition], { direction: 1 });
     scheduleNext();
   };
 
@@ -575,7 +606,7 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
   setLayerImage(layers[activeLayerIndex], SPLASH_IMAGE_URLS[activeImageIndex]);
   layers[activeLayerIndex].classList.add("is-active");
   onImageChange?.(SPLASH_IMAGE_URLS[activeImageIndex]);
-  preloadSplashImage(SPLASH_IMAGE_URLS[(activeImageIndex + 1) % SPLASH_IMAGE_URLS.length]);
+  preloadSplashImage(SPLASH_IMAGE_URLS[orderedImageIndexes[(activeOrderPosition + 1) % orderedImageIndexes.length]]);
   scheduleNext();
 
   signal.addEventListener("abort", () => {
@@ -616,6 +647,7 @@ const setupSplashRippleInvert = ({ enterLink, signal }) => {
   let height = 0;
   let startedAt = 0;
   let imageUrl = "";
+  let renderMode = "radial";
 
   const rippleBursts = [
     { x: 0.5, y: 0.5, delay: 0, duration: 1360, scale: 0.68, width: 0.3, strength: 2 },
@@ -670,14 +702,7 @@ const setupSplashRippleInvert = ({ enterLink, signal }) => {
     drawCoveredImage();
   };
 
-  const render = (time) => {
-    if (!isActive || !context || !sourcePixels || !outputPixels) {
-      return;
-    }
-
-    const source = sourcePixels.data;
-    const output = outputPixels.data;
-    const elapsed = time - startedAt;
+  const renderRadial = (time, source, output, elapsed) => {
     const maxDistance = Math.sqrt((width * width) + (height * height));
     const activeBursts = rippleBursts
       .map((burst) => ({ ...burst, progress: (elapsed - burst.delay) / burst.duration }))
@@ -685,7 +710,7 @@ const setupSplashRippleInvert = ({ enterLink, signal }) => {
 
     if (!activeBursts.length && elapsed > 2580) {
       stop();
-      return;
+      return false;
     }
 
     for (let index = 0; index < output.length; index += 4) {
@@ -713,11 +738,61 @@ const setupSplashRippleInvert = ({ enterLink, signal }) => {
       output[index + 3] = Math.round(Math.min(1, alpha) * 235);
     }
 
+    return true;
+  };
+
+  const renderLine = (time, source, output, elapsed) => {
+    const burst = rippleBursts[0];
+    const progress = elapsed / burst.duration;
+    if (progress >= 1.18) {
+      stop();
+      return false;
+    }
+
+    const easedProgress = 1 - ((1 - Math.min(1, progress)) * (1 - Math.min(1, progress)));
+    const centerY = height + (Math.min(width, height) * burst.width) - (easedProgress * (height + (Math.min(width, height) * burst.width * 2)));
+    const ringWidth = Math.max(8, Math.min(width, height) * burst.width);
+    const fade = 1 - Math.max(0, (progress - 0.82) / 0.18);
+
+    for (let index = 0; index < output.length; index += 4) {
+      const pixel = index / 4;
+      const y = Math.floor(pixel / width);
+      const distance = Math.abs(y - centerY);
+      const ring = Math.max(0, 1 - (distance / ringWidth));
+      const wakeDistance = y > centerY ? y - centerY : 0;
+      const wake = wakeDistance > 0 ? Math.max(0, 1 - (wakeDistance / (ringWidth * 3.4))) * 0.18 : 0;
+      const alpha = (ring + wake) * burst.strength * fade;
+
+      output[index] = 255 - source[index];
+      output[index + 1] = 255 - source[index + 1];
+      output[index + 2] = 255 - source[index + 2];
+      output[index + 3] = Math.round(Math.min(1, alpha) * 235);
+    }
+
+    return true;
+  };
+
+  const render = (time) => {
+    if (!isActive || !context || !sourcePixels || !outputPixels) {
+      return;
+    }
+
+    const source = sourcePixels.data;
+    const output = outputPixels.data;
+    const elapsed = time - startedAt;
+    const shouldContinue = renderMode === "line"
+      ? renderLine(time, source, output, elapsed)
+      : renderRadial(time, source, output, elapsed);
+
+    if (!shouldContinue) {
+      return;
+    }
+
     context.putImageData(outputPixels, 0, 0);
     frameId = window.requestAnimationFrame(render);
   };
 
-  const start = () => {
+  const start = (mode = "radial") => {
     if (isActive) {
       return;
     }
@@ -728,6 +803,7 @@ const setupSplashRippleInvert = ({ enterLink, signal }) => {
     }
 
     isActive = true;
+    renderMode = mode;
     startedAt = performance.now();
     document.body.classList.add("is-splash-ripple-active");
     frameId = window.requestAnimationFrame(render);
@@ -750,7 +826,11 @@ const setupSplashRippleInvert = ({ enterLink, signal }) => {
   window.addEventListener("resize", resize, { signal });
   signal.addEventListener("abort", stop, { once: true });
 
-  return { setImage, start };
+  return {
+    setImage,
+    start,
+    startLine: () => start("line"),
+  };
 };
 
 const saveSplashSettingsToGitHub = async (body, splashSettings, fallbackHomepageSettings = null) => {
@@ -827,6 +907,13 @@ const setupSplash = (homepageSettings = null) => {
   let touchStartX = 0;
   let touchStartY = 0;
   let didSwipeImage = false;
+  let didTouchInvert = false;
+
+  const setTouchInvertFromClientY = (clientY) => {
+    const viewportHeight = Math.max(1, window.innerHeight || document.documentElement.clientHeight || 1);
+    const progress = Math.max(0, Math.min(1, clientY / viewportHeight));
+    document.documentElement.style.setProperty("--splash-touch-invert", progress.toFixed(3));
+  };
 
   const forceTop = () => {
     try {
@@ -927,7 +1014,7 @@ const setupSplash = (homepageSettings = null) => {
     });
   };
 
-  const enter = () => {
+  const enter = ({ rippleMode = "radial" } = {}) => {
     if (hasEntered) {
       return;
     }
@@ -935,7 +1022,11 @@ const setupSplash = (homepageSettings = null) => {
     hasEntered = true;
     if (isInlineHome) {
       const debugReturnToSplash = body.classList.contains("is-splash-timing-editing");
-      splashRipple?.start();
+      if (rippleMode === "line") {
+        splashRipple?.startLine();
+      } else {
+        splashRipple?.start();
+      }
       unlockInlineHomeScroll();
       body.classList.add("is-splash-clicking");
       window.setTimeout(() => {
@@ -955,10 +1046,11 @@ const setupSplash = (homepageSettings = null) => {
       return;
     }
 
-    if (didSwipeImage) {
+    if (didSwipeImage || didTouchInvert) {
       event.preventDefault();
       event.stopPropagation();
       didSwipeImage = false;
+      didTouchInvert = false;
       return;
     }
 
@@ -977,7 +1069,31 @@ const setupSplash = (homepageSettings = null) => {
     touchStartX = event.touches[0].clientX;
     touchStartY = event.touches[0].clientY;
     didSwipeImage = false;
+    didTouchInvert = false;
+    if (timingSettings.touchInvertEnabled) {
+      setTouchInvertFromClientY(touchStartY);
+    }
   }, { passive: true, signal: uiListeners.signal });
+
+  splashShell?.addEventListener("touchmove", (event) => {
+    if (!isSplashActive() || !timingSettings.touchInvertEnabled || event.touches.length !== 1 || hasEntered) {
+      return;
+    }
+
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+    const isVerticalGesture = deltaY > 8 && deltaY > Math.abs(deltaX) * 1.15;
+
+    if (!isVerticalGesture) {
+      return;
+    }
+
+    event.preventDefault();
+    didTouchInvert = true;
+    body.classList.add("is-splash-touch-inverting");
+    setTouchInvertFromClientY(touch.clientY);
+  }, { passive: false, signal: uiListeners.signal });
 
   splashShell?.addEventListener("touchend", (event) => {
     if (!isSplashActive() || !event.changedTouches.length || hasEntered) {
@@ -988,6 +1104,26 @@ const setupSplash = (homepageSettings = null) => {
     const deltaX = touch.clientX - touchStartX;
     const deltaY = touch.clientY - touchStartY;
     const isHorizontalSwipe = Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY) * 1.35;
+    const isSwipeUpEnter =
+      timingSettings.swipeLineEnterEnabled &&
+      touchStartY > Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0) * 0.52 &&
+      deltaY < -72 &&
+      Math.abs(deltaY) > Math.abs(deltaX) * 1.2;
+
+    if (didTouchInvert) {
+      event.preventDefault();
+      window.setTimeout(() => {
+        didTouchInvert = false;
+        body.classList.remove("is-splash-touch-inverting");
+      }, 450);
+      return;
+    }
+
+    if (isSwipeUpEnter) {
+      event.preventDefault();
+      enter({ rippleMode: "line" });
+      return;
+    }
 
     if (!isHorizontalSwipe) {
       return;
