@@ -22,7 +22,9 @@ const applyGlobalSiteSettings = async (body) => {
     draftSettings = null;
   }
 
-  body?.classList.toggle("is-site-dark", (draftSettings || settings)?.darkMode === true);
+  const useDarkMode = (draftSettings || settings)?.darkMode === true;
+  document.documentElement.classList.toggle("is-site-dark-root", useDarkMode);
+  body?.classList.toggle("is-site-dark", useDarkMode);
 };
 
 const bootstrap = async () => {

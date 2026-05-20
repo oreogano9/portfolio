@@ -47,7 +47,7 @@ const DEFAULT_SPLASH_TIMING_SETTINGS = {
   imageFadeDuration: 2000,
   backgroundImageDarkness: 0,
   imagePunchScale: 0.99,
-  titleFontFamily: "inter",
+  titleFontFamily: "saint",
   titleLetterSpacing: 0.16,
   textPunchScale: 1.08,
   punchDuration: 1500,
@@ -109,12 +109,7 @@ const normalizeSplashTimingSettings = (settings = {}) => {
 };
 
 const loadSplashTimingSettings = (savedSettings = {}) => {
-  try {
-    const storedSettings = JSON.parse(window.localStorage.getItem(SPLASH_TIMING_STORAGE_KEY) || "{}");
-    return normalizeSplashTimingSettings({ ...savedSettings, ...storedSettings });
-  } catch {
-    return normalizeSplashTimingSettings(savedSettings);
-  }
+  return normalizeSplashTimingSettings(savedSettings);
 };
 
 const saveSplashTimingSettings = (settings) => {
@@ -785,7 +780,11 @@ const saveSplashSettingsToGitHub = async (body, splashSettings, fallbackHomepage
     throw new Error(result.error || "Save failed");
   }
 
-  saveSplashTimingSettings(splashSettings);
+  try {
+    window.localStorage.removeItem(SPLASH_TIMING_STORAGE_KEY);
+  } catch {
+    // Ignore storage failures; the remote save already succeeded.
+  }
 };
 
 const setupSplash = (homepageSettings = null) => {

@@ -11,7 +11,7 @@
   src: url("/fonts/InterVariable-Italic.woff2") format("woff2");
   font-weight: 100 900;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -19,7 +19,7 @@
   src: url("/fonts/ClashDisplay-Light.otf") format("opentype");
   font-weight: 300;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -27,7 +27,7 @@
   src: url("/fonts/ClashDisplay-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -35,7 +35,7 @@
   src: url("/fonts/ClashDisplay-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -43,7 +43,7 @@
   src: url("/fonts/ClashDisplay-Semibold.otf") format("opentype");
   font-weight: 600;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -51,7 +51,7 @@
   src: url("/fonts/ClashDisplay-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -59,7 +59,7 @@
   src: url("/assets/fonts/NeueHaasDisplayRoman.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -67,7 +67,7 @@
   src: url("/assets/fonts/NeueHaasDisplayBold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -75,7 +75,7 @@
   src: url("/fonts/Saint-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -107,7 +107,7 @@
   src: url("/fonts/Manrope-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -115,7 +115,7 @@
   src: url("/fonts/SpaceGrotesk-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -123,7 +123,7 @@
   src: url("/fonts/PlusJakartaSans-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -131,7 +131,7 @@
   src: url("/fonts/Sora-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -139,7 +139,7 @@
   src: url("/fonts/InstrumentSerif-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -147,7 +147,7 @@
   src: url("/fonts/CormorantGaramond-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -155,7 +155,7 @@
   src: url("/fonts/Fraunces-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -163,7 +163,7 @@
   src: url("/fonts/Newsreader-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -171,7 +171,7 @@
   src: url("/fonts/LibreBaskerville-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -179,7 +179,7 @@
   src: url("/fonts/Syne-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -187,7 +187,7 @@
   src: url("/fonts/YoungSerif-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 :root {
@@ -230,8 +230,13 @@ body.is-site-dark {
 }
 
 html {
+  background: #fcfbf8;
   scroll-behavior: smooth;
   overflow-x: hidden;
+}
+
+html.is-site-dark-root {
+  background: #0d0d0d;
 }
 
 html.has-active-splash-root {
@@ -627,7 +632,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   box-sizing: border-box;
   display: inline-block;
   padding: 0.08em 0.03em;
-  font-family: var(--splash-title-font-family, "Ledlight", sans-serif);
+  font-family: var(--splash-title-font-family, "Saint", serif);
   font-size: var(--splash-title-size);
   font-weight: 500;
   position: relative;
@@ -678,7 +683,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   box-sizing: border-box;
   display: inline-block;
   padding: 0.08em 0.03em;
-  font-family: var(--splash-title-font-family, "Ledlight", sans-serif);
+  font-family: var(--splash-title-font-family, "Saint", serif);
   font-size: var(--splash-title-size);
   font-weight: 500;
   letter-spacing: var(--splash-title-effective-letter-spacing);
