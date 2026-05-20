@@ -9,7 +9,7 @@
   "darkMode": true,
   "backgroundNoiseEnabled": true,
   "backgroundNoiseOpacity": 0.35,
-  "backgroundNoiseScale": 360,
+  "backgroundNoiseScale": 176,
   "backgroundNoiseContrast": 0.25,
   "splashSettings": {
     "fadeDelay": 200,
