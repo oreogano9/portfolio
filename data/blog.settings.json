@@ -1,0 +1,36 @@
+{
+  "title": "Blog",
+  "intro": "Notes from shoots, small technical fragments, and field observations around photography.",
+  "posts": [
+    {
+      "id": "post-rome-after-dark",
+      "slug": "rome-after-dark",
+      "title": "Rome After Dark",
+      "date": "2026-05-18",
+      "image": "/assets/splash/IMG_8893_DxO_copy-b2c0bb74-2500.jpg",
+      "imageEnabled": true,
+      "excerpt": "A short note on keeping night photographs quiet without flattening the frame.",
+      "body": "The city becomes easier to read when the bright parts are allowed to stay small. I have been trying to leave more black in the frame, especially around faces and street corners, because it makes the image feel less explained.\n\nThe useful detail is usually not the lamp itself. It is the reflection below it, the clipped edge of a shoulder, or the thin line where a wall separates from the sky."
+    },
+    {
+      "id": "post-contact-sheet-notes",
+      "slug": "contact-sheet-notes",
+      "title": "Contact Sheet Notes",
+      "date": "2026-05-12",
+      "image": "/assets/splash/DSC05857_copy-d0fe7bc7-2500.jpg",
+      "imageEnabled": true,
+      "excerpt": "Three things I keep looking for when the first pass through a shoot feels too obvious.",
+      "body": "The first edit is usually too clean. I tend to pick the image that explains the scene best, then later come back to the one that holds tension without resolving it.\n\nFor the second pass I look for repetition, accidental gestures, and frames that almost fail. Those are often closer to the reason the shoot felt worth doing."
+    },
+    {
+      "id": "post-archive-test",
+      "slug": "archive-test",
+      "title": "Archive Test",
+      "date": "2026-04-30",
+      "image": "",
+      "imageEnabled": false,
+      "excerpt": "A placeholder for text-only posts and smaller archive updates.",
+      "body": "This entry is here to test the text-only state. The blog index should not need an image for every post.\n\nA quiet post should still have the same weight in the list: date, title, and a short line of context."
+    }
+  ]
+}

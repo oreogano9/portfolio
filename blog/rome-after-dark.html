@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rome After Dark - Konrad Parada Photos</title>
+    <meta name="description" content="A blog note from Konrad Parada Photos." />
+    <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
+    <script>
+      (function applyEarlyTheme() {
+        try {
+          var request = new XMLHttpRequest();
+          request.open("GET", "/data/homepage.settings.json", false);
+          request.send(null);
+          if (request.status >= 200 && request.status < 300) {
+            var settings = JSON.parse(request.responseText);
+            if (settings && settings.darkMode === true) {
+              document.documentElement.classList.add("is-site-dark-root");
+            }
+          }
+        } catch (error) {
+          document.documentElement.classList.add("is-site-dark-root");
+        }
+      })();
+    </script>
+    <style>
+      html.is-site-dark-root,
+      html.is-site-dark-root body {
+        background: #0d0d0d;
+        color: #f5f1e8;
+      }
+
+      body.blog-page:not(.is-ready) {
+        opacity: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="/styles.css?v=20260520-39" />
+  </head>
+  <body class="blog-page blog-post-page" data-blog-settings="/data/blog.settings.json" data-blog-post="rome-after-dark">
+    <div class="floating-editor-actions blog-editor-actions" aria-label="Blog editor actions">
+      <button class="preview-toggle" type="button" data-blog-action="preview" aria-pressed="false">Preview</button>
+      <button class="preview-toggle" type="button" data-blog-action="edit">Edit</button>
+      <button class="preview-toggle" type="button" data-blog-action="save">Save</button>
+      <button class="preview-toggle" type="button" data-blog-action="export">Export JSON</button>
+    </div>
+    <nav class="album-top-nav">
+      <a class="album-back-link" href="/blog/">Blog</a>
+      <a class="album-back-link" href="/?home=1">Home</a>
+    </nav>
+    <div class="site-frame">
+      <main class="content-column">
+        <article class="section blog-article">
+          <header class="blog-article-header">
+            <time class="blog-post-date" datetime="2026-05-18">2026-05-18</time>
+            <h1 class="masthead-title blog-post-title">Rome After Dark</h1>
+            <p class="section-text blog-post-excerpt">A short note on keeping night photographs quiet without flattening the frame.</p>
+          </header>
+          <figure class="blog-post-media">
+            <img class="blog-post-image" alt="" />
+          </figure>
+          <div class="blog-post-body"></div>
+        </article>
+        <section class="section mobile-home-section">
+          <a class="mobile-home-button" href="/blog/">Blog</a>
+          <button class="mobile-home-button" type="button" data-blog-action="edit">Edit</button>
+          <button class="mobile-home-button" type="button" data-blog-action="save">Save</button>
+          <button class="mobile-home-button" type="button" data-blog-action="export">Export JSON</button>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/script/blog.js?v=20260520-1"></script>
+  </body>
+</html>
