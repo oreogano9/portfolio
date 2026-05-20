@@ -22,6 +22,7 @@ const sharedFontFamilyOptions = [
   { value: "newsreader", label: "Newsreader" },
   { value: "libre-baskerville", label: "Libre Baskerville" },
   { value: "syne", label: "Syne" },
+  { value: "picnic", label: "PicNic" },
 ];
 
 const createNumberField = ({ label, min, max, step, value, onChange, compact = false }) => {
@@ -245,6 +246,37 @@ const createSwitchField = ({ label, checked, onChange }) => {
   return button;
 };
 
+const createRangeField = ({ label, min, max, step, value, unit = "", formatValue, onChange }) => {
+  const field = document.createElement("label");
+  field.className = "home-edit-field";
+
+  const labelText = document.createElement("span");
+  const output = document.createElement("output");
+  const getLabelValue = (nextValue) => (typeof formatValue === "function" ? formatValue(nextValue) : `${nextValue}${unit}`);
+  labelText.textContent = label;
+  output.textContent = getLabelValue(value);
+
+  const labelRow = document.createElement("span");
+  labelRow.className = "home-edit-range-label";
+  labelRow.append(labelText, output);
+
+  const input = document.createElement("input");
+  input.type = "range";
+  input.setAttribute("aria-label", label);
+  input.min = String(min);
+  input.max = String(max);
+  input.step = String(step);
+  input.value = String(value);
+  input.addEventListener("input", (event) => {
+    const nextValue = Number(event.currentTarget.value);
+    output.textContent = getLabelValue(nextValue);
+    onChange(nextValue);
+  });
+
+  field.append(labelRow, input);
+  return field;
+};
+
 export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cardsContainer }) => ({
   render({ editing, saveState, quoteState, actions }) {
     clearElement(toolbarContainer);
@@ -346,6 +378,38 @@ export const mountHomeReactEditorUi = ({ toolbarContainer, quoteContainer, cards
         label: "Dark Mode",
         checked: quoteState.darkMode === true,
         onChange: actions.setDarkMode,
+      }),
+      createSwitchField({
+        label: "Background Noise",
+        checked: quoteState.backgroundNoiseEnabled === true,
+        onChange: actions.setBackgroundNoiseEnabled,
+      }),
+      createRangeField({
+        label: "Noise Opacity",
+        min: 0,
+        max: 0.35,
+        step: 0.01,
+        value: quoteState.backgroundNoiseOpacity,
+        formatValue: (value) => `${Math.round(Number(value) * 100)}%`,
+        onChange: actions.setBackgroundNoiseOpacity,
+      }),
+      createRangeField({
+        label: "Noise Scale",
+        min: 48,
+        max: 360,
+        step: 4,
+        value: quoteState.backgroundNoiseScale,
+        formatValue: (value) => `${Math.round(Number(value))}px`,
+        onChange: actions.setBackgroundNoiseScale,
+      }),
+      createRangeField({
+        label: "Noise Contrast",
+        min: 0.25,
+        max: 3,
+        step: 0.05,
+        value: quoteState.backgroundNoiseContrast,
+        formatValue: (value) => `${Number(value).toFixed(2)}x`,
+        onChange: actions.setBackgroundNoiseContrast,
       })
     );
   },

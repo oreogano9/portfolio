@@ -1,5 +1,5 @@
 import { observeReveals, refreshAlbumLinks } from "./home.js?v=20260519-2";
-import { mountHomeReactEditorUi } from "./editor-react-ui.js?v=20260519-1";
+import { mountHomeReactEditorUi } from "./editor-react-ui.js?v=20260520-4";
 
 const DEFAULT_SETTINGS_PATH = "data/homepage.settings.json";
 const DEFAULT_INDENT_MODE = "quote-column";
@@ -9,6 +9,10 @@ const DEFAULT_TITLE_FONT_FAMILY = "libre-baskerville";
 const DEFAULT_UI_FONT_FAMILY = "inter";
 const DEFAULT_SHOW_SPLASH_ON_ENTER = true;
 const DEFAULT_DARK_MODE = false;
+const DEFAULT_BACKGROUND_NOISE_ENABLED = false;
+const DEFAULT_BACKGROUND_NOISE_OPACITY = 0;
+const DEFAULT_BACKGROUND_NOISE_SCALE = 140;
+const DEFAULT_BACKGROUND_NOISE_CONTRAST = 1;
 const FONT_FAMILY_OPTIONS = [
   "inter",
   "moonbase-alpha",
@@ -27,6 +31,7 @@ const FONT_FAMILY_OPTIONS = [
   "libre-baskerville",
   "syne",
   "young-serif",
+  "picnic",
 ];
 
 const normalizeHomepageSettingsPath = (value) => {
@@ -87,6 +92,29 @@ const normalizeDarkMode = (value, fallback = DEFAULT_DARK_MODE) => {
   return fallback;
 };
 
+const normalizeBackgroundNoiseEnabled = (value, fallback = DEFAULT_BACKGROUND_NOISE_ENABLED) => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  return fallback;
+};
+
+const normalizeBackgroundNoiseOpacity = (value, fallback = DEFAULT_BACKGROUND_NOISE_OPACITY) => {
+  const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
+  return Math.max(0, Math.min(0.35, numeric || 0));
+};
+
+const normalizeBackgroundNoiseScale = (value, fallback = DEFAULT_BACKGROUND_NOISE_SCALE) => {
+  const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
+  return Math.max(48, Math.min(360, numeric || DEFAULT_BACKGROUND_NOISE_SCALE));
+};
+
+const normalizeBackgroundNoiseContrast = (value, fallback = DEFAULT_BACKGROUND_NOISE_CONTRAST) => {
+  const numeric = Number.isFinite(Number(value)) ? Number(value) : Number(fallback);
+  return Math.max(0.25, Math.min(3, numeric || DEFAULT_BACKGROUND_NOISE_CONTRAST));
+};
+
 const getFontFamilyCssValue = (value) => {
   switch (normalizeFontFamily(value)) {
     case "moonbase-alpha":
@@ -117,6 +145,8 @@ const getFontFamilyCssValue = (value) => {
       return '"Syne", sans-serif';
     case "young-serif":
       return '"YoungSerif", serif';
+    case "picnic":
+      return '"PicNic", serif';
     case "clash":
       return '"ClashDisplay", sans-serif';
     case "neue-haas":
@@ -155,6 +185,10 @@ const serializeHomepageState = (state) => ({
   quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
   showSplashOnEnter: normalizeShowSplashOnEnter(state.showSplashOnEnter),
   darkMode: normalizeDarkMode(state.darkMode),
+  backgroundNoiseEnabled: normalizeBackgroundNoiseEnabled(state.backgroundNoiseEnabled),
+  backgroundNoiseOpacity: normalizeBackgroundNoiseOpacity(state.backgroundNoiseOpacity),
+  backgroundNoiseScale: normalizeBackgroundNoiseScale(state.backgroundNoiseScale),
+  backgroundNoiseContrast: normalizeBackgroundNoiseContrast(state.backgroundNoiseContrast),
   splashSettings: normalizeSplashSettings(state.splashSettings),
   fontFamily: normalizeFontFamily(state.fontFamily),
   quoteFontFamily: normalizeFontFamily(state.quoteFontFamily, DEFAULT_QUOTE_FONT_FAMILY),
@@ -231,6 +265,10 @@ export const setupHomeEditor = async () => {
     quoteBottomSpace: 1,
     showSplashOnEnter: DEFAULT_SHOW_SPLASH_ON_ENTER,
     darkMode: DEFAULT_DARK_MODE,
+    backgroundNoiseEnabled: DEFAULT_BACKGROUND_NOISE_ENABLED,
+    backgroundNoiseOpacity: DEFAULT_BACKGROUND_NOISE_OPACITY,
+    backgroundNoiseScale: DEFAULT_BACKGROUND_NOISE_SCALE,
+    backgroundNoiseContrast: DEFAULT_BACKGROUND_NOISE_CONTRAST,
     splashSettings: {},
     fontFamily: DEFAULT_FONT_FAMILY,
     quoteFontFamily: DEFAULT_QUOTE_FONT_FAMILY,
@@ -261,6 +299,10 @@ export const setupHomeEditor = async () => {
     quoteBottomSpace: normalizeQuoteBottomSpace(jsonState?.quoteBottomSpace, defaults.quoteBottomSpace),
     showSplashOnEnter: normalizeShowSplashOnEnter(jsonState?.showSplashOnEnter, defaults.showSplashOnEnter),
     darkMode: normalizeDarkMode(jsonState?.darkMode, defaults.darkMode),
+    backgroundNoiseEnabled: normalizeBackgroundNoiseEnabled(jsonState?.backgroundNoiseEnabled, defaults.backgroundNoiseEnabled),
+    backgroundNoiseOpacity: normalizeBackgroundNoiseOpacity(jsonState?.backgroundNoiseOpacity, defaults.backgroundNoiseOpacity),
+    backgroundNoiseScale: normalizeBackgroundNoiseScale(jsonState?.backgroundNoiseScale, defaults.backgroundNoiseScale),
+    backgroundNoiseContrast: normalizeBackgroundNoiseContrast(jsonState?.backgroundNoiseContrast, defaults.backgroundNoiseContrast),
     splashSettings: normalizeSplashSettings(jsonState?.splashSettings, defaults.splashSettings),
     fontFamily: normalizeFontFamily(jsonState?.fontFamily, defaults.fontFamily),
     quoteFontFamily: normalizeFontFamily(
@@ -292,6 +334,10 @@ export const setupHomeEditor = async () => {
     quoteBottomSpace: normalizeQuoteBottomSpace(preferredState?.quoteBottomSpace, baseState.quoteBottomSpace),
     showSplashOnEnter: normalizeShowSplashOnEnter(preferredState?.showSplashOnEnter, baseState.showSplashOnEnter),
     darkMode: normalizeDarkMode(preferredState?.darkMode, baseState.darkMode),
+    backgroundNoiseEnabled: normalizeBackgroundNoiseEnabled(preferredState?.backgroundNoiseEnabled, baseState.backgroundNoiseEnabled),
+    backgroundNoiseOpacity: normalizeBackgroundNoiseOpacity(preferredState?.backgroundNoiseOpacity, baseState.backgroundNoiseOpacity),
+    backgroundNoiseScale: normalizeBackgroundNoiseScale(preferredState?.backgroundNoiseScale, baseState.backgroundNoiseScale),
+    backgroundNoiseContrast: normalizeBackgroundNoiseContrast(preferredState?.backgroundNoiseContrast, baseState.backgroundNoiseContrast),
     splashSettings: normalizeSplashSettings(preferredState?.splashSettings, baseState.splashSettings),
     fontFamily: normalizeFontFamily(preferredState?.fontFamily, baseState.fontFamily),
     quoteFontFamily: normalizeFontFamily(
@@ -631,7 +677,15 @@ export const setupHomeEditor = async () => {
     body.style.setProperty("--site-title-font-family", getFontFamilyCssValue(state.titleFontFamily));
     body.style.setProperty("--site-ui-font-family", getFontFamilyCssValue(state.uiFontFamily));
     body.dataset.siteFontFamily = normalizeFontFamily(state.fontFamily);
+    body.style.setProperty("--background-noise-opacity", normalizeBackgroundNoiseOpacity(state.backgroundNoiseOpacity).toFixed(3));
+    body.style.setProperty("--background-noise-size", `${Math.round(normalizeBackgroundNoiseScale(state.backgroundNoiseScale))}px`);
+    body.style.setProperty("--background-noise-contrast", normalizeBackgroundNoiseContrast(state.backgroundNoiseContrast).toFixed(2));
     body.classList.toggle("is-site-dark", state.darkMode === true);
+    document.documentElement.classList.toggle("is-site-dark-root", state.darkMode === true);
+    body.classList.toggle(
+      "has-background-noise",
+      normalizeBackgroundNoiseEnabled(state.backgroundNoiseEnabled) && normalizeBackgroundNoiseOpacity(state.backgroundNoiseOpacity) > 0
+    );
     body.classList.toggle("has-homepage-indent", state.albumsIndentMode === DEFAULT_INDENT_MODE);
     body.classList.toggle("is-home-editing", state.editing);
     applyInlineText({
@@ -711,6 +765,10 @@ export const setupHomeEditor = async () => {
         quoteBottomSpace: normalizeQuoteBottomSpace(state.quoteBottomSpace),
         showSplashOnEnter: normalizeShowSplashOnEnter(state.showSplashOnEnter),
         darkMode: normalizeDarkMode(state.darkMode),
+        backgroundNoiseEnabled: normalizeBackgroundNoiseEnabled(state.backgroundNoiseEnabled),
+        backgroundNoiseOpacity: normalizeBackgroundNoiseOpacity(state.backgroundNoiseOpacity),
+        backgroundNoiseScale: normalizeBackgroundNoiseScale(state.backgroundNoiseScale),
+        backgroundNoiseContrast: normalizeBackgroundNoiseContrast(state.backgroundNoiseContrast),
         fontFamily: normalizeFontFamily(state.fontFamily),
         quoteFontFamily: normalizeFontFamily(state.quoteFontFamily, DEFAULT_QUOTE_FONT_FAMILY),
         titleFontFamily: normalizeFontFamily(state.titleFontFamily, DEFAULT_TITLE_FONT_FAMILY),
@@ -758,6 +816,26 @@ export const setupHomeEditor = async () => {
         },
         setDarkMode: (value) => {
           state.darkMode = normalizeDarkMode(value, state.darkMode);
+          saveDraft();
+          render();
+        },
+        setBackgroundNoiseEnabled: (value) => {
+          state.backgroundNoiseEnabled = normalizeBackgroundNoiseEnabled(value, state.backgroundNoiseEnabled);
+          saveDraft();
+          render();
+        },
+        setBackgroundNoiseOpacity: (value) => {
+          state.backgroundNoiseOpacity = normalizeBackgroundNoiseOpacity(value, state.backgroundNoiseOpacity);
+          saveDraft();
+          render();
+        },
+        setBackgroundNoiseScale: (value) => {
+          state.backgroundNoiseScale = normalizeBackgroundNoiseScale(value, state.backgroundNoiseScale);
+          saveDraft();
+          render();
+        },
+        setBackgroundNoiseContrast: (value) => {
+          state.backgroundNoiseContrast = normalizeBackgroundNoiseContrast(value, state.backgroundNoiseContrast);
           saveDraft();
           render();
         },

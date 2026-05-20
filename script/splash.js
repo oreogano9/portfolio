@@ -37,6 +37,7 @@ const SPLASH_TITLE_FONT_OPTIONS = {
   newsreader: { label: "Newsreader", css: '"Newsreader", serif' },
   "libre-baskerville": { label: "Libre Baskerville", css: '"LibreBaskerville", serif' },
   syne: { label: "Syne", css: '"Syne", sans-serif' },
+  picnic: { label: "PicNic", css: '"PicNic", serif' },
 };
 const DEFAULT_SPLASH_TIMING_SETTINGS = {
   fadeDelay: 400,

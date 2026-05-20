@@ -190,6 +190,14 @@
   font-display: block;
 }
 
+@font-face {
+  font-family: "PicNic";
+  src: url("/fonts/PicNic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
 :root {
   --bg: #fcfbf8;
   --text: #101010;
@@ -209,6 +217,10 @@
   --site-quote-font-family: "LibreBaskerville", serif;
   --site-title-font-family: "LibreBaskerville", serif;
   --site-ui-font-family: "Inter", sans-serif;
+  --background-noise-opacity: 0;
+  --background-noise-size: 140px;
+  --background-noise-contrast: 1;
+  --background-noise-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.74' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 .74'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.62'/%3E%3C/svg%3E");
 }
 
 body.is-site-dark {
@@ -256,6 +268,36 @@ body {
   font-family: var(--site-font-family);
   overflow-x: hidden;
   transition: background-color 920ms cubic-bezier(0.16, 0.84, 0.24, 1), color 920ms cubic-bezier(0.16, 0.84, 0.24, 1);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--background-noise-image);
+  background-size: var(--background-noise-size) var(--background-noise-size);
+  background-repeat: repeat;
+  opacity: 0;
+  filter: contrast(var(--background-noise-contrast));
+  mix-blend-mode: multiply;
+  transition: opacity 260ms ease, filter 260ms ease;
+}
+
+body.has-background-noise::before {
+  opacity: var(--background-noise-opacity);
+}
+
+body.is-site-dark.has-background-noise::before {
+  filter: invert(1) contrast(var(--background-noise-contrast));
+  mix-blend-mode: screen;
+  opacity: calc(var(--background-noise-opacity) * 0.72);
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 body.is-site-dark.album-page.has-scroll-effect.effect-focus,
@@ -972,6 +1014,12 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .home-edit-field {
   display: grid;
   gap: 0.35rem;
+}
+
+.home-edit-range-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .home-edit-field span {

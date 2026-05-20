@@ -7,6 +7,10 @@
   "quoteBottomSpace": 1,
   "showSplashOnEnter": true,
   "darkMode": true,
+  "backgroundNoiseEnabled": false,
+  "backgroundNoiseOpacity": 0,
+  "backgroundNoiseScale": 140,
+  "backgroundNoiseContrast": 1,
   "splashSettings": {
     "fadeDelay": 200,
     "fadeDuration": 1600,
