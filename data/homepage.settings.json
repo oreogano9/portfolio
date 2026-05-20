@@ -29,6 +29,8 @@
     "differenceTextOpacity": 1,
     "differenceBlendStrength": 1,
     "differenceBlackWhiteStrength": 1,
+    "touchInvertEnabled": true,
+    "swipeLineEnterEnabled": true,
     "revealFeel": "direct",
     "easeX1": 0.25,
     "easeY1": 0.1,
