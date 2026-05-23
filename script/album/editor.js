@@ -30,9 +30,10 @@ import {
   mountAlbumBlocks,
   renderHeroIntro,
   renderSubalbumIndexes,
-} from "./render.js";
+} from "./render.js?v=20260524-cf-1";
 import { mountAlbumReactHeaderUi } from "../editor-react-ui.js";
 import { observeReveals } from "../home.js";
+import { resolveAssetUrl } from "../assets.js?v=20260524-cf-1";
 
 export const setupAlbumEditor = async () => {
   const NORMAL_SPACER_REM = 17.75;
@@ -808,7 +809,7 @@ export const setupAlbumEditor = async () => {
         queueLandscapeRender();
       }
     });
-    image.src = photo.src;
+    image.src = resolveAssetUrl(photo.src);
   };
 
   state.photos.forEach((photo, index) => {
@@ -2498,7 +2499,7 @@ export const setupAlbumEditor = async () => {
       preloadImage.decoding = "async";
       preloadImage.loading = "eager";
       preloadImage.setAttribute?.("fetchpriority", "high");
-      preloadImage.src = photo.src;
+      preloadImage.src = resolveAssetUrl(photo.src);
     });
 
     cleanupRenderedBlocks();

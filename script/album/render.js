@@ -1,3 +1,4 @@
+import { resolveAssetUrl } from "../assets.js?v=20260524-cf-1";
 import { canJoinPhoto, deriveSectionsFromPhotos, getHeroImageSrc, getSpacerValue, shouldProgressiveRender } from "./utils.js";
 
 const INITIAL_BLOCK_COUNT = 12;
@@ -209,8 +210,8 @@ const createProgressiveImage = ({
   eagerUpgrade = false,
 }) => {
   const image = document.createElement("img");
-  const previewSrc = typeof photo.previewSrc === "string" ? photo.previewSrc : "";
-  const fullSrc = photo.src;
+  const previewSrc = typeof photo.previewSrc === "string" ? resolveAssetUrl(photo.previewSrc) : "";
+  const fullSrc = resolveAssetUrl(photo.src);
   const aspectRatio = Number(photo.aspectRatio);
 
   image.className = className;

@@ -211,14 +211,10 @@ const setupBlog = async () => {
     setText(intro, state.intro);
     list.replaceChildren();
 
-    sortPosts(state.posts).forEach((post, index) => {
+    sortPosts(state.posts).forEach((post) => {
       const article = document.createElement("article");
       article.className = "blog-card reveal-up";
       article.dataset.blogPostId = post.id;
-
-      const number = document.createElement("span");
-      number.className = "album-number";
-      number.textContent = String(index + 1).padStart(2, "0");
 
       const link = document.createElement("a");
       link.className = "blog-card-link";
@@ -242,7 +238,7 @@ const setupBlog = async () => {
 
       copy.append(heading, date, excerpt);
       link.append(copy);
-      article.append(number, link);
+      article.append(link);
 
       if (post.imageEnabled && post.image) {
         const image = document.createElement("img");

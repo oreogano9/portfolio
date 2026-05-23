@@ -39,6 +39,7 @@ const SPLASH_TITLE_FONT_OPTIONS = {
   syne: { label: "Syne", css: '"Syne", sans-serif' },
   picnic: { label: "PicNic", css: '"PicNic", serif' },
 };
+const SPLASH_TITLE_SCRAMBLE_FONTS = Object.values(SPLASH_TITLE_FONT_OPTIONS).map((option) => option.css);
 const DEFAULT_SPLASH_TIMING_SETTINGS = {
   fadeDelay: 400,
   fadeDuration: 1600,
@@ -140,7 +141,7 @@ const applySplashTimingSettings = (settings) => {
   root.style.setProperty("--splash-difference-text-opacity", settings.differenceTextOpacity.toFixed(3));
   root.style.setProperty("--splash-difference-blend-strength", settings.differenceBlendStrength.toFixed(3));
   root.style.setProperty("--splash-difference-bw-strength", settings.differenceBlackWhiteStrength.toFixed(3));
-  root.style.setProperty("--splash-touch-invert", settings.touchInvertEnabled ? root.style.getPropertyValue("--splash-touch-invert") || "0" : "0");
+  root.style.setProperty("--splash-touch-invert", "0");
   root.style.setProperty("--splash-ease-x1", settings.easeX1.toFixed(3));
   root.style.setProperty("--splash-ease-y1", settings.easeY1.toFixed(3));
   root.style.setProperty("--splash-ease-x2", settings.easeX2.toFixed(3));
@@ -184,6 +185,77 @@ const preloadSplashImage = (url) => {
 const getSecondsLabel = (milliseconds) => {
   const seconds = milliseconds / 1000;
   return `${Number.isInteger(seconds) ? seconds.toFixed(0) : seconds.toFixed(1)}s`;
+};
+
+const setupSplashTitleLetters = (titleElement) => {
+  if (!titleElement || titleElement.dataset.lettersReady === "true") {
+    return Array.from(titleElement?.querySelectorAll(".splash-title-letter:not(.is-space)") || []);
+  }
+
+  const text = titleElement.textContent || "";
+  const fragment = document.createDocumentFragment();
+
+  Array.from(text).forEach((character) => {
+    const letter = document.createElement("span");
+    const isSpace = character.trim() === "";
+    letter.className = `splash-title-letter${isSpace ? " is-space" : ""}`;
+    letter.textContent = isSpace ? "\u00A0" : character;
+    letter.setAttribute("aria-hidden", "true");
+    fragment.appendChild(letter);
+  });
+
+  titleElement.textContent = "";
+  titleElement.appendChild(fragment);
+  titleElement.setAttribute("aria-label", text.trim());
+  titleElement.dataset.lettersReady = "true";
+
+  return Array.from(titleElement.querySelectorAll(".splash-title-letter:not(.is-space)"));
+};
+
+const setupSplashFontScramble = ({ body, titleElement }) => {
+  const letters = setupSplashTitleLetters(titleElement);
+  let animationFrame = 0;
+  let lastScrambleAt = 0;
+
+  const reset = () => {
+    letters.forEach((letter) => {
+      letter.style.fontFamily = "";
+    });
+  };
+
+  const tick = (timestamp) => {
+    if (timestamp - lastScrambleAt > 45) {
+      lastScrambleAt = timestamp;
+      letters.forEach((letter) => {
+        const nextFont = SPLASH_TITLE_SCRAMBLE_FONTS[Math.floor(Math.random() * SPLASH_TITLE_SCRAMBLE_FONTS.length)];
+        letter.style.fontFamily = nextFont;
+      });
+    }
+
+    animationFrame = window.requestAnimationFrame(tick);
+  };
+
+  const start = () => {
+    if (!letters.length || animationFrame) {
+      return;
+    }
+
+    body.classList.add("is-splash-font-scrambling");
+    lastScrambleAt = 0;
+    animationFrame = window.requestAnimationFrame(tick);
+  };
+
+  const stop = () => {
+    if (animationFrame) {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+    }
+
+    body.classList.remove("is-splash-font-scrambling");
+    reset();
+  };
+
+  return { start, stop, reset };
 };
 
 const normalizeHomepageSettingsPath = (value) => {
@@ -353,7 +425,7 @@ const setupSplashTimingEditor = ({ body, settings, onChange, onSave, signal }) =
       <input data-splash-timing-input="differenceBlackWhiteStrength" type="range" min="0" max="1" step="0.01">
     </label>
     <label class="splash-timing-field">
-      <span>Finger invert</span>
+      <span>Finger font scramble</span>
       <select class="splash-timing-select" data-splash-timing-select="touchInvertEnabled">
         <option value="false">Off</option>
         <option value="true">On</option>
@@ -878,11 +950,13 @@ const setupSplash = (homepageSettings = null) => {
   const target = body.dataset.splashTarget || "/?home=1";
   const enterLink = document.querySelector("[data-splash-enter]");
   const splashShell = document.querySelector("[data-splash-shell]");
+  const splashTitle = document.querySelector(".splash-title");
   const uiListeners = new AbortController();
   const visualListeners = new AbortController();
   const timingSettings = loadSplashTimingSettings(homepageSettings?.splashSettings);
 
   applySplashTimingSettings(timingSettings);
+  const fontScramble = setupSplashFontScramble({ body, titleElement: splashTitle });
   const splashRipple = setupSplashRippleInvert({ enterLink, signal: visualListeners.signal });
   const imageRotation = setupSplashImageRotation({
     settings: timingSettings,
@@ -907,13 +981,7 @@ const setupSplash = (homepageSettings = null) => {
   let touchStartX = 0;
   let touchStartY = 0;
   let didSwipeImage = false;
-  let didTouchInvert = false;
-
-  const setTouchInvertFromClientY = (clientY) => {
-    const viewportHeight = Math.max(1, window.innerHeight || document.documentElement.clientHeight || 1);
-    const progress = Math.max(0, Math.min(1, clientY / viewportHeight));
-    document.documentElement.style.setProperty("--splash-touch-invert", progress.toFixed(3));
-  };
+  let didTouchScramble = false;
 
   const forceTop = () => {
     try {
@@ -951,6 +1019,7 @@ const setupSplash = (homepageSettings = null) => {
     hasEntered = false;
     document.documentElement.classList.remove("has-unlocked-splash-root");
     document.documentElement.classList.add("has-active-splash-root");
+    fontScramble.stop();
     body.classList.remove("has-entered-splash", "has-entering-splash", "has-splash-scroll-unlocked", "is-splash-clicking");
     body.classList.add("has-active-splash", "is-splash-timing-editing");
     splashShell?.setAttribute("aria-hidden", "false");
@@ -1046,11 +1115,11 @@ const setupSplash = (homepageSettings = null) => {
       return;
     }
 
-    if (didSwipeImage || didTouchInvert) {
+    if (didSwipeImage || didTouchScramble) {
       event.preventDefault();
       event.stopPropagation();
       didSwipeImage = false;
-      didTouchInvert = false;
+      didTouchScramble = false;
       return;
     }
 
@@ -1069,10 +1138,7 @@ const setupSplash = (homepageSettings = null) => {
     touchStartX = event.touches[0].clientX;
     touchStartY = event.touches[0].clientY;
     didSwipeImage = false;
-    didTouchInvert = false;
-    if (timingSettings.touchInvertEnabled) {
-      setTouchInvertFromClientY(touchStartY);
-    }
+    didTouchScramble = false;
   }, { passive: true, signal: uiListeners.signal });
 
   splashShell?.addEventListener("touchmove", (event) => {
@@ -1090,12 +1156,11 @@ const setupSplash = (homepageSettings = null) => {
     }
 
     event.preventDefault();
-    didTouchInvert = true;
-    body.classList.add("is-splash-touch-inverting");
-    setTouchInvertFromClientY(touch.clientY);
+    didTouchScramble = true;
+    fontScramble.start();
   }, { passive: false, signal: uiListeners.signal });
 
-  splashShell?.addEventListener("touchend", (event) => {
+  const handleTouchEnd = (event) => {
     if (!isSplashActive() || !event.changedTouches.length || hasEntered) {
       return;
     }
@@ -1110,11 +1175,11 @@ const setupSplash = (homepageSettings = null) => {
       deltaY < -72 &&
       Math.abs(deltaY) > Math.abs(deltaX) * 1.2;
 
-    if (didTouchInvert) {
+    if (didTouchScramble) {
       event.preventDefault();
+      fontScramble.stop();
       window.setTimeout(() => {
-        didTouchInvert = false;
-        body.classList.remove("is-splash-touch-inverting");
+        didTouchScramble = false;
       }, 450);
       return;
     }
@@ -1140,6 +1205,15 @@ const setupSplash = (homepageSettings = null) => {
     window.setTimeout(() => {
       didSwipeImage = false;
     }, 450);
+  };
+
+  splashShell?.addEventListener("touchend", handleTouchEnd, { signal: uiListeners.signal });
+  splashShell?.addEventListener("touchcancel", (event) => {
+    if (didTouchScramble) {
+      fontScramble.stop();
+      didTouchScramble = false;
+    }
+    handleTouchEnd(event);
   }, { signal: uiListeners.signal });
 
   window.addEventListener("keydown", (event) => {

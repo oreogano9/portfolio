@@ -1,0 +1,1365 @@
+{
+  "id": "rome-and-ostia-for-palestine",
+  "title": "Rome and Ostia for Palestine",
+  "titleFontFamily": "libre-baskerville",
+  "titleScale": 0.6,
+  "mobileRotateClockwise": false,
+  "spacing": "tight",
+  "topSpacer": 7,
+  "effect": "none",
+  "effectSettings": {
+    "focus": {
+      "nonFocusedOpacity": 12,
+      "activeScale": 1.5
+    },
+    "monochrome": {
+      "grayscaleAmount": 100,
+      "nonFocusedOpacity": 38,
+      "activeScale": 0
+    },
+    "lift": {
+      "scaleAmount": 2.4,
+      "nonFocusedOpacity": 34,
+      "shadowOpacity": 12
+    },
+    "blur": {
+      "blurRadius": 16,
+      "scaleAmount": 1.2,
+      "saturationDrop": 4,
+      "nonFocusedOpacity": 100
+    }
+  },
+  "intro": {
+    "mode": "default",
+    "heroImageSrc": "",
+    "showArrow": true
+  },
+  "sections": [
+    {
+      "id": "rome",
+      "title": "Rome"
+    },
+    {
+      "id": "ostia",
+      "title": "Ostia"
+    }
+  ],
+  "photos": [
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02334-2.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02334-2.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02334-2.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02334-2.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02339.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02339.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02339.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02339.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02352.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02352.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02352.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02352.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02360.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02360.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02360.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02360.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02387.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02387.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02387.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02387.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02391.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02391.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02391.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02391.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02399.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02399.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02399.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02399.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02414.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02414.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02414.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02414.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02430.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02430.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02430.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02430.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02438.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02438.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02438.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02438.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3333333333333333
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02466.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02466.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02466.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02466.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02484.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02484.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02484.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02484.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02510.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02510.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02510.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02510.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02520.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02520.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02520.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02520.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02575.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02575.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02575.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02575.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02587.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02587.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02587.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02587.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02602.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02602.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02602.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02602.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02608.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02608.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02608.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02608.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02668.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02668.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02668.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02668.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02674.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02674.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02674.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02674.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3332090942974282
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02721.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02721.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02721.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02721.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02739.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02739.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02739.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02739.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02751.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02751.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02751.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02751.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02757.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02757.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02757.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02757.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02762.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02762.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02762.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02762.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02809.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02809.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02809.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02809.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02832.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02832.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02832.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02832.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02837.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02837.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02837.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02837.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02843.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02843.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02843.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02843.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02903.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02903.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02903.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02903.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02937.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02937.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02937.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02937.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02977.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02977.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02977.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02977.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02990.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02990.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02990.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02990.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02994.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02994.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC02994.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC02994.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03053.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03053.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03053.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03053.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03068.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03068.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03068.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03068.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03085.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03085.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03085.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03085.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03109.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03109.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03109.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03109.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03122.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03122.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03122.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03122.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03158.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03158.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03158.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03158.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03176.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03176.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03176.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03176.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03200.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03200.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03200.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03200.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03205.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03205.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03205.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03205.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03209.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03209.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03209.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03209.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03237.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03237.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03237.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03237.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03247.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03247.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03247.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03247.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03277.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03277.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03277.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03277.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03284.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03284.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03284.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03284.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03294.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03294.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03294.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03294.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03302.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03302.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03302.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03302.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03329.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03329.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03329.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03329.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03363.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03363.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03363.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03363.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03375.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03375.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03375.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03375.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03386.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03386.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03386.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03386.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03402.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03402.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03402.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03402.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03406.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03406.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/thumbs/DSC03406.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03406.jpg",
+      "section": "rome",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03446.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03446.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03446.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03446.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03462.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03462.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03462.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03462.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03469.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03469.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03469.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03469.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03494.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03494.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03494.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03494.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03511.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03511.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03511.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03511.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03676-2.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03676-2.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03676-2.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03676-2.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03707.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03707.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03707.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03707.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03729.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03729.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03729.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03729.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03811.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03811.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03811.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03811.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03816.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03816.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03816.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03816.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03898.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03898.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC03898.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC03898.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04003.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04003.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC04003.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC04003.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04011.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04011.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC04011.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC04011.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04081.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04081.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC04081.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC04081.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04041.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04041.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC04041.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC04041.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04070.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04070.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC04070.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC04070.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04172.jpg",
+      "src": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04172.jpg",
+      "previewSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/thumbs/DSC04172.jpg",
+      "alt": "Rome and Ostia for Palestine - DSC04172.jpg",
+      "section": "ostia",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02334-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02339.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02352.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02360.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02387.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02391.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02399.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02414.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02430.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02438.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02466.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02484.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02510.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02520.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02575.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02587.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02602.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02608.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02668.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02674.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02721.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02739.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02751.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02757.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02762.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02809.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02832.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02837.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02843.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02903.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02937.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02977.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02990.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC02994.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03053.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03068.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03085.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03109.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03122.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03158.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03176.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03200.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03205.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03209.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03237.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03247.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03277.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03284.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03294.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03302.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03329.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03363.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03375.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03386.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03402.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03406.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03446.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03462.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03469.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03494.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03511.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03676-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03707.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03729.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03811.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03816.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC03898.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04003.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04011.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04081.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04041.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04070.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04172.jpg"
+    }
+  ]
+}

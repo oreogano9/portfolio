@@ -1,7 +1,7 @@
-import { setupHomePage } from "./home.js?v=20260519-2";
+import { setupHomePage } from "./home.js?v=20260524-cf-1";
 import { setupHomeEditor } from "./home-editor.js?v=20260520-7";
-import { setupAlbumEditor } from "./album/editor.js";
-import { setupLightbox } from "./lightbox.js";
+import { setupAlbumEditor } from "./album/editor.js?v=20260524-cf-1";
+import { setupLightbox } from "./lightbox.js?v=20260524-cf-1";
 
 const applyGlobalSiteSettings = async (body) => {
   let settings = null;

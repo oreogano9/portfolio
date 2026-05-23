@@ -1,3 +1,5 @@
+import { resolveAssetUrl } from "./assets.js?v=20260524-cf-1";
+
 let revealObserver = null;
 let portfolioImageObserver = null;
 let currentAlbumFilter = "all";
@@ -47,7 +49,7 @@ const getGallerySettingsPathFromHref = (href) => {
   }
 
   if (plainMatch[1] === "pride2025") {
-    return "data/galleries/test.settings.json";
+    return "data/galleries/pride2025.settings.json";
   }
 
   return `data/galleries/${plainMatch[1]}.settings.json`;
@@ -167,9 +169,11 @@ const syncPortfolioImagesFromSettings = async (cards) => {
         return (Array.isArray(settings?.photos) ? settings.photos : [])
           .filter((photo) => photo?.deleted !== true && typeof photo?.src === "string" && photo.src)
           .map((photo) => {
-            const fullSrc = photo.src;
+            const fullSrc = resolveAssetUrl(photo.src);
             const previewSrc =
-              typeof photo.previewSrc === "string" && photo.previewSrc ? photo.previewSrc : getDerivedPreviewSrc(fullSrc);
+              typeof photo.previewSrc === "string" && photo.previewSrc
+                ? resolveAssetUrl(photo.previewSrc)
+                : resolveAssetUrl(getDerivedPreviewSrc(photo.src));
             const aspectRatio = Number(photo.aspectRatio);
             return {
               albumHref: card.href,

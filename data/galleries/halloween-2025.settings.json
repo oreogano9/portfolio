@@ -1,0 +1,708 @@
+{
+  "id": "halloween-2025",
+  "title": "Halloween 2025",
+  "titleFontFamily": "libre-baskerville",
+  "titleScale": 0.6,
+  "mobileRotateClockwise": false,
+  "spacing": "tight",
+  "topSpacer": 7,
+  "effect": "none",
+  "effectSettings": {
+    "focus": {
+      "nonFocusedOpacity": 12,
+      "activeScale": 1.5
+    },
+    "monochrome": {
+      "grayscaleAmount": 100,
+      "nonFocusedOpacity": 38,
+      "activeScale": 0
+    },
+    "lift": {
+      "scaleAmount": 2.4,
+      "nonFocusedOpacity": 34,
+      "shadowOpacity": 12
+    },
+    "blur": {
+      "blurRadius": 16,
+      "scaleAmount": 1.2,
+      "saturationDrop": 4,
+      "nonFocusedOpacity": 100
+    }
+  },
+  "intro": {
+    "mode": "default",
+    "heroImageSrc": "",
+    "showArrow": true
+  },
+  "sections": [],
+  "photos": [
+    {
+      "id": "/images/Halloween%202025/DSC05810.jpg",
+      "src": "/images/Halloween%202025/DSC05810.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05810.jpg",
+      "alt": "Halloween 2025 - DSC05810.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05811.jpg",
+      "src": "/images/Halloween%202025/DSC05811.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05811.jpg",
+      "alt": "Halloween 2025 - DSC05811.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05815.jpg",
+      "src": "/images/Halloween%202025/DSC05815.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05815.jpg",
+      "alt": "Halloween 2025 - DSC05815.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05817.jpg",
+      "src": "/images/Halloween%202025/DSC05817.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05817.jpg",
+      "alt": "Halloween 2025 - DSC05817.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05824-2.jpg",
+      "src": "/images/Halloween%202025/DSC05824-2.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05824-2.jpg",
+      "alt": "Halloween 2025 - DSC05824-2.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05825-2.jpg",
+      "src": "/images/Halloween%202025/DSC05825-2.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05825-2.jpg",
+      "alt": "Halloween 2025 - DSC05825-2.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05830.jpg",
+      "src": "/images/Halloween%202025/DSC05830.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05830.jpg",
+      "alt": "Halloween 2025 - DSC05830.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05831.jpg",
+      "src": "/images/Halloween%202025/DSC05831.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05831.jpg",
+      "alt": "Halloween 2025 - DSC05831.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05839.jpg",
+      "src": "/images/Halloween%202025/DSC05839.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05839.jpg",
+      "alt": "Halloween 2025 - DSC05839.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05844.jpg",
+      "src": "/images/Halloween%202025/DSC05844.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05844.jpg",
+      "alt": "Halloween 2025 - DSC05844.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05846.jpg",
+      "src": "/images/Halloween%202025/DSC05846.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05846.jpg",
+      "alt": "Halloween 2025 - DSC05846.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05848-2.jpg",
+      "src": "/images/Halloween%202025/DSC05848-2.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05848-2.jpg",
+      "alt": "Halloween 2025 - DSC05848-2.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05854.jpg",
+      "src": "/images/Halloween%202025/DSC05854.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05854.jpg",
+      "alt": "Halloween 2025 - DSC05854.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05860.jpg",
+      "src": "/images/Halloween%202025/DSC05860.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05860.jpg",
+      "alt": "Halloween 2025 - DSC05860.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05861.jpg",
+      "src": "/images/Halloween%202025/DSC05861.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05861.jpg",
+      "alt": "Halloween 2025 - DSC05861.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05863.jpg",
+      "src": "/images/Halloween%202025/DSC05863.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05863.jpg",
+      "alt": "Halloween 2025 - DSC05863.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05868.jpg",
+      "src": "/images/Halloween%202025/DSC05868.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05868.jpg",
+      "alt": "Halloween 2025 - DSC05868.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05874.jpg",
+      "src": "/images/Halloween%202025/DSC05874.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05874.jpg",
+      "alt": "Halloween 2025 - DSC05874.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05879.jpg",
+      "src": "/images/Halloween%202025/DSC05879.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05879.jpg",
+      "alt": "Halloween 2025 - DSC05879.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05881.jpg",
+      "src": "/images/Halloween%202025/DSC05881.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05881.jpg",
+      "alt": "Halloween 2025 - DSC05881.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05884.jpg",
+      "src": "/images/Halloween%202025/DSC05884.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05884.jpg",
+      "alt": "Halloween 2025 - DSC05884.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05885.jpg",
+      "src": "/images/Halloween%202025/DSC05885.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05885.jpg",
+      "alt": "Halloween 2025 - DSC05885.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05887.jpg",
+      "src": "/images/Halloween%202025/DSC05887.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05887.jpg",
+      "alt": "Halloween 2025 - DSC05887.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05892.jpg",
+      "src": "/images/Halloween%202025/DSC05892.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05892.jpg",
+      "alt": "Halloween 2025 - DSC05892.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05897.jpg",
+      "src": "/images/Halloween%202025/DSC05897.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05897.jpg",
+      "alt": "Halloween 2025 - DSC05897.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05893.jpg",
+      "src": "/images/Halloween%202025/DSC05893.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05893.jpg",
+      "alt": "Halloween 2025 - DSC05893.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05902.jpg",
+      "src": "/images/Halloween%202025/DSC05902.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05902.jpg",
+      "alt": "Halloween 2025 - DSC05902.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05904.jpg",
+      "src": "/images/Halloween%202025/DSC05904.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05904.jpg",
+      "alt": "Halloween 2025 - DSC05904.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05916.jpg",
+      "src": "/images/Halloween%202025/DSC05916.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05916.jpg",
+      "alt": "Halloween 2025 - DSC05916.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05924.jpg",
+      "src": "/images/Halloween%202025/DSC05924.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05924.jpg",
+      "alt": "Halloween 2025 - DSC05924.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05959.jpg",
+      "src": "/images/Halloween%202025/DSC05959.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05959.jpg",
+      "alt": "Halloween 2025 - DSC05959.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05936-2.jpg",
+      "src": "/images/Halloween%202025/DSC05936-2.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05936-2.jpg",
+      "alt": "Halloween 2025 - DSC05936-2.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05969.jpg",
+      "src": "/images/Halloween%202025/DSC05969.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05969.jpg",
+      "alt": "Halloween 2025 - DSC05969.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05951.jpg",
+      "src": "/images/Halloween%202025/DSC05951.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05951.jpg",
+      "alt": "Halloween 2025 - DSC05951.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05995.jpg",
+      "src": "/images/Halloween%202025/DSC05995.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05995.jpg",
+      "alt": "Halloween 2025 - DSC05995.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
+    },
+    {
+      "id": "/images/Halloween%202025/DSC06006.jpg",
+      "src": "/images/Halloween%202025/DSC06006.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC06006.jpg",
+      "alt": "Halloween 2025 - DSC06006.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Halloween%202025/DSC05987.jpg",
+      "src": "/images/Halloween%202025/DSC05987.jpg",
+      "previewSrc": "/images/Halloween%202025/thumbs/DSC05987.jpg",
+      "alt": "Halloween 2025 - DSC05987.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05810.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05811.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05815.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05817.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05824-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05825-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05830.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05831.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05839.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05844.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05846.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05848-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05854.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05860.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05861.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05863.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05868.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05874.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05879.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05881.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05884.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05885.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05887.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05892.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05897.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05893.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05902.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05904.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05916.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05924.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05959.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05936-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05969.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05951.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05995.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC06006.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Halloween%202025/DSC05987.jpg"
+    }
+  ]
+}
