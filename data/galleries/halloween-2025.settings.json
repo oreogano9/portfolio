@@ -3,8 +3,8 @@
   "title": "Halloween 2025",
   "titleFontFamily": "libre-baskerville",
   "titleScale": 0.6,
-  "mobileRotateClockwise": false,
-  "spacing": "tight",
+  "mobileRotateClockwise": true,
+  "spacing": "airy",
   "topSpacer": 7,
   "effect": "none",
   "effectSettings": {
@@ -30,8 +30,8 @@
     }
   },
   "intro": {
-    "mode": "default",
-    "heroImageSrc": "",
+    "mode": "hero",
+    "heroImageSrc": "/images/Halloween%202025/DSC05936-2.jpg",
     "showArrow": true
   },
   "sections": [],
