@@ -1,4 +1,4 @@
-import { resolveAssetUrl } from "../assets.js?v=20260524-imgload-1";
+import { resolveAssetUrl } from "../assets.js?v=20260524-lightbox-priority-1";
 import { canJoinPhoto, deriveSectionsFromPhotos, getHeroImageSrc, getSpacerValue, shouldProgressiveRender } from "./utils.js";
 
 const INITIAL_BLOCK_COUNT = 12;
@@ -37,6 +37,15 @@ const runWhenIdle = (callback, timeout = 700) => {
   }
 
   window.setTimeout(callback, 80);
+};
+
+const runWhenLightboxAllows = (callback) => {
+  if (!document.body.classList.contains("is-lightbox-open")) {
+    callback();
+    return;
+  }
+
+  document.addEventListener("album-lightbox:closed", callback, { once: true });
 };
 
 const getEffectSettingFields = (effect, effectSettings) => {
@@ -289,14 +298,39 @@ const createProgressiveImage = ({
       }
       image.dataset.upgradeStarted = "true";
       const highRes = new window.Image();
+      let canceled = false;
       highRes.decoding = "async";
       if (eagerUpgrade) {
         highRes.loading = "eager";
         highRes.setAttribute?.("fetchpriority", "high");
       }
       highRes.addEventListener("load", () => {
+        document.removeEventListener("album-lightbox:opened", cancelForLightbox);
+        if (canceled) {
+          return;
+        }
         void swapToFull(highRes);
       });
+      highRes.addEventListener("error", () => {
+        document.removeEventListener("album-lightbox:opened", cancelForLightbox);
+        if (canceled) {
+          return;
+        }
+        image.dataset.upgradeStarted = "false";
+      });
+      const cancelForLightbox = (event) => {
+        if (event.detail?.src === fullSrc) {
+          return;
+        }
+
+        canceled = true;
+        image.dataset.upgradeStarted = "false";
+        highRes.removeAttribute?.("src");
+        highRes.src = "";
+        document.removeEventListener("album-lightbox:opened", cancelForLightbox);
+        document.addEventListener("album-lightbox:closed", startFullLoad, { once: true });
+      };
+      document.addEventListener("album-lightbox:opened", cancelForLightbox);
       highRes.src = fullSrc;
     };
 
@@ -308,11 +342,11 @@ const createProgressiveImage = ({
       }
 
       if (eagerUpgrade) {
-        startFullLoad();
+        runWhenLightboxAllows(startFullLoad);
         return;
       }
 
-      runWhenIdle(startFullLoad);
+      runWhenIdle(() => runWhenLightboxAllows(startFullLoad));
     };
 
     image.addEventListener("error", () => {

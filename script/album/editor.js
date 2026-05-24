@@ -30,10 +30,10 @@ import {
   mountAlbumBlocks,
   renderHeroIntro,
   renderSubalbumIndexes,
-} from "./render.js?v=20260524-imgload-1";
+} from "./render.js?v=20260524-lightbox-priority-1";
 import { mountAlbumReactHeaderUi } from "../editor-react-ui.js";
 import { observeReveals } from "../home.js";
-import { resolveAssetUrl } from "../assets.js?v=20260524-imgload-1";
+import { resolveAssetUrl } from "../assets.js?v=20260524-lightbox-priority-1";
 
 export const setupAlbumEditor = async () => {
   const NORMAL_SPACER_REM = 17.75;

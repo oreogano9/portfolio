@@ -11,6 +11,7 @@ export const setupLightbox = () => {
 
   let currentImageRatio = 0;
   let currentUsesRotatedMobileFrame = false;
+  let priorityPreloadLink = null;
   const getBaseRotation = () => (currentUsesRotatedMobileFrame ? 90 : 0);
 
   const gesture = {
@@ -112,8 +113,15 @@ export const setupLightbox = () => {
   const close = () => {
     lightbox.classList.remove("is-open");
     lightbox.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("is-lightbox-open");
+    document.dispatchEvent(new CustomEvent("album-lightbox:closed"));
     lightboxImage.setAttribute("src", "");
     lightboxImage.setAttribute("alt", "");
+    lightboxImage.removeAttribute("fetchpriority");
+    lightboxImage.loading = "auto";
+    lightboxImage.decoding = "async";
+    priorityPreloadLink?.remove();
+    priorityPreloadLink = null;
     currentImageRatio = 0;
     currentUsesRotatedMobileFrame = false;
     updateLightboxFrame();
@@ -147,10 +155,35 @@ export const setupLightbox = () => {
     return false;
   };
 
+  const prioritizeLightboxImage = (src) => {
+    priorityPreloadLink?.remove();
+    priorityPreloadLink = null;
+
+    if (!src) {
+      return;
+    }
+
+    priorityPreloadLink = document.createElement("link");
+    priorityPreloadLink.rel = "preload";
+    priorityPreloadLink.as = "image";
+    priorityPreloadLink.href = src;
+    priorityPreloadLink.setAttribute("fetchpriority", "high");
+    document.head.appendChild(priorityPreloadLink);
+
+    lightboxImage.loading = "eager";
+    lightboxImage.decoding = "sync";
+    lightboxImage.setAttribute("fetchpriority", "high");
+  };
+
   const openLightbox = (image) => {
+    const fullSrc = image.dataset.fullSrc || image.getAttribute("src") || "";
+
     currentImageRatio = getImageAspectRatio(image);
     currentUsesRotatedMobileFrame = shouldOpenRotatedMobile(image);
-    lightboxImage.setAttribute("src", image.dataset.fullSrc || image.getAttribute("src") || "");
+    document.body.classList.add("is-lightbox-open");
+    document.dispatchEvent(new CustomEvent("album-lightbox:opened", { detail: { src: fullSrc } }));
+    prioritizeLightboxImage(fullSrc);
+    lightboxImage.setAttribute("src", fullSrc);
     lightboxImage.setAttribute("alt", image.getAttribute("alt") || "");
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");

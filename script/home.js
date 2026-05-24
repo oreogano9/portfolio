@@ -1,4 +1,4 @@
-import { resolveAssetUrl } from "./assets.js?v=20260524-imgload-1";
+import { resolveAssetUrl } from "./assets.js?v=20260524-lightbox-priority-1";
 
 let revealObserver = null;
 let portfolioImageObserver = null;
@@ -46,6 +46,15 @@ const swapToFullImage = async (image, fullSrc, loadedFullImage) => {
   if (image.complete && image.currentSrc === fullSrc) {
     markFullRes();
   }
+};
+
+const runWhenLightboxAllows = (callback) => {
+  if (!document.body.classList.contains("is-lightbox-open")) {
+    callback();
+    return;
+  }
+
+  document.addEventListener("album-lightbox:closed", callback, { once: true });
 };
 const normalizeHomepageSettingsPath = (value) => {
   if (typeof value !== "string") {
@@ -137,13 +146,44 @@ const getPortfolioImageObserver = () => {
           return;
         }
 
-        image.dataset.upgradeStarted = "true";
-        const fullImage = new window.Image();
-        fullImage.decoding = "async";
-        fullImage.addEventListener("load", () => {
-          void swapToFullImage(image, fullSrc, fullImage);
+        runWhenLightboxAllows(() => {
+          if (image.dataset.upgradeStarted === "true" || image.dataset.upgraded === "true") {
+            return;
+          }
+
+          image.dataset.upgradeStarted = "true";
+          const fullImage = new window.Image();
+          let canceled = false;
+          fullImage.decoding = "async";
+          fullImage.addEventListener("load", () => {
+            document.removeEventListener("album-lightbox:opened", cancelForLightbox);
+            if (canceled) {
+              return;
+            }
+            void swapToFullImage(image, fullSrc, fullImage);
+          });
+          fullImage.addEventListener("error", () => {
+            document.removeEventListener("album-lightbox:opened", cancelForLightbox);
+            if (canceled) {
+              return;
+            }
+            image.dataset.upgradeStarted = "false";
+          });
+          const cancelForLightbox = (event) => {
+            if (event.detail?.src === fullSrc) {
+              return;
+            }
+
+            canceled = true;
+            image.dataset.upgradeStarted = "false";
+            fullImage.removeAttribute?.("src");
+            fullImage.src = "";
+            document.removeEventListener("album-lightbox:opened", cancelForLightbox);
+            document.addEventListener("album-lightbox:closed", () => getPortfolioImageObserver().observe(image), { once: true });
+          };
+          document.addEventListener("album-lightbox:opened", cancelForLightbox);
+          fullImage.src = fullSrc;
         });
-        fullImage.src = fullSrc;
       });
     },
     {
