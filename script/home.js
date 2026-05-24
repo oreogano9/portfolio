@@ -1,11 +1,52 @@
-import { resolveAssetUrl } from "./assets.js?v=20260524-cf-1";
+import { resolveAssetUrl } from "./assets.js?v=20260524-imgload-1";
 
 let revealObserver = null;
 let portfolioImageObserver = null;
 let currentAlbumFilter = "all";
+const MIN_PREVIEW_PAINT_MS = 220;
 
 const getAlbumFilterControls = () => Array.from(document.querySelectorAll(".album-link"));
 const getAlbumFilterCards = () => Array.from(document.querySelectorAll(".album-card[data-category]"));
+
+const wait = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+
+const waitForPaint = () =>
+  new Promise((resolve) => {
+    window.requestAnimationFrame(() => window.requestAnimationFrame(resolve));
+  });
+
+const decodeImage = async (image) => {
+  if (typeof image.decode !== "function") {
+    return;
+  }
+
+  try {
+    await image.decode();
+  } catch {
+    // decode() can reject for already-decoded cached images without affecting display.
+  }
+};
+
+const toCssUrl = (value) => {
+  const sanitized = String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/[\n\r\f]/g, "");
+  return `url("${sanitized}")`;
+};
+
+const swapToFullImage = async (image, fullSrc, loadedFullImage) => {
+  await decodeImage(loadedFullImage);
+  const markFullRes = () => {
+    image.classList.remove("is-preview-res", "is-swapping-full");
+    image.classList.add("is-full-res");
+    image.dataset.upgraded = "true";
+  };
+
+  image.classList.add("is-swapping-full");
+  image.addEventListener("load", markFullRes, { once: true });
+  image.src = fullSrc;
+  if (image.complete && image.currentSrc === fullSrc) {
+    markFullRes();
+  }
+};
 const normalizeHomepageSettingsPath = (value) => {
   if (typeof value !== "string") {
     return "data/homepage.settings.json";
@@ -82,7 +123,12 @@ const getPortfolioImageObserver = () => {
 
         const image = entry.target;
         portfolioImageObserver.unobserve(image);
-        if (!(image instanceof HTMLImageElement) || image.dataset.upgraded === "true") {
+        if (
+          !(image instanceof HTMLImageElement) ||
+          image.dataset.upgraded === "true" ||
+          image.dataset.upgradeStarted === "true" ||
+          image.dataset.previewReady !== "true"
+        ) {
           return;
         }
 
@@ -91,12 +137,11 @@ const getPortfolioImageObserver = () => {
           return;
         }
 
-        image.dataset.upgraded = "true";
+        image.dataset.upgradeStarted = "true";
         const fullImage = new window.Image();
         fullImage.decoding = "async";
         fullImage.addEventListener("load", () => {
-          image.src = fullSrc;
-          image.classList.add("is-full-res");
+          void swapToFullImage(image, fullSrc, fullImage);
         });
         fullImage.src = fullSrc;
       });
@@ -120,25 +165,44 @@ const createPortfolioImageElement = (item, index) => {
   const image = document.createElement("img");
   const previewSrc = item.previewSrc || item.fullSrc;
   image.alt = item.alt;
-  image.src = previewSrc;
   image.loading = index < 8 ? "eager" : "lazy";
   image.decoding = "async";
   image.dataset.fullSrc = item.fullSrc;
   image.dataset.previewSrc = previewSrc;
+  image.dataset.upgradeStarted = "false";
   image.dataset.upgraded = previewSrc === item.fullSrc ? "true" : "false";
   if (previewSrc === item.fullSrc) {
+    image.src = previewSrc;
     image.classList.add("is-full-res");
   } else {
+    image.dataset.progressive = "true";
+    image.classList.add("is-preview-res");
+    image.style.setProperty("--preview-image", toCssUrl(previewSrc));
+    const previewStartedAt = performance.now();
+    image.addEventListener(
+      "load",
+      async () => {
+        await waitForPaint();
+        const remainingPreviewTime = Math.max(0, MIN_PREVIEW_PAINT_MS - (performance.now() - previewStartedAt));
+        if (remainingPreviewTime > 0) {
+          await wait(remainingPreviewTime);
+        }
+        image.dataset.previewReady = "true";
+        getPortfolioImageObserver().observe(image);
+      },
+      { once: true }
+    );
     image.addEventListener(
       "error",
       () => {
         image.dataset.upgraded = "true";
         image.src = item.fullSrc;
+        image.classList.remove("is-preview-res");
         image.classList.add("is-full-res");
       },
       { once: true }
     );
-    getPortfolioImageObserver().observe(image);
+    image.src = previewSrc;
   }
 
   link.appendChild(image);

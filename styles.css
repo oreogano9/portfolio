@@ -1721,6 +1721,28 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   transition: opacity 220ms ease, filter 260ms ease, transform 260ms ease;
 }
 
+.portfolio-image-link img[data-progressive="true"],
+.editable-photo img[data-progressive="true"],
+.album-hero-image[data-progressive="true"] {
+  background-color: var(--surface-muted);
+  background-image: var(--preview-image);
+  background-position: center;
+  background-size: cover;
+}
+
+.portfolio-image-link img.is-preview-res,
+.editable-photo img.is-preview-res,
+.album-hero-image.is-preview-res {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.portfolio-image-link img.is-swapping-full,
+.editable-photo img.is-swapping-full,
+.album-hero-image.is-swapping-full {
+  background-image: var(--preview-image);
+}
+
 .portfolio-image-link img.is-full-res {
   opacity: 1;
   filter: none;

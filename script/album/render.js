@@ -1,9 +1,43 @@
-import { resolveAssetUrl } from "../assets.js?v=20260524-cf-1";
+import { resolveAssetUrl } from "../assets.js?v=20260524-imgload-1";
 import { canJoinPhoto, deriveSectionsFromPhotos, getHeroImageSrc, getSpacerValue, shouldProgressiveRender } from "./utils.js";
 
 const INITIAL_BLOCK_COUNT = 12;
 const SUBSEQUENT_BLOCK_COUNT = 16;
 const INITIAL_EAGER_GRID_IMAGES = 3;
+const MIN_PREVIEW_PAINT_MS = 220;
+
+const wait = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+
+const waitForPaint = () =>
+  new Promise((resolve) => {
+    window.requestAnimationFrame(() => window.requestAnimationFrame(resolve));
+  });
+
+const decodeImage = async (image) => {
+  if (typeof image.decode !== "function") {
+    return;
+  }
+
+  try {
+    await image.decode();
+  } catch {
+    // Some browsers reject decode() for cached or already-complete images.
+  }
+};
+
+const toCssUrl = (value) => {
+  const sanitized = String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/[\n\r\f]/g, "");
+  return `url("${sanitized}")`;
+};
+
+const runWhenIdle = (callback, timeout = 700) => {
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(callback, { timeout });
+    return;
+  }
+
+  window.setTimeout(callback, 80);
+};
 
 const getEffectSettingFields = (effect, effectSettings) => {
   if (effect === "focus") {
@@ -213,6 +247,7 @@ const createProgressiveImage = ({
   const previewSrc = typeof photo.previewSrc === "string" ? resolveAssetUrl(photo.previewSrc) : "";
   const fullSrc = resolveAssetUrl(photo.src);
   const aspectRatio = Number(photo.aspectRatio);
+  const previewStartedAt = performance.now();
 
   image.className = className;
   image.alt = photo.alt;
@@ -225,16 +260,34 @@ const createProgressiveImage = ({
     image.height = Math.max(1, Math.round(1000 / aspectRatio));
   }
   if (previewSrc && previewSrc !== fullSrc) {
-    image.src = previewSrc;
     image.dataset.previewSrc = previewSrc;
     image.dataset.progressive = "true";
+    image.dataset.upgradeStarted = "false";
     image.dataset.upgraded = "false";
+    image.classList.add("is-preview-res");
+    image.style.setProperty("--preview-image", toCssUrl(previewSrc));
 
-    const upgradeToFull = () => {
-      if (image.dataset.upgraded === "true") {
+    const markFullRes = () => {
+      image.classList.remove("is-preview-res", "is-swapping-full");
+      image.classList.add("is-full-res");
+      image.dataset.upgraded = "true";
+    };
+
+    const swapToFull = async (loadedFullImage) => {
+      await decodeImage(loadedFullImage);
+      image.classList.add("is-swapping-full");
+      image.addEventListener("load", markFullRes, { once: true });
+      image.src = fullSrc;
+      if (image.complete && image.currentSrc === fullSrc) {
+        markFullRes();
+      }
+    };
+
+    const startFullLoad = () => {
+      if (image.dataset.upgradeStarted === "true") {
         return;
       }
-      image.dataset.upgraded = "true";
+      image.dataset.upgradeStarted = "true";
       const highRes = new window.Image();
       highRes.decoding = "async";
       if (eagerUpgrade) {
@@ -242,21 +295,36 @@ const createProgressiveImage = ({
         highRes.setAttribute?.("fetchpriority", "high");
       }
       highRes.addEventListener("load", () => {
-        image.src = fullSrc;
-        image.classList.add("is-full-res");
+        void swapToFull(highRes);
       });
       highRes.src = fullSrc;
     };
 
-    image.addEventListener("error", () => {
-      if (image.dataset.upgraded === "true") {
+    const upgradeToFull = async () => {
+      await waitForPaint();
+      const remainingPreviewTime = Math.max(0, MIN_PREVIEW_PAINT_MS - (performance.now() - previewStartedAt));
+      if (remainingPreviewTime > 0) {
+        await wait(remainingPreviewTime);
+      }
+
+      if (eagerUpgrade) {
+        startFullLoad();
         return;
       }
-      image.dataset.upgraded = "true";
+
+      runWhenIdle(startFullLoad);
+    };
+
+    image.addEventListener("error", () => {
+      if (image.dataset.upgradeStarted === "true") {
+        return;
+      }
+      image.dataset.upgradeStarted = "true";
       image.src = fullSrc;
-      image.classList.add("is-full-res");
+      markFullRes();
     });
     image.addEventListener("load", upgradeToFull, { once: true });
+    image.src = previewSrc;
   } else {
     image.src = fullSrc;
     image.classList.add("is-full-res");
