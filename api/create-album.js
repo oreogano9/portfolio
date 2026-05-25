@@ -142,6 +142,7 @@ const buildAlbumHtml = ({ title, galleryId }) => `<!DOCTYPE html>
 const buildGallerySettings = ({ galleryId, title }) => ({
   id: galleryId,
   title,
+  private: false,
   titleFontFamily: "libre-baskerville",
   titleScale: 0.6,
   mobileRotateClockwise: false,

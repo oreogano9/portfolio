@@ -289,6 +289,7 @@ export const setupAlbumEditor = async () => {
 
   const state = {
     title: (typeof preferredState?.title === "string" && preferredState.title.trim()) || title.textContent.trim(),
+    private: preferredState?.private === true,
     titleFontFamily: normalizeAlbumTitleFontFamily(preferredState?.titleFontFamily),
     titleScale: normalizeTitleScale(preferredState?.titleScale),
     mobileRotateClockwise: normalizeMobileRotateClockwise(preferredState?.mobileRotateClockwise),
@@ -2381,6 +2382,7 @@ export const setupAlbumEditor = async () => {
       introMode: state.intro.mode,
       showArrow: state.intro.showArrow,
       mobileRotateClockwise: state.mobileRotateClockwise,
+      privateAlbum: state.private === true,
       showDeleted: state.showDeleted,
       onTitleFontFamilyChange: (value) => {
         state.titleFontFamily = normalizeAlbumTitleFontFamily(value, state.titleFontFamily);
@@ -2431,6 +2433,11 @@ export const setupAlbumEditor = async () => {
         if (state.mobileRotateClockwise !== true) {
           state.mobileSideviewOverride = null;
         }
+        save();
+        render();
+      },
+      onPrivateAlbumChange: (checked) => {
+        state.private = checked === true;
         save();
         render();
       },

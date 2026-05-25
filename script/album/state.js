@@ -336,6 +336,7 @@ export const normalizeBlocks = (value) =>
 export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} }) => ({
   id: galleryId,
   title: typeof input.title === "string" ? input.title : titleFallback,
+  private: input.private === true,
   titleFontFamily: normalizeAlbumTitleFontFamily(input.titleFontFamily),
   titleScale: normalizeTitleScale(input.titleScale),
   mobileRotateClockwise: normalizeMobileRotateClockwise(input.mobileRotateClockwise),
@@ -380,6 +381,7 @@ export const fetchSiteBrand = async () => {
 export const serializeState = (state, galleryId) => ({
   id: galleryId,
   title: state.title,
+  private: state.private === true,
   titleFontFamily: normalizeAlbumTitleFontFamily(state.titleFontFamily),
   titleScale: normalizeTitleScale(state.titleScale),
   mobileRotateClockwise: normalizeMobileRotateClockwise(state.mobileRotateClockwise),

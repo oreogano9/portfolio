@@ -430,6 +430,7 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     introMode,
     showArrow,
     mobileRotateClockwise,
+    privateAlbum,
     showDeleted,
     effectSettings,
     onTitleFontFamilyChange,
@@ -441,6 +442,7 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     onIntroModeChange,
     onShowArrowChange,
     onMobileRotateChange,
+    onPrivateAlbumChange,
     onToggleDeleted,
   }) {
     clearElement(container);
@@ -536,6 +538,11 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
         label: "Rotate",
         checked: mobileRotateClockwise,
         onChange: (checked) => onMobileRotateChange(String(checked)),
+      }),
+      createSwitchField({
+        label: "Private",
+        checked: privateAlbum,
+        onChange: onPrivateAlbumChange,
       }),
       createSwitchField({
         label: "Deleted",

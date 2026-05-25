@@ -101,16 +101,24 @@
     },
     {
       "href": "/albums/album-rome-late-2025.html",
-      "title": "Rome, Late 2025",
+      "title": "Rome 12/25",
       "date": "",
       "category": "",
       "description": "",
       "private": false
     },
     {
+      "href": "/albums/album-rome-09-25.html",
+      "title": "Rome 09/25",
+      "date": "27-29/09/25",
+      "category": "",
+      "description": "",
+      "private": false
+    },
+    {
       "href": "/albums/album-august-streets-rome.html",
-      "title": "August 2025, Rome",
-      "date": "",
+      "title": "Rome 08/25",
+      "date": "21-23/08/2025",
       "category": "",
       "description": "",
       "private": false

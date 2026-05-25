@@ -187,13 +187,14 @@ export default async function handler(request, response) {
         continue;
       }
 
-      if (existingGallery.parsed.title === card.title) {
+      if (existingGallery.parsed.title === card.title && existingGallery.parsed.private === (card.private === true)) {
         continue;
       }
 
       const syncedGallery = {
         ...existingGallery.parsed,
         title: card.title,
+        private: card.private === true,
       };
 
       const galleryWrite = await writeRepoJson({

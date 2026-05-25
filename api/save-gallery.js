@@ -145,7 +145,7 @@ export default async function handler(request, response) {
     await tryWriteLocal(() => writeLocalRepoJson(settingsPath, settings));
 
     let syncedHomepage = false;
-    if (typeof settings.title === "string") {
+    if (typeof settings.title === "string" || typeof settings.private === "boolean") {
       const existingHomepage = await fetchRepoJson({
         owner,
         repo,
@@ -165,14 +165,23 @@ export default async function handler(request, response) {
       const albumCards = Array.isArray(existingHomepage.parsed.albumCards) ? existingHomepage.parsed.albumCards : [];
       let changed = false;
       const syncedAlbumCards = albumCards.map((card) => {
-        if (!expectedHrefs.includes(card?.href) || card?.title === settings.title) {
+        if (!expectedHrefs.includes(card?.href)) {
+          return card;
+        }
+        const nextCard = {
+          ...card,
+        };
+        if (typeof settings.title === "string" && nextCard.title !== settings.title) {
+          nextCard.title = settings.title;
+        }
+        if (typeof settings.private === "boolean" && nextCard.private !== settings.private) {
+          nextCard.private = settings.private;
+        }
+        if (nextCard.title === card.title && nextCard.private === card.private) {
           return card;
         }
         changed = true;
-        return {
-          ...card,
-          title: settings.title,
-        };
+        return nextCard;
       });
 
       if (changed) {
