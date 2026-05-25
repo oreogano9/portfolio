@@ -3,8 +3,8 @@
   "title": "Rome and Ostia for Palestine",
   "titleFontFamily": "libre-baskerville",
   "titleScale": 0.6,
-  "mobileRotateClockwise": false,
-  "spacing": "tight",
+  "mobileRotateClockwise": true,
+  "spacing": "airy",
   "topSpacer": 7,
   "effect": "none",
   "effectSettings": {
@@ -30,7 +30,7 @@
     }
   },
   "intro": {
-    "mode": "default",
+    "mode": "hero",
     "heroImageSrc": "",
     "showArrow": true
   },

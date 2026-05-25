@@ -145,8 +145,8 @@ const buildGallerySettings = ({ galleryId, title }) => ({
   private: false,
   titleFontFamily: "libre-baskerville",
   titleScale: 0.6,
-  mobileRotateClockwise: false,
-  spacing: "tight",
+  mobileRotateClockwise: true,
+  spacing: "airy",
   topSpacer: 7,
   effect: "none",
   effectSettings: {
@@ -172,7 +172,7 @@ const buildGallerySettings = ({ galleryId, title }) => ({
     },
   },
   intro: {
-    mode: "default",
+    mode: "hero",
     heroImageSrc: "",
     showArrow: true,
   },

@@ -205,7 +205,7 @@ export const normalizeTitleScale = (value, fallback = 0.6) => {
   return Math.max(0.05, Math.min(1.8, Number.isFinite(numeric) ? numeric : 0.6));
 };
 
-export const normalizeMobileRotateClockwise = (value, fallback = false) => {
+export const normalizeMobileRotateClockwise = (value, fallback = true) => {
   if (typeof value === "boolean") {
     return value;
   }
@@ -214,10 +214,10 @@ export const normalizeMobileRotateClockwise = (value, fallback = false) => {
     return fallback;
   }
 
-  return false;
+  return true;
 };
 
-export const normalizeIntro = (value, fallback = {}) => ({
+export const normalizeIntro = (value, fallback = { mode: "hero", showArrow: true }) => ({
   mode: value?.mode === "hero" ? "hero" : fallback.mode === "hero" ? "hero" : "default",
   heroImageSrc:
     typeof value?.heroImageSrc === "string"
@@ -339,8 +339,8 @@ export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} })
   private: input.private === true,
   titleFontFamily: normalizeAlbumTitleFontFamily(input.titleFontFamily),
   titleScale: normalizeTitleScale(input.titleScale),
-  mobileRotateClockwise: normalizeMobileRotateClockwise(input.mobileRotateClockwise),
-  spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "tight",
+  mobileRotateClockwise: normalizeMobileRotateClockwise(input.mobileRotateClockwise, true),
+  spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "airy",
   topSpacer: normalizeTopSpacer(input.topSpacer),
   effect: normalizeEffect(input.effect),
   effectSettings: normalizeEffectSettings(input.effectSettings),
