@@ -205,10 +205,10 @@
       "aspectRatio": 1.5
     },
     {
-      "id": "/images/Rome%2C%20Late%202025/DSC06619.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC06619.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC06619.jpg",
-      "alt": "Rome 12/25 - DSC06619.jpg",
+      "id": "/images/Rome%2C%20Late%202025/DSC06615.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC06615.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC06615.jpg",
+      "alt": "Rome 12/25 - DSC06615.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -219,10 +219,10 @@
       "aspectRatio": 1.5
     },
     {
-      "id": "/images/Rome%2C%20Late%202025/DSC06615.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC06615.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC06615.jpg",
-      "alt": "Rome 12/25 - DSC06615.jpg",
+      "id": "/images/Rome%2C%20Late%202025/DSC06619.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC06619.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC06619.jpg",
+      "alt": "Rome 12/25 - DSC06619.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -877,20 +877,6 @@
       "aspectRatio": 1.5
     },
     {
-      "id": "/images/Rome%2C%20Late%202025/DSC07811.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC07811.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07811.jpg",
-      "alt": "Rome 12/25 - DSC07811.jpg",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false,
-      "landscape": false,
-      "aspectRatio": 0.6666666666666666
-    },
-    {
       "id": "/images/Rome%2C%20Late%202025/DSC07807.jpg",
       "src": "/images/Rome%2C%20Late%202025/DSC07807.jpg",
       "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07807.jpg",
@@ -903,6 +889,20 @@
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%2C%20Late%202025/DSC07811.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC07811.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07811.jpg",
+      "alt": "Rome 12/25 - DSC07811.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6666666666666666
     },
     {
       "id": "/images/Rome%2C%20Late%202025/DSC07817-2.jpg",
@@ -1115,10 +1115,52 @@
       "aspectRatio": 0.6666666666666666
     },
     {
+      "id": "/images/Rome%2C%20Late%202025/DSC07930.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC07930.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07930.jpg",
+      "alt": "Rome 12/25 - DSC07930.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
       "id": "/images/Rome%2C%20Late%202025/DSC07943-2.jpg",
       "src": "/images/Rome%2C%20Late%202025/DSC07943-2.jpg",
       "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07943-2.jpg",
       "alt": "Rome 12/25 - DSC07943-2.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%2C%20Late%202025/DSC07946-2.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC07946-2.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07946-2.jpg",
+      "alt": "Rome 12/25 - DSC07946-2.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/Rome%2C%20Late%202025/DSC07951-2.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC07951-2.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07951-2.jpg",
+      "alt": "Rome 12/25 - DSC07951-2.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -1157,10 +1199,10 @@
       "aspectRatio": 1.5
     },
     {
-      "id": "/images/Rome%2C%20Late%202025/DSC07992-2.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC07992-2.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07992-2.jpg",
-      "alt": "Rome 12/25 - DSC07992-2.jpg",
+      "id": "/images/Rome%2C%20Late%202025/DSC07988-2.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC07988-2.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07988-2.jpg",
+      "alt": "Rome 12/25 - DSC07988-2.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -1171,10 +1213,10 @@
       "aspectRatio": 1.5
     },
     {
-      "id": "/images/Rome%2C%20Late%202025/DSC07988-2.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC07988-2.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07988-2.jpg",
-      "alt": "Rome 12/25 - DSC07988-2.jpg",
+      "id": "/images/Rome%2C%20Late%202025/DSC07992-2.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC07992-2.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07992-2.jpg",
+      "alt": "Rome 12/25 - DSC07992-2.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -1367,10 +1409,10 @@
       "aspectRatio": 1.5
     },
     {
-      "id": "/images/Rome%2C%20Late%202025/DSC08134.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC08134.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC08134.jpg",
-      "alt": "Rome 12/25 - DSC08134.jpg",
+      "id": "/images/Rome%2C%20Late%202025/DSC08133-2.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC08133-2.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC08133-2.jpg",
+      "alt": "Rome 12/25 - DSC08133-2.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -1381,10 +1423,10 @@
       "aspectRatio": 1.5
     },
     {
-      "id": "/images/Rome%2C%20Late%202025/DSC08133-2.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC08133-2.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC08133-2.jpg",
-      "alt": "Rome 12/25 - DSC08133-2.jpg",
+      "id": "/images/Rome%2C%20Late%202025/DSC08134.jpg",
+      "src": "/images/Rome%2C%20Late%202025/DSC08134.jpg",
+      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC08134.jpg",
+      "alt": "Rome 12/25 - DSC08134.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -1549,34 +1591,6 @@
       "aspectRatio": 1.5
     },
     {
-      "id": "/images/Rome%2C%20Late%202025/DSC07946-2.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC07946-2.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07946-2.jpg",
-      "alt": "Rome 12/25 - DSC07946-2.jpg",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false,
-      "landscape": true,
-      "aspectRatio": 1.5
-    },
-    {
-      "id": "/images/Rome%2C%20Late%202025/DSC07951-2.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC07951-2.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07951-2.jpg",
-      "alt": "Rome 12/25 - DSC07951-2.jpg",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false,
-      "landscape": true,
-      "aspectRatio": 1.5
-    },
-    {
       "id": "/images/Rome%2C%20Late%202025/DSC08264.jpg",
       "src": "/images/Rome%2C%20Late%202025/DSC08264.jpg",
       "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC08264.jpg",
@@ -1665,20 +1679,6 @@
       "src": "/images/Rome%2C%20Late%202025/DSC08321.jpg",
       "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC08321.jpg",
       "alt": "Rome 12/25 - DSC08321.jpg",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false,
-      "landscape": true,
-      "aspectRatio": 1.5
-    },
-    {
-      "id": "/images/Rome%2C%20Late%202025/DSC07930.jpg",
-      "src": "/images/Rome%2C%20Late%202025/DSC07930.jpg",
-      "previewSrc": "/images/Rome%2C%20Late%202025/thumbs/DSC07930.jpg",
-      "alt": "Rome 12/25 - DSC07930.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -1964,11 +1964,11 @@
     },
     {
       "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC06619.jpg"
+      "photoId": "/images/Rome%2C%20Late%202025/DSC06615.jpg"
     },
     {
       "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC06615.jpg"
+      "photoId": "/images/Rome%2C%20Late%202025/DSC06619.jpg"
     },
     {
       "type": "photo",
@@ -2156,11 +2156,11 @@
     },
     {
       "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC07811.jpg"
+      "photoId": "/images/Rome%2C%20Late%202025/DSC07807.jpg"
     },
     {
       "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC07807.jpg"
+      "photoId": "/images/Rome%2C%20Late%202025/DSC07811.jpg"
     },
     {
       "type": "photo",
@@ -2224,7 +2224,19 @@
     },
     {
       "type": "photo",
+      "photoId": "/images/Rome%2C%20Late%202025/DSC07930.jpg"
+    },
+    {
+      "type": "photo",
       "photoId": "/images/Rome%2C%20Late%202025/DSC07943-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%2C%20Late%202025/DSC07946-2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/Rome%2C%20Late%202025/DSC07951-2.jpg"
     },
     {
       "type": "photo",
@@ -2236,11 +2248,11 @@
     },
     {
       "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC07992-2.jpg"
+      "photoId": "/images/Rome%2C%20Late%202025/DSC07988-2.jpg"
     },
     {
       "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC07988-2.jpg"
+      "photoId": "/images/Rome%2C%20Late%202025/DSC07992-2.jpg"
     },
     {
       "type": "photo",
@@ -2296,11 +2308,11 @@
     },
     {
       "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC08134.jpg"
+      "photoId": "/images/Rome%2C%20Late%202025/DSC08133-2.jpg"
     },
     {
       "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC08133-2.jpg"
+      "photoId": "/images/Rome%2C%20Late%202025/DSC08134.jpg"
     },
     {
       "type": "photo",
@@ -2348,14 +2360,6 @@
     },
     {
       "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC07946-2.jpg"
-    },
-    {
-      "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC07951-2.jpg"
-    },
-    {
-      "type": "photo",
       "photoId": "/images/Rome%2C%20Late%202025/DSC08264.jpg"
     },
     {
@@ -2381,10 +2385,6 @@
     {
       "type": "photo",
       "photoId": "/images/Rome%2C%20Late%202025/DSC08321.jpg"
-    },
-    {
-      "type": "photo",
-      "photoId": "/images/Rome%2C%20Late%202025/DSC07930.jpg"
     },
     {
       "type": "photo",
