@@ -47,7 +47,7 @@
       "href": "/albums/album-museo-della-civilta-26.html",
       "title": "Museo Della Civilta 26",
       "date": "04/01/26",
-      "category": "postcards artistic",
+      "category": "memories reportage",
       "description": "",
       "private": false
     },
@@ -55,7 +55,7 @@
       "href": "/albums/album-ninas-50th-vesuvio-edition.html",
       "title": "Nina’s 50th: Vesuvio Edition",
       "date": "18-20/07/25",
-      "category": "events portraits",
+      "category": "events",
       "description": "",
       "private": false
     },
@@ -63,7 +63,7 @@
       "href": "/albums/album-ilaria-paolucci-ceramiche.html",
       "title": "Ilaria Paolucci - Pottery",
       "date": "",
-      "category": "artistic",
+      "category": "portraits",
       "description": "",
       "private": false
     },
@@ -71,7 +71,7 @@
       "href": "/albums/album-ariel-vittori-pottery.html",
       "title": "Ariel Vittori - Pottery",
       "date": "25/02/26",
-      "category": "artistic portraits",
+      "category": "portraits",
       "description": "",
       "private": false
     },
@@ -79,7 +79,7 @@
       "href": "/albums/pride2025.html",
       "title": "PRIDE 2025",
       "date": "",
-      "category": "",
+      "category": "Reportage",
       "description": "",
       "private": false
     },
@@ -87,7 +87,7 @@
       "href": "/albums/album-daniel-and-paulina-in-rome.html",
       "title": "Daniel and Paulina in Rome",
       "date": "",
-      "category": "",
+      "category": "portraits",
       "description": "",
       "private": false
     },
@@ -95,7 +95,7 @@
       "href": "/albums/album-halloween-2025.html",
       "title": "Halloween 2025",
       "date": "",
-      "category": "",
+      "category": "memories",
       "description": "",
       "private": false
     },
@@ -103,7 +103,7 @@
       "href": "/albums/album-rome-late-2025.html",
       "title": "Rome 12/25",
       "date": "",
-      "category": "",
+      "category": "street",
       "description": "",
       "private": false
     },
@@ -111,7 +111,7 @@
       "href": "/albums/album-rome-09-25.html",
       "title": "Rome 09/25",
       "date": "27-29/09/25",
-      "category": "",
+      "category": "street",
       "description": "",
       "private": false
     },
@@ -119,7 +119,7 @@
       "href": "/albums/album-august-streets-rome.html",
       "title": "Rome 08/25",
       "date": "21-23/08/2025",
-      "category": "",
+      "category": "street",
       "description": "",
       "private": false
     },
@@ -127,7 +127,7 @@
       "href": "/albums/album-rome-and-ostia-for-palestine.html",
       "title": "Rome and Ostia for Palestine",
       "date": "",
-      "category": "",
+      "category": "reportage",
       "description": "",
       "private": false
     },
@@ -135,7 +135,7 @@
       "href": "/albums/album-postcards-25.html",
       "title": "POSTCARDS '25",
       "date": "2025",
-      "category": "Postcards",
+      "category": "memories",
       "description": "",
       "private": true
     }
