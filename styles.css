@@ -2156,6 +2156,19 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   text-transform: uppercase;
 }
 
+.blog-post-date {
+  display: inline-flex;
+  justify-content: center;
+}
+
+.blog-post-excerpt {
+  max-width: 34rem;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.55vw, 1.16rem);
+  line-height: 1.58;
+}
+
 .blog-card-date {
   grid-column: 2;
   white-space: nowrap;
@@ -2177,23 +2190,31 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .blog-article {
-  padding-top: clamp(8rem, 14vw, 13rem);
+  width: min(100%, 43rem);
+  margin: 0 auto;
+  padding-top: clamp(7rem, 11vw, 10rem);
   padding-bottom: clamp(6rem, 12vw, 12rem);
 }
 
 .blog-article-header {
-  max-width: 52rem;
-  margin-bottom: clamp(2rem, 5vw, 5rem);
+  max-width: 100%;
+  margin: 0 auto clamp(2.6rem, 6vw, 4.5rem);
+  text-align: center;
 }
 
 .blog-post-title {
-  max-width: min(100%, 14ch);
-  margin: 1rem 0 1.4rem;
+  max-width: min(100%, 20ch);
+  margin: 1.15rem auto 1.6rem;
+  font-size: clamp(1.95rem, 3.2vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: 0;
 }
 
 .blog-post-media {
-  width: min(100%, 58rem);
-  margin: 0 0 clamp(2rem, 5vw, 5rem);
+  width: 100%;
+  max-width: 43rem;
+  margin: 0 auto clamp(2.4rem, 5vw, 4.25rem);
 }
 
 .blog-post-media[hidden] {
@@ -2203,21 +2224,21 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .blog-post-image {
   display: block;
   width: 100%;
-  max-height: 70vh;
+  max-height: 56vh;
   object-fit: cover;
 }
 
 .blog-post-body {
   max-width: 43rem;
-  margin-left: min(18rem, 18vw);
+  margin: 0 auto;
   color: var(--text);
   font-family: var(--site-body-font-family);
-  font-size: clamp(1.02rem, 1.35vw, 1.22rem);
-  line-height: 1.82;
+  font-size: clamp(1.05rem, 1.45vw, 1.28rem);
+  line-height: 1.74;
 }
 
 .blog-post-body p {
-  margin: 0 0 1.55rem;
+  margin: 0 0 1.7rem;
 }
 
 .blog-edit-panel {
