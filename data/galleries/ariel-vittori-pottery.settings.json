@@ -608,5 +608,6 @@
       "landscape": true,
       "aspectRatio": 1.5
     }
-  ]
+  ],
+  "private": false
 }
