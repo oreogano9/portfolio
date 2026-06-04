@@ -5,6 +5,7 @@ export const spacingMap = {
   default: "1.25rem",
   airy: "2.5rem",
 };
+export const albumModeOptions = ["single", "multiple"];
 export const SITE_BRAND = "Konrad Parada Photos";
 export const albumFontOptions = [
   "inter",
@@ -32,6 +33,9 @@ const clampNumber = (value, min, max, fallback) => {
 };
 
 export const normalizeEffect = (value, fallback = "none") => (effectOptions.includes(value) ? value : fallback);
+
+export const normalizeAlbumMode = (value, fallback = "multiple") =>
+  albumModeOptions.includes(value) ? value : albumModeOptions.includes(fallback) ? fallback : "multiple";
 
 export const normalizeAlbumTitleFontFamily = (value, fallback = "libre-baskerville") =>
   albumFontOptions.includes(value) ? value : fallback;
@@ -339,6 +343,7 @@ export const toSettingsPayload = ({ galleryId, titleFallback = "", input = {} })
   private: input.private === true,
   titleFontFamily: normalizeAlbumTitleFontFamily(input.titleFontFamily),
   titleScale: normalizeTitleScale(input.titleScale),
+  albumMode: normalizeAlbumMode(input.albumMode),
   mobileRotateClockwise: normalizeMobileRotateClockwise(input.mobileRotateClockwise, true),
   spacing: ["tight", "default", "airy"].includes(input.spacing) ? input.spacing : "airy",
   topSpacer: normalizeTopSpacer(input.topSpacer),
@@ -384,6 +389,7 @@ export const serializeState = (state, galleryId) => ({
   private: state.private === true,
   titleFontFamily: normalizeAlbumTitleFontFamily(state.titleFontFamily),
   titleScale: normalizeTitleScale(state.titleScale),
+  albumMode: normalizeAlbumMode(state.albumMode),
   mobileRotateClockwise: normalizeMobileRotateClockwise(state.mobileRotateClockwise),
   spacing: state.spacing,
   topSpacer: normalizeTopSpacer(state.topSpacer),

@@ -424,6 +424,7 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
   render({
     titleFontFamily,
     titleScale,
+    albumMode,
     topSpacer,
     spacing,
     effect,
@@ -435,6 +436,7 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     effectSettings,
     onTitleFontFamilyChange,
     onTitleScaleChange,
+    onAlbumModeChange,
     onTopSpacerChange,
     onSpacingChange,
     onEffectChange,
@@ -497,6 +499,16 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     );
 
     selectRow.append(
+      createSelect({
+        className: "header-edit-select",
+        ariaLabel: "Album mode",
+        value: albumMode,
+        options: [
+          { value: "multiple", label: "Multiple" },
+          { value: "single", label: "Single" },
+        ],
+        onChange: onAlbumModeChange,
+      }),
       createSelect({
         className: "header-edit-select",
         ariaLabel: "Space between photos",

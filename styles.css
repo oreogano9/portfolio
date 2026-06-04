@@ -322,7 +322,13 @@ body.is-site-dark .album-edit-input,
 body.is-site-dark .album-edit-button,
 body.is-site-dark .gallery-upload-panel,
 body.is-site-dark .media-picker-panel,
-body.is-site-dark .album-card-private-toggle {
+body.is-site-dark .album-card-private-toggle,
+body.is-site-dark .header-edit-effect-panel,
+body.is-site-dark .photo-effect-live-panel,
+body.is-site-dark .photo-insert-target,
+body.is-site-dark .photo-select-indicator-box,
+body.is-site-dark .spacer-reset,
+body.is-site-dark .spacer-copy-button {
   border-color: var(--line);
   background: var(--surface);
   color: var(--text);
@@ -337,6 +343,7 @@ body.is-site-dark .photo-effect-select,
 body.is-site-dark .header-edit-input,
 body.is-site-dark .header-edit-select,
 body.is-site-dark .header-edit-toggle,
+body.is-site-dark .header-edit-switch,
 body.is-site-dark .photo-effect-setting-number,
 body.is-site-dark .space-value-number {
   border-color: var(--line);
@@ -354,10 +361,29 @@ body.is-site-dark .header-edit-select option {
 
 body.is-site-dark .spacer-preset-button.is-primary,
 body.is-site-dark .album-edit-button.is-primary,
-body.is-site-dark .preview-toggle.is-primary {
+body.is-site-dark .preview-toggle.is-primary,
+body.is-site-dark .photo-select-indicator.is-selected .photo-select-indicator-box {
   border-color: var(--text);
   background: var(--text);
   color: var(--inverse-text);
+}
+
+body.is-site-dark .header-edit-switch-track {
+  background: rgba(245, 241, 232, 0.16);
+}
+
+body.is-site-dark .header-edit-switch-thumb {
+  background: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+body.is-site-dark .header-edit-switch.is-active .header-edit-switch-track {
+  background: rgba(245, 241, 232, 0.44);
+}
+
+body.is-site-dark .photo-insert-target:hover,
+body.is-site-dark .photo-insert-target:focus-visible {
+  border-color: var(--line-strong);
 }
 
 body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {

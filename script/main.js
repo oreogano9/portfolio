@@ -22,7 +22,7 @@ const applyGlobalSiteSettings = async (body) => {
     draftSettings = null;
   }
 
-  const useDarkMode = (draftSettings || settings)?.darkMode === true;
+  const useDarkMode = (draftSettings || settings)?.darkMode !== false;
   const backgroundNoiseEnabled = (draftSettings || settings)?.backgroundNoiseEnabled === true;
   const backgroundNoiseOpacity = Math.max(0, Math.min(0.35, Number((draftSettings || settings)?.backgroundNoiseOpacity) || 0));
   const backgroundNoiseScale = Math.max(48, Math.min(360, Number((draftSettings || settings)?.backgroundNoiseScale) || 140));

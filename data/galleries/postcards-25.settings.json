@@ -3,10 +3,10 @@
   "title": "POSTCARDS '25",
   "private": true,
   "titleFontFamily": "libre-baskerville",
-  "titleScale": 1,
+  "titleScale": 0.6,
   "mobileRotateClockwise": true,
   "spacing": "airy",
-  "topSpacer": 0,
+  "topSpacer": 7,
   "effect": "none",
   "effectSettings": {
     "focus": {
@@ -7418,5 +7418,6 @@
       "type": "photo",
       "photoId": "/images/POSTCARDS%20'25/December/IMG_9804.jpg"
     }
-  ]
+  ],
+  "albumMode": "multiple"
 }

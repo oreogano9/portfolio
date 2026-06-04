@@ -1011,5 +1011,6 @@
       "photoId": "/images/Ilaria%20Paolucci%20Ceramiche/IMG_3364.jpg"
     }
   ],
-  "private": false
+  "private": false,
+  "albumMode": "multiple"
 }

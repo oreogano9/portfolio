@@ -2451,5 +2451,6 @@
       "photoId": "/images/Rome%2C%20Late%202025/DSC08500.jpg"
     }
   ],
-  "private": false
+  "private": false,
+  "albumMode": "multiple"
 }

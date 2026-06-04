@@ -1210,5 +1210,6 @@
       "aspectRatio": 1.499267935578331
     }
   ],
-  "private": false
+  "private": false,
+  "albumMode": "multiple"
 }

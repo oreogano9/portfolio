@@ -113,6 +113,7 @@ const buildAlbumHtml = ({ title, galleryId }) => `<!DOCTYPE html>
         <section class="album-top-spacer" aria-hidden="true"></section>
         <section class="album-page-header section">
           <h1 class="masthead-title">${title}</h1>
+          <div class="subalbum-index is-hidden" aria-label="Sub-album navigation"></div>
         </section>
 
         <section class="section album-detail-section" id="album-grid">
@@ -145,6 +146,7 @@ const buildGallerySettings = ({ galleryId, title }) => ({
   private: false,
   titleFontFamily: "libre-baskerville",
   titleScale: 0.6,
+  albumMode: "multiple",
   mobileRotateClockwise: true,
   spacing: "airy",
   topSpacer: 7,

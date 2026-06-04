@@ -544,6 +544,7 @@ const blockMatchesAnchor = (block, anchor) => {
 
 export const buildAlbumBlocks = ({ state, normalizeEffect, includeDeleted = false }) => {
   const sectionOrder = state.sections.length ? state.sections : deriveSectionsFromPhotos(state.photos);
+  const shouldRenderSubalbums = state.albumMode === "multiple" && sectionOrder.length >= 2;
   const photoById = new Map(state.photos.map((photo, index) => [photo.id || photo.src, { photo, index }]));
   const sectionTitleById = new Map(sectionOrder.map((section) => [section.id, section.title || section.id]));
   const blocks = [];
@@ -562,7 +563,7 @@ export const buildAlbumBlocks = ({ state, normalizeEffect, includeDeleted = fals
       if (!includeDeleted && entry.photo.deleted) {
         return;
       }
-      const sectionId = typeof entry.photo.section === "string" ? entry.photo.section : "";
+      const sectionId = shouldRenderSubalbums && typeof entry.photo.section === "string" ? entry.photo.section : "";
       if (sectionId !== activeSectionId) {
         activeSectionId = sectionId;
         if (sectionId) {
@@ -647,7 +648,7 @@ export const renderSubalbumIndexes = ({ state, containers }) => {
     }
 
     container.innerHTML = "";
-    const isVisible = state.sections.length >= 2;
+    const isVisible = state.albumMode === "multiple" && state.sections.length >= 2;
     container.classList.toggle("is-hidden", !isVisible);
     container.classList.toggle("has-subalbum-links", isVisible);
     if (!isVisible) {

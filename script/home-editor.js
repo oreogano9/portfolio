@@ -161,7 +161,7 @@ const normalizeCard = (card, fallback = {}) => ({
   href: typeof card?.href === "string" && card.href.trim() ? card.href : fallback.href || "",
   title: typeof card?.title === "string" && card.title.trim() ? card.title : fallback.title || "",
   date: typeof card?.date === "string" ? card.date : fallback.date || "",
-  category: typeof card?.category === "string" ? card.category : fallback.category || "",
+  category: normalizeCategoryString(typeof card?.category === "string" ? card.category : fallback.category || ""),
   description: typeof card?.description === "string" ? card.description : fallback.description || "",
   private: card?.private === true || fallback.private === true,
 });
@@ -171,7 +171,22 @@ const normalizeCategoryString = (value) => {
     return "";
   }
 
-  return value.trim().replace(/\s+/g, " ");
+  const source = value.includes(";") ? value.split(";") : value.split(/\s+/);
+  const tags = [];
+  const seen = new Set();
+  source
+    .map((tag) => tag.trim())
+    .filter(Boolean)
+    .forEach((tag) => {
+      const key = tag.toLocaleLowerCase();
+      if (seen.has(key)) {
+        return;
+      }
+      seen.add(key);
+      tags.push(tag);
+    });
+
+  return tags.join("; ");
 };
 
 const isPrivateAlbumCard = (card) => card?.private === true;
@@ -398,7 +413,7 @@ export const setupHomeEditor = async () => {
     const element = document.createElement("a");
     element.className = "album-card reveal-up";
     element.href = card.href;
-    element.dataset.category = card.category || "";
+    element.dataset.category = normalizeCategoryString(card.category);
     element.dataset.homeCardId = card.href;
     element.dataset.private = card.private ? "true" : "false";
 
@@ -421,7 +436,7 @@ export const setupHomeEditor = async () => {
     const tags = document.createElement("p");
     tags.className = "album-card-tags";
     tags.setAttribute("aria-label", "Album tags");
-    tags.textContent = card.category || "";
+    tags.textContent = normalizeCategoryString(card.category);
 
     const description = document.createElement("p");
     description.className = "album-card-description";
@@ -710,7 +725,8 @@ export const setupHomeEditor = async () => {
         return;
       }
 
-      card.dataset.category = config.category;
+      const category = normalizeCategoryString(config.category);
+      card.dataset.category = category;
       card.dataset.private = config.private ? "true" : "false";
       card.classList.toggle("is-private", config.private === true);
       const titleElement = card.querySelector(".album-card-title");
@@ -734,7 +750,7 @@ export const setupHomeEditor = async () => {
       applyInlineText({
         element: tagsElement,
         fieldId: `card-category:${href}`,
-        value: config.category,
+        value: category,
         placeholder: "Add tags",
         hideWhenEmpty: true,
       });

@@ -7,6 +7,7 @@ const MIN_PREVIEW_PAINT_MS = 220;
 
 const getAlbumFilterControls = () => Array.from(document.querySelectorAll(".album-link"));
 const getAlbumFilterCards = () => Array.from(document.querySelectorAll(".album-card[data-category]"));
+const getAlbumFilterList = () => document.querySelector(".album-list");
 
 const wait = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
 
@@ -66,6 +67,51 @@ const normalizeHomepageSettingsPath = (value) => {
 };
 
 const isPrivateAlbumCard = (card) => card?.private === true;
+
+const getAlbumTags = (value) => {
+  if (typeof value !== "string") {
+    return [];
+  }
+
+  const source = value.includes(";") ? value.split(";") : value.split(/\s+/);
+  const tags = [];
+  const seen = new Set();
+  source
+    .map((tag) => tag.trim())
+    .filter(Boolean)
+    .forEach((tag) => {
+      const key = tag.toLocaleLowerCase();
+      if (seen.has(key)) {
+        return;
+      }
+      seen.add(key);
+      tags.push(tag);
+    });
+
+  return tags;
+};
+
+const formatAlbumTags = (value) => getAlbumTags(value).join("; ");
+
+const getAlbumTagKey = (value) => String(value || "").trim().toLocaleLowerCase();
+
+const formatAlbumFilterLabel = (value) =>
+  String(value || "")
+    .trim()
+    .split(/([\s-]+)/)
+    .map((part) => (/^[\s-]+$/.test(part) ? part : part.slice(0, 1).toLocaleUpperCase() + part.slice(1)))
+    .join("");
+
+const bindAlbumFilterControl = (control) => {
+  if (!(control instanceof HTMLElement) || control.dataset.filterBound === "true") {
+    return;
+  }
+
+  control.dataset.filterBound = "true";
+  control.addEventListener("click", () => {
+    applyAlbumFilter(control.dataset.filter || "all");
+  });
+};
 
 const shuffleItems = (items) => {
   const shuffled = [...items];
@@ -309,7 +355,7 @@ const createAlbumCardElement = (card, index) => {
   const element = document.createElement("a");
   element.className = "album-card reveal-up";
   element.href = card.href || "";
-  element.dataset.category = card.category || "";
+  element.dataset.category = formatAlbumTags(card.category);
   element.dataset.homeCardId = card.href || "";
 
   const number = document.createElement("span");
@@ -331,7 +377,7 @@ const createAlbumCardElement = (card, index) => {
   const tags = document.createElement("p");
   tags.className = "album-card-tags";
   tags.setAttribute("aria-label", "Album tags");
-  applyInlineEmptyState(tags, card.category);
+  applyInlineEmptyState(tags, formatAlbumTags(card.category));
 
   const description = document.createElement("p");
   description.className = "album-card-description";
@@ -356,7 +402,7 @@ const syncSiteBrand = () => {
 const applyAlbumFilter = (filter) => {
   const controls = getAlbumFilterControls();
   const cards = getAlbumFilterCards();
-  currentAlbumFilter = filter || "all";
+  currentAlbumFilter = getAlbumTagKey(filter) || "all";
 
   controls.forEach((control) => {
     control.classList.toggle("is-active", control.dataset.filter === currentAlbumFilter);
@@ -364,8 +410,8 @@ const applyAlbumFilter = (filter) => {
 
   cards.forEach((card) => {
     const categories = (card.dataset.category || "")
-      .split(/\s+/)
-      .map((value) => value.trim())
+      .split(";")
+      .map((value) => getAlbumTagKey(value))
       .filter(Boolean);
     const matches = currentAlbumFilter === "all" || categories.includes(currentAlbumFilter);
     card.hidden = !matches;
@@ -373,27 +419,48 @@ const applyAlbumFilter = (filter) => {
 };
 
 export const refreshAlbumLinks = () => {
-  const controls = getAlbumFilterControls();
   const cards = getAlbumFilterCards();
-
-  if (!controls.length) {
+  const filterList = getAlbumFilterList();
+  if (!(filterList instanceof HTMLElement)) {
     return;
   }
 
-  const availableFilters = new Set(["all"]);
+  const availableFilters = new Map([["all", "All"]]);
   cards.forEach((card) => {
     (card.dataset.category || "")
-      .split(/\s+/)
+      .split(";")
       .map((value) => value.trim())
       .filter(Boolean)
-      .forEach((value) => availableFilters.add(value));
+      .forEach((value) => {
+        const key = getAlbumTagKey(value);
+        if (key && !availableFilters.has(key)) {
+          availableFilters.set(key, value);
+        }
+      });
   });
 
-  controls.forEach((control) => {
-    const filter = control.dataset.filter || "all";
-    control.hidden = !availableFilters.has(filter);
+  const controlsByFilter = new Map(getAlbumFilterControls().map((control) => [control.dataset.filter || "all", control]));
+  const controls = Array.from(availableFilters, ([filter, label]) => {
+    const existingControl = controlsByFilter.get(filter);
+    if (existingControl instanceof HTMLButtonElement) {
+      existingControl.hidden = false;
+      existingControl.textContent = filter === "all" ? "All" : formatAlbumFilterLabel(label);
+      bindAlbumFilterControl(existingControl);
+      return existingControl;
+    }
+
+    const control = document.createElement("button");
+    control.className = "album-link";
+    control.type = "button";
+    control.dataset.filter = filter;
+    control.textContent = filter === "all" ? "All" : formatAlbumFilterLabel(label);
+    bindAlbumFilterControl(control);
+    return control;
   });
 
+  filterList.replaceChildren(...controls);
+
+  currentAlbumFilter = getAlbumTagKey(currentAlbumFilter) || "all";
   if (!availableFilters.has(currentAlbumFilter)) {
     currentAlbumFilter = "all";
   }
@@ -438,21 +505,13 @@ export const setupReveals = () => {
 };
 
 export const setupAlbumLinks = () => {
-  const controls = getAlbumFilterControls();
+  const filterList = getAlbumFilterList();
 
-  if (!controls.length) {
+  if (!(filterList instanceof HTMLElement)) {
     return;
   }
 
-  controls.forEach((control) => {
-    if (control.dataset.filterBound === "true") {
-      return;
-    }
-    control.dataset.filterBound = "true";
-    control.addEventListener("click", () => {
-      applyAlbumFilter(control.dataset.filter || "all");
-    });
-  });
+  getAlbumFilterControls().forEach((control) => bindAlbumFilterControl(control));
 
   refreshAlbumLinks();
 };

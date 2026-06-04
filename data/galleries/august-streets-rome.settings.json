@@ -2685,5 +2685,6 @@
       "photoId": "/images/August%20Streets%2C%20Rome/DSC06963.jpg"
     }
   ],
-  "private": false
+  "private": false,
+  "albumMode": "multiple"
 }

@@ -8,6 +8,7 @@ import {
   normalizeEffect,
   normalizeEffectSettings,
   normalizeIntro,
+  normalizeAlbumMode,
   normalizeAlbumTitleFontFamily,
   normalizeBlocks,
   normalizeContentBlock,
@@ -43,7 +44,7 @@ export const setupAlbumEditor = async () => {
   const header = document.querySelector(".album-page-header");
   let topSpacerSection = document.querySelector(".album-top-spacer");
   let heroIntro = header?.querySelector(".album-hero-intro");
-  const subalbumIndex = document.querySelector(".subalbum-index");
+  let subalbumIndex = header?.querySelector(".subalbum-index:not(.subalbum-footer-index)") || null;
   const subalbumFooterIndex = document.querySelector(".subalbum-footer-index");
   const toggleButtons = Array.from(document.querySelectorAll('[data-album-action="edit"]'));
   const previewButtons = Array.from(document.querySelectorAll('[data-album-action="preview"]'));
@@ -81,6 +82,18 @@ export const setupAlbumEditor = async () => {
       header.insertBefore(heroIntro, headerTitle);
     } else {
       header.appendChild(heroIntro);
+    }
+  }
+
+  if (!subalbumIndex) {
+    subalbumIndex = document.createElement("div");
+    subalbumIndex.className = "subalbum-index is-hidden";
+    subalbumIndex.setAttribute("aria-label", "Sub-album navigation");
+    const headerTitle = header.querySelector(".masthead-title");
+    if (headerTitle?.nextSibling) {
+      header.insertBefore(subalbumIndex, headerTitle.nextSibling);
+    } else {
+      header.appendChild(subalbumIndex);
     }
   }
 
@@ -292,6 +305,7 @@ export const setupAlbumEditor = async () => {
     private: preferredState?.private === true,
     titleFontFamily: normalizeAlbumTitleFontFamily(preferredState?.titleFontFamily),
     titleScale: normalizeTitleScale(preferredState?.titleScale),
+    albumMode: normalizeAlbumMode(preferredState?.albumMode),
     mobileRotateClockwise: normalizeMobileRotateClockwise(preferredState?.mobileRotateClockwise, true),
     spacing: ["tight", "default", "airy"].includes(preferredState?.spacing) ? preferredState.spacing : "airy",
     topSpacer: normalizeTopSpacer(preferredState?.topSpacer),
@@ -2375,6 +2389,7 @@ export const setupAlbumEditor = async () => {
     headerReactUi.render({
       titleFontFamily: state.titleFontFamily,
       titleScale: normalizeTitleScale(state.titleScale),
+      albumMode: normalizeAlbumMode(state.albumMode),
       topSpacer: normalizeTopSpacer(state.topSpacer),
       spacing: state.spacing,
       effect: state.effect,
@@ -2392,6 +2407,11 @@ export const setupAlbumEditor = async () => {
       onTitleScaleChange: (value) => {
         state.titleScale = normalizeTitleScale(value, state.titleScale);
         body.style.setProperty("--album-title-scale", String(state.titleScale));
+        save();
+        render();
+      },
+      onAlbumModeChange: (value) => {
+        state.albumMode = normalizeAlbumMode(value, state.albumMode);
         save();
         render();
       },
@@ -2477,6 +2497,7 @@ export const setupAlbumEditor = async () => {
       applyTitleDisplay(heroTitle);
     }
     body.classList.toggle("has-hero-intro", hasHeroIntro);
+    body.classList.toggle("has-multiple-album-mode", state.albumMode === "multiple" && state.sections.length >= 2);
     body.classList.toggle("has-mobile-sideview-mode", shouldApplyRuntimeMobileSideview);
     body.classList.toggle("has-mobile-sideview-hero", shouldApplyHeroSideview);
     body.classList.toggle("has-mobile-sideview-grid", shouldApplyRuntimeMobileSideview);
@@ -2485,7 +2506,10 @@ export const setupAlbumEditor = async () => {
       state,
       containers: [subalbumIndex, subalbumFooterIndex],
     });
-    header.classList.toggle("has-top-subalbum-index", state.sections.length >= 2 && Boolean(subalbumIndex));
+    header.classList.toggle(
+      "has-top-subalbum-index",
+      state.albumMode === "multiple" && state.sections.length >= 2 && Boolean(subalbumIndex)
+    );
     header.classList.toggle("has-mobile-sideview-hero", shouldApplyHeroSideview);
 
     const blocks = buildAlbumBlocks({

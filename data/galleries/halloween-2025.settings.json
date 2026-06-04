@@ -705,5 +705,6 @@
       "photoId": "/images/Halloween%202025/DSC05987.jpg"
     }
   ],
-  "private": false
+  "private": false,
+  "albumMode": "multiple"
 }

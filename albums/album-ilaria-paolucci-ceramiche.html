@@ -17,7 +17,7 @@
           request.send(null);
           if (request.status >= 200 && request.status < 300) {
             var settings = JSON.parse(request.responseText);
-            if (settings && settings.darkMode === true) {
+            if (settings && settings.darkMode !== false) {
               document.documentElement.classList.add("is-site-dark-root");
             }
           }
@@ -59,6 +59,7 @@
         <section class="album-top-spacer" aria-hidden="true"></section>
         <section class="album-page-header section">
           <h1 class="masthead-title">Ilaria Paolucci Ceramiche</h1>
+          <div class="subalbum-index is-hidden" aria-label="Sub-album navigation"></div>
         </section>
 
         <section class="section album-detail-section" id="album-grid">
