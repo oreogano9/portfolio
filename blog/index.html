@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog - Konrad Parada Photos</title>
+    <title>Notes - Konrad Parada Photos</title>
     <meta name="description" content="Notes and writing from Konrad Parada Photos." />
     <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
     <script>
@@ -14,7 +14,7 @@
           request.send(null);
           if (request.status >= 200 && request.status < 300) {
             var settings = JSON.parse(request.responseText);
-            if (settings && settings.darkMode === true) {
+            if (settings && settings.darkMode !== false) {
               document.documentElement.classList.add("is-site-dark-root");
             }
           }
@@ -48,18 +48,13 @@
     </nav>
     <div class="site-frame">
       <main class="content-column">
-        <section class="section blog-hero">
-          <div class="blog-hero-copy">
-            <h1 class="masthead-title blog-title">Blog</h1>
-            <p class="section-text blog-intro">Notes from shoots, small technical fragments, and field observations around photography.</p>
-          </div>
-        </section>
-        <section class="section blog-list-section">
-          <div class="albums-header">
-            <span class="section-label">Posts</span>
-            <p class="section-text">Newest first. Images are optional and can be edited per post.</p>
-          </div>
-          <div class="blog-post-list" aria-live="polite"></div>
+        <section class="section blog-notes-section">
+          <h1 class="blog-notes-title">Notes</h1>
+          <label class="blog-notes-search-label">
+            <span class="screen-reader-text">Search notes</span>
+            <input class="blog-notes-search" type="search" placeholder="Search notes..." autocomplete="off" />
+          </label>
+          <div class="blog-post-list blog-notes-list" aria-live="polite"></div>
         </section>
         <section class="section mobile-home-section">
           <a class="mobile-home-button" href="/?home=1">Home</a>

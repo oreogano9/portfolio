@@ -23,7 +23,7 @@ const normalizePost = (post, index = 0) => {
 };
 
 const normalizeBlogState = (state = {}) => ({
-  title: typeof state.title === "string" ? state.title : "Blog",
+  title: typeof state.title === "string" ? state.title : "Notes",
   intro: typeof state.intro === "string" ? state.intro : "",
   posts: Array.isArray(state.posts) ? state.posts.map(normalizePost) : [],
 });
@@ -47,6 +47,27 @@ const sortPosts = (posts) =>
     }
     return secondTime - firstTime;
   });
+
+const formatArchiveDate = (dateValue) => {
+  const date = new Date(`${dateValue}T00:00:00`);
+  if (Number.isNaN(date.getTime())) {
+    return {
+      year: "Undated",
+      month: "Notes",
+      day: "--",
+      datetime: "",
+    };
+  }
+
+  return {
+    year: String(date.getFullYear()),
+    month: date.toLocaleString("en", { month: "long" }),
+    day: String(date.getDate()).padStart(2, "0"),
+    datetime: dateValue,
+  };
+};
+
+const getArchiveSearchText = (post) => [post.title, post.date, post.excerpt, post.body].join(" ").toLocaleLowerCase();
 
 const readLocalDraft = (storageKey) => {
   try {
@@ -132,7 +153,7 @@ const applyGlobalSiteSettings = async (body) => {
   }
 
   const activeSettings = draftSettings || settings || {};
-  const useDarkMode = activeSettings.darkMode === true;
+  const useDarkMode = activeSettings.darkMode !== false;
   const backgroundNoiseEnabled = activeSettings.backgroundNoiseEnabled === true;
   const backgroundNoiseOpacity = Math.max(0, Math.min(0.35, Number(activeSettings.backgroundNoiseOpacity) || 0));
   const backgroundNoiseScale = Math.max(48, Math.min(360, Number(activeSettings.backgroundNoiseScale) || 140));
@@ -166,6 +187,8 @@ const setupBlog = async () => {
   const postSlug = body.dataset.blogPost || "";
   const isPostPage = body.classList.contains("blog-post-page");
   const editorActions = Array.from(document.querySelectorAll("[data-blog-action]"));
+  const searchInput = document.querySelector(".blog-notes-search");
+  let archiveSearchQuery = "";
 
   const saveDraft = () => {
     window.localStorage.setItem(
@@ -200,106 +223,136 @@ const setupBlog = async () => {
   };
 
   const renderIndex = () => {
-    const title = document.querySelector(".blog-title");
-    const intro = document.querySelector(".blog-intro");
+    const title = document.querySelector(".blog-notes-title");
     const list = document.querySelector(".blog-post-list");
-    if (!title || !intro || !list) {
+    if (!title || !list) {
       return;
     }
 
-    setText(title, state.title);
-    setText(intro, state.intro);
+    setText(title, "Notes");
     list.replaceChildren();
 
-    sortPosts(state.posts).forEach((post) => {
-      const article = document.createElement("article");
-      article.className = "blog-card reveal-up";
-      article.dataset.blogPostId = post.id;
+    if (searchInput instanceof HTMLInputElement && searchInput.value !== archiveSearchQuery) {
+      searchInput.value = archiveSearchQuery;
+    }
 
-      const link = document.createElement("a");
-      link.className = "blog-card-link";
-      link.href = getPostUrl(post);
+    const query = archiveSearchQuery.trim().toLocaleLowerCase();
+    const visiblePosts = sortPosts(state.posts).filter((post) => !query || getArchiveSearchText(post).includes(query));
+    const groups = new Map();
 
-      const copy = document.createElement("div");
-      copy.className = "blog-card-copy";
-
-      const heading = document.createElement("h2");
-      heading.className = "blog-card-title";
-      heading.textContent = post.title;
-
-      const date = document.createElement("time");
-      date.className = "blog-card-date";
-      date.dateTime = post.date;
-      date.textContent = post.date;
-
-      const excerpt = document.createElement("p");
-      excerpt.className = "blog-card-excerpt";
-      excerpt.textContent = post.excerpt;
-
-      copy.append(heading, date, excerpt);
-      link.append(copy);
-      article.append(link);
-
-      if (post.imageEnabled && post.image) {
-        const image = document.createElement("img");
-        image.className = "blog-card-image";
-        image.src = post.image;
-        image.alt = "";
-        article.append(image);
-      }
-
-      if (state.editing && !state.previewing) {
-        const panel = document.createElement("div");
-        panel.className = "blog-edit-panel";
-        panel.append(
-          createField({
-            label: "Title",
-            value: post.title,
-            onInput: (value) => {
-              post.title = value;
-              saveDraft();
-            },
-          }),
-          createField({
-            label: "Date",
-            value: post.date,
-            onInput: (value) => {
-              post.date = value;
-              saveDraft();
-            },
-          }),
-          createField({
-            label: "Excerpt",
-            value: post.excerpt,
-            multiline: true,
-            onInput: (value) => {
-              post.excerpt = value;
-              saveDraft();
-            },
-          }),
-          createField({
-            label: "Image URL",
-            value: post.image,
-            onInput: (value) => {
-              post.image = value;
-              saveDraft();
-            },
-          }),
-          createToggle({
-            label: "Show image",
-            checked: post.imageEnabled,
-            onInput: (value) => {
-              post.imageEnabled = value;
-              saveDraft();
-              render();
-            },
-          })
-        );
-        article.append(panel);
-      }
-
-      list.append(article);
+    visiblePosts.forEach((post) => {
+      const archiveDate = formatArchiveDate(post.date);
+      const yearGroup = groups.get(archiveDate.year) || new Map();
+      const monthPosts = yearGroup.get(archiveDate.month) || [];
+      monthPosts.push({ post, archiveDate });
+      yearGroup.set(archiveDate.month, monthPosts);
+      groups.set(archiveDate.year, yearGroup);
     });
+
+    groups.forEach((months, year) => {
+      const yearSection = document.createElement("section");
+      yearSection.className = "blog-archive-year";
+
+      const yearTitle = document.createElement("h2");
+      yearTitle.className = "blog-archive-year-title";
+      yearTitle.textContent = year;
+      yearSection.append(yearTitle);
+
+      months.forEach((items, month) => {
+        const monthGroup = document.createElement("div");
+        monthGroup.className = "blog-archive-month";
+
+        const monthTitle = document.createElement("h3");
+        monthTitle.className = "blog-archive-month-title";
+        monthTitle.textContent = month;
+        monthGroup.append(monthTitle);
+
+        const rows = document.createElement("div");
+        rows.className = "blog-archive-rows";
+
+        items.forEach(({ post, archiveDate }) => {
+          const row = document.createElement("article");
+          row.className = "blog-archive-row reveal-up";
+          row.dataset.blogPostId = post.id;
+
+          const date = document.createElement("time");
+          date.className = "blog-archive-day";
+          date.dateTime = archiveDate.datetime;
+          date.textContent = archiveDate.day;
+
+          const link = document.createElement("a");
+          link.className = "blog-archive-link";
+          link.href = getPostUrl(post);
+          link.textContent = post.title;
+
+          row.append(date, link);
+
+          if (state.editing && !state.previewing) {
+            const panel = document.createElement("div");
+            panel.className = "blog-edit-panel";
+            panel.append(
+              createField({
+                label: "Title",
+                value: post.title,
+                onInput: (value) => {
+                  post.title = value;
+                  saveDraft();
+                },
+              }),
+              createField({
+                label: "Date",
+                value: post.date,
+                onInput: (value) => {
+                  post.date = value;
+                  saveDraft();
+                },
+              }),
+              createField({
+                label: "Excerpt",
+                value: post.excerpt,
+                multiline: true,
+                onInput: (value) => {
+                  post.excerpt = value;
+                  saveDraft();
+                },
+              }),
+              createField({
+                label: "Image URL",
+                value: post.image,
+                onInput: (value) => {
+                  post.image = value;
+                  saveDraft();
+                },
+              }),
+              createToggle({
+                label: "Show image",
+                checked: post.imageEnabled,
+                onInput: (value) => {
+                  post.imageEnabled = value;
+                  saveDraft();
+                  render();
+                },
+              })
+            );
+            row.append(panel);
+          }
+
+          rows.append(row);
+        });
+
+        monthGroup.append(rows);
+        yearSection.append(monthGroup);
+      });
+
+      list.append(yearSection);
+    });
+
+    if (!visiblePosts.length) {
+      const empty = document.createElement("p");
+      empty.className = "blog-archive-empty";
+      empty.textContent = "No notes found.";
+      list.append(empty);
+    }
 
     if (state.editing && !state.previewing) {
       const panel = document.createElement("div");
@@ -495,6 +548,13 @@ const setupBlog = async () => {
       }
     });
   });
+
+  if (searchInput instanceof HTMLInputElement) {
+    searchInput.addEventListener("input", () => {
+      archiveSearchQuery = searchInput.value;
+      renderIndex();
+    });
+  }
 
   window.addEventListener("keydown", (event) => {
     if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === "e") {
