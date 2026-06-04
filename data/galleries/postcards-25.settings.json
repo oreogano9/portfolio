@@ -1,6 +1,7 @@
 {
   "id": "postcards-25",
   "title": "POSTCARDS '25",
+  "private": true,
   "titleFontFamily": "libre-baskerville",
   "titleScale": 1,
   "mobileRotateClockwise": true,
