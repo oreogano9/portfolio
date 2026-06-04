@@ -42,11 +42,15 @@
 
       (function applyEarlySplashSettings() {
         var splashImages = [
-          "/assets/splash/hero.png",
-          "/assets/splash/DSC05857_copy-d0fe7bc7-2500.jpg",
-          "/assets/splash/IMG_8893_DxO_copy-b2c0bb74-2500.jpg",
-          "/assets/splash/IMG_0821-34f437b6-2500.jpg",
-          "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg"
+          { src: "/assets/splash/hero.png" },
+          { src: "/assets/splash/DSC05857_copy-d0fe7bc7-2500.jpg" },
+          { src: "/assets/splash/IMG_8893_DxO_copy-b2c0bb74-2500.jpg" },
+          { src: "/assets/splash/IMG_0821-34f437b6-2500.jpg" },
+          { src: "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg" },
+          {
+            src: "https://d2gue6esbiyjpv.cloudfront.net/splash/IMG_5599-splash-desktop.jpg",
+            mobileSrc: "https://d2gue6esbiyjpv.cloudfront.net/splash/IMG_5599-splash-mobile.jpg"
+          }
         ];
         var focalPoints = {
           "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg": {
@@ -101,13 +105,16 @@
         var titleFontFamily = Object.prototype.hasOwnProperty.call(fontOptions, settings.titleFontFamily) ? settings.titleFontFamily : "saint";
         var letterSpacing = Number.isFinite(Number(settings.titleLetterSpacing)) ? Math.min(0.5, Math.max(0, Number(settings.titleLetterSpacing))) : 0.16;
         var imageIndex = Math.floor(Math.random() * splashImages.length);
-        var imageUrl = splashImages[imageIndex] || splashImages[0];
+        var imageEntry = splashImages[imageIndex] || splashImages[0];
+        var imageUrl = imageEntry.src || imageEntry;
+        var mobileImageUrl = imageEntry.mobileSrc || imageUrl;
         var focalPoint = focalPoints[imageUrl] || {};
         window.__KONRAD_SPLASH_INITIAL_IMAGE_INDEX__ = imageIndex;
         window.__KONRAD_SPLASH_EARLY_SETTINGS__ = settings;
         document.documentElement.style.setProperty("--splash-title-font-family", fontOptions[titleFontFamily]);
         document.documentElement.style.setProperty("--splash-title-letter-spacing", letterSpacing.toFixed(3) + "em");
         document.documentElement.style.setProperty("--splash-initial-image", "url('" + imageUrl + "')");
+        document.documentElement.style.setProperty("--splash-mobile-image", "url('" + mobileImageUrl + "')");
         document.documentElement.style.setProperty("--splash-image-position", focalPoint.default || "center center");
         document.documentElement.style.setProperty("--splash-image-position-mobile", focalPoint.mobile || focalPoint.default || "center center");
       })();
@@ -361,6 +368,7 @@
 
         body.home-page.splash-page.has-active-splash .splash-backdrop {
           background-position: var(--splash-image-position-mobile, var(--splash-image-position, center center));
+          background-image: var(--splash-layer-mobile-image, var(--splash-mobile-image, var(--splash-initial-image, url('/assets/splash/hero.png')))) !important;
         }
       }
 

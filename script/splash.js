@@ -1,12 +1,17 @@
 const HOMEPAGE_SETTINGS_PATH = "/data/homepage.settings.json";
 const SPLASH_TIMING_STORAGE_KEY = "konradSplashTimingSettings";
-const SPLASH_IMAGE_URLS = [
-  "/assets/splash/hero.png",
-  "/assets/splash/DSC05857_copy-d0fe7bc7-2500.jpg",
-  "/assets/splash/IMG_8893_DxO_copy-b2c0bb74-2500.jpg",
-  "/assets/splash/IMG_0821-34f437b6-2500.jpg",
-  "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg",
+const SPLASH_IMAGE_ENTRIES = [
+  { src: "/assets/splash/hero.png" },
+  { src: "/assets/splash/DSC05857_copy-d0fe7bc7-2500.jpg" },
+  { src: "/assets/splash/IMG_8893_DxO_copy-b2c0bb74-2500.jpg" },
+  { src: "/assets/splash/IMG_0821-34f437b6-2500.jpg" },
+  { src: "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg" },
+  {
+    src: "https://d2gue6esbiyjpv.cloudfront.net/splash/IMG_5599-splash-desktop.jpg",
+    mobileSrc: "https://d2gue6esbiyjpv.cloudfront.net/splash/IMG_5599-splash-mobile.jpg",
+  },
 ];
+const SPLASH_IMAGE_URLS = SPLASH_IMAGE_ENTRIES.map((entry) => entry.src);
 const SPLASH_IMAGE_FOCAL_POINTS = {
   "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg": {
     mobile: "right center",
@@ -177,9 +182,21 @@ const getInitialSplashImageIndex = () => {
   return getRandomSplashImageIndex();
 };
 
+const getSplashImageEntry = (imageIndex) => SPLASH_IMAGE_ENTRIES[imageIndex] || { src: SPLASH_IMAGE_URLS[imageIndex] || "" };
+
 const preloadSplashImage = (url) => {
   const image = new Image();
   image.src = url;
+};
+
+const preloadSplashImageEntry = (imageIndex) => {
+  const entry = getSplashImageEntry(imageIndex);
+  if (entry.src) {
+    preloadSplashImage(entry.src);
+  }
+  if (entry.mobileSrc && entry.mobileSrc !== entry.src) {
+    preloadSplashImage(entry.mobileSrc);
+  }
 };
 
 const getSecondsLabel = (milliseconds) => {
@@ -594,9 +611,13 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
   let transitionTimerId = 0;
   let currentSettings = settings;
 
-  const setLayerImage = (layer, url) => {
+  const setLayerImage = (layer, imageIndex) => {
+    const entry = getSplashImageEntry(imageIndex);
+    const url = entry.src;
+    const mobileUrl = entry.mobileSrc || url;
     const focalPoint = SPLASH_IMAGE_FOCAL_POINTS[url] || {};
     layer.style.backgroundImage = `url("${url}")`;
+    layer.style.setProperty("--splash-layer-mobile-image", `url("${mobileUrl}")`);
     layer.style.setProperty("--splash-image-position", focalPoint.default || "center center");
     layer.style.setProperty("--splash-image-position-mobile", focalPoint.mobile || focalPoint.default || "center center");
   };
@@ -635,8 +656,8 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
     clearWipeState();
     const orderPosition = orderedImageIndexes.indexOf(imageIndex);
     const nextOrderPosition = orderPosition >= 0 ? (orderPosition + 1) % orderedImageIndexes.length : 0;
-    preloadSplashImage(SPLASH_IMAGE_URLS[orderedImageIndexes[nextOrderPosition]]);
-    setLayerImage(nextLayer, imageUrl);
+    preloadSplashImageEntry(orderedImageIndexes[nextOrderPosition]);
+    setLayerImage(nextLayer, imageIndex);
 
     if (immediate || currentSettings.imageRotationMode === "cut") {
       previousLayer.classList.remove("is-active");
@@ -675,10 +696,10 @@ const setupSplashImageRotation = ({ settings, onImageChange, signal }) => {
   };
 
   layers.forEach((layer) => layer.classList.remove("is-active"));
-  setLayerImage(layers[activeLayerIndex], SPLASH_IMAGE_URLS[activeImageIndex]);
+  setLayerImage(layers[activeLayerIndex], activeImageIndex);
   layers[activeLayerIndex].classList.add("is-active");
   onImageChange?.(SPLASH_IMAGE_URLS[activeImageIndex]);
-  preloadSplashImage(SPLASH_IMAGE_URLS[orderedImageIndexes[(activeOrderPosition + 1) % orderedImageIndexes.length]]);
+  preloadSplashImageEntry(orderedImageIndexes[(activeOrderPosition + 1) % orderedImageIndexes.length]);
   scheduleNext();
 
   signal.addEventListener("abort", () => {

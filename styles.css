@@ -996,6 +996,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
   .splash-backdrop {
     background-position: var(--splash-image-position-mobile, var(--splash-image-position, center center));
+    background-image: var(--splash-layer-mobile-image, var(--splash-mobile-image, var(--splash-initial-image, url('/assets/splash/hero.png')))) !important;
   }
 
   .splash-title-link {
