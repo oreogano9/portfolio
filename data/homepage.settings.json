@@ -137,7 +137,7 @@
       "date": "2025",
       "category": "Postcards",
       "description": "",
-      "private": false
+      "private": true
     }
   ]
 }
