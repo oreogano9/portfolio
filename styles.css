@@ -309,7 +309,9 @@ body.is-site-dark.album-page.has-scroll-effect.effect-lift {
 body.is-site-dark .preview-toggle,
 body.is-site-dark .home-mobile-menu,
 body.is-site-dark .mobile-menu-panel,
+body.is-site-dark .floating-photo-editor,
 body.is-site-dark .album-debug-overlay,
+body.is-site-dark .home-edit-cycle-button,
 body.is-site-dark .photo-controls,
 body.is-site-dark .spacer-control,
 body.is-site-dark .spacer-preset-button,
@@ -378,6 +380,7 @@ body.is-site-dark .photo-select-indicator.is-selected .photo-select-indicator-bo
 
 body.is-site-dark .photo-control-button:disabled,
 body.is-site-dark .photo-toggle-button:disabled,
+body.is-site-dark .home-edit-cycle-button:disabled,
 body.is-site-dark .header-edit-stepper-button:disabled,
 body.is-site-dark .spacer-copy-button:disabled {
   color: var(--muted);
