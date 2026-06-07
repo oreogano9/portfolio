@@ -14,17 +14,20 @@ const state = {
   activeId: "",
   view: "library",
   filter: "all",
+  albumFilter: "archive",
   search: "",
   saving: false,
   uploading: false,
+  detailOpen: false,
 };
 
 const els = {
   body: document.body,
   grid: document.querySelector(".admin-grid"),
-  inspector: document.querySelector(".admin-inspector"),
+  detail: document.querySelector(".admin-detail"),
   search: document.querySelector(".admin-search"),
   filter: document.querySelector(".admin-filter"),
+  albumFilter: document.querySelector(".admin-album-filter"),
   fileInput: document.querySelector(".admin-file-input"),
   uploadStatus: document.querySelector(".admin-upload-status"),
   selectionBar: document.querySelector(".admin-selection-bar"),
@@ -186,6 +189,8 @@ const getPhotoById = (id) => state.library.photos.find((photo) => photo.id === i
 
 const getAlbumTitle = (albumId) => state.albums.find((album) => album.id === albumId)?.title || albumId;
 
+const isArchivePhoto = (photo) => Boolean(photo.archiveSha256 || photo.sourcePaths?.length || String(photo.s3Key || "").startsWith("albums/ARCHIVE/"));
+
 const escapeRegExp = (value) => String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const getFileNameFromPath = (value) => {
@@ -305,6 +310,30 @@ const renderAlbumPicker = () => {
   }
 };
 
+const renderGalleryAlbumFilter = () => {
+  if (!els.albumFilter) {
+    return;
+  }
+  const currentValue = state.albumFilter || "archive";
+  els.albumFilter.replaceChildren(
+    Object.assign(document.createElement("option"), {
+      value: "archive",
+      textContent: "Archive",
+    }),
+    Object.assign(document.createElement("option"), {
+      value: "all",
+      textContent: "All photos",
+    }),
+    ...state.albums.map((album) =>
+      Object.assign(document.createElement("option"), {
+        value: album.id,
+        textContent: album.title,
+      })
+    )
+  );
+  els.albumFilter.value = ["archive", "all", ...state.albums.map((album) => album.id)].includes(currentValue) ? currentValue : "archive";
+};
+
 const photoMatchesSearch = (photo) => {
   const query = state.search.trim().toLowerCase();
   if (!query) {
@@ -341,6 +370,15 @@ const photoMatchesFilter = (photo) => {
   if (photo.trashed) {
     return false;
   }
+  if (state.albumFilter === "archive") {
+    if (!isArchivePhoto(photo)) {
+      return false;
+    }
+  } else if (state.albumFilter && state.albumFilter !== "all") {
+    if (!photo.albumIds.includes(state.albumFilter)) {
+      return false;
+    }
+  }
   if (state.filter === "favorites") {
     return photo.favorite;
   }
@@ -353,7 +391,29 @@ const photoMatchesFilter = (photo) => {
   return true;
 };
 
-const getVisiblePhotos = () => state.library.photos.filter((photo) => photoMatchesFilter(photo) && photoMatchesSearch(photo));
+const getPhotoTimestamp = (photo) => {
+  const values = [
+    photo.metadata?.takenAt,
+    photo.uploadedAt,
+    photo.archiveImportedAt,
+    photo.lastModified ? new Date(photo.lastModified).toISOString() : "",
+  ];
+  for (const value of values) {
+    const timestamp = Date.parse(value);
+    if (Number.isFinite(timestamp)) {
+      return timestamp;
+    }
+  }
+  return 0;
+};
+
+const getVisiblePhotos = () => {
+  const visiblePhotos = state.library.photos.filter((photo) => photoMatchesFilter(photo) && photoMatchesSearch(photo));
+  if (state.albumFilter === "archive") {
+    return [...visiblePhotos].sort((left, right) => getPhotoTimestamp(right) - getPhotoTimestamp(left));
+  }
+  return visiblePhotos;
+};
 
 const updateStats = (visiblePhotos) => {
   const stored = state.library.photos.filter((photo) => !photo.trashed).length;
@@ -382,30 +442,19 @@ const createPhotoCard = (photo) => {
   img.loading = "lazy";
   img.alt = getPhotoName(photo);
   img.src = resolveAssetUrl(photo.previewSrc || photo.src);
+  if (photo.aspectRatio) {
+    img.style.aspectRatio = String(photo.aspectRatio);
+  }
   imageButton.append(img);
 
-  const checkbox = document.createElement("button");
-  checkbox.className = "admin-photo-select";
-  checkbox.type = "button";
-  checkbox.dataset.action = "toggle-select";
-  checkbox.dataset.photoId = photo.id;
-  checkbox.setAttribute("aria-pressed", state.selectedIds.has(photo.id) ? "true" : "false");
-  checkbox.textContent = state.selectedIds.has(photo.id) ? "Selected" : "Select";
-
-  const meta = document.createElement("div");
-  meta.className = "admin-photo-meta";
-  meta.innerHTML = `
-    <strong>${escapeHtml(getPhotoName(photo))}</strong>
-    <span>${escapeHtml(`${photo.width || "?"} x ${photo.height || "?"}`)} · ${formatBytes(photo.size)}</span>
-  `;
-
-  const flags = document.createElement("div");
-  flags.className = "admin-photo-flags";
-  if (photo.favorite) flags.append(createFlag("Favorite"));
-  if (photo.inPortfolio) flags.append(createFlag("Portfolio"));
-  if (photo.tags.length) flags.append(createFlag(photo.tags.slice(0, 2).join("; ")));
-
-  card.append(imageButton, checkbox, meta, flags);
+  if (state.selectedIds.has(photo.id)) {
+    const selectedMark = document.createElement("span");
+    selectedMark.className = "admin-photo-selected-mark";
+    selectedMark.textContent = "Selected";
+    card.append(imageButton, selectedMark);
+  } else {
+    card.append(imageButton);
+  }
   return card;
 };
 
@@ -451,15 +500,15 @@ const renderGrid = () => {
   const visiblePhotos = getVisiblePhotos();
   updateStats(visiblePhotos);
   els.navButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.adminView === state.view));
+  els.grid.hidden = state.detailOpen;
+  renderDetail();
 
   if (!visiblePhotos.length) {
     els.grid.innerHTML = `<p class="admin-empty">${state.view === "trash" ? "Trash is empty." : "No photos match this view yet."}</p>`;
-    renderInspector();
     return;
   }
 
   els.grid.replaceChildren(...visiblePhotos.map(createPhotoCard));
-  renderInspector();
 };
 
 const escapeHtml = (value) =>
@@ -468,10 +517,14 @@ const escapeHtml = (value) =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-const renderInspector = () => {
+const renderDetail = () => {
+  if (!els.detail) {
+    return;
+  }
+  els.detail.hidden = !state.detailOpen;
   const photo = getPhotoById(state.activeId);
-  if (!photo) {
-    els.inspector.innerHTML = `<p class="admin-empty">Select a photo to inspect metadata, rename it internally, tag it, mark it for portfolio, or assign album candidates.</p>`;
+  if (!state.detailOpen || !photo) {
+    els.detail.innerHTML = "";
     return;
   }
 
@@ -482,42 +535,49 @@ const renderInspector = () => {
     })
     .join("");
 
-  els.inspector.innerHTML = `
-    <div class="admin-inspector-media">
-      <img alt="${escapeAttribute(getPhotoName(photo))}" src="${resolveAssetUrl(photo.previewSrc || photo.src)}" />
+  els.detail.innerHTML = `
+    <div class="admin-detail-top">
+      <button class="admin-button" type="button" data-action="close-detail">Back to grid</button>
+      <div class="admin-inspector-actions">
+        ${
+          photo.trashed
+            ? `<button class="admin-button" type="button" data-action="restore-photo" data-photo-id="${photo.id}">Recover</button>
+               <button class="admin-button is-danger" type="button" data-action="delete-photo" data-photo-id="${photo.id}">Delete permanently</button>`
+            : `<button class="admin-button" type="button" data-action="trash-photo" data-photo-id="${photo.id}">Move to trash</button>`
+        }
+      </div>
     </div>
-    <div class="admin-inspector-header">
-      <h2>${escapeHtml(getPhotoName(photo))}</h2>
-      <p>${escapeHtml(photo.originalName || "No original filename")}</p>
-    </div>
-    <label class="admin-field">
-      <span>Internal name</span>
-      <input type="text" data-field="internalName" value="${escapeAttribute(photo.internalName)}" placeholder="${escapeAttribute(photo.displayName)}" />
-    </label>
-    <label class="admin-field">
-      <span>Tags</span>
-      <input type="text" data-field="tags" value="${escapeAttribute(joinTags(photo.tags))}" placeholder="memories; reportage" />
-    </label>
-    <label class="admin-field">
-      <span>Album candidates</span>
-      <select data-field="albumIds" multiple size="6">
-        ${albumOptions}
-      </select>
-    </label>
-    <div class="admin-toggle-row">
-      <label><input type="checkbox" data-field="favorite"${photo.favorite ? " checked" : ""} /> Favorite</label>
-      <label><input type="checkbox" data-field="inPortfolio"${photo.inPortfolio ? " checked" : ""} /> Portfolio page</label>
-    </div>
-    <dl class="admin-metadata">
-      ${createMetadataRows(photo)}
-    </dl>
-    <div class="admin-inspector-actions">
-      ${
-        photo.trashed
-          ? `<button class="admin-button" type="button" data-action="restore-photo" data-photo-id="${photo.id}">Recover</button>
-             <button class="admin-button is-danger" type="button" data-action="delete-photo" data-photo-id="${photo.id}">Delete permanently</button>`
-          : `<button class="admin-button" type="button" data-action="trash-photo" data-photo-id="${photo.id}">Move to trash</button>`
-      }
+    <div class="admin-detail-layout">
+      <div class="admin-detail-media">
+        <img alt="${escapeAttribute(getPhotoName(photo))}" src="${resolveAssetUrl(photo.src || photo.previewSrc)}" />
+      </div>
+      <div class="admin-detail-info">
+        <div class="admin-inspector-header">
+          <h2>${escapeHtml(getPhotoName(photo))}</h2>
+          <p>${escapeHtml(photo.originalName || "No original filename")}</p>
+        </div>
+        <label class="admin-field">
+          <span>Internal name</span>
+          <input type="text" data-field="internalName" value="${escapeAttribute(photo.internalName)}" placeholder="${escapeAttribute(photo.displayName)}" />
+        </label>
+        <label class="admin-field">
+          <span>Tags</span>
+          <input type="text" data-field="tags" value="${escapeAttribute(joinTags(photo.tags))}" placeholder="memories; reportage" />
+        </label>
+        <label class="admin-field">
+          <span>Album candidates</span>
+          <select data-field="albumIds" multiple size="6">
+            ${albumOptions}
+          </select>
+        </label>
+        <div class="admin-toggle-row">
+          <label><input type="checkbox" data-field="favorite"${photo.favorite ? " checked" : ""} /> Favorite</label>
+          <label><input type="checkbox" data-field="inPortfolio"${photo.inPortfolio ? " checked" : ""} /> Portfolio page</label>
+        </div>
+        <dl class="admin-metadata">
+          ${createMetadataRows(photo)}
+        </dl>
+      </div>
     </div>
   `;
 };
@@ -1014,11 +1074,21 @@ const deletePhotosPermanently = async (ids) => {
   }
 };
 
-const handleAction = async (target) => {
+const handleAction = async (target, event) => {
   const action = target.dataset.action;
   const photoId = target.dataset.photoId;
   if (action === "inspect-photo") {
-    state.activeId = photoId;
+    if (event?.shiftKey) {
+      state.selectedIds.has(photoId) ? state.selectedIds.delete(photoId) : state.selectedIds.add(photoId);
+    } else {
+      state.activeId = photoId;
+      state.detailOpen = true;
+    }
+    renderGrid();
+    return;
+  }
+  if (action === "close-detail") {
+    state.detailOpen = false;
     renderGrid();
     return;
   }
@@ -1135,6 +1205,7 @@ const init = async () => {
     };
     setStatus(`Loaded ${albumPhotos.length} current album photo${albumPhotos.length === 1 ? "" : "s"} into the admin view.`);
     renderAlbumPicker();
+    renderGalleryAlbumFilter();
   } catch (error) {
     setStatus(error instanceof Error ? error.message : String(error));
   }
@@ -1147,11 +1218,18 @@ const init = async () => {
     state.filter = event.target.value;
     renderGrid();
   });
+  els.albumFilter?.addEventListener("change", (event) => {
+    state.albumFilter = event.target.value;
+    state.selectedIds.clear();
+    state.detailOpen = false;
+    renderGrid();
+  });
   els.fileInput?.addEventListener("change", (event) => uploadFiles(event.target.files));
   els.navButtons.forEach((button) => {
     button.addEventListener("click", () => {
       state.view = button.dataset.adminView || "library";
       state.selectedIds.clear();
+      state.detailOpen = false;
       renderGrid();
     });
   });
@@ -1160,14 +1238,14 @@ const init = async () => {
     if (!target) {
       return;
     }
-    await handleAction(target);
+    await handleAction(target, event);
   });
-  els.inspector?.addEventListener("input", (event) => {
+  els.detail?.addEventListener("input", (event) => {
     if (event.target.matches("[data-field]")) {
       handleInspectorInput(event.target);
     }
   });
-  els.inspector?.addEventListener("change", (event) => {
+  els.detail?.addEventListener("change", (event) => {
     if (event.target.matches("[data-field]")) {
       handleInspectorInput(event.target, { rerender: true });
     }

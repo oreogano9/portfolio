@@ -34,8 +34,11 @@
           </div>
           <div class="admin-toolbar-actions">
             <input class="admin-search" type="search" placeholder="Search filename, tag, album..." />
+            <select class="admin-album-filter" aria-label="Choose album">
+              <option value="archive">Archive</option>
+            </select>
             <select class="admin-filter" aria-label="Filter library">
-              <option value="all">All photos</option>
+              <option value="all">All states</option>
               <option value="favorites">Favorites</option>
               <option value="portfolio">Portfolio picks</option>
               <option value="untagged">Untagged</option>
@@ -65,9 +68,7 @@
 
         <div class="admin-main">
           <section class="admin-grid" aria-label="Photo library"></section>
-          <aside class="admin-inspector" aria-label="Photo details">
-            <p class="admin-empty">Select a photo to inspect metadata, rename it internally, tag it, mark it for portfolio, or assign album candidates.</p>
-          </aside>
+          <section class="admin-detail" aria-label="Photo details" hidden></section>
         </div>
       </section>
     </main>

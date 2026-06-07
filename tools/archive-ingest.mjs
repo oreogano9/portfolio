@@ -34,8 +34,11 @@ const shouldWriteLibrary = hasArg("--write-library") || hasArg("--all") || proce
 const originalsOnly = hasArg("--originals-only");
 const thumbsOnly = hasArg("--thumbs-only");
 const syncMode = hasArg("--sync-mode") && !hasArg("--copy-mode");
+const awsCliMode = hasArg("--aws-cli");
 const uploadConcurrency = Math.max(1, Math.min(12, Number(getArgValue("--concurrency", "4")) || 4));
 const fileLimit = Math.max(0, Number(getArgValue("--limit", "0")) || 0);
+const sourceRootFilter = String(getArgValue("--source-root", "") || "").trim();
+const shaFilter = String(getArgValue("--sha", "") || "").trim();
 
 const log = (message) => {
   process.stdout.write(`${message}\n`);
@@ -443,6 +446,27 @@ async function uploadOne(localPath, key, contentType) {
   throw lastError;
 }
 
+async function uploadOneWithAwsCli(localPath, key, contentType) {
+  const archiveSha256 = path.basename(key).replace(/\.[^.]+$/, "");
+  await run("aws", [
+    "s3",
+    "cp",
+    localPath,
+    `s3://${BUCKET}/${key}`,
+    "--metadata",
+    `archive-sha256=${archiveSha256}`,
+    "--sse",
+    "AES256",
+    "--content-type",
+    contentType,
+    "--only-show-errors",
+    "--profile",
+    PROFILE,
+    "--region",
+    REGION,
+  ]);
+}
+
 async function runWithConcurrency(items, worker, concurrency) {
   let index = 0;
   let completed = 0;
@@ -500,8 +524,16 @@ async function uploadArchive(manifest) {
         }
       }
     }
-    log(`Uploading ${uploadJobs.length} object(s) with direct S3 PUT concurrency ${uploadConcurrency}`);
-    await runWithConcurrency(uploadJobs, (job) => uploadOne(job.localPath, job.key, job.contentType), uploadConcurrency);
+    log(
+      `Uploading ${uploadJobs.length} object(s) with ${
+        awsCliMode ? "AWS CLI cp" : "direct S3 PUT"
+      } concurrency ${uploadConcurrency}`
+    );
+    await runWithConcurrency(
+      uploadJobs,
+      (job) => (awsCliMode ? uploadOneWithAwsCli(job.localPath, job.key, job.contentType) : uploadOne(job.localPath, job.key, job.contentType)),
+      uploadConcurrency
+    );
     return;
   }
 
@@ -714,6 +746,20 @@ const main = async () => {
       files: manifest.files.slice(0, fileLimit),
     };
     log(`Using first ${manifest.files.length} manifest file(s) because --limit=${fileLimit}`);
+  }
+  if (sourceRootFilter) {
+    manifest = {
+      ...manifest,
+      files: manifest.files.filter((entry) => entry.canonicalPath.includes(sourceRootFilter)),
+    };
+    log(`Using ${manifest.files.length} manifest file(s) matching --source-root=${sourceRootFilter}`);
+  }
+  if (shaFilter) {
+    manifest = {
+      ...manifest,
+      files: manifest.files.filter((entry) => entry.sha256.startsWith(shaFilter)),
+    };
+    log(`Using ${manifest.files.length} manifest file(s) matching --sha=${shaFilter}`);
   }
   if (shouldUpload) {
     await uploadArchive(manifest);
