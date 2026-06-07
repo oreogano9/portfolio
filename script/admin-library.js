@@ -29,6 +29,7 @@ const els = {
   uploadStatus: document.querySelector(".admin-upload-status"),
   selectionBar: document.querySelector(".admin-selection-bar"),
   selectionCount: document.querySelector("[data-selection-count]"),
+  selectionAlbum: document.querySelector(".admin-selection-album"),
   navButtons: Array.from(document.querySelectorAll("[data-admin-view]")),
   stats: {
     visible: document.querySelector('[data-stat="visible"]'),
@@ -124,6 +125,28 @@ const getPhotoName = (photo) => photo.internalName || photo.displayName || photo
 const getPhotoById = (id) => state.library.photos.find((photo) => photo.id === id) || null;
 
 const getAlbumTitle = (albumId) => state.albums.find((album) => album.id === albumId)?.title || albumId;
+
+const renderAlbumPicker = () => {
+  if (!els.selectionAlbum) {
+    return;
+  }
+  const currentValue = els.selectionAlbum.value;
+  els.selectionAlbum.replaceChildren(
+    Object.assign(document.createElement("option"), {
+      value: "",
+      textContent: "Choose album...",
+    }),
+    ...state.albums.map((album) =>
+      Object.assign(document.createElement("option"), {
+        value: album.id,
+        textContent: album.title,
+      })
+    )
+  );
+  if (state.albums.some((album) => album.id === currentValue)) {
+    els.selectionAlbum.value = currentValue;
+  }
+};
 
 const photoMatchesSearch = (photo) => {
   const query = state.search.trim().toLowerCase();
@@ -480,6 +503,47 @@ const saveLibrary = async () => {
   }
 };
 
+const addSelectedPhotosToAlbum = async () => {
+  const albumId = els.selectionAlbum?.value || "";
+  const selectedPhotos = Array.from(state.selectedIds)
+    .map(getPhotoById)
+    .filter((photo) => photo && !photo.trashed);
+
+  if (!albumId) {
+    setStatus("Choose an album first.");
+    return;
+  }
+  if (!selectedPhotos.length) {
+    setStatus("Select at least one stored photo first.");
+    return;
+  }
+
+  setStatus(`Adding ${selectedPhotos.length} photo${selectedPhotos.length === 1 ? "" : "s"} to ${getAlbumTitle(albumId)}...`);
+  try {
+    const response = await fetch("/api/admin-add-photos-to-album", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        galleryId: albumId,
+        photos: selectedPhotos,
+      }),
+    });
+    const payload = await response.json();
+    if (!response.ok || !payload?.ok) {
+      throw new Error(payload?.details || payload?.error || "Could not add photos to album");
+    }
+
+    const selectedIds = selectedPhotos.map((photo) => photo.id);
+    patchPhotos(selectedIds, (photo) => ({
+      albumIds: photo.albumIds.includes(albumId) ? photo.albumIds : [...photo.albumIds, albumId],
+    }));
+    await saveLibrary();
+    setStatus(`Added ${payload.addedPhotos?.length || 0} new photo${payload.addedPhotos?.length === 1 ? "" : "s"} to ${getAlbumTitle(albumId)}${payload.skipped ? `; ${payload.skipped} already present` : ""}.`);
+  } catch (error) {
+    setStatus(error instanceof Error ? error.message : String(error));
+  }
+};
+
 const patchPhotos = (ids, patch) => {
   const idSet = new Set(ids);
   state.library.photos = state.library.photos.map((photo) => (idSet.has(photo.id) ? normalizePhoto({ ...photo, ...patch(photo) }) : photo));
@@ -528,6 +592,10 @@ const handleAction = async (target) => {
   }
   if (action === "save-library") {
     await saveLibrary();
+    return;
+  }
+  if (action === "add-selected-to-album") {
+    await addSelectedPhotosToAlbum();
     return;
   }
 
@@ -605,6 +673,7 @@ const init = async () => {
         title: album.title || normalizeAlbumId(album.href),
       }))
       .filter((album) => album.id);
+    renderAlbumPicker();
   } catch (error) {
     setStatus(error instanceof Error ? error.message : String(error));
   }

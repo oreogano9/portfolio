@@ -445,6 +445,7 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 .admin-nav-button,
 .admin-button,
 .admin-filter,
+.admin-selection-album,
 .admin-search,
 .admin-field input,
 .admin-field select {
@@ -549,6 +550,7 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 
 .admin-search,
 .admin-filter,
+.admin-selection-album,
 .admin-field input,
 .admin-field select {
   min-height: 2.35rem;

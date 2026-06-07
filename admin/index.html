@@ -52,6 +52,10 @@
 
         <div class="admin-selection-bar" hidden>
           <span data-selection-count>0 selected</span>
+          <select class="admin-selection-album" aria-label="Album to add selected photos into">
+            <option value="">Choose album...</option>
+          </select>
+          <button class="admin-button" type="button" data-action="add-selected-to-album">Add to album</button>
           <button class="admin-button" type="button" data-action="favorite-selected">Favorite</button>
           <button class="admin-button" type="button" data-action="portfolio-selected">Portfolio</button>
           <button class="admin-button" type="button" data-action="trash-selected">Move to trash</button>
