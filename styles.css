@@ -480,6 +480,10 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   gap: 0.45rem;
 }
 
+.admin-logout-form {
+  margin: 0;
+}
+
 .admin-nav-button,
 .admin-button,
 .admin-album-filter,

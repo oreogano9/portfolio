@@ -192,6 +192,27 @@ const setStatus = (message) => {
   }
 };
 
+const redirectToLogin = () => {
+  const next = `${window.location.pathname}${window.location.search}`;
+  window.location.assign(`/admin-login.html?next=${encodeURIComponent(next)}`);
+};
+
+const fetchAdminJson = async (url, options) => {
+  const response = await fetch(url, options);
+  if (response.status === 401) {
+    redirectToLogin();
+    throw new Error("Admin session expired. Redirecting to login.");
+  }
+  const text = await response.text();
+  let payload = null;
+  try {
+    payload = text ? JSON.parse(text) : null;
+  } catch {
+    payload = null;
+  }
+  return { response, payload };
+};
+
 const getPhotoName = (photo) => photo.internalName || photo.displayName || photo.originalName || "Untitled photo";
 
 const getPhotoById = (id) => state.library.photos.find((photo) => photo.id === id) || null;
@@ -1004,12 +1025,11 @@ const ensureUniqueKey = (filename, folder, usedKeys) => {
 };
 
 const getSignedUploads = async (files) => {
-  const response = await fetch("/api/admin-sign-s3-upload", {
+  const { response, payload } = await fetchAdminJson("/api/admin-sign-s3-upload", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ files }),
   });
-  const payload = await response.json();
   if (!response.ok || !payload?.ok) {
     throw new Error(payload?.details || payload?.error || "Could not sign upload");
   }
@@ -1108,7 +1128,7 @@ const saveLibrary = async () => {
   updateUnsavedState();
   setStatus(`Saving ${upserts.length} changed and ${deleteIds.length} deleted photo record${upserts.length + deleteIds.length === 1 ? "" : "s"}...`);
   try {
-    const response = await fetch("/api/update-photo-library", {
+    const { response, payload } = await fetchAdminJson("/api/update-photo-library", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -1118,7 +1138,6 @@ const saveLibrary = async () => {
         deleteIds,
       }),
     });
-    const payload = await response.json();
     if (!response.ok || !payload?.ok) {
       throw new Error(payload?.details || payload?.error || "Could not save library");
     }
@@ -1162,7 +1181,7 @@ const addSelectedPhotosToAlbum = async () => {
 
   setStatus(`Adding ${selectedPhotos.length} photo${selectedPhotos.length === 1 ? "" : "s"} to ${getAlbumTitle(albumId)}...`);
   try {
-    const response = await fetch("/api/admin-add-photos-to-album", {
+    const { response, payload } = await fetchAdminJson("/api/admin-add-photos-to-album", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -1170,7 +1189,6 @@ const addSelectedPhotosToAlbum = async () => {
         photos: selectedPhotos,
       }),
     });
-    const payload = await response.json();
     if (!response.ok || !payload?.ok) {
       throw new Error(payload?.details || payload?.error || "Could not add photos to album");
     }
@@ -1198,12 +1216,11 @@ const deletePhotosPermanently = async (ids) => {
   const keys = photos.flatMap((photo) => [photo.s3Key, photo.thumbS3Key]).filter(Boolean);
   if (keys.length) {
     for (const batch of chunkArray(keys, DELETE_BATCH_SIZE)) {
-      const response = await fetch("/api/admin-delete-s3-objects", {
+      const { response, payload } = await fetchAdminJson("/api/admin-delete-s3-objects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ keys: batch }),
       });
-      const payload = await response.json();
       if (!response.ok || !payload?.ok) {
         throw new Error(payload?.details || payload?.error || "Could not delete S3 objects");
       }
