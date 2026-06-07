@@ -769,6 +769,7 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 .admin-metadata dd {
   margin: 0;
   overflow-wrap: anywhere;
+  white-space: pre-line;
 }
 
 .admin-inspector-actions {

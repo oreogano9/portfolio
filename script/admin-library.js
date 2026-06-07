@@ -166,6 +166,12 @@ const normalizePhoto = (photo) => ({
   trashed: photo?.trashed === true,
   trashedAt: String(photo?.trashedAt || ""),
   metadata: normalizeMetadata(photo?.metadata),
+  archiveSha256: String(photo?.archiveSha256 || ""),
+  sourcePaths: Array.isArray(photo?.sourcePaths) ? photo.sourcePaths.map(String).filter(Boolean) : [],
+  sourceRoots: Array.isArray(photo?.sourceRoots) ? photo.sourceRoots.map(String).filter(Boolean) : [],
+  organizedPaths: Array.isArray(photo?.organizedPaths) ? photo.organizedPaths.map(String).filter(Boolean) : [],
+  archiveTags: Array.isArray(photo?.archiveTags) ? photo.archiveTags.map(String).filter(Boolean) : [],
+  archiveImportedAt: String(photo?.archiveImportedAt || ""),
 });
 
 const setStatus = (message) => {
@@ -264,6 +270,12 @@ const mergeLibraryPhotos = (libraryPhotos, albumPhotos) => {
         inPortfolio: existing.inPortfolio || normalized.inPortfolio,
         trashed: normalized.trashed,
         trashedAt: normalized.trashedAt || existing.trashedAt,
+        archiveSha256: normalized.archiveSha256 || existing.archiveSha256,
+        sourcePaths: Array.from(new Set([...(existing.sourcePaths || []), ...(normalized.sourcePaths || [])])),
+        sourceRoots: Array.from(new Set([...(existing.sourceRoots || []), ...(normalized.sourceRoots || [])])),
+        organizedPaths: Array.from(new Set([...(existing.organizedPaths || []), ...(normalized.organizedPaths || [])])),
+        archiveTags: Array.from(new Set([...(existing.archiveTags || []), ...(normalized.archiveTags || [])])),
+        archiveImportedAt: normalized.archiveImportedAt || existing.archiveImportedAt,
       })
     );
   });
@@ -305,6 +317,11 @@ const photoMatchesSearch = (photo) => {
     photo.originalName,
     photo.tags.join(" "),
     albumTitles,
+    photo.archiveSha256,
+    photo.sourcePaths.join(" "),
+    photo.sourceRoots.join(" "),
+    photo.organizedPaths.join(" "),
+    photo.archiveTags.join(" "),
     metadata.takenAt,
     metadata.cameraMake,
     metadata.cameraModel,
@@ -402,10 +419,15 @@ const createMetadataRows = (photo) => {
   const metadata = normalizeMetadata(photo?.metadata);
   const rows = [
     ["Storage key", photo.s3Key || "Album asset"],
+    ["Archive hash", photo.archiveSha256],
+    ["Original location", photo.sourcePaths?.join("\n")],
+    ["Organized reference", photo.organizedPaths?.join("\n")],
+    ["Archive tags", photo.archiveTags?.join("; ")],
     ["Dimensions", `${photo.width || "?"} x ${photo.height || "?"}`],
     ["Type", photo.type || "Unknown"],
     ["Size", photo.size ? formatBytes(photo.size) : "Unknown"],
     ["Uploaded", photo.uploadedAt ? new Date(photo.uploadedAt).toLocaleString() : "Imported from album settings"],
+    ["Archived", photo.archiveImportedAt ? new Date(photo.archiveImportedAt).toLocaleString() : ""],
     ["Taken", metadata.takenAt || ""],
     ["Camera", [metadata.cameraMake, metadata.cameraModel].filter(Boolean).join(" ")],
     ["Lens", [metadata.lensMake, metadata.lensModel].filter(Boolean).join(" ")],
