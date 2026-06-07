@@ -1,0 +1,649 @@
+import { resolveAssetUrl } from "./assets.js";
+
+const LIBRARY_SETTINGS_PATH = "data/photo-library.json";
+const LIBRARY_S3_PREFIX = "albums/library";
+const ORIGINALS_PREFIX = `${LIBRARY_S3_PREFIX}/originals`;
+const THUMBS_PREFIX = `${LIBRARY_S3_PREFIX}/thumbs`;
+const MAX_THUMB_EDGE = 900;
+const THUMB_QUALITY = 0.82;
+
+const state = {
+  library: { id: "photo-library", version: 1, updatedAt: "", photos: [] },
+  albums: [],
+  selectedIds: new Set(),
+  activeId: "",
+  view: "library",
+  filter: "all",
+  search: "",
+  saving: false,
+  uploading: false,
+};
+
+const els = {
+  body: document.body,
+  grid: document.querySelector(".admin-grid"),
+  inspector: document.querySelector(".admin-inspector"),
+  search: document.querySelector(".admin-search"),
+  filter: document.querySelector(".admin-filter"),
+  fileInput: document.querySelector(".admin-file-input"),
+  uploadStatus: document.querySelector(".admin-upload-status"),
+  selectionBar: document.querySelector(".admin-selection-bar"),
+  selectionCount: document.querySelector("[data-selection-count]"),
+  navButtons: Array.from(document.querySelectorAll("[data-admin-view]")),
+  stats: {
+    visible: document.querySelector('[data-stat="visible"]'),
+    selected: document.querySelector('[data-stat="selected"]'),
+    stored: document.querySelector('[data-stat="stored"]'),
+    trash: document.querySelector('[data-stat="trash"]'),
+  },
+};
+
+const normalizeSettingsPath = (value) => String(value || "").replace(/^\/+/, "");
+
+const getLibraryPath = () => normalizeSettingsPath(els.body.dataset.photoLibrary || LIBRARY_SETTINGS_PATH);
+
+const sanitizeStem = (value) =>
+  String(value || "photo")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\.[^.]+$/, "")
+    .replace(/[^a-zA-Z0-9._-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^[-.]+|[-.]+$/g, "")
+    .slice(0, 110) || "photo";
+
+const getExtension = (file) => {
+  const match = String(file?.name || "").match(/\.([a-zA-Z0-9]+)$/);
+  if (match) {
+    return match[1].toLowerCase();
+  }
+  if (file?.type === "image/png") {
+    return "png";
+  }
+  if (file?.type === "image/webp") {
+    return "webp";
+  }
+  return "jpg";
+};
+
+const formatBytes = (value) => {
+  const bytes = Number(value);
+  if (!Number.isFinite(bytes) || bytes <= 0) {
+    return "0 B";
+  }
+  const units = ["B", "KB", "MB", "GB"];
+  let size = bytes;
+  let unitIndex = 0;
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024;
+    unitIndex += 1;
+  }
+  return `${size >= 10 || unitIndex === 0 ? size.toFixed(0) : size.toFixed(1)} ${units[unitIndex]}`;
+};
+
+const splitTags = (value) =>
+  String(value || "")
+    .split(";")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+const joinTags = (tags) => (Array.isArray(tags) ? tags.join("; ") : "");
+
+const normalizePhoto = (photo) => ({
+  id: String(photo?.id || photo?.src || crypto.randomUUID()),
+  src: String(photo?.src || ""),
+  previewSrc: String(photo?.previewSrc || photo?.src || ""),
+  s3Key: String(photo?.s3Key || ""),
+  thumbS3Key: String(photo?.thumbS3Key || ""),
+  originalName: String(photo?.originalName || photo?.filename || ""),
+  displayName: String(photo?.displayName || photo?.originalName || photo?.filename || "Untitled photo"),
+  internalName: String(photo?.internalName || ""),
+  type: String(photo?.type || ""),
+  size: Number(photo?.size) || 0,
+  width: Number(photo?.width) || null,
+  height: Number(photo?.height) || null,
+  aspectRatio: Number(photo?.aspectRatio) || null,
+  uploadedAt: String(photo?.uploadedAt || ""),
+  lastModified: Number(photo?.lastModified) || null,
+  tags: Array.isArray(photo?.tags) ? photo.tags.map(String).filter(Boolean) : [],
+  albumIds: Array.isArray(photo?.albumIds) ? photo.albumIds.map(String).filter(Boolean) : [],
+  favorite: photo?.favorite === true,
+  inPortfolio: photo?.inPortfolio === true,
+  trashed: photo?.trashed === true,
+  trashedAt: String(photo?.trashedAt || ""),
+});
+
+const setStatus = (message) => {
+  if (els.uploadStatus) {
+    els.uploadStatus.textContent = message || "";
+  }
+};
+
+const getPhotoName = (photo) => photo.internalName || photo.displayName || photo.originalName || "Untitled photo";
+
+const getPhotoById = (id) => state.library.photos.find((photo) => photo.id === id) || null;
+
+const getAlbumTitle = (albumId) => state.albums.find((album) => album.id === albumId)?.title || albumId;
+
+const photoMatchesSearch = (photo) => {
+  const query = state.search.trim().toLowerCase();
+  if (!query) {
+    return true;
+  }
+  const albumTitles = photo.albumIds.map(getAlbumTitle).join(" ");
+  return [getPhotoName(photo), photo.originalName, photo.tags.join(" "), albumTitles]
+    .join(" ")
+    .toLowerCase()
+    .includes(query);
+};
+
+const photoMatchesFilter = (photo) => {
+  if (state.view === "trash") {
+    return photo.trashed;
+  }
+  if (photo.trashed) {
+    return false;
+  }
+  if (state.filter === "favorites") {
+    return photo.favorite;
+  }
+  if (state.filter === "portfolio") {
+    return photo.inPortfolio;
+  }
+  if (state.filter === "untagged") {
+    return !photo.tags.length;
+  }
+  return true;
+};
+
+const getVisiblePhotos = () => state.library.photos.filter((photo) => photoMatchesFilter(photo) && photoMatchesSearch(photo));
+
+const updateStats = (visiblePhotos) => {
+  const stored = state.library.photos.filter((photo) => !photo.trashed).length;
+  const trash = state.library.photos.filter((photo) => photo.trashed).length;
+  els.stats.visible.textContent = `${visiblePhotos.length} visible`;
+  els.stats.selected.textContent = `${state.selectedIds.size} selected`;
+  els.stats.stored.textContent = `${stored} stored`;
+  els.stats.trash.textContent = `${trash} trash`;
+  els.selectionBar.hidden = state.selectedIds.size === 0;
+  els.selectionCount.textContent = `${state.selectedIds.size} selected`;
+};
+
+const createPhotoCard = (photo) => {
+  const card = document.createElement("article");
+  card.className = `admin-photo-card${state.selectedIds.has(photo.id) ? " is-selected" : ""}${photo.id === state.activeId ? " is-active" : ""}`;
+  card.dataset.photoId = photo.id;
+
+  const imageButton = document.createElement("button");
+  imageButton.className = "admin-photo-thumb";
+  imageButton.type = "button";
+  imageButton.dataset.action = "inspect-photo";
+  imageButton.dataset.photoId = photo.id;
+  imageButton.setAttribute("aria-label", `Inspect ${getPhotoName(photo)}`);
+
+  const img = document.createElement("img");
+  img.loading = "lazy";
+  img.alt = getPhotoName(photo);
+  img.src = resolveAssetUrl(photo.previewSrc || photo.src);
+  imageButton.append(img);
+
+  const checkbox = document.createElement("button");
+  checkbox.className = "admin-photo-select";
+  checkbox.type = "button";
+  checkbox.dataset.action = "toggle-select";
+  checkbox.dataset.photoId = photo.id;
+  checkbox.setAttribute("aria-pressed", state.selectedIds.has(photo.id) ? "true" : "false");
+  checkbox.textContent = state.selectedIds.has(photo.id) ? "Selected" : "Select";
+
+  const meta = document.createElement("div");
+  meta.className = "admin-photo-meta";
+  meta.innerHTML = `
+    <strong>${escapeHtml(getPhotoName(photo))}</strong>
+    <span>${escapeHtml(`${photo.width || "?"} x ${photo.height || "?"}`)} · ${formatBytes(photo.size)}</span>
+  `;
+
+  const flags = document.createElement("div");
+  flags.className = "admin-photo-flags";
+  if (photo.favorite) flags.append(createFlag("Favorite"));
+  if (photo.inPortfolio) flags.append(createFlag("Portfolio"));
+  if (photo.tags.length) flags.append(createFlag(photo.tags.slice(0, 2).join("; ")));
+
+  card.append(imageButton, checkbox, meta, flags);
+  return card;
+};
+
+const createFlag = (label) => {
+  const flag = document.createElement("span");
+  flag.textContent = label;
+  return flag;
+};
+
+const renderGrid = () => {
+  const visiblePhotos = getVisiblePhotos();
+  updateStats(visiblePhotos);
+  els.navButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.adminView === state.view));
+
+  if (!visiblePhotos.length) {
+    els.grid.innerHTML = `<p class="admin-empty">${state.view === "trash" ? "Trash is empty." : "No photos match this view yet."}</p>`;
+    renderInspector();
+    return;
+  }
+
+  els.grid.replaceChildren(...visiblePhotos.map(createPhotoCard));
+  renderInspector();
+};
+
+const escapeHtml = (value) =>
+  String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+const renderInspector = () => {
+  const photo = getPhotoById(state.activeId);
+  if (!photo) {
+    els.inspector.innerHTML = `<p class="admin-empty">Select a photo to inspect metadata, rename it internally, tag it, mark it for portfolio, or assign album candidates.</p>`;
+    return;
+  }
+
+  const albumOptions = state.albums
+    .map((album) => {
+      const selected = photo.albumIds.includes(album.id) ? " selected" : "";
+      return `<option value="${album.id}"${selected}>${album.title}</option>`;
+    })
+    .join("");
+
+  els.inspector.innerHTML = `
+    <div class="admin-inspector-media">
+      <img alt="${escapeAttribute(getPhotoName(photo))}" src="${resolveAssetUrl(photo.previewSrc || photo.src)}" />
+    </div>
+    <div class="admin-inspector-header">
+      <h2>${escapeHtml(getPhotoName(photo))}</h2>
+      <p>${escapeHtml(photo.originalName || "No original filename")}</p>
+    </div>
+    <label class="admin-field">
+      <span>Internal name</span>
+      <input type="text" data-field="internalName" value="${escapeAttribute(photo.internalName)}" placeholder="${escapeAttribute(photo.displayName)}" />
+    </label>
+    <label class="admin-field">
+      <span>Tags</span>
+      <input type="text" data-field="tags" value="${escapeAttribute(joinTags(photo.tags))}" placeholder="memories; reportage" />
+    </label>
+    <label class="admin-field">
+      <span>Album candidates</span>
+      <select data-field="albumIds" multiple size="6">
+        ${albumOptions}
+      </select>
+    </label>
+    <div class="admin-toggle-row">
+      <label><input type="checkbox" data-field="favorite"${photo.favorite ? " checked" : ""} /> Favorite</label>
+      <label><input type="checkbox" data-field="inPortfolio"${photo.inPortfolio ? " checked" : ""} /> Portfolio page</label>
+    </div>
+    <dl class="admin-metadata">
+      <div><dt>Storage key</dt><dd>${escapeHtml(photo.s3Key || "Not uploaded")}</dd></div>
+      <div><dt>Dimensions</dt><dd>${escapeHtml(`${photo.width || "?"} x ${photo.height || "?"}`)}</dd></div>
+      <div><dt>Type</dt><dd>${escapeHtml(photo.type || "Unknown")}</dd></div>
+      <div><dt>Size</dt><dd>${formatBytes(photo.size)}</dd></div>
+      <div><dt>Uploaded</dt><dd>${escapeHtml(photo.uploadedAt ? new Date(photo.uploadedAt).toLocaleString() : "Unknown")}</dd></div>
+    </dl>
+    <div class="admin-inspector-actions">
+      ${
+        photo.trashed
+          ? `<button class="admin-button" type="button" data-action="restore-photo" data-photo-id="${photo.id}">Recover</button>
+             <button class="admin-button is-danger" type="button" data-action="delete-photo" data-photo-id="${photo.id}">Delete permanently</button>`
+          : `<button class="admin-button" type="button" data-action="trash-photo" data-photo-id="${photo.id}">Move to trash</button>`
+      }
+    </div>
+  `;
+};
+
+const escapeAttribute = (value) =>
+  String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+const loadImageInfo = async (file) => {
+  const objectUrl = URL.createObjectURL(file);
+  try {
+    const image = new Image();
+    const loaded = new Promise((resolve, reject) => {
+      image.onload = () => resolve();
+      image.onerror = reject;
+    });
+    image.src = objectUrl;
+    await loaded;
+    return {
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+    };
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+};
+
+const createThumbnailBlob = async (file, { width, height }) => {
+  const objectUrl = URL.createObjectURL(file);
+  try {
+    const image = new Image();
+    const loaded = new Promise((resolve, reject) => {
+      image.onload = () => resolve();
+      image.onerror = reject;
+    });
+    image.src = objectUrl;
+    await loaded;
+    const scale = Math.min(1, MAX_THUMB_EDGE / Math.max(width, height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(width * scale));
+    canvas.height = Math.max(1, Math.round(height * scale));
+    const context = canvas.getContext("2d");
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    return new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", THUMB_QUALITY));
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+};
+
+const ensureUniqueKey = (filename, folder, usedKeys) => {
+  const existingKeys = usedKeys || new Set(state.library.photos.flatMap((photo) => [photo.s3Key, photo.thumbS3Key]).filter(Boolean));
+  const extensionIndex = filename.lastIndexOf(".");
+  const base = extensionIndex >= 0 ? filename.slice(0, extensionIndex) : filename;
+  const extension = extensionIndex >= 0 ? filename.slice(extensionIndex) : "";
+  let candidate = `${folder}/${filename}`;
+  let counter = 2;
+  while (existingKeys.has(candidate)) {
+    candidate = `${folder}/${base}-${counter}${extension}`;
+    counter += 1;
+  }
+  existingKeys.add(candidate);
+  return candidate;
+};
+
+const getSignedUploads = async (files) => {
+  const response = await fetch("/api/admin-sign-s3-upload", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ files }),
+  });
+  const payload = await response.json();
+  if (!response.ok || !payload?.ok) {
+    throw new Error(payload?.details || payload?.error || "Could not sign upload");
+  }
+  return payload.uploads;
+};
+
+const putSignedObject = async ({ signedUpload, body }) => {
+  const response = await fetch(signedUpload.url, {
+    method: "PUT",
+    headers: signedUpload.headers,
+    body,
+  });
+  if (!response.ok) {
+    throw new Error(`S3 upload failed: ${response.status}`);
+  }
+};
+
+const uploadFiles = async (files) => {
+  const imageFiles = Array.from(files).filter((file) => file.type.startsWith("image/"));
+  if (!imageFiles.length) {
+    setStatus("No image files selected.");
+    return;
+  }
+
+  state.uploading = true;
+  setStatus(`Preparing ${imageFiles.length} upload${imageFiles.length === 1 ? "" : "s"}...`);
+
+  try {
+    const uploadedPhotos = [];
+    const reservedKeys = new Set(state.library.photos.flatMap((photo) => [photo.s3Key, photo.thumbS3Key]).filter(Boolean));
+    for (const [index, file] of imageFiles.entries()) {
+      setStatus(`Uploading ${index + 1}/${imageFiles.length}: ${file.name}`);
+      const dimensions = await loadImageInfo(file);
+      const extension = getExtension(file);
+      const baseName = `${sanitizeStem(file.name)}.${extension}`;
+      const thumbName = `${sanitizeStem(file.name)}.jpg`;
+      const s3Key = ensureUniqueKey(baseName, ORIGINALS_PREFIX, reservedKeys);
+      const thumbS3Key = ensureUniqueKey(thumbName, THUMBS_PREFIX, reservedKeys);
+      const thumbnailBlob = await createThumbnailBlob(file, dimensions);
+      if (!thumbnailBlob) {
+        throw new Error(`Could not create thumbnail for ${file.name}`);
+      }
+      const [originalUpload, thumbUpload] = await getSignedUploads([
+        { key: s3Key, contentType: file.type || "image/jpeg" },
+        { key: thumbS3Key, contentType: "image/jpeg" },
+      ]);
+      await putSignedObject({ signedUpload: originalUpload, body: file });
+      await putSignedObject({ signedUpload: thumbUpload, body: thumbnailBlob });
+
+      uploadedPhotos.push(
+        normalizePhoto({
+          id: crypto.randomUUID(),
+          src: originalUpload.publicPath,
+          previewSrc: thumbUpload.publicPath,
+          s3Key,
+          thumbS3Key,
+          originalName: file.name,
+          displayName: sanitizeStem(file.name).replace(/[-_]+/g, " "),
+          type: file.type,
+          size: file.size,
+          width: dimensions.width,
+          height: dimensions.height,
+          aspectRatio: dimensions.height ? dimensions.width / dimensions.height : null,
+          uploadedAt: new Date().toISOString(),
+          lastModified: file.lastModified,
+        })
+      );
+    }
+
+    state.library.photos = [...uploadedPhotos, ...state.library.photos];
+    state.activeId = uploadedPhotos[0]?.id || state.activeId;
+    setStatus(`Uploaded ${uploadedPhotos.length} photo${uploadedPhotos.length === 1 ? "" : "s"} to S3. Save metadata to keep them in the library.`);
+    renderGrid();
+  } catch (error) {
+    setStatus(error instanceof Error ? error.message : String(error));
+  } finally {
+    state.uploading = false;
+    if (els.fileInput) {
+      els.fileInput.value = "";
+    }
+  }
+};
+
+const saveLibrary = async () => {
+  state.saving = true;
+  setStatus("Saving library metadata...");
+  try {
+    const response = await fetch("/api/save-photo-library", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        documentId: "photo-library",
+        settingsPath: getLibraryPath(),
+        settings: state.library,
+      }),
+    });
+    const payload = await response.json();
+    if (!response.ok || !payload?.ok) {
+      throw new Error(payload?.details || payload?.error || "Could not save library");
+    }
+    state.library = {
+      ...payload.library,
+      photos: (payload.library?.photos || []).map(normalizePhoto),
+    };
+    setStatus("Library metadata saved.");
+    renderGrid();
+  } catch (error) {
+    setStatus(error instanceof Error ? error.message : String(error));
+  } finally {
+    state.saving = false;
+  }
+};
+
+const patchPhotos = (ids, patch) => {
+  const idSet = new Set(ids);
+  state.library.photos = state.library.photos.map((photo) => (idSet.has(photo.id) ? normalizePhoto({ ...photo, ...patch(photo) }) : photo));
+};
+
+const deletePhotosPermanently = async (ids) => {
+  const idSet = new Set(ids);
+  const photos = state.library.photos.filter((photo) => idSet.has(photo.id));
+  const keys = photos.flatMap((photo) => [photo.s3Key, photo.thumbS3Key]).filter(Boolean);
+  if (keys.length) {
+    const response = await fetch("/api/admin-delete-s3-objects", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ keys }),
+    });
+    const payload = await response.json();
+    if (!response.ok || !payload?.ok) {
+      throw new Error(payload?.details || payload?.error || "Could not delete S3 objects");
+    }
+  }
+  state.library.photos = state.library.photos.filter((photo) => !idSet.has(photo.id));
+  ids.forEach((id) => state.selectedIds.delete(id));
+  if (idSet.has(state.activeId)) {
+    state.activeId = "";
+  }
+};
+
+const handleAction = async (target) => {
+  const action = target.dataset.action;
+  const photoId = target.dataset.photoId;
+  if (action === "inspect-photo") {
+    state.activeId = photoId;
+    renderGrid();
+    return;
+  }
+  if (action === "toggle-select") {
+    state.selectedIds.has(photoId) ? state.selectedIds.delete(photoId) : state.selectedIds.add(photoId);
+    state.activeId = photoId;
+    renderGrid();
+    return;
+  }
+  if (action === "clear-selection") {
+    state.selectedIds.clear();
+    renderGrid();
+    return;
+  }
+  if (action === "save-library") {
+    await saveLibrary();
+    return;
+  }
+
+  const selectedIds = state.selectedIds.size ? Array.from(state.selectedIds) : photoId ? [photoId] : [];
+  if (!selectedIds.length) {
+    return;
+  }
+
+  if (action === "favorite-selected") {
+    patchPhotos(selectedIds, (photo) => ({ favorite: !photo.favorite }));
+  } else if (action === "portfolio-selected") {
+    patchPhotos(selectedIds, (photo) => ({ inPortfolio: !photo.inPortfolio }));
+  } else if (action === "trash-selected" || action === "trash-photo") {
+    patchPhotos(selectedIds, () => ({ trashed: true, trashedAt: new Date().toISOString() }));
+  } else if (action === "restore-photo") {
+    patchPhotos(selectedIds, () => ({ trashed: false, trashedAt: "" }));
+  } else if (action === "delete-photo") {
+    if (!window.confirm("Permanently delete this photo and its thumbnail from S3?")) {
+      return;
+    }
+    await deletePhotosPermanently(selectedIds);
+  }
+  renderGrid();
+};
+
+const handleInspectorInput = (target, { rerender = false } = {}) => {
+  const photo = getPhotoById(state.activeId);
+  if (!photo) {
+    return;
+  }
+  const field = target.dataset.field;
+  const nextPhoto = { ...photo };
+  if (field === "internalName") {
+    nextPhoto.internalName = target.value;
+  } else if (field === "tags") {
+    nextPhoto.tags = splitTags(target.value);
+  } else if (field === "favorite") {
+    nextPhoto.favorite = target.checked;
+  } else if (field === "inPortfolio") {
+    nextPhoto.inPortfolio = target.checked;
+  } else if (field === "albumIds") {
+    nextPhoto.albumIds = Array.from(target.selectedOptions).map((option) => option.value);
+  }
+  state.library.photos = state.library.photos.map((item) => (item.id === photo.id ? normalizePhoto(nextPhoto) : item));
+  if (rerender) {
+    renderGrid();
+  }
+};
+
+const loadJson = async (path) => {
+  const response = await fetch(path);
+  if (!response.ok) {
+    throw new Error(`Could not load ${path}`);
+  }
+  return response.json();
+};
+
+const normalizeAlbumId = (href) =>
+  String(href || "")
+    .split("/")
+    .pop()
+    ?.replace(/^album-/, "")
+    .replace(/\.html$/, "") || "";
+
+const init = async () => {
+  try {
+    const [library, homepage] = await Promise.all([loadJson(`/${getLibraryPath()}`), loadJson("/data/homepage.settings.json")]);
+    state.library = {
+      ...library,
+      photos: (library?.photos || []).map(normalizePhoto),
+    };
+    state.albums = (homepage?.albumCards || [])
+      .map((album) => ({
+        id: normalizeAlbumId(album.href),
+        title: album.title || normalizeAlbumId(album.href),
+      }))
+      .filter((album) => album.id);
+  } catch (error) {
+    setStatus(error instanceof Error ? error.message : String(error));
+  }
+
+  els.search?.addEventListener("input", (event) => {
+    state.search = event.target.value;
+    renderGrid();
+  });
+  els.filter?.addEventListener("change", (event) => {
+    state.filter = event.target.value;
+    renderGrid();
+  });
+  els.fileInput?.addEventListener("change", (event) => uploadFiles(event.target.files));
+  els.navButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      state.view = button.dataset.adminView || "library";
+      state.selectedIds.clear();
+      renderGrid();
+    });
+  });
+  document.addEventListener("click", async (event) => {
+    const target = event.target.closest("[data-action]");
+    if (!target) {
+      return;
+    }
+    await handleAction(target);
+  });
+  els.inspector?.addEventListener("input", (event) => {
+    if (event.target.matches("[data-field]")) {
+      handleInspectorInput(event.target);
+    }
+  });
+  els.inspector?.addEventListener("change", (event) => {
+    if (event.target.matches("[data-field]")) {
+      handleInspectorInput(event.target, { rerender: true });
+    }
+  });
+
+  renderGrid();
+};
+
+init();

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Library - Konrad Parada Photos</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="admin-page is-site-dark" data-photo-library="/data/photo-library.json">
+    <main class="admin-shell">
+      <aside class="admin-rail" aria-label="Admin navigation">
+        <a class="brand admin-brand" href="/">Konrad Parada Photos</a>
+        <nav class="admin-nav">
+          <button class="admin-nav-button is-active" type="button" data-admin-view="library">Library</button>
+          <button class="admin-nav-button" type="button" data-admin-view="trash">Trash</button>
+        </nav>
+        <div class="admin-upload-panel">
+          <label class="admin-upload-drop">
+            <span>Upload photos to S3</span>
+            <small>Originals and thumbnails are stored in the Amazon bucket.</small>
+            <input class="admin-file-input" type="file" accept="image/*" multiple />
+          </label>
+          <div class="admin-upload-status" aria-live="polite"></div>
+        </div>
+      </aside>
+
+      <section class="admin-workspace">
+        <header class="admin-toolbar">
+          <div>
+            <h1>Photo Library</h1>
+            <p class="admin-summary">Central storage for uploaded photographs, album candidates, portfolio picks, tags, favorites, and trash.</p>
+          </div>
+          <div class="admin-toolbar-actions">
+            <input class="admin-search" type="search" placeholder="Search filename, tag, album..." />
+            <select class="admin-filter" aria-label="Filter library">
+              <option value="all">All photos</option>
+              <option value="favorites">Favorites</option>
+              <option value="portfolio">Portfolio picks</option>
+              <option value="untagged">Untagged</option>
+            </select>
+            <button class="admin-button" type="button" data-action="save-library">Save</button>
+          </div>
+        </header>
+
+        <div class="admin-stats" aria-label="Library statistics">
+          <span data-stat="visible">0 visible</span>
+          <span data-stat="selected">0 selected</span>
+          <span data-stat="stored">0 stored</span>
+          <span data-stat="trash">0 trash</span>
+        </div>
+
+        <div class="admin-selection-bar" hidden>
+          <span data-selection-count>0 selected</span>
+          <button class="admin-button" type="button" data-action="favorite-selected">Favorite</button>
+          <button class="admin-button" type="button" data-action="portfolio-selected">Portfolio</button>
+          <button class="admin-button" type="button" data-action="trash-selected">Move to trash</button>
+          <button class="admin-button" type="button" data-action="clear-selection">Clear</button>
+        </div>
+
+        <div class="admin-main">
+          <section class="admin-grid" aria-label="Photo library"></section>
+          <aside class="admin-inspector" aria-label="Photo details">
+            <p class="admin-empty">Select a photo to inspect metadata, rename it internally, tag it, mark it for portfolio, or assign album candidates.</p>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/script/admin-library.js"></script>
+  </body>
+</html>
