@@ -6,6 +6,7 @@ const ORIGINALS_PREFIX = `${LIBRARY_S3_PREFIX}/originals`;
 const THUMBS_PREFIX = `${LIBRARY_S3_PREFIX}/thumbs`;
 const MAX_THUMB_EDGE = 900;
 const THUMB_QUALITY = 0.82;
+const DELETE_BATCH_SIZE = 100;
 
 const state = {
   library: { id: "photo-library", version: 1, updatedAt: "", photos: [] },
@@ -30,6 +31,7 @@ const els = {
   search: document.querySelector(".admin-search"),
   filter: document.querySelector(".admin-filter"),
   albumFilter: document.querySelector(".admin-album-filter"),
+  saveButton: document.querySelector('[data-action="save-library"]'),
   fileInput: document.querySelector(".admin-file-input"),
   uploadStatus: document.querySelector(".admin-upload-status"),
   selectionBar: document.querySelector(".admin-selection-bar"),
@@ -41,6 +43,7 @@ const els = {
     selected: document.querySelector('[data-stat="selected"]'),
     stored: document.querySelector('[data-stat="stored"]'),
     trash: document.querySelector('[data-stat="trash"]'),
+    unsaved: document.querySelector('[data-stat="unsaved"]'),
   },
 };
 
@@ -191,8 +194,31 @@ const getPhotoById = (id) => state.library.photos.find((photo) => photo.id === i
 
 const getAlbumTitle = (albumId) => state.albums.find((album) => album.id === albumId)?.title || albumId;
 
+const getUnsavedCount = () => state.dirtyIds.size + state.deletedIds.size;
+
+const updateUnsavedState = () => {
+  const count = getUnsavedCount();
+  if (els.stats.unsaved) {
+    els.stats.unsaved.textContent = count ? `${count} unsaved` : "Saved";
+    els.stats.unsaved.classList.toggle("is-warning", count > 0);
+  }
+  if (els.saveButton) {
+    els.saveButton.textContent = count ? `Save ${count}` : "Save";
+    els.saveButton.disabled = state.saving || state.uploading || count === 0;
+  }
+};
+
 const markDirty = (ids) => {
   ids.filter(Boolean).forEach((id) => state.dirtyIds.add(id));
+  updateUnsavedState();
+};
+
+const chunkArray = (items, size) => {
+  const chunks = [];
+  for (let index = 0; index < items.length; index += size) {
+    chunks.push(items.slice(index, index + size));
+  }
+  return chunks;
 };
 
 const isArchivePhoto = (photo) => Boolean(photo.archiveSha256 || photo.sourcePaths?.length || String(photo.s3Key || "").startsWith("albums/ARCHIVE/"));
@@ -455,6 +481,7 @@ const updateStats = (visiblePhotos) => {
   els.stats.trash.textContent = `${trash} trash`;
   els.selectionBar.hidden = state.selectedIds.size === 0;
   els.selectionCount.textContent = `${state.selectedIds.size} selected`;
+  updateUnsavedState();
 };
 
 const createPhotoCard = (photo) => {
@@ -539,7 +566,7 @@ const renderGrid = () => {
   const visiblePhotos = getVisiblePhotos();
   updateStats(visiblePhotos);
   els.navButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.adminView === state.view));
-  els.grid.hidden = state.detailOpen;
+  els.grid.hidden = false;
   renderDetail();
 
   if (!visiblePhotos.length) {
@@ -1026,6 +1053,7 @@ const saveLibrary = async () => {
     return;
   }
   state.saving = true;
+  updateUnsavedState();
   setStatus(`Saving ${upserts.length} changed and ${deleteIds.length} deleted photo record${upserts.length + deleteIds.length === 1 ? "" : "s"}...`);
   try {
     const response = await fetch("/api/update-photo-library", {
@@ -1061,6 +1089,7 @@ const saveLibrary = async () => {
     setStatus(error instanceof Error ? error.message : String(error));
   } finally {
     state.saving = false;
+    updateUnsavedState();
   }
 };
 
@@ -1116,14 +1145,16 @@ const deletePhotosPermanently = async (ids) => {
   const photos = state.library.photos.filter((photo) => idSet.has(photo.id));
   const keys = photos.flatMap((photo) => [photo.s3Key, photo.thumbS3Key]).filter(Boolean);
   if (keys.length) {
-    const response = await fetch("/api/admin-delete-s3-objects", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ keys }),
-    });
-    const payload = await response.json();
-    if (!response.ok || !payload?.ok) {
-      throw new Error(payload?.details || payload?.error || "Could not delete S3 objects");
+    for (const batch of chunkArray(keys, DELETE_BATCH_SIZE)) {
+      const response = await fetch("/api/admin-delete-s3-objects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keys: batch }),
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload?.ok) {
+        throw new Error(payload?.details || payload?.error || "Could not delete S3 objects");
+      }
     }
   }
   state.library.photos = state.library.photos.filter((photo) => !idSet.has(photo.id));
@@ -1135,6 +1166,7 @@ const deletePhotosPermanently = async (ids) => {
   if (idSet.has(state.activeId)) {
     state.activeId = "";
   }
+  updateUnsavedState();
 };
 
 const handleAction = async (target, event) => {
@@ -1175,24 +1207,25 @@ const handleAction = async (target, event) => {
     return;
   }
 
-  const selectedIds = state.selectedIds.size ? Array.from(state.selectedIds) : photoId ? [photoId] : [];
-  if (!selectedIds.length) {
+  const isDetailAction = Boolean(target.closest(".admin-detail"));
+  const targetIds = isDetailAction || !state.selectedIds.size ? (photoId ? [photoId] : []) : Array.from(state.selectedIds);
+  if (!targetIds.length) {
     return;
   }
 
   if (action === "favorite-selected") {
-    patchPhotos(selectedIds, (photo) => ({ favorite: !photo.favorite }));
+    patchPhotos(targetIds, (photo) => ({ favorite: !photo.favorite }));
   } else if (action === "portfolio-selected") {
-    patchPhotos(selectedIds, (photo) => ({ inPortfolio: !photo.inPortfolio }));
+    patchPhotos(targetIds, (photo) => ({ inPortfolio: !photo.inPortfolio }));
   } else if (action === "trash-selected" || action === "trash-photo") {
-    patchPhotos(selectedIds, () => ({ trashed: true, trashedAt: new Date().toISOString() }));
+    patchPhotos(targetIds, () => ({ trashed: true, trashedAt: new Date().toISOString() }));
   } else if (action === "restore-photo") {
-    patchPhotos(selectedIds, () => ({ trashed: false, trashedAt: "" }));
+    patchPhotos(targetIds, () => ({ trashed: false, trashedAt: "" }));
   } else if (action === "delete-photo") {
-    if (!window.confirm("Permanently delete this photo and its thumbnail from S3?")) {
+    if (!window.confirm(`Permanently delete ${targetIds.length} photo${targetIds.length === 1 ? "" : "s"} and matching thumbnails from S3?`)) {
       return;
     }
-    await deletePhotosPermanently(selectedIds);
+    await deletePhotosPermanently(targetIds);
   }
   renderGrid();
 };

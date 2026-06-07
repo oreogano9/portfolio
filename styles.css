@@ -602,6 +602,11 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   padding: 0.45rem 0.7rem;
 }
 
+.admin-stats span.is-warning {
+  border-color: color-mix(in srgb, #ffd27a 70%, var(--line));
+  color: #ffd27a;
+}
+
 .admin-selection-bar {
   border-radius: 0.6rem;
   justify-content: flex-start;
@@ -719,8 +724,17 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 }
 
 .admin-detail {
+  position: fixed;
+  inset: 1rem 1rem 1rem 8.75rem;
+  z-index: 60;
   display: grid;
   gap: 1rem;
+  align-content: start;
+  overflow: auto;
+  padding: 0.85rem;
+  border: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.32);
 }
 
 .admin-detail-top {
@@ -732,7 +746,7 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 
 .admin-detail-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 25rem);
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 23rem);
   gap: 1rem;
   align-items: start;
 }
@@ -740,7 +754,7 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 .admin-detail-media img {
   display: block;
   width: 100%;
-  max-height: calc(100vh - 11rem);
+  max-height: calc(100vh - 5.5rem);
   object-fit: contain;
   background: var(--bg);
 }
@@ -4669,6 +4683,10 @@ body.is-site-dark .floating-photo-editor .photo-toggle-button[aria-pressed="true
 
   .admin-main {
     grid-template-columns: 1fr;
+  }
+
+  .admin-detail {
+    inset: 0.6rem;
   }
 
   .admin-detail-layout {
