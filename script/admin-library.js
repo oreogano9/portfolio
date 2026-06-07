@@ -208,6 +208,9 @@ const getGridImageSrc = (photo) => {
   if (previewSrc && previewSrc !== photo.src) {
     return previewSrc;
   }
+  if (isArchivePhoto(photo)) {
+    return "";
+  }
   return deriveThumbnailPath(photo.src) || photo.src;
 };
 
@@ -461,13 +464,21 @@ const createPhotoCard = (photo) => {
   imageButton.setAttribute("aria-label", `Inspect ${getPhotoName(photo)}`);
 
   const img = document.createElement("img");
-  img.loading = "lazy";
-  img.alt = getPhotoName(photo);
-  img.src = resolveAssetUrl(getGridImageSrc(photo));
-  if (photo.aspectRatio) {
-    img.style.aspectRatio = String(photo.aspectRatio);
+  const gridImageSrc = getGridImageSrc(photo);
+  if (gridImageSrc) {
+    img.loading = "lazy";
+    img.alt = getPhotoName(photo);
+    img.src = resolveAssetUrl(gridImageSrc);
+    if (photo.aspectRatio) {
+      img.style.aspectRatio = String(photo.aspectRatio);
+    }
+    imageButton.append(img);
+  } else {
+    const placeholder = document.createElement("span");
+    placeholder.className = "admin-photo-placeholder";
+    placeholder.textContent = "No thumbnail";
+    imageButton.append(placeholder);
   }
-  imageButton.append(img);
 
   if (state.selectedIds.has(photo.id)) {
     const selectedMark = document.createElement("span");

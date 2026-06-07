@@ -653,6 +653,19 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   background: var(--surface);
 }
 
+.admin-photo-placeholder {
+  display: grid;
+  min-height: 7rem;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--site-ui-font-family);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .admin-photo-selected-mark {
   position: absolute;
   top: 0.35rem;

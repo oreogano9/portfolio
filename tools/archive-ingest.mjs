@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { createHash, createHmac } from "node:crypto";
-import { createReadStream } from "node:fs";
+import { createReadStream, existsSync } from "node:fs";
 import { lstat, mkdir, readFile, readdir, stat, symlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -125,6 +125,7 @@ const extensionForArchive = (filePath) => {
 
 const archiveKeyFor = (sha256, filePath) => `${ARCHIVE_PREFIX}/originals/${sha256.slice(0, 2)}/${sha256}${extensionForArchive(filePath)}`;
 const thumbKeyFor = (sha256) => `${ARCHIVE_PREFIX}/thumbs/${sha256.slice(0, 2)}/${sha256}.jpg`;
+const thumbPathFor = (sha256) => path.join(WORK_DIR, "thumbs", sha256.slice(0, 2), `${sha256}.jpg`);
 const publicPathForKey = (key) => `/images/${key.replace(/^albums\//, "")}`;
 const cloudFrontUrlForKey = (key) => `${CLOUDFRONT_BASE_URL}/${key.replace(/^albums\//, "")}`;
 
@@ -279,7 +280,7 @@ async function stageOriginalLinks(manifest) {
 }
 
 async function createThumbnail(entry) {
-  const outputPath = path.join(WORK_DIR, "thumbs", entry.sha256.slice(0, 2), `${entry.sha256}.jpg`);
+  const outputPath = thumbPathFor(entry.sha256);
   try {
     await stat(outputPath);
     return outputPath;
@@ -513,16 +514,18 @@ async function uploadArchive(manifest) {
       });
     }
     if (!originalsOnly) {
-      for (const entry of thumbnailEntries) {
+      const thumbnailJobs = [];
+      await runWithConcurrency(thumbnailEntries, async (entry) => {
         const thumbPath = await createThumbnail(entry);
         if (thumbPath) {
-          uploadJobs.push({
+          thumbnailJobs.push({
             localPath: thumbPath,
             key: entry.thumbS3Key,
             contentType: "image/jpeg",
           });
         }
-      }
+      }, uploadConcurrency);
+      uploadJobs.push(...thumbnailJobs);
     }
     log(
       `Uploading ${uploadJobs.length} object(s) with ${
@@ -666,11 +669,11 @@ const parseGps = (value) => {
 const photoRecordFromEntry = (entry, exifByPath) => {
   const exif = exifByPath.get(entry.canonicalPath) || {};
   const fileName = entry.originalNames[0] || path.basename(entry.canonicalPath);
-  const thumbExists = entry.thumbS3Key;
+  const thumbExists = entry.thumbS3Key && existsSync(thumbPathFor(entry.sha256));
   return {
     id: `archive:${entry.sha256}`,
     src: publicPathForKey(entry.s3Key),
-    previewSrc: thumbExists ? publicPathForKey(entry.thumbS3Key) : publicPathForKey(entry.s3Key),
+    previewSrc: thumbExists ? publicPathForKey(entry.thumbS3Key) : "",
     s3Key: entry.s3Key,
     thumbS3Key: thumbExists ? entry.thumbS3Key : "",
     originalName: fileName,
