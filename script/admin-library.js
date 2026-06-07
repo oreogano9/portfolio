@@ -484,6 +484,20 @@ const updateStats = (visiblePhotos) => {
   updateUnsavedState();
 };
 
+const updatePhotoCardStates = () => {
+  els.grid.querySelectorAll(".admin-photo-card").forEach((card) => {
+    const photoId = card.dataset.photoId || "";
+    card.classList.toggle("is-selected", state.selectedIds.has(photoId));
+    card.classList.toggle("is-active", photoId === state.activeId);
+  });
+};
+
+const restoreScrollPosition = (scrollX, scrollY) => {
+  requestAnimationFrame(() => {
+    window.scrollTo(scrollX, scrollY);
+  });
+};
+
 const createPhotoCard = (photo) => {
   const card = document.createElement("article");
   card.className = `admin-photo-card${state.selectedIds.has(photo.id) ? " is-selected" : ""}${photo.id === state.activeId ? " is-active" : ""}`;
@@ -1173,18 +1187,29 @@ const handleAction = async (target, event) => {
   const action = target.dataset.action;
   const photoId = target.dataset.photoId;
   if (action === "inspect-photo") {
+    event?.preventDefault();
     if (event?.shiftKey) {
       state.selectedIds.has(photoId) ? state.selectedIds.delete(photoId) : state.selectedIds.add(photoId);
+      renderGrid();
     } else {
+      const scrollX = window.scrollX;
+      const scrollY = window.scrollY;
       state.activeId = photoId;
       state.detailOpen = true;
+      renderDetail();
+      updatePhotoCardStates();
+      restoreScrollPosition(scrollX, scrollY);
     }
-    renderGrid();
     return;
   }
   if (action === "close-detail") {
+    event?.preventDefault();
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
     state.detailOpen = false;
-    renderGrid();
+    renderDetail();
+    updatePhotoCardStates();
+    restoreScrollPosition(scrollX, scrollY);
     return;
   }
   if (action === "toggle-select") {
