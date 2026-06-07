@@ -7,6 +7,7 @@ const THUMBS_PREFIX = `${LIBRARY_S3_PREFIX}/thumbs`;
 const MAX_THUMB_EDGE = 900;
 const THUMB_QUALITY = 0.82;
 const DELETE_BATCH_SIZE = 100;
+const GRID_BATCH_SIZE = 240;
 
 const state = {
   library: { id: "photo-library", version: 1, updatedAt: "", photos: [] },
@@ -20,6 +21,7 @@ const state = {
   saving: false,
   uploading: false,
   detailOpen: false,
+  renderLimit: GRID_BATCH_SIZE,
   dirtyIds: new Set(),
   deletedIds: new Set(),
 };
@@ -474,10 +476,15 @@ const getVisiblePhotos = () => {
   return visiblePhotos;
 };
 
-const updateStats = (visiblePhotos) => {
+const resetRenderLimit = () => {
+  state.renderLimit = GRID_BATCH_SIZE;
+};
+
+const updateStats = (visiblePhotos, renderedCount = visiblePhotos.length) => {
   const stored = state.library.photos.filter((photo) => !photo.trashed).length;
   const trash = state.library.photos.filter((photo) => photo.trashed).length;
-  els.stats.visible.textContent = `${visiblePhotos.length} visible`;
+  els.stats.visible.textContent =
+    renderedCount < visiblePhotos.length ? `${renderedCount} of ${visiblePhotos.length} visible` : `${visiblePhotos.length} visible`;
   els.stats.selected.textContent = `${state.selectedIds.size} selected`;
   els.stats.stored.textContent = `${stored} stored`;
   els.stats.trash.textContent = `${trash} trash`;
@@ -555,6 +562,18 @@ const createFlag = (label) => {
   return flag;
 };
 
+const createLoadMoreControl = ({ renderedCount, totalCount }) => {
+  const holder = document.createElement("div");
+  holder.className = "admin-grid-more";
+  const button = document.createElement("button");
+  button.className = "admin-button";
+  button.type = "button";
+  button.dataset.action = "load-more";
+  button.textContent = `Load more (${renderedCount} of ${totalCount})`;
+  holder.append(button);
+  return holder;
+};
+
 const createMetadataRows = (photo) => {
   const metadata = normalizeMetadata(photo?.metadata);
   const rows = [
@@ -587,9 +606,13 @@ const createMetadataRows = (photo) => {
     .join("");
 };
 
-const renderGrid = () => {
+const renderGrid = ({ reset = false } = {}) => {
+  if (reset) {
+    resetRenderLimit();
+  }
   const visiblePhotos = getVisiblePhotos();
-  updateStats(visiblePhotos);
+  const renderedPhotos = visiblePhotos.slice(0, state.renderLimit);
+  updateStats(visiblePhotos, renderedPhotos.length);
   els.navButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.adminView === state.view));
   els.grid.hidden = false;
   renderDetail();
@@ -599,7 +622,11 @@ const renderGrid = () => {
     return;
   }
 
-  els.grid.replaceChildren(...visiblePhotos.map(createPhotoCard));
+  const gridItems = renderedPhotos.map(createPhotoCard);
+  if (renderedPhotos.length < visiblePhotos.length) {
+    gridItems.push(createLoadMoreControl({ renderedCount: renderedPhotos.length, totalCount: visiblePhotos.length }));
+  }
+  els.grid.replaceChildren(...gridItems);
 };
 
 const escapeHtml = (value) =>
@@ -1234,6 +1261,11 @@ const handleAction = async (target, event) => {
     renderGrid();
     return;
   }
+  if (action === "load-more") {
+    state.renderLimit += GRID_BATCH_SIZE;
+    renderGrid();
+    return;
+  }
   if (action === "save-library") {
     await saveLibrary();
     return;
@@ -1345,17 +1377,17 @@ const init = async () => {
 
   els.search?.addEventListener("input", (event) => {
     state.search = event.target.value;
-    renderGrid();
+    renderGrid({ reset: true });
   });
   els.filter?.addEventListener("change", (event) => {
     state.filter = event.target.value;
-    renderGrid();
+    renderGrid({ reset: true });
   });
   els.albumFilter?.addEventListener("change", (event) => {
     state.albumFilter = event.target.value;
     state.selectedIds.clear();
     state.detailOpen = false;
-    renderGrid();
+    renderGrid({ reset: true });
   });
   els.fileInput?.addEventListener("change", (event) => uploadFiles(event.target.files));
   els.navButtons.forEach((button) => {
@@ -1363,7 +1395,7 @@ const init = async () => {
       state.view = button.dataset.adminView || "library";
       state.selectedIds.clear();
       state.detailOpen = false;
-      renderGrid();
+      renderGrid({ reset: true });
     });
   });
   document.addEventListener("click", async (event) => {

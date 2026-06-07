@@ -671,6 +671,13 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   text-transform: uppercase;
 }
 
+.admin-grid-more {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0 0.5rem;
+}
+
 .admin-photo-selected-mark {
   position: absolute;
   top: 0.35rem;
