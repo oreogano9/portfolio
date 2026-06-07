@@ -82,6 +82,39 @@ const formatBytes = (value) => {
   return `${size >= 10 || unitIndex === 0 ? size.toFixed(0) : size.toFixed(1)} ${units[unitIndex]}`;
 };
 
+const formatExposure = (value) => {
+  const seconds = Number(value);
+  if (!Number.isFinite(seconds) || seconds <= 0) {
+    return "";
+  }
+  if (seconds >= 1) {
+    return `${seconds.toFixed(seconds >= 10 ? 0 : 1)}s`;
+  }
+  return `1/${Math.round(1 / seconds)}s`;
+};
+
+const formatNumber = (value, suffix = "") => {
+  if (value === null || value === undefined || value === "") {
+    return "";
+  }
+  const number = Number(value);
+  if (!Number.isFinite(number)) {
+    return "";
+  }
+  return `${Number.isInteger(number) ? number : number.toFixed(1)}${suffix}`;
+};
+
+const formatCoordinate = (value) => {
+  if (value === null || value === undefined || value === "") {
+    return "";
+  }
+  const number = Number(value);
+  if (!Number.isFinite(number)) {
+    return "";
+  }
+  return number.toFixed(6);
+};
+
 const splitTags = (value) =>
   String(value || "")
     .split(";")
@@ -89,6 +122,26 @@ const splitTags = (value) =>
     .filter(Boolean);
 
 const joinTags = (tags) => (Array.isArray(tags) ? tags.join("; ") : "");
+
+const normalizeMetadata = (metadata) => {
+  const source = metadata && typeof metadata === "object" ? metadata : {};
+  return {
+    takenAt: String(source.takenAt || ""),
+    cameraMake: String(source.cameraMake || ""),
+    cameraModel: String(source.cameraModel || ""),
+    lensMake: String(source.lensMake || ""),
+    lensModel: String(source.lensModel || ""),
+    software: String(source.software || ""),
+    orientation: Number(source.orientation) || null,
+    iso: Number(source.iso) || null,
+    exposureTime: Number(source.exposureTime) || null,
+    aperture: Number(source.aperture) || null,
+    focalLength: Number(source.focalLength) || null,
+    gpsLatitude: Number(source.gpsLatitude) || null,
+    gpsLongitude: Number(source.gpsLongitude) || null,
+    gpsAltitude: Number(source.gpsAltitude) || null,
+  };
+};
 
 const normalizePhoto = (photo) => ({
   id: String(photo?.id || photo?.src || crypto.randomUUID()),
@@ -112,6 +165,7 @@ const normalizePhoto = (photo) => ({
   inPortfolio: photo?.inPortfolio === true,
   trashed: photo?.trashed === true,
   trashedAt: String(photo?.trashedAt || ""),
+  metadata: normalizeMetadata(photo?.metadata),
 });
 
 const setStatus = (message) => {
@@ -125,6 +179,97 @@ const getPhotoName = (photo) => photo.internalName || photo.displayName || photo
 const getPhotoById = (id) => state.library.photos.find((photo) => photo.id === id) || null;
 
 const getAlbumTitle = (albumId) => state.albums.find((album) => album.id === albumId)?.title || albumId;
+
+const escapeRegExp = (value) => String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const getFileNameFromPath = (value) => {
+  const fileName = String(value || "").split("/").pop() || "Untitled photo";
+  try {
+    return decodeURIComponent(fileName);
+  } catch {
+    return fileName;
+  }
+};
+
+const normalizeAlbumPhoto = ({ photo, album }) => {
+  const src = String(photo?.src || photo?.id || "");
+  if (!src.startsWith("/images/")) {
+    return null;
+  }
+
+  const previewSrc = String(photo?.previewSrc || photo?.src || "");
+  const fileName = getFileNameFromPath(src);
+  const aspectRatio = Number(photo?.aspectRatio) || null;
+  const landscape = typeof photo?.landscape === "boolean" ? photo.landscape : null;
+
+  return normalizePhoto({
+    id: src,
+    src,
+    previewSrc: previewSrc.startsWith("/images/") ? previewSrc : src,
+    originalName: fileName,
+    displayName: String(photo?.alt || fileName).replace(new RegExp(`^${escapeRegExp(album.title)}\\s+-\\s+`, "i"), ""),
+    width: null,
+    height: null,
+    aspectRatio,
+    uploadedAt: "",
+    albumIds: [album.id],
+    trashed: photo?.deleted === true,
+    trashedAt: photo?.deleted === true ? "Album deleted flag" : "",
+    metadata: normalizeMetadata(photo?.metadata),
+    favorite: photo?.favorite === true,
+    inPortfolio: photo?.inPortfolio === true,
+    type: "image/jpeg",
+    size: 0,
+    ...(landscape !== null && !aspectRatio ? { aspectRatio: landscape ? 1.5 : 0.667 } : {}),
+  });
+};
+
+const mergeLibraryPhotos = (libraryPhotos, albumPhotos) => {
+  const mergedBySrc = new Map();
+
+  [...albumPhotos, ...libraryPhotos].forEach((photo) => {
+    const normalized = normalizePhoto(photo);
+    if (!normalized.src) {
+      return;
+    }
+    const key = normalized.src;
+    const existing = mergedBySrc.get(key);
+    if (!existing) {
+      mergedBySrc.set(key, normalized);
+      return;
+    }
+
+    mergedBySrc.set(
+      key,
+      normalizePhoto({
+        ...existing,
+        ...normalized,
+        id: existing.id || normalized.id,
+        previewSrc: normalized.previewSrc || existing.previewSrc,
+        s3Key: normalized.s3Key || existing.s3Key,
+        thumbS3Key: normalized.thumbS3Key || existing.thumbS3Key,
+        originalName: normalized.originalName || existing.originalName,
+        displayName: normalized.displayName || existing.displayName,
+        type: normalized.type || existing.type,
+        size: normalized.size || existing.size,
+        width: normalized.width || existing.width,
+        height: normalized.height || existing.height,
+        aspectRatio: normalized.aspectRatio || existing.aspectRatio,
+        uploadedAt: normalized.uploadedAt || existing.uploadedAt,
+        lastModified: normalized.lastModified || existing.lastModified,
+        tags: Array.from(new Set([...(existing.tags || []), ...(normalized.tags || [])])),
+        albumIds: Array.from(new Set([...(existing.albumIds || []), ...(normalized.albumIds || [])])),
+        metadata: normalizeMetadata({ ...(existing.metadata || {}), ...(normalized.metadata || {}) }),
+        favorite: existing.favorite || normalized.favorite,
+        inPortfolio: existing.inPortfolio || normalized.inPortfolio,
+        trashed: normalized.trashed,
+        trashedAt: normalized.trashedAt || existing.trashedAt,
+      })
+    );
+  });
+
+  return Array.from(mergedBySrc.values());
+};
 
 const renderAlbumPicker = () => {
   if (!els.selectionAlbum) {
@@ -154,7 +299,19 @@ const photoMatchesSearch = (photo) => {
     return true;
   }
   const albumTitles = photo.albumIds.map(getAlbumTitle).join(" ");
-  return [getPhotoName(photo), photo.originalName, photo.tags.join(" "), albumTitles]
+  const metadata = photo.metadata || {};
+  return [
+    getPhotoName(photo),
+    photo.originalName,
+    photo.tags.join(" "),
+    albumTitles,
+    metadata.takenAt,
+    metadata.cameraMake,
+    metadata.cameraModel,
+    metadata.lensMake,
+    metadata.lensModel,
+    metadata.software,
+  ]
     .join(" ")
     .toLowerCase()
     .includes(query);
@@ -241,6 +398,33 @@ const createFlag = (label) => {
   return flag;
 };
 
+const createMetadataRows = (photo) => {
+  const metadata = normalizeMetadata(photo?.metadata);
+  const rows = [
+    ["Storage key", photo.s3Key || "Album asset"],
+    ["Dimensions", `${photo.width || "?"} x ${photo.height || "?"}`],
+    ["Type", photo.type || "Unknown"],
+    ["Size", photo.size ? formatBytes(photo.size) : "Unknown"],
+    ["Uploaded", photo.uploadedAt ? new Date(photo.uploadedAt).toLocaleString() : "Imported from album settings"],
+    ["Taken", metadata.takenAt || ""],
+    ["Camera", [metadata.cameraMake, metadata.cameraModel].filter(Boolean).join(" ")],
+    ["Lens", [metadata.lensMake, metadata.lensModel].filter(Boolean).join(" ")],
+    ["Exposure", formatExposure(metadata.exposureTime)],
+    ["Aperture", metadata.aperture ? `f/${formatNumber(metadata.aperture)}` : ""],
+    ["ISO", formatNumber(metadata.iso)],
+    ["Focal length", formatNumber(metadata.focalLength, "mm")],
+    ["GPS", [formatCoordinate(metadata.gpsLatitude), formatCoordinate(metadata.gpsLongitude)].filter(Boolean).join(", ")],
+    ["Altitude", formatNumber(metadata.gpsAltitude, "m")],
+    ["Orientation", formatNumber(metadata.orientation)],
+    ["Software", metadata.software],
+  ];
+
+  return rows
+    .filter(([, value]) => String(value || "").trim())
+    .map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`)
+    .join("");
+};
+
 const renderGrid = () => {
   const visiblePhotos = getVisiblePhotos();
   updateStats(visiblePhotos);
@@ -303,11 +487,7 @@ const renderInspector = () => {
       <label><input type="checkbox" data-field="inPortfolio"${photo.inPortfolio ? " checked" : ""} /> Portfolio page</label>
     </div>
     <dl class="admin-metadata">
-      <div><dt>Storage key</dt><dd>${escapeHtml(photo.s3Key || "Not uploaded")}</dd></div>
-      <div><dt>Dimensions</dt><dd>${escapeHtml(`${photo.width || "?"} x ${photo.height || "?"}`)}</dd></div>
-      <div><dt>Type</dt><dd>${escapeHtml(photo.type || "Unknown")}</dd></div>
-      <div><dt>Size</dt><dd>${formatBytes(photo.size)}</dd></div>
-      <div><dt>Uploaded</dt><dd>${escapeHtml(photo.uploadedAt ? new Date(photo.uploadedAt).toLocaleString() : "Unknown")}</dd></div>
+      ${createMetadataRows(photo)}
     </dl>
     <div class="admin-inspector-actions">
       ${
@@ -326,6 +506,246 @@ const escapeAttribute = (value) =>
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+
+const TIFF_TYPES = {
+  BYTE: 1,
+  ASCII: 2,
+  SHORT: 3,
+  LONG: 4,
+  RATIONAL: 5,
+  UNDEFINED: 7,
+  SLONG: 9,
+  SRATIONAL: 10,
+};
+
+const TIFF_TYPE_BYTES = {
+  [TIFF_TYPES.BYTE]: 1,
+  [TIFF_TYPES.ASCII]: 1,
+  [TIFF_TYPES.SHORT]: 2,
+  [TIFF_TYPES.LONG]: 4,
+  [TIFF_TYPES.RATIONAL]: 8,
+  [TIFF_TYPES.UNDEFINED]: 1,
+  [TIFF_TYPES.SLONG]: 4,
+  [TIFF_TYPES.SRATIONAL]: 8,
+};
+
+const EXIF_TAGS = {
+  image: {
+    0x010f: "cameraMake",
+    0x0110: "cameraModel",
+    0x0112: "orientation",
+    0x0131: "software",
+    0x0132: "modifiedAt",
+    0x8769: "exifOffset",
+    0x8825: "gpsOffset",
+  },
+  exif: {
+    0x829a: "exposureTime",
+    0x829d: "aperture",
+    0x8827: "iso",
+    0x9003: "takenAt",
+    0x920a: "focalLength",
+    0xa433: "lensMake",
+    0xa434: "lensModel",
+  },
+  gps: {
+    0x0001: "gpsLatitudeRef",
+    0x0002: "gpsLatitudeParts",
+    0x0003: "gpsLongitudeRef",
+    0x0004: "gpsLongitudeParts",
+    0x0005: "gpsAltitudeRef",
+    0x0006: "gpsAltitudeRaw",
+  },
+};
+
+const readAscii = (view, offset, count) => {
+  let output = "";
+  for (let index = 0; index < count; index += 1) {
+    const charCode = view.getUint8(offset + index);
+    if (charCode === 0) {
+      break;
+    }
+    output += String.fromCharCode(charCode);
+  }
+  return output.trim();
+};
+
+const readRational = (view, offset, littleEndian, signed = false) => {
+  const numerator = signed ? view.getInt32(offset, littleEndian) : view.getUint32(offset, littleEndian);
+  const denominator = signed ? view.getInt32(offset + 4, littleEndian) : view.getUint32(offset + 4, littleEndian);
+  return denominator ? numerator / denominator : null;
+};
+
+const readTiffValue = ({ view, tiffStart, valueOffset, type, count, littleEndian }) => {
+  const bytes = (TIFF_TYPE_BYTES[type] || 0) * count;
+  const dataOffset = bytes <= 4 ? valueOffset : tiffStart + view.getUint32(valueOffset, littleEndian);
+  if (dataOffset < 0 || dataOffset + Math.max(bytes, 1) > view.byteLength) {
+    return null;
+  }
+
+  if (type === TIFF_TYPES.ASCII) {
+    return readAscii(view, dataOffset, count);
+  }
+  if (type === TIFF_TYPES.SHORT) {
+    const values = Array.from({ length: count }, (_, index) => view.getUint16(dataOffset + index * 2, littleEndian));
+    return count === 1 ? values[0] : values;
+  }
+  if (type === TIFF_TYPES.LONG) {
+    const values = Array.from({ length: count }, (_, index) => view.getUint32(dataOffset + index * 4, littleEndian));
+    return count === 1 ? values[0] : values;
+  }
+  if (type === TIFF_TYPES.SLONG) {
+    const values = Array.from({ length: count }, (_, index) => view.getInt32(dataOffset + index * 4, littleEndian));
+    return count === 1 ? values[0] : values;
+  }
+  if (type === TIFF_TYPES.RATIONAL || type === TIFF_TYPES.SRATIONAL) {
+    const signed = type === TIFF_TYPES.SRATIONAL;
+    const values = Array.from({ length: count }, (_, index) => readRational(view, dataOffset + index * 8, littleEndian, signed)).filter(
+      (value) => value !== null
+    );
+    return count === 1 ? values[0] || null : values;
+  }
+  if (type === TIFF_TYPES.BYTE || type === TIFF_TYPES.UNDEFINED) {
+    const values = Array.from({ length: count }, (_, index) => view.getUint8(dataOffset + index));
+    return count === 1 ? values[0] : values;
+  }
+  return null;
+};
+
+const readIfd = ({ view, tiffStart, offset, littleEndian, tags }) => {
+  const directoryOffset = tiffStart + offset;
+  if (directoryOffset < 0 || directoryOffset + 2 > view.byteLength) {
+    return {};
+  }
+
+  const entries = view.getUint16(directoryOffset, littleEndian);
+  const values = {};
+  for (let index = 0; index < entries; index += 1) {
+    const entryOffset = directoryOffset + 2 + index * 12;
+    if (entryOffset + 12 > view.byteLength) {
+      break;
+    }
+    const tag = view.getUint16(entryOffset, littleEndian);
+    const name = tags[tag];
+    if (!name) {
+      continue;
+    }
+    const type = view.getUint16(entryOffset + 2, littleEndian);
+    const count = view.getUint32(entryOffset + 4, littleEndian);
+    values[name] = readTiffValue({
+      view,
+      tiffStart,
+      valueOffset: entryOffset + 8,
+      type,
+      count,
+      littleEndian,
+    });
+  }
+  return values;
+};
+
+const findExifSegmentOffset = (view) => {
+  if (view.byteLength < 4 || view.getUint16(0) !== 0xffd8) {
+    return -1;
+  }
+
+  let offset = 2;
+  while (offset + 4 <= view.byteLength) {
+    const marker = view.getUint16(offset);
+    offset += 2;
+    if (marker === 0xffda || marker === 0xffd9) {
+      break;
+    }
+    const length = view.getUint16(offset);
+    if (length < 2 || offset + length > view.byteLength) {
+      break;
+    }
+    if (marker === 0xffe1 && length >= 8 && readAscii(view, offset + 2, 6) === "Exif") {
+      return offset + 8;
+    }
+    offset += length;
+  }
+  return -1;
+};
+
+const decimalGps = (parts, ref) => {
+  if (!Array.isArray(parts) || parts.length < 3) {
+    return null;
+  }
+  const value = Number(parts[0]) + Number(parts[1]) / 60 + Number(parts[2]) / 3600;
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+  return ["S", "W"].includes(String(ref || "").toUpperCase()) ? -value : value;
+};
+
+const normalizeExifDate = (value) => {
+  const text = String(value || "").trim();
+  const match = text.match(/^(\d{4}):(\d{2}):(\d{2})\s+(\d{2}):(\d{2}):(\d{2})/);
+  if (!match) {
+    return text;
+  }
+  return `${match[1]}-${match[2]}-${match[3]}T${match[4]}:${match[5]}:${match[6]}`;
+};
+
+const parseExifMetadata = (arrayBuffer) => {
+  const view = new DataView(arrayBuffer);
+  const tiffStart = findExifSegmentOffset(view);
+  if (tiffStart < 0 || tiffStart + 8 > view.byteLength) {
+    return {};
+  }
+
+  const byteOrder = readAscii(view, tiffStart, 2);
+  const littleEndian = byteOrder === "II";
+  if (!littleEndian && byteOrder !== "MM") {
+    return {};
+  }
+  if (view.getUint16(tiffStart + 2, littleEndian) !== 42) {
+    return {};
+  }
+
+  const firstIfdOffset = view.getUint32(tiffStart + 4, littleEndian);
+  const imageValues = readIfd({ view, tiffStart, offset: firstIfdOffset, littleEndian, tags: EXIF_TAGS.image });
+  const exifValues = Number.isFinite(imageValues.exifOffset)
+    ? readIfd({ view, tiffStart, offset: imageValues.exifOffset, littleEndian, tags: EXIF_TAGS.exif })
+    : {};
+  const gpsValues = Number.isFinite(imageValues.gpsOffset)
+    ? readIfd({ view, tiffStart, offset: imageValues.gpsOffset, littleEndian, tags: EXIF_TAGS.gps })
+    : {};
+
+  const gpsLatitude = decimalGps(gpsValues.gpsLatitudeParts, gpsValues.gpsLatitudeRef);
+  const gpsLongitude = decimalGps(gpsValues.gpsLongitudeParts, gpsValues.gpsLongitudeRef);
+  const gpsAltitudeMultiplier = Number(gpsValues.gpsAltitudeRef) === 1 ? -1 : 1;
+  const gpsAltitude = Number.isFinite(gpsValues.gpsAltitudeRaw) ? gpsValues.gpsAltitudeRaw * gpsAltitudeMultiplier : null;
+
+  return normalizeMetadata({
+    takenAt: normalizeExifDate(exifValues.takenAt || imageValues.modifiedAt),
+    cameraMake: imageValues.cameraMake,
+    cameraModel: imageValues.cameraModel,
+    lensMake: exifValues.lensMake,
+    lensModel: exifValues.lensModel,
+    software: imageValues.software,
+    orientation: imageValues.orientation,
+    iso: Array.isArray(exifValues.iso) ? exifValues.iso[0] : exifValues.iso,
+    exposureTime: exifValues.exposureTime,
+    aperture: exifValues.aperture,
+    focalLength: exifValues.focalLength,
+    gpsLatitude,
+    gpsLongitude,
+    gpsAltitude,
+  });
+};
+
+const loadPhotoMetadata = async (file) => {
+  if (!file?.type || !["image/jpeg", "image/tiff"].includes(file.type)) {
+    return normalizeMetadata({});
+  }
+  try {
+    return parseExifMetadata(await file.arrayBuffer());
+  } catch {
+    return normalizeMetadata({});
+  }
+};
 
 const loadImageInfo = async (file) => {
   const objectUrl = URL.createObjectURL(file);
@@ -422,7 +842,7 @@ const uploadFiles = async (files) => {
     const reservedKeys = new Set(state.library.photos.flatMap((photo) => [photo.s3Key, photo.thumbS3Key]).filter(Boolean));
     for (const [index, file] of imageFiles.entries()) {
       setStatus(`Uploading ${index + 1}/${imageFiles.length}: ${file.name}`);
-      const dimensions = await loadImageInfo(file);
+      const [dimensions, metadata] = await Promise.all([loadImageInfo(file), loadPhotoMetadata(file)]);
       const extension = getExtension(file);
       const baseName = `${sanitizeStem(file.name)}.${extension}`;
       const thumbName = `${sanitizeStem(file.name)}.jpg`;
@@ -455,6 +875,7 @@ const uploadFiles = async (files) => {
           aspectRatio: dimensions.height ? dimensions.width / dimensions.height : null,
           uploadedAt: new Date().toISOString(),
           lastModified: file.lastModified,
+          metadata,
         })
       );
     }
@@ -660,19 +1081,37 @@ const normalizeAlbumId = (href) =>
     ?.replace(/^album-/, "")
     .replace(/\.html$/, "") || "";
 
+const getAlbumSettingsPath = (albumId) => `/data/galleries/${albumId}.settings.json`;
+
+const loadCurrentAlbumPhotos = async (albums) => {
+  const results = await Promise.allSettled(
+    albums.map(async (album) => {
+      const settings = await loadJson(getAlbumSettingsPath(album.id));
+      return (Array.isArray(settings?.photos) ? settings.photos : [])
+        .map((photo) => normalizeAlbumPhoto({ photo, album }))
+        .filter(Boolean);
+    })
+  );
+
+  return results.flatMap((result) => (result.status === "fulfilled" ? result.value : []));
+};
+
 const init = async () => {
   try {
     const [library, homepage] = await Promise.all([loadJson(`/${getLibraryPath()}`), loadJson("/data/homepage.settings.json")]);
-    state.library = {
-      ...library,
-      photos: (library?.photos || []).map(normalizePhoto),
-    };
     state.albums = (homepage?.albumCards || [])
       .map((album) => ({
         id: normalizeAlbumId(album.href),
         title: album.title || normalizeAlbumId(album.href),
       }))
       .filter((album) => album.id);
+    const albumPhotos = await loadCurrentAlbumPhotos(state.albums);
+    const libraryPhotos = (library?.photos || []).map(normalizePhoto);
+    state.library = {
+      ...library,
+      photos: mergeLibraryPhotos(libraryPhotos, albumPhotos),
+    };
+    setStatus(`Loaded ${albumPhotos.length} current album photo${albumPhotos.length === 1 ? "" : "s"} into the admin view.`);
     renderAlbumPicker();
   } catch (error) {
     setStatus(error instanceof Error ? error.message : String(error));
