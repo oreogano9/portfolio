@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio - Konrad Parada Photos</title>
+    <meta name="description" content="A randomized portfolio wall from Konrad Parada Photos." />
+    <link rel="icon" type="image/jpeg" href="/assets/favicon.jpg" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="portfolio-page is-site-dark" data-photo-library="/data/photo-library.json">
+    <div class="site-frame portfolio-frame">
+      <aside class="identity-rail">
+        <a class="brand" href="/">Konrad Parada Photos</a>
+        <nav class="rail-nav" aria-label="Portfolio navigation">
+          <a href="/">Albums</a>
+          <a href="/portfolio/" aria-current="page">Portfolio</a>
+        </nav>
+      </aside>
+
+      <main class="content-column">
+        <header class="section portfolio-hero">
+          <p class="section-label reveal-up">Portfolio</p>
+          <h1 class="portfolio-title reveal-up">Random photographs</h1>
+          <p class="section-text portfolio-copy reveal-up">A rotating wall of selected photographs from the private library.</p>
+        </header>
+
+        <section class="section portfolio-library-section" aria-label="Selected portfolio photographs">
+          <div class="portfolio-image-grid portfolio-library-grid" aria-live="polite"></div>
+          <p class="portfolio-empty" hidden>No portfolio photos selected yet.</p>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/script/main.js?v=20260524-lightbox-priority-1"></script>
+    <script type="module" src="/script/portfolio.js"></script>
+  </body>
+</html>

@@ -457,12 +457,16 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 
 .admin-nav-button,
 .admin-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 2.35rem;
   padding: 0 0.85rem;
   border-radius: 999px;
   cursor: pointer;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
+  text-decoration: none;
   text-transform: uppercase;
 }
 
@@ -771,6 +775,52 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.portfolio-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.portfolio-frame {
+  padding-top: 1.25rem;
+}
+
+.portfolio-hero {
+  display: grid;
+  align-content: end;
+  min-height: clamp(18rem, 42vh, 30rem);
+  padding-bottom: clamp(2rem, 6vw, 4rem);
+}
+
+.portfolio-title {
+  max-width: 11ch;
+  margin: 0.35rem 0 0;
+  font-family: var(--site-title-font-family);
+  font-size: clamp(3.4rem, 8vw, 8.8rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+.portfolio-copy {
+  max-width: 28rem;
+  margin: clamp(1rem, 2vw, 1.45rem) 0 0;
+}
+
+.portfolio-library-section {
+  padding-bottom: clamp(4rem, 10vw, 9rem);
+}
+
+.portfolio-library-grid {
+  margin-top: 0;
+}
+
+.portfolio-empty {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--site-ui-font-family);
 }
 
 body.has-mobile-menu {
@@ -3995,6 +4045,61 @@ body.is-site-dark .photo-effect-setting-slider::-moz-range-thumb {
   border: 0;
   background: transparent;
   backdrop-filter: none;
+}
+
+body.is-site-dark .home-edit-cycle-button,
+body.is-site-dark .header-edit-stepper-button,
+body.is-site-dark .floating-photo-editor .photo-control-button,
+body.is-site-dark .floating-photo-editor .photo-toggle-button,
+body.is-site-dark .floating-photo-editor .spacer-preset-button,
+body.is-site-dark .floating-photo-editor .spacer-place-button,
+body.is-site-dark .floating-photo-editor .spacer-reset,
+body.is-site-dark .floating-photo-editor .spacer-copy-button {
+  border-color: var(--line);
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+body.is-site-dark .home-edit-cycle-button:hover,
+body.is-site-dark .home-edit-cycle-button:focus-visible,
+body.is-site-dark .header-edit-stepper-button:hover,
+body.is-site-dark .header-edit-stepper-button:focus-visible,
+body.is-site-dark .floating-photo-editor .photo-control-button:hover,
+body.is-site-dark .floating-photo-editor .photo-control-button:focus-visible,
+body.is-site-dark .floating-photo-editor .photo-toggle-button:hover,
+body.is-site-dark .floating-photo-editor .photo-toggle-button:focus-visible,
+body.is-site-dark .floating-photo-editor .spacer-preset-button:hover,
+body.is-site-dark .floating-photo-editor .spacer-preset-button:focus-visible,
+body.is-site-dark .floating-photo-editor .spacer-place-button:hover,
+body.is-site-dark .floating-photo-editor .spacer-place-button:focus-visible,
+body.is-site-dark .floating-photo-editor .spacer-reset:hover,
+body.is-site-dark .floating-photo-editor .spacer-reset:focus-visible,
+body.is-site-dark .floating-photo-editor .spacer-copy-button:hover,
+body.is-site-dark .floating-photo-editor .spacer-copy-button:focus-visible {
+  border-color: var(--line-strong);
+  background: rgba(245, 241, 232, 0.12);
+}
+
+body.is-site-dark > .floating-photo-editor,
+body.is-site-dark .floating-photo-editor .photo-controls {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 0.8rem 2.2rem rgba(0, 0, 0, 0.38);
+}
+
+body.is-site-dark .floating-photo-editor .spacer-control,
+body.is-site-dark .floating-photo-editor .photo-effect-live-panel {
+  background: transparent;
+  color: var(--text);
+}
+
+body.is-site-dark .floating-photo-editor .spacer-preset-button.is-primary,
+body.is-site-dark .floating-photo-editor .photo-toggle-button.is-active,
+body.is-site-dark .floating-photo-editor .photo-toggle-button[aria-pressed="true"] {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--inverse-text);
 }
 
 .header-edit-stepper {
