@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Login - Konrad Parada Photos</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="admin-login-page is-site-dark">
+    <main class="admin-login-shell">
+      <form class="admin-login-card" action="/api/admin-login" method="post">
+        <a class="brand admin-login-brand" href="/">Konrad Parada Photos</a>
+        <h1>Admin</h1>
+        <label class="admin-field">
+          <span>Password</span>
+          <input type="password" name="password" autocomplete="current-password" required autofocus />
+        </label>
+        <input type="hidden" name="next" value="/admin/" />
+        <button class="admin-button" type="submit">Enter</button>
+      </form>
+    </main>
+    <script>
+      const next = new URLSearchParams(window.location.search).get("next");
+      if (next && next.startsWith("/") && !next.startsWith("//")) {
+        document.querySelector('input[name="next"]').value = next;
+      }
+    </script>
+  </body>
+</html>

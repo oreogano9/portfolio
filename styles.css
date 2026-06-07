@@ -414,6 +414,41 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   color: var(--text);
 }
 
+.admin-login-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.admin-login-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.admin-login-card {
+  display: grid;
+  gap: 1rem;
+  width: min(100%, 24rem);
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+}
+
+.admin-login-brand {
+  width: fit-content;
+  font-size: 0.72rem;
+}
+
+.admin-login-card h1 {
+  margin: 0;
+  font-family: var(--site-ui-font-family);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
 .admin-shell {
   display: grid;
   grid-template-columns: 7.5rem minmax(0, 1fr);

@@ -1,3 +1,4 @@
 .DS_Store
 .archive-ingest/
 images/
+node_modules/
