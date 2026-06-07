@@ -6,7 +6,7 @@ import crypto from "node:crypto";
 
 const DEFAULT_BUCKET = "konrad-photo-portfolio-082237395700-eu-west-3-an";
 const DEFAULT_REGION = "eu-west-3";
-const LIBRARY_PREFIX = "albums/library/";
+const ALLOWED_PREFIXES = ["albums/library/", "albums/ARCHIVE/"];
 const MAX_KEYS = 100;
 
 const hmac = (key, value, encoding) => crypto.createHmac("sha256", key).update(value).digest(encoding);
@@ -41,7 +41,7 @@ const getSigningKey = ({ secretAccessKey, dateStamp, region }) => {
 
 const sanitizeKey = (key) => {
   const normalized = String(key || "").replace(/^\/+/, "");
-  if (!normalized.startsWith(LIBRARY_PREFIX) || normalized.includes("..") || /[\r\n]/.test(normalized)) {
+  if (!ALLOWED_PREFIXES.some((prefix) => normalized.startsWith(prefix)) || normalized.includes("..") || /[\r\n]/.test(normalized)) {
     return "";
   }
   return normalized;

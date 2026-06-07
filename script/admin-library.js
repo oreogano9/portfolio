@@ -19,6 +19,8 @@ const state = {
   saving: false,
   uploading: false,
   detailOpen: false,
+  dirtyIds: new Set(),
+  deletedIds: new Set(),
 };
 
 const els = {
@@ -188,6 +190,10 @@ const getPhotoName = (photo) => photo.internalName || photo.displayName || photo
 const getPhotoById = (id) => state.library.photos.find((photo) => photo.id === id) || null;
 
 const getAlbumTitle = (albumId) => state.albums.find((album) => album.id === albumId)?.title || albumId;
+
+const markDirty = (ids) => {
+  ids.filter(Boolean).forEach((id) => state.dirtyIds.add(id));
+};
 
 const isArchivePhoto = (photo) => Boolean(photo.archiveSha256 || photo.sourcePaths?.length || String(photo.s3Key || "").startsWith("albums/ARCHIVE/"));
 
@@ -996,6 +1002,7 @@ const uploadFiles = async (files) => {
     }
 
     state.library.photos = [...uploadedPhotos, ...state.library.photos];
+    markDirty(uploadedPhotos.map((photo) => photo.id));
     state.activeId = uploadedPhotos[0]?.id || state.activeId;
     setStatus(`Uploaded ${uploadedPhotos.length} photo${uploadedPhotos.length === 1 ? "" : "s"} to S3. Save metadata to keep them in the library.`);
     renderGrid();
@@ -1010,26 +1017,44 @@ const uploadFiles = async (files) => {
 };
 
 const saveLibrary = async () => {
+  const upserts = Array.from(state.dirtyIds)
+    .map(getPhotoById)
+    .filter(Boolean);
+  const deleteIds = Array.from(state.deletedIds);
+  if (!upserts.length && !deleteIds.length) {
+    setStatus("No library metadata changes to save.");
+    return;
+  }
   state.saving = true;
-  setStatus("Saving library metadata...");
+  setStatus(`Saving ${upserts.length} changed and ${deleteIds.length} deleted photo record${upserts.length + deleteIds.length === 1 ? "" : "s"}...`);
   try {
-    const response = await fetch("/api/save-photo-library", {
+    const response = await fetch("/api/update-photo-library", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         documentId: "photo-library",
         settingsPath: getLibraryPath(),
-        settings: state.library,
+        upserts,
+        deleteIds,
       }),
     });
     const payload = await response.json();
     if (!response.ok || !payload?.ok) {
       throw new Error(payload?.details || payload?.error || "Could not save library");
     }
-    state.library = {
-      ...payload.library,
-      photos: (payload.library?.photos || []).map(normalizePhoto),
-    };
+    if (payload.library) {
+      state.library = {
+        ...payload.library,
+        photos: (payload.library?.photos || []).map(normalizePhoto),
+      };
+    } else {
+      state.library = {
+        ...state.library,
+        updatedAt: payload.updatedAt || new Date().toISOString(),
+      };
+    }
+    state.dirtyIds.clear();
+    state.deletedIds.clear();
     setStatus("Library metadata saved.");
     renderGrid();
   } catch (error) {
@@ -1083,6 +1108,7 @@ const addSelectedPhotosToAlbum = async () => {
 const patchPhotos = (ids, patch) => {
   const idSet = new Set(ids);
   state.library.photos = state.library.photos.map((photo) => (idSet.has(photo.id) ? normalizePhoto({ ...photo, ...patch(photo) }) : photo));
+  markDirty(Array.from(idSet));
 };
 
 const deletePhotosPermanently = async (ids) => {
@@ -1102,6 +1128,10 @@ const deletePhotosPermanently = async (ids) => {
   }
   state.library.photos = state.library.photos.filter((photo) => !idSet.has(photo.id));
   ids.forEach((id) => state.selectedIds.delete(id));
+  ids.forEach((id) => {
+    state.dirtyIds.delete(id);
+    state.deletedIds.add(id);
+  });
   if (idSet.has(state.activeId)) {
     state.activeId = "";
   }
@@ -1186,6 +1216,7 @@ const handleInspectorInput = (target, { rerender = false } = {}) => {
     nextPhoto.albumIds = Array.from(target.selectedOptions).map((option) => option.value);
   }
   state.library.photos = state.library.photos.map((item) => (item.id === photo.id ? normalizePhoto(nextPhoto) : item));
+  markDirty([photo.id]);
   if (rerender) {
     renderGrid();
   }
