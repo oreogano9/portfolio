@@ -37,6 +37,8 @@ const els = {
   selectionBar: document.querySelector(".admin-selection-bar"),
   selectionCount: document.querySelector("[data-selection-count]"),
   selectionAlbum: document.querySelector(".admin-selection-album"),
+  librarySelectionActions: Array.from(document.querySelectorAll('[data-action="add-selected-to-album"], [data-action="favorite-selected"], [data-action="portfolio-selected"], [data-action="trash-selected"]')),
+  trashSelectionActions: Array.from(document.querySelectorAll('[data-action="restore-selected"], [data-action="delete-selected"]')),
   navButtons: Array.from(document.querySelectorAll("[data-admin-view]")),
   stats: {
     visible: document.querySelector('[data-stat="visible"]'),
@@ -481,6 +483,15 @@ const updateStats = (visiblePhotos) => {
   els.stats.trash.textContent = `${trash} trash`;
   els.selectionBar.hidden = state.selectedIds.size === 0;
   els.selectionCount.textContent = `${state.selectedIds.size} selected`;
+  els.librarySelectionActions.forEach((element) => {
+    element.hidden = state.view === "trash";
+  });
+  els.trashSelectionActions.forEach((element) => {
+    element.hidden = state.view !== "trash";
+  });
+  if (els.selectionAlbum) {
+    els.selectionAlbum.hidden = state.view === "trash";
+  }
   updateUnsavedState();
 };
 
@@ -1244,9 +1255,9 @@ const handleAction = async (target, event) => {
     patchPhotos(targetIds, (photo) => ({ inPortfolio: !photo.inPortfolio }));
   } else if (action === "trash-selected" || action === "trash-photo") {
     patchPhotos(targetIds, () => ({ trashed: true, trashedAt: new Date().toISOString() }));
-  } else if (action === "restore-photo") {
+  } else if (action === "restore-photo" || action === "restore-selected") {
     patchPhotos(targetIds, () => ({ trashed: false, trashedAt: "" }));
-  } else if (action === "delete-photo") {
+  } else if (action === "delete-photo" || action === "delete-selected") {
     if (!window.confirm(`Permanently delete ${targetIds.length} photo${targetIds.length === 1 ? "" : "s"} and matching thumbnails from S3?`)) {
       return;
     }
