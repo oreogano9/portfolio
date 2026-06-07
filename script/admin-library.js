@@ -191,6 +191,28 @@ const getAlbumTitle = (albumId) => state.albums.find((album) => album.id === alb
 
 const isArchivePhoto = (photo) => Boolean(photo.archiveSha256 || photo.sourcePaths?.length || String(photo.s3Key || "").startsWith("albums/ARCHIVE/"));
 
+const deriveThumbnailPath = (src) => {
+  const value = String(src || "");
+  if (!value.startsWith("/images/") || value.includes("/thumbs/")) {
+    return "";
+  }
+  const slashIndex = value.lastIndexOf("/");
+  if (slashIndex < 0) {
+    return "";
+  }
+  return `${value.slice(0, slashIndex)}/thumbs/${value.slice(slashIndex + 1)}`;
+};
+
+const getGridImageSrc = (photo) => {
+  const previewSrc = String(photo.previewSrc || "");
+  if (previewSrc && previewSrc !== photo.src) {
+    return previewSrc;
+  }
+  return deriveThumbnailPath(photo.src) || photo.src;
+};
+
+const getDetailImageSrc = (photo) => photo.src || photo.previewSrc;
+
 const escapeRegExp = (value) => String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const getFileNameFromPath = (value) => {
@@ -441,7 +463,7 @@ const createPhotoCard = (photo) => {
   const img = document.createElement("img");
   img.loading = "lazy";
   img.alt = getPhotoName(photo);
-  img.src = resolveAssetUrl(photo.previewSrc || photo.src);
+  img.src = resolveAssetUrl(getGridImageSrc(photo));
   if (photo.aspectRatio) {
     img.style.aspectRatio = String(photo.aspectRatio);
   }
@@ -549,7 +571,7 @@ const renderDetail = () => {
     </div>
     <div class="admin-detail-layout">
       <div class="admin-detail-media">
-        <img alt="${escapeAttribute(getPhotoName(photo))}" src="${resolveAssetUrl(photo.src || photo.previewSrc)}" />
+        <img alt="${escapeAttribute(getPhotoName(photo))}" src="${resolveAssetUrl(getDetailImageSrc(photo))}" />
       </div>
       <div class="admin-detail-info">
         <div class="admin-inspector-header">
