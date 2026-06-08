@@ -45,7 +45,9 @@ const sign = async (payload, secret) => {
   return bytesToBase64url(new Uint8Array(signature));
 };
 
-const getAuthSecret = () => process.env.ADMIN_AUTH_SECRET || process.env.ADMIN_PASSWORD || "";
+const getAdminPassword = () => process.env.ADMIN_PASSWORD || process.env.ADMIN_PASS || process.env.KP_ADMIN_PASSWORD || "";
+
+const getAuthSecret = () => process.env.ADMIN_AUTH_SECRET || getAdminPassword();
 
 const hasValidSession = async (request) => {
   const secret = getAuthSecret();

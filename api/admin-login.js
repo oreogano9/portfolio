@@ -12,7 +12,7 @@ const base64url = (value) => Buffer.from(value).toString("base64url");
 const sign = (payload, secret) => crypto.createHmac("sha256", secret).update(payload).digest("base64url");
 
 const getAuthConfig = () => {
-  const password = process.env.ADMIN_PASSWORD;
+  const password = process.env.ADMIN_PASSWORD || process.env.ADMIN_PASS || process.env.KP_ADMIN_PASSWORD;
   return {
     password,
     secret: process.env.ADMIN_AUTH_SECRET || password,
@@ -47,7 +47,9 @@ export default async function handler(request, response) {
 
   const { password, secret } = getAuthConfig();
   if (!password || !secret) {
-    return response.status(503).send("Admin login is not configured. Set ADMIN_PASSWORD in Vercel, then redeploy.");
+    return response
+      .status(503)
+      .send("Admin login is not configured. Set ADMIN_PASSWORD, ADMIN_PASS, or KP_ADMIN_PASSWORD in this Vercel project and redeploy.");
   }
 
   const body = await parseBody(request);
