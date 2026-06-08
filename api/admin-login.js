@@ -11,6 +11,14 @@ const base64url = (value) => Buffer.from(value).toString("base64url");
 
 const sign = (payload, secret) => crypto.createHmac("sha256", secret).update(payload).digest("base64url");
 
+const getAuthConfig = () => {
+  const password = process.env.ADMIN_PASSWORD;
+  return {
+    password,
+    secret: process.env.ADMIN_AUTH_SECRET || password,
+  };
+};
+
 const safeNextPath = (value) => {
   const next = String(value || "/admin/");
   return next.startsWith("/") && !next.startsWith("//") && !next.includes("\n") && !next.includes("\r") ? next : "/admin/";
@@ -37,10 +45,9 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: "Method not allowed" });
   }
 
-  const password = process.env.ADMIN_PASSWORD;
-  const secret = process.env.ADMIN_AUTH_SECRET;
+  const { password, secret } = getAuthConfig();
   if (!password || !secret) {
-    return response.status(500).json({ error: "Missing admin auth environment variables" });
+    return response.status(503).send("Admin login is not configured. Set ADMIN_PASSWORD in Vercel, then redeploy.");
   }
 
   const body = await parseBody(request);
