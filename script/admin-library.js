@@ -44,7 +44,11 @@ const els = {
   selectionCount: document.querySelector("[data-selection-count]"),
   selectionAlbum: document.querySelector(".admin-selection-album"),
   selectionTags: document.querySelector(".admin-selection-tags"),
-  librarySelectionActions: Array.from(document.querySelectorAll('[data-action="add-selected-to-album"], [data-action="add-tags-selected"], [data-action="favorite-selected"], [data-action="portfolio-selected"], [data-action="trash-selected"], .admin-selection-tags')),
+  librarySelectionActions: Array.from(
+    document.querySelectorAll(
+      '[data-action="add-selected-to-album"], [data-action="add-tags-selected"], [data-action="favorite-selected"], [data-action="unfavorite-selected"], [data-action="portfolio-selected"], [data-action="unportfolio-selected"], [data-action="trash-selected"], .admin-selection-tags'
+    )
+  ),
   trashSelectionActions: Array.from(document.querySelectorAll('[data-action="restore-selected"], [data-action="delete-selected"]')),
   navButtons: Array.from(document.querySelectorAll("[data-admin-view]")),
   stats: {
@@ -1511,9 +1515,13 @@ const handleAction = async (target, event) => {
   }
 
   if (action === "favorite-selected") {
-    patchPhotos(targetIds, (photo) => ({ favorite: !photo.favorite }));
+    patchPhotos(targetIds, () => ({ favorite: true }));
+  } else if (action === "unfavorite-selected") {
+    patchPhotos(targetIds, () => ({ favorite: false }));
   } else if (action === "portfolio-selected") {
-    patchPhotos(targetIds, (photo) => ({ inPortfolio: !photo.inPortfolio }));
+    patchPhotos(targetIds, () => ({ inPortfolio: true }));
+  } else if (action === "unportfolio-selected") {
+    patchPhotos(targetIds, () => ({ inPortfolio: false }));
   } else if (action === "trash-selected" || action === "trash-photo") {
     patchPhotos(targetIds, () => ({ trashed: true, trashedAt: new Date().toISOString() }));
   } else if (action === "restore-photo" || action === "restore-selected") {
