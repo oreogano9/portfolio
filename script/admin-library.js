@@ -18,6 +18,7 @@ const state = {
   view: "library",
   filter: "all",
   albumFilter: "archive",
+  tagFilter: "",
   search: "",
   saving: false,
   uploading: false,
@@ -34,6 +35,7 @@ const els = {
   search: document.querySelector(".admin-search"),
   filter: document.querySelector(".admin-filter"),
   albumFilter: document.querySelector(".admin-album-filter"),
+  tagFilter: document.querySelector(".admin-tag-filter"),
   selectVisibleButton: document.querySelector('[data-action="select-visible"]'),
   saveButton: document.querySelector('[data-action="save-library"]'),
   fileInput: document.querySelector(".admin-file-input"),
@@ -429,6 +431,31 @@ const renderGalleryAlbumFilter = () => {
   els.albumFilter.value = ["archive", "all", ...state.albums.map((album) => album.id)].includes(currentValue) ? currentValue : "archive";
 };
 
+const getPhotoTags = (photo) => Array.from(new Set([...(photo.tags || []), ...(photo.archiveTags || [])].map(String).filter(Boolean)));
+
+const renderTagFilter = () => {
+  if (!els.tagFilter) {
+    return;
+  }
+  const currentValue = state.tagFilter || "";
+  const tags = Array.from(new Set(state.library.photos.flatMap(getPhotoTags))).sort((left, right) => left.localeCompare(right));
+  els.tagFilter.replaceChildren(
+    Object.assign(document.createElement("option"), {
+      value: "",
+      textContent: "All tags",
+    }),
+    ...tags.map((tag) =>
+      Object.assign(document.createElement("option"), {
+        value: tag,
+        textContent: tag,
+      })
+    )
+  );
+  els.tagFilter.value = tags.includes(currentValue) ? currentValue : "";
+  state.tagFilter = els.tagFilter.value;
+  els.tagFilter.disabled = tags.length === 0;
+};
+
 const photoMatchesSearch = (photo) => {
   const query = state.search.trim().toLowerCase();
   if (!query) {
@@ -473,6 +500,9 @@ const photoMatchesFilter = (photo) => {
     if (!photo.albumIds.includes(state.albumFilter)) {
       return false;
     }
+  }
+  if (state.tagFilter && !getPhotoTags(photo).includes(state.tagFilter)) {
+    return false;
   }
   if (state.filter === "favorites") {
     return photo.favorite;
@@ -1337,6 +1367,7 @@ const addTagsToSelectedPhotos = () => {
   patchPhotos(selectedIds, (photo) => ({
     tags: Array.from(new Set([...(photo.tags || []), ...tags])),
   }));
+  renderTagFilter();
   if (els.selectionTags) {
     els.selectionTags.value = "";
   }
@@ -1516,6 +1547,9 @@ const handleInspectorInput = (target, { rerender = false } = {}) => {
   }
   state.library.photos = state.library.photos.map((item) => (item.id === photo.id ? normalizePhoto(nextPhoto) : item));
   markDirty([photo.id]);
+  if (field === "tags") {
+    renderTagFilter();
+  }
   if (rerender) {
     renderGrid();
   }
@@ -1569,6 +1603,7 @@ const init = async () => {
     setStatus(`Loaded ${albumPhotos.length} current album photo${albumPhotos.length === 1 ? "" : "s"} into the admin view.`);
     renderAlbumPicker();
     renderGalleryAlbumFilter();
+    renderTagFilter();
   } catch (error) {
     setStatus(error instanceof Error ? error.message : String(error));
   }
@@ -1583,6 +1618,12 @@ const init = async () => {
   });
   els.albumFilter?.addEventListener("change", (event) => {
     state.albumFilter = event.target.value;
+    state.selectedIds.clear();
+    state.detailOpen = false;
+    renderGrid({ reset: true });
+  });
+  els.tagFilter?.addEventListener("change", (event) => {
+    state.tagFilter = event.target.value;
     state.selectedIds.clear();
     state.detailOpen = false;
     renderGrid({ reset: true });
