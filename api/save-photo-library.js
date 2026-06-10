@@ -92,6 +92,7 @@ const normalizeLibrary = (settings) => {
       favorite: photo?.favorite === true,
       inPortfolio: photo?.inPortfolio === true,
       trashed: photo?.trashed === true,
+      contentSha256: String(photo?.contentSha256 || ""),
     })),
   };
 };

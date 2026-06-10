@@ -187,6 +187,7 @@ const normalizePhoto = (photo) => ({
   trashed: photo?.trashed === true,
   trashedAt: String(photo?.trashedAt || ""),
   metadata: normalizeMetadata(photo?.metadata),
+  contentSha256: String(photo?.contentSha256 || ""),
   archiveSha256: String(photo?.archiveSha256 || ""),
   sourcePaths: Array.isArray(photo?.sourcePaths) ? photo.sourcePaths.map(String).filter(Boolean) : [],
   sourceRoots: Array.isArray(photo?.sourceRoots) ? photo.sourceRoots.map(String).filter(Boolean) : [],
@@ -376,6 +377,7 @@ const mergeLibraryPhotos = (libraryPhotos, albumPhotos) => {
         inPortfolio: existing.inPortfolio || normalized.inPortfolio,
         trashed: normalized.trashed,
         trashedAt: normalized.trashedAt || existing.trashedAt,
+        contentSha256: normalized.contentSha256 || existing.contentSha256,
         archiveSha256: normalized.archiveSha256 || existing.archiveSha256,
         sourcePaths: Array.from(new Set([...(existing.sourcePaths || []), ...(normalized.sourcePaths || [])])),
         sourceRoots: Array.from(new Set([...(existing.sourceRoots || []), ...(normalized.sourceRoots || [])])),
@@ -472,6 +474,7 @@ const photoMatchesSearch = (photo) => {
     photo.originalName,
     photo.tags.join(" "),
     albumTitles,
+    photo.contentSha256,
     photo.archiveSha256,
     photo.sourcePaths.join(" "),
     photo.sourceRoots.join(" "),
@@ -654,6 +657,7 @@ const createMetadataRows = (photo) => {
   const metadata = normalizeMetadata(photo?.metadata);
   const rows = [
     ["Storage key", photo.s3Key || "Album asset"],
+    ["Content hash", photo.contentSha256],
     ["Archive hash", photo.archiveSha256],
     ["Archive tags", photo.archiveTags?.join("; ")],
     ["Dimensions", `${photo.width || "?"} x ${photo.height || "?"}`],
@@ -1144,6 +1148,20 @@ const putSignedObject = async ({ signedUpload, body }) => {
   }
 };
 
+const arrayBufferToHex = (buffer) =>
+  Array.from(new Uint8Array(buffer))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+
+const hashFile = async (file) => {
+  if (!crypto?.subtle?.digest) {
+    return "";
+  }
+  return arrayBufferToHex(await crypto.subtle.digest("SHA-256", await file.arrayBuffer()));
+};
+
+const getPhotoContentHash = (photo) => photo.contentSha256 || photo.archiveSha256 || "";
+
 const copyTextToClipboard = async (text) => {
   const value = String(text || "");
   if (!value) {
@@ -1195,8 +1213,20 @@ const uploadFiles = async (files) => {
 
   try {
     const uploadedPhotos = [];
+    const skippedDuplicates = [];
     const reservedKeys = new Set(state.library.photos.flatMap((photo) => [photo.s3Key, photo.thumbS3Key]).filter(Boolean));
+    const knownContentHashes = new Set(state.library.photos.map(getPhotoContentHash).filter(Boolean));
     for (const [index, file] of imageFiles.entries()) {
+      setStatus(`Checking ${index + 1}/${imageFiles.length}: ${file.name}`);
+      const contentSha256 = await hashFile(file);
+      if (contentSha256 && knownContentHashes.has(contentSha256)) {
+        skippedDuplicates.push(file.name);
+        continue;
+      }
+      if (contentSha256) {
+        knownContentHashes.add(contentSha256);
+      }
+
       setStatus(`Uploading ${index + 1}/${imageFiles.length}: ${file.name}`);
       const [dimensions, metadata] = await Promise.all([loadImageInfo(file), loadPhotoMetadata(file)]);
       const extension = getExtension(file);
@@ -1231,15 +1261,24 @@ const uploadFiles = async (files) => {
           aspectRatio: dimensions.height ? dimensions.width / dimensions.height : null,
           uploadedAt: new Date().toISOString(),
           lastModified: file.lastModified,
+          contentSha256,
           metadata,
         })
       );
     }
 
-    state.library.photos = [...uploadedPhotos, ...state.library.photos];
-    markDirty(uploadedPhotos.map((photo) => photo.id));
-    state.activeId = uploadedPhotos[0]?.id || state.activeId;
-    setStatus(`Uploaded ${uploadedPhotos.length} photo${uploadedPhotos.length === 1 ? "" : "s"} to S3. Save metadata to keep them in the library.`);
+    if (uploadedPhotos.length) {
+      state.library.photos = [...uploadedPhotos, ...state.library.photos];
+      markDirty(uploadedPhotos.map((photo) => photo.id));
+      state.activeId = uploadedPhotos[0]?.id || state.activeId;
+    }
+    const uploadedText = uploadedPhotos.length
+      ? `Uploaded ${uploadedPhotos.length} photo${uploadedPhotos.length === 1 ? "" : "s"} to S3`
+      : "No new photos uploaded";
+    const skippedText = skippedDuplicates.length
+      ? `; skipped ${skippedDuplicates.length} duplicate${skippedDuplicates.length === 1 ? "" : "s"} by content hash`
+      : "";
+    setStatus(`${uploadedText}${skippedText}${uploadedPhotos.length ? ". Save metadata to keep them in the library." : "."}`);
     renderGrid();
   } catch (error) {
     setStatus(error instanceof Error ? error.message : String(error));
