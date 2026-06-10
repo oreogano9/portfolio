@@ -34,6 +34,7 @@ const els = {
   search: document.querySelector(".admin-search"),
   filter: document.querySelector(".admin-filter"),
   albumFilter: document.querySelector(".admin-album-filter"),
+  selectVisibleButton: document.querySelector('[data-action="select-visible"]'),
   saveButton: document.querySelector('[data-action="save-library"]'),
   fileInput: document.querySelector(".admin-file-input"),
   uploadStatus: document.querySelector(".admin-upload-status"),
@@ -509,6 +510,8 @@ const getVisiblePhotos = () => {
   return visiblePhotos;
 };
 
+const getVisiblePhotoIds = () => getVisiblePhotos().map((photo) => photo.id);
+
 const resetRenderLimit = () => {
   state.renderLimit = GRID_BATCH_SIZE;
 };
@@ -531,6 +534,12 @@ const updateStats = (visiblePhotos, renderedCount = visiblePhotos.length) => {
   });
   if (els.selectionAlbum) {
     els.selectionAlbum.hidden = state.view === "trash";
+  }
+  if (els.selectVisibleButton) {
+    const visibleIds = visiblePhotos.map((photo) => photo.id);
+    const allVisibleSelected = visibleIds.length > 0 && visibleIds.every((id) => state.selectedIds.has(id));
+    els.selectVisibleButton.textContent = allVisibleSelected ? "Deselect visible" : "Select visible";
+    els.selectVisibleButton.disabled = visibleIds.length === 0;
   }
   updateUnsavedState();
 };
@@ -1368,6 +1377,25 @@ const deletePhotosPermanently = async (ids) => {
   updateUnsavedState();
 };
 
+const toggleVisibleSelection = () => {
+  const visibleIds = getVisiblePhotoIds();
+  if (!visibleIds.length) {
+    setStatus("No visible photos to select.");
+    return;
+  }
+
+  const allVisibleSelected = visibleIds.every((id) => state.selectedIds.has(id));
+  if (allVisibleSelected) {
+    visibleIds.forEach((id) => state.selectedIds.delete(id));
+    setStatus(`Deselected ${visibleIds.length} visible photo${visibleIds.length === 1 ? "" : "s"}.`);
+  } else {
+    visibleIds.forEach((id) => state.selectedIds.add(id));
+    setStatus(`Selected ${visibleIds.length} visible photo${visibleIds.length === 1 ? "" : "s"}.`);
+  }
+  state.detailOpen = false;
+  renderGrid();
+};
+
 const handleAction = async (target, event) => {
   const action = target.dataset.action;
   const photoId = target.dataset.photoId;
@@ -1420,6 +1448,10 @@ const handleAction = async (target, event) => {
   if (action === "clear-selection") {
     state.selectedIds.clear();
     renderGrid();
+    return;
+  }
+  if (action === "select-visible") {
+    toggleVisibleSelection();
     return;
   }
   if (action === "load-more") {
