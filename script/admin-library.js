@@ -8,6 +8,7 @@ const MAX_THUMB_EDGE = 900;
 const THUMB_QUALITY = 0.82;
 const DELETE_BATCH_SIZE = 100;
 const GRID_BATCH_SIZE = 240;
+const SAVE_BATCH_SIZE = 500;
 
 const state = {
   library: { id: "photo-library", version: 1, updatedAt: "", photos: [] },
@@ -244,6 +245,16 @@ const chunkArray = (items, size) => {
     chunks.push(items.slice(index, index + size));
   }
   return chunks;
+};
+
+const createSaveBatches = ({ upserts, deleteIds }) => {
+  const upsertBatches = chunkArray(upserts, SAVE_BATCH_SIZE);
+  const deleteBatches = chunkArray(deleteIds, SAVE_BATCH_SIZE);
+  const totalBatches = Math.max(upsertBatches.length, deleteBatches.length, 1);
+  return Array.from({ length: totalBatches }, (_, index) => ({
+    upserts: upsertBatches[index] || [],
+    deleteIds: deleteBatches[index] || [],
+  }));
 };
 
 const isArchivePhoto = (photo) => Boolean(photo.archiveSha256 || photo.sourcePaths?.length || String(photo.s3Key || "").startsWith("albums/ARCHIVE/"));
@@ -1126,35 +1137,47 @@ const saveLibrary = async () => {
   }
   state.saving = true;
   updateUnsavedState();
+  const saveBatches = createSaveBatches({ upserts, deleteIds });
   setStatus(`Saving ${upserts.length} changed and ${deleteIds.length} deleted photo record${upserts.length + deleteIds.length === 1 ? "" : "s"}...`);
   try {
-    const { response, payload } = await fetchAdminJson("/api/update-photo-library", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        documentId: "photo-library",
-        settingsPath: getLibraryPath(),
-        upserts,
-        deleteIds,
-      }),
-    });
-    if (!response.ok || !payload?.ok) {
-      throw new Error(payload?.details || payload?.error || "Could not save library");
+    let latestUpdatedAt = "";
+    for (const [index, batch] of saveBatches.entries()) {
+      setStatus(
+        saveBatches.length > 1
+          ? `Saving metadata batch ${index + 1}/${saveBatches.length}...`
+          : `Saving ${upserts.length} changed and ${deleteIds.length} deleted photo record${upserts.length + deleteIds.length === 1 ? "" : "s"}...`
+      );
+      const { response, payload } = await fetchAdminJson("/api/update-photo-library", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          documentId: "photo-library",
+          settingsPath: getLibraryPath(),
+          upserts: batch.upserts,
+          deleteIds: batch.deleteIds,
+        }),
+      });
+      if (!response.ok || !payload?.ok) {
+        throw new Error(payload?.details || payload?.error || "Could not save library");
+      }
+      if (payload.library) {
+        state.library = {
+          ...payload.library,
+          photos: (payload.library?.photos || []).map(normalizePhoto),
+        };
+      } else {
+        latestUpdatedAt = payload.updatedAt || latestUpdatedAt;
+      }
     }
-    if (payload.library) {
-      state.library = {
-        ...payload.library,
-        photos: (payload.library?.photos || []).map(normalizePhoto),
-      };
-    } else {
+    if (latestUpdatedAt) {
       state.library = {
         ...state.library,
-        updatedAt: payload.updatedAt || new Date().toISOString(),
+        updatedAt: latestUpdatedAt,
       };
     }
     state.dirtyIds.clear();
     state.deletedIds.clear();
-    setStatus("Library metadata saved.");
+    setStatus(saveBatches.length > 1 ? `Library metadata saved in ${saveBatches.length} batches.` : "Library metadata saved.");
     renderGrid();
   } catch (error) {
     setStatus(error instanceof Error ? error.message : String(error));
