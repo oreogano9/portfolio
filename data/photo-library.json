@@ -1,7 +1,7 @@
 {
   "id": "photo-library",
   "version": 2,
-  "updatedAt": "2026-06-10T09:36:42.898Z",
+  "updatedAt": "2026-06-10T09:37:37.660Z",
   "photos": [
     {
       "id": "archive:51da3ccb26688c5bed35141f3d47e806a1c78242d7f5356d91ddc2ce7d37a785",
@@ -54,6 +54,108 @@
       "organizedPaths": [],
       "archiveTags": [],
       "archiveImportedAt": "2026-06-07T17:38:07.795Z"
+    },
+    {
+      "id": "archive:0e42db201b92cb83f33fa19de2a4c256a8ee969d1727998f5c0fa5741564754e",
+      "src": "/images/ARCHIVE/originals/0e/0e42db201b92cb83f33fa19de2a4c256a8ee969d1727998f5c0fa5741564754e.png",
+      "previewSrc": "/images/ARCHIVE/thumbs/0e/0e42db201b92cb83f33fa19de2a4c256a8ee969d1727998f5c0fa5741564754e.jpg",
+      "s3Key": "albums/ARCHIVE/originals/0e/0e42db201b92cb83f33fa19de2a4c256a8ee969d1727998f5c0fa5741564754e.png",
+      "thumbS3Key": "albums/ARCHIVE/thumbs/0e/0e42db201b92cb83f33fa19de2a4c256a8ee969d1727998f5c0fa5741564754e.jpg",
+      "originalName": "IMG_4512_DxO-5f3dcdfd.png",
+      "displayName": "IMG 4512 DxO 5f3dcdfd",
+      "internalName": "",
+      "type": "image/png",
+      "size": 14396124,
+      "width": null,
+      "height": null,
+      "aspectRatio": null,
+      "uploadedAt": "2026-06-07T17:38:07.796Z",
+      "lastModified": 1662560936483,
+      "tags": [],
+      "albumIds": [],
+      "favorite": true,
+      "inPortfolio": true,
+      "trashed": false,
+      "trashedAt": "",
+      "metadata": {
+        "takenAt": "",
+        "cameraMake": "",
+        "cameraModel": "",
+        "lensMake": "",
+        "lensModel": "",
+        "software": "",
+        "orientation": null,
+        "iso": null,
+        "exposureTime": null,
+        "aperture": null,
+        "focalLength": null,
+        "gpsLatitude": null,
+        "gpsLongitude": null,
+        "gpsAltitude": null
+      },
+      "contentSha256": "",
+      "archiveSha256": "0e42db201b92cb83f33fa19de2a4c256a8ee969d1727998f5c0fa5741564754e",
+      "sourcePaths": [
+        "/Volumes/SSDisky/Lightroom Export/IMG_4512_DxO-5f3dcdfd.png",
+        "/Volumes/PHOTO HDD/Lightroom Export/IMG_4512_DxO-5f3dcdfd.png"
+      ],
+      "sourceRoots": [
+        "SSDisky Lightroom Export",
+        "PHOTO HDD Lightroom Export"
+      ],
+      "organizedPaths": [],
+      "archiveTags": [],
+      "archiveImportedAt": "2026-06-07T17:38:07.796Z"
+    },
+    {
+      "id": "archive:3fc53df465e1e982cd3701089839e8ffd0b13eaea23ba7ff5aaf4adba035333a",
+      "src": "/images/ARCHIVE/originals/3f/3fc53df465e1e982cd3701089839e8ffd0b13eaea23ba7ff5aaf4adba035333a.jpg",
+      "previewSrc": "/images/ARCHIVE/thumbs/3f/3fc53df465e1e982cd3701089839e8ffd0b13eaea23ba7ff5aaf4adba035333a.jpg",
+      "s3Key": "albums/ARCHIVE/originals/3f/3fc53df465e1e982cd3701089839e8ffd0b13eaea23ba7ff5aaf4adba035333a.jpg",
+      "thumbS3Key": "albums/ARCHIVE/thumbs/3f/3fc53df465e1e982cd3701089839e8ffd0b13eaea23ba7ff5aaf4adba035333a.jpg",
+      "originalName": "DSC09256.jpg",
+      "displayName": "DSC09256",
+      "internalName": "",
+      "type": "image/jpeg",
+      "size": 1904974,
+      "width": null,
+      "height": null,
+      "aspectRatio": null,
+      "uploadedAt": "2026-06-07T17:38:07.790Z",
+      "lastModified": 1759153363246,
+      "tags": [],
+      "albumIds": [],
+      "favorite": true,
+      "inPortfolio": true,
+      "trashed": false,
+      "trashedAt": "",
+      "metadata": {
+        "takenAt": "",
+        "cameraMake": "",
+        "cameraModel": "",
+        "lensMake": "",
+        "lensModel": "",
+        "software": "",
+        "orientation": null,
+        "iso": null,
+        "exposureTime": null,
+        "aperture": null,
+        "focalLength": null,
+        "gpsLatitude": null,
+        "gpsLongitude": null,
+        "gpsAltitude": null
+      },
+      "contentSha256": "",
+      "archiveSha256": "3fc53df465e1e982cd3701089839e8ffd0b13eaea23ba7ff5aaf4adba035333a",
+      "sourcePaths": [
+        "/Volumes/SSDisky/Lightroom Export/DSC09256.jpg"
+      ],
+      "sourceRoots": [
+        "SSDisky Lightroom Export"
+      ],
+      "organizedPaths": [],
+      "archiveTags": [],
+      "archiveImportedAt": "2026-06-07T17:38:07.790Z"
     }
   ]
 }
