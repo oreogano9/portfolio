@@ -612,8 +612,6 @@ const createMetadataRows = (photo) => {
   const rows = [
     ["Storage key", photo.s3Key || "Album asset"],
     ["Archive hash", photo.archiveSha256],
-    ["Original location", photo.sourcePaths?.join("\n")],
-    ["Organized reference", photo.organizedPaths?.join("\n")],
     ["Archive tags", photo.archiveTags?.join("; ")],
     ["Dimensions", `${photo.width || "?"} x ${photo.height || "?"}`],
     ["Type", photo.type || "Unknown"],
@@ -667,6 +665,49 @@ const escapeHtml = (value) =>
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+
+const createSourceLocationList = (photo) => {
+  const groups = [
+    ["Original locations", photo.sourcePaths || []],
+    ["Organized references", photo.organizedPaths || []],
+  ]
+    .map(([title, paths]) => [
+      title,
+      Array.from(new Set((Array.isArray(paths) ? paths : []).map(String).filter(Boolean))),
+    ])
+    .filter(([, paths]) => paths.length);
+
+  if (!groups.length) {
+    return "";
+  }
+
+  return `
+    <section class="admin-source-locations" aria-label="Source locations">
+      <h3>Source locations</h3>
+      ${groups
+        .map(
+          ([title, paths]) => `
+            <div class="admin-source-group">
+              <span>${escapeHtml(title)}</span>
+              <ul>
+                ${paths
+                  .map(
+                    (sourcePath) => `
+                      <li>
+                        <code>${escapeHtml(sourcePath)}</code>
+                        <button class="admin-mini-button" type="button" data-action="copy-source-path" data-source-path="${escapeAttribute(sourcePath)}">Copy path</button>
+                      </li>
+                    `
+                  )
+                  .join("")}
+              </ul>
+            </div>
+          `
+        )
+        .join("")}
+    </section>
+  `;
+};
 
 const renderDetail = () => {
   if (!els.detail) {
@@ -725,6 +766,7 @@ const renderDetail = () => {
           <label><input type="checkbox" data-field="favorite"${photo.favorite ? " checked" : ""} /> Favorite</label>
           <label><input type="checkbox" data-field="inPortfolio"${photo.inPortfolio ? " checked" : ""} /> Portfolio page</label>
         </div>
+        ${createSourceLocationList(photo)}
         <dl class="admin-metadata">
           ${createMetadataRows(photo)}
         </dl>
@@ -1059,6 +1101,45 @@ const putSignedObject = async ({ signedUpload, body }) => {
   }
 };
 
+const copyTextToClipboard = async (text) => {
+  const value = String(text || "");
+  if (!value) {
+    return false;
+  }
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(value);
+    return true;
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = value;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.append(textarea);
+  textarea.select();
+  let copied = false;
+  try {
+    copied = document.execCommand("copy");
+  } finally {
+    textarea.remove();
+  }
+  return copied;
+};
+
+const selectSourcePathText = (button) => {
+  const code = button?.closest("li")?.querySelector("code");
+  if (!code) {
+    return false;
+  }
+  const selection = window.getSelection();
+  const range = document.createRange();
+  range.selectNodeContents(code);
+  selection.removeAllRanges();
+  selection.addRange(range);
+  return true;
+};
+
 const uploadFiles = async (files) => {
   const imageFiles = Array.from(files).filter((file) => file.type.startsWith("image/"));
   if (!imageFiles.length) {
@@ -1290,6 +1371,20 @@ const deletePhotosPermanently = async (ids) => {
 const handleAction = async (target, event) => {
   const action = target.dataset.action;
   const photoId = target.dataset.photoId;
+  if (action === "copy-source-path") {
+    event?.preventDefault();
+    try {
+      const copied = await copyTextToClipboard(target.dataset.sourcePath || "");
+      if (copied) {
+        setStatus("Copied source path.");
+        return;
+      }
+      setStatus(selectSourcePathText(target) ? "Clipboard was blocked; path selected for manual copy." : "Could not copy source path.");
+    } catch {
+      setStatus(selectSourcePathText(target) ? "Clipboard was blocked; path selected for manual copy." : "Could not copy source path.");
+    }
+    return;
+  }
   if (action === "inspect-photo") {
     event?.preventDefault();
     if (event?.shiftKey) {

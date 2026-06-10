@@ -486,6 +486,7 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 
 .admin-nav-button,
 .admin-button,
+.admin-mini-button,
 .admin-album-filter,
 .admin-filter,
 .admin-selection-album,
@@ -513,6 +514,21 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   text-transform: uppercase;
 }
 
+.admin-mini-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.85rem;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--site-ui-font-family);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .admin-nav-button {
   width: 100%;
   min-height: 2rem;
@@ -523,7 +539,9 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 
 .admin-nav-button.is-active,
 .admin-button:hover,
-.admin-button:focus-visible {
+.admin-button:focus-visible,
+.admin-mini-button:hover,
+.admin-mini-button:focus-visible {
   border-color: var(--text);
 }
 
@@ -865,6 +883,59 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+}
+
+.admin-source-locations {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 58%, transparent);
+}
+
+.admin-source-locations h3 {
+  margin: 0;
+  font-family: var(--site-ui-font-family);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-source-group {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.admin-source-group > span {
+  color: var(--muted);
+  font-family: var(--site-ui-font-family);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.admin-source-group ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-source-group li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.admin-source-group code {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-family: var(--site-ui-font-family);
+  font-size: 0.72rem;
 }
 
 .admin-metadata {
