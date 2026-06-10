@@ -783,6 +783,10 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.32);
 }
 
+.admin-detail[hidden] {
+  display: none;
+}
+
 .admin-detail-top {
   display: flex;
   align-items: center;
