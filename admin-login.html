@@ -13,8 +13,12 @@
         <a class="brand admin-login-brand" href="/">Konrad Parada Photos</a>
         <h1>Admin</h1>
         <label class="admin-field">
+          <span>Username</span>
+          <input type="text" name="username" autocomplete="username" required autofocus />
+        </label>
+        <label class="admin-field">
           <span>Password</span>
-          <input type="password" name="password" autocomplete="current-password" required autofocus />
+          <input type="password" name="password" autocomplete="current-password" required />
         </label>
         <input type="hidden" name="next" value="/admin/" />
         <button class="admin-button" type="submit">Enter</button>

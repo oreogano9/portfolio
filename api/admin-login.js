@@ -13,8 +13,10 @@ const sign = (payload, secret) => crypto.createHmac("sha256", secret).update(pay
 
 const getAuthConfig = () => {
   const password = process.env.ADMIN_PASSWORD || process.env.ADMIN_PASS || process.env.KP_ADMIN_PASSWORD;
+  const username = process.env.ADMIN_USERNAME || process.env.ADMIN_USER || process.env.KP_ADMIN_USERNAME || "";
   return {
     password,
+    username,
     secret: process.env.ADMIN_AUTH_SECRET || password,
   };
 };
@@ -45,7 +47,7 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: "Method not allowed" });
   }
 
-  const { password, secret } = getAuthConfig();
+  const { password, secret, username } = getAuthConfig();
   if (!password || !secret) {
     return response
       .status(503)
@@ -54,19 +56,25 @@ export default async function handler(request, response) {
 
   const body = await parseBody(request);
   const next = safeNextPath(body.next);
+  const submittedUsername = String(body.username || "").trim();
   const submittedPassword = String(body.password || "");
   const passwordBuffer = Buffer.from(password);
   const submittedBuffer = Buffer.from(submittedPassword);
-  const valid =
+  const passwordValid =
     passwordBuffer.length === submittedBuffer.length && crypto.timingSafeEqual(passwordBuffer, submittedBuffer);
+  const usernameValid =
+    !username ||
+    (Buffer.from(username).length === Buffer.from(submittedUsername).length &&
+      crypto.timingSafeEqual(Buffer.from(username), Buffer.from(submittedUsername)));
 
-  if (!valid) {
-    return response.status(401).send("Invalid password");
+  if (!passwordValid || !usernameValid) {
+    return response.status(401).send("Invalid username or password");
   }
 
   const payload = base64url(
     JSON.stringify({
       exp: Math.floor(Date.now() / 1000) + SESSION_MAX_AGE,
+      username: username || submittedUsername,
     })
   );
   const token = `${payload}.${sign(payload, secret)}`;
