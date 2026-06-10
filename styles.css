@@ -611,6 +611,7 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 .admin-album-filter,
 .admin-filter,
 .admin-selection-album,
+.admin-selection-tags,
 .admin-field input,
 .admin-field select {
   min-height: 2.35rem;
@@ -620,6 +621,10 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 
 .admin-search {
   width: min(19rem, 38vw);
+}
+
+.admin-selection-tags {
+  width: min(15rem, 100%);
 }
 
 .admin-stats,
@@ -783,8 +788,12 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.32);
 }
 
-.admin-detail[hidden] {
-  display: none;
+.admin-detail[hidden],
+.admin-detail:empty {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
 }
 
 .admin-detail-top {

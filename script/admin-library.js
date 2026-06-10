@@ -40,7 +40,8 @@ const els = {
   selectionBar: document.querySelector(".admin-selection-bar"),
   selectionCount: document.querySelector("[data-selection-count]"),
   selectionAlbum: document.querySelector(".admin-selection-album"),
-  librarySelectionActions: Array.from(document.querySelectorAll('[data-action="add-selected-to-album"], [data-action="favorite-selected"], [data-action="portfolio-selected"], [data-action="trash-selected"]')),
+  selectionTags: document.querySelector(".admin-selection-tags"),
+  librarySelectionActions: Array.from(document.querySelectorAll('[data-action="add-selected-to-album"], [data-action="add-tags-selected"], [data-action="favorite-selected"], [data-action="portfolio-selected"], [data-action="trash-selected"], .admin-selection-tags')),
   trashSelectionActions: Array.from(document.querySelectorAll('[data-action="restore-selected"], [data-action="delete-selected"]')),
   navButtons: Array.from(document.querySelectorAll("[data-admin-view]")),
   stats: {
@@ -1227,6 +1228,31 @@ const addSelectedPhotosToAlbum = async () => {
   }
 };
 
+const addTagsToSelectedPhotos = () => {
+  const tags = splitTags(els.selectionTags?.value || "");
+  const selectedIds = Array.from(state.selectedIds).filter((id) => {
+    const photo = getPhotoById(id);
+    return photo && !photo.trashed;
+  });
+
+  if (!selectedIds.length) {
+    setStatus("Select at least one stored photo first.");
+    return;
+  }
+  if (!tags.length) {
+    setStatus("Enter one or more tags separated by semicolons.");
+    return;
+  }
+
+  patchPhotos(selectedIds, (photo) => ({
+    tags: Array.from(new Set([...(photo.tags || []), ...tags])),
+  }));
+  if (els.selectionTags) {
+    els.selectionTags.value = "";
+  }
+  setStatus(`Added ${tags.length} tag${tags.length === 1 ? "" : "s"} to ${selectedIds.length} selected photo${selectedIds.length === 1 ? "" : "s"}. Save metadata to keep them.`);
+};
+
 const patchPhotos = (ids, patch) => {
   const idSet = new Set(ids);
   state.library.photos = state.library.photos.map((photo) => (idSet.has(photo.id) ? normalizePhoto({ ...photo, ...patch(photo) }) : photo));
@@ -1312,6 +1338,11 @@ const handleAction = async (target, event) => {
   }
   if (action === "add-selected-to-album") {
     await addSelectedPhotosToAlbum();
+    return;
+  }
+  if (action === "add-tags-selected") {
+    addTagsToSelectedPhotos();
+    renderGrid();
     return;
   }
 
