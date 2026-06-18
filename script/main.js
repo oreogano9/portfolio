@@ -1,4 +1,4 @@
-import { setupHomePage } from "./home.js?v=20260524-lightbox-priority-1";
+import { setupHomePage } from "./home.js?v=20260618-portfolio-banner-2";
 import { setupHomeEditor } from "./home-editor.js?v=20260520-7";
 import { setupAlbumEditor } from "./album/editor.js?v=20260524-lightbox-priority-1";
 import { setupLightbox } from "./lightbox.js?v=20260524-lightbox-priority-1";

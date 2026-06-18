@@ -23,6 +23,8 @@ const state = {
   previewIndex: -1,
   renderedPhotos: [],
   resizeTimer: 0,
+  masonryMeasureTimer: 0,
+  measuredAspectRatios: new Map(),
 };
 
 const els = {
@@ -181,6 +183,26 @@ const getPhotoName = (photo) => photo.internalName || photo.displayName || photo
 
 const getPhotoId = (photo) => String(photo?.id || photo?.src || "");
 
+const getPhotoAspectRatio = (photo) => {
+  const measured = state.measuredAspectRatios.get(getPhotoId(photo));
+  if (Number.isFinite(measured) && measured > 0) {
+    return measured;
+  }
+
+  const aspectRatio = Number(photo?.aspectRatio);
+  if (Number.isFinite(aspectRatio) && aspectRatio > 0) {
+    return aspectRatio;
+  }
+
+  const width = Number(photo?.width);
+  const height = Number(photo?.height);
+  if (Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0) {
+    return width / height;
+  }
+
+  return 0;
+};
+
 const getResponsiveColumnCount = (settings, photoCount) => {
   const maxColumns = window.matchMedia("(max-width: 760px)").matches
     ? 2
@@ -191,8 +213,13 @@ const getResponsiveColumnCount = (settings, photoCount) => {
 };
 
 const getMasonryWeight = (photo) => {
-  const aspectRatio = Number(photo?.aspectRatio);
+  const aspectRatio = getPhotoAspectRatio(photo);
   return Number.isFinite(aspectRatio) && aspectRatio > 0 ? 1 / aspectRatio : 1.25;
+};
+
+const scheduleMasonryRerender = () => {
+  window.clearTimeout(state.masonryMeasureTimer);
+  state.masonryMeasureTimer = window.setTimeout(render, 120);
 };
 
 const getBasePortfolioPhotos = () =>
@@ -364,6 +391,16 @@ const createPortfolioItem = (photo, index) => {
     "load",
     () => {
       image.dataset.ready = "true";
+      if (!image.naturalWidth || !image.naturalHeight) {
+        return;
+      }
+
+      const nextAspectRatio = image.naturalWidth / image.naturalHeight;
+      const previousAspectRatio = state.measuredAspectRatios.get(photoId);
+      if (!Number.isFinite(previousAspectRatio) || Math.abs(previousAspectRatio - nextAspectRatio) > 0.001) {
+        state.measuredAspectRatios.set(photoId, nextAspectRatio);
+        scheduleMasonryRerender();
+      }
     },
     { once: true }
   );
@@ -403,8 +440,14 @@ const createPortfolioMasonry = (photos, columnCount) => {
     height: 0,
     items: [],
   }));
+  const masonryPhotos =
+    state.editing && !state.previewing
+      ? photos.map((photo, index) => ({ photo, index }))
+      : photos
+          .map((photo, index) => ({ photo, index, weight: getMasonryWeight(photo) }))
+          .sort((a, b) => b.weight - a.weight || a.index - b.index);
 
-  photos.forEach((photo, index) => {
+  masonryPhotos.forEach(({ photo, index }) => {
     const column = columns.reduce((shortest, current) => (current.height < shortest.height ? current : shortest), columns[0]);
     column.items.push(createPortfolioItem(photo, index));
     column.height += getMasonryWeight(photo);
