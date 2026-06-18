@@ -1697,7 +1697,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   align-items: center;
 }
 
-.home-page.is-home-editing .home-floating-actions {
+.home-page.is-home-editing .home-floating-actions,
+.portfolio-page .portfolio-floating-actions {
   display: inline-flex;
 }
 
@@ -1707,7 +1708,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   margin-top: 1rem;
 }
 
-.home-page.is-home-editing .home-edit-panel {
+.home-page.is-home-editing .home-edit-panel,
+.portfolio-page.is-portfolio-editing:not(.is-portfolio-previewing) .portfolio-edit-panel {
   display: grid;
 }
 
@@ -1741,6 +1743,18 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   color: var(--text);
   font: inherit;
   resize: vertical;
+}
+
+.portfolio-edit-panel {
+  grid-template-columns: repeat(4, minmax(8rem, 1fr));
+  max-width: min(100%, 58rem);
+}
+
+.portfolio-edit-message {
+  align-self: center;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
 }
 
 .home-edit-select {
@@ -2359,36 +2373,26 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .portfolio-image-grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  grid-auto-flow: dense;
-  grid-auto-rows: clamp(7.5rem, 12vw, 13rem);
-  gap: 0.42rem;
+  column-count: var(--portfolio-columns, 5);
+  column-gap: var(--portfolio-gap, 0.42rem);
   margin: 1.35rem 0 2.4rem;
 }
 
 .portfolio-image-link {
+  position: relative;
   display: block;
-  grid-row: span var(--portfolio-row-span, 1);
+  break-inside: avoid;
   min-width: 0;
-  overflow: hidden;
+  margin: 0 0 var(--portfolio-gap, 0.42rem);
+  overflow: visible;
   background: var(--surface-muted);
-}
-
-.portfolio-image-link:nth-child(11n + 2),
-.portfolio-image-link:nth-child(13n + 7) {
-  grid-column: span 2;
-}
-
-.portfolio-image-link:nth-child(17n + 5) {
-  grid-row: span 2;
 }
 
 .portfolio-image-link img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   opacity: 0.78;
   filter: blur(8px);
   transform: scale(1.035);
@@ -2426,6 +2430,49 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 .portfolio-image-link:hover img,
 .portfolio-image-link:focus-visible img {
   transform: scale(1.025);
+}
+
+.portfolio-page.is-portfolio-editing .portfolio-image-link {
+  outline: 1px solid rgba(16, 16, 16, 0.16);
+  outline-offset: 0.18rem;
+}
+
+.portfolio-page.is-site-dark.is-portfolio-editing .portfolio-image-link {
+  outline-color: rgba(245, 241, 234, 0.2);
+}
+
+.portfolio-image-link.is-portfolio-hidden {
+  opacity: 0.42;
+}
+
+.portfolio-photo-controls {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.4rem;
+  right: 0.4rem;
+  z-index: 3;
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  pointer-events: auto;
+}
+
+.portfolio-photo-button {
+  min-height: 1.75rem;
+  padding: 0 0.48rem;
+  border: 1px solid rgba(16, 16, 16, 0.16);
+  border-radius: 999px;
+  background: rgba(252, 251, 248, 0.9);
+  color: var(--text);
+  font-family: var(--site-ui-font-family);
+  font-size: 0.68rem;
+  cursor: pointer;
+}
+
+body.is-site-dark .portfolio-photo-button {
+  border-color: rgba(245, 241, 234, 0.2);
+  background: rgba(18, 18, 18, 0.88);
+  color: var(--text);
 }
 
 .home-page.has-homepage-indent .albums-section {
@@ -4761,6 +4808,10 @@ body.is-site-dark .floating-photo-editor .photo-toggle-button[aria-pressed="true
     margin-top: 0;
   }
 
+  .portfolio-image-grid {
+    column-count: min(var(--portfolio-columns, 5), 3);
+  }
+
 }
 
 @media (max-width: 700px) {
@@ -4792,6 +4843,14 @@ body.is-site-dark .floating-photo-editor .photo-toggle-button[aria-pressed="true
 }
 
 @media (max-width: 760px) {
+  .portfolio-image-grid {
+    column-count: min(var(--portfolio-columns, 5), 2);
+  }
+
+  .portfolio-edit-panel {
+    grid-template-columns: 1fr;
+  }
+
   .admin-shell {
     grid-template-columns: 1fr;
   }

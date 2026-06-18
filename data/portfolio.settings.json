@@ -1,0 +1,9 @@
+{
+  "id": "portfolio",
+  "title": "Portfolio",
+  "orderMode": "random",
+  "columns": 5,
+  "gap": 0.42,
+  "hiddenPhotoIds": [],
+  "photoOrder": []
+}
