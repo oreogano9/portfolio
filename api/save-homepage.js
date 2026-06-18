@@ -6,8 +6,9 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const SETTINGS_PATH = "data/homepage.settings.json";
+const PORTFOLIO_SETTINGS_PATH = "data/portfolio.settings.json";
 
-const isSafeSettingsPath = (value) => value === SETTINGS_PATH;
+const isSafeSettingsPath = (value) => value === SETTINGS_PATH || value === PORTFOLIO_SETTINGS_PATH;
 
 const isSafeGallerySettingsPath = (value) =>
   typeof value === "string" &&
@@ -128,11 +129,52 @@ export default async function handler(request, response) {
 
   const { documentId, settingsPath, settings } = request.body || {};
 
-  if (documentId !== "homepage" || !settings || !isSafeSettingsPath(settingsPath)) {
+  if (!["homepage", "portfolio"].includes(documentId) || !settings || !isSafeSettingsPath(settingsPath)) {
+    return response.status(400).json({ error: "Invalid settings payload" });
+  }
+
+  if (documentId === "homepage" && settingsPath !== SETTINGS_PATH) {
     return response.status(400).json({ error: "Invalid homepage payload" });
   }
 
+  if (documentId === "portfolio" && settingsPath !== PORTFOLIO_SETTINGS_PATH) {
+    return response.status(400).json({ error: "Invalid portfolio payload" });
+  }
+
   try {
+    if (documentId === "portfolio") {
+      const existingPortfolio = await fetchRepoJson({
+        owner,
+        repo,
+        branch,
+        token,
+        path: PORTFOLIO_SETTINGS_PATH,
+      });
+
+      const portfolioWrite = await writeRepoJson({
+        owner,
+        repo,
+        branch,
+        token,
+        path: PORTFOLIO_SETTINGS_PATH,
+        sha: existingPortfolio?.sha,
+        message: "Update portfolio settings",
+        json: settings,
+      });
+
+      if (!portfolioWrite.ok) {
+        return response.status(500).json({ error: "Failed to write portfolio settings", details: portfolioWrite.details });
+      }
+
+      await tryWriteLocal(() => writeLocalRepoJson(PORTFOLIO_SETTINGS_PATH, settings));
+
+      return response.status(200).json({
+        ok: true,
+        commitSha: portfolioWrite.commitSha,
+        path: PORTFOLIO_SETTINGS_PATH,
+      });
+    }
+
     const existingHomepage = await fetchRepoJson({
       owner,
       repo,

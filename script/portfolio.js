@@ -274,7 +274,7 @@ const saveSettings = async () => {
   renderToolbar();
   try {
     const settings = serializeSettings();
-    const response = await fetch("/api/save-portfolio", {
+    const response = await fetch("/api/save-homepage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
