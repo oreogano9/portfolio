@@ -5,18 +5,9 @@ const SPLASH_IMAGE_ENTRIES = [
   { src: "/assets/splash/DSC05857_copy-d0fe7bc7-2500.jpg" },
   { src: "/assets/splash/IMG_8893_DxO_copy-b2c0bb74-2500.jpg" },
   { src: "/assets/splash/IMG_0821-34f437b6-2500.jpg" },
-  { src: "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg" },
-  {
-    src: "https://d2gue6esbiyjpv.cloudfront.net/splash/IMG_5599-splash-desktop-flipped.jpg",
-    mobileSrc: "https://d2gue6esbiyjpv.cloudfront.net/splash/IMG_5599-splash-mobile-flipped.jpg",
-  },
 ];
 const SPLASH_IMAGE_URLS = SPLASH_IMAGE_ENTRIES.map((entry) => entry.src);
-const SPLASH_IMAGE_FOCAL_POINTS = {
-  "/assets/splash/IMG_0524-2_copy_Large_1-3544b26c-2500.jpg": {
-    mobile: "right center",
-  },
-};
+const SPLASH_IMAGE_FOCAL_POINTS = {};
 const SPLASH_IMAGE_TRANSITION_MODES = new Set(["fade", "cut", "off"]);
 const SPLASH_REVEAL_FEELS = {
   smooth: { label: "Smooth ease", easeX1: 0.85, easeY1: 0, easeX2: 0.15, easeY2: 1 },
