@@ -1,8 +1,10 @@
 {
   "id": "rome-and-ostia-for-palestine",
   "title": "Rome and Ostia for Palestine",
+  "private": false,
   "titleFontFamily": "libre-baskerville",
   "titleScale": 0.6,
+  "albumMode": "multiple",
   "mobileRotateClockwise": true,
   "spacing": "airy",
   "topSpacer": 7,
@@ -31,7 +33,7 @@
   },
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "",
+    "heroImageSrc": "/images/Rome%20and%20Ostia%20for%20Palestine/Rome/DSC03085.jpg",
     "showArrow": true
   },
   "sections": [
@@ -1361,7 +1363,5 @@
       "type": "photo",
       "photoId": "/images/Rome%20and%20Ostia%20for%20Palestine/Ostia/DSC04172.jpg"
     }
-  ],
-  "private": false,
-  "albumMode": "multiple"
+  ]
 }
