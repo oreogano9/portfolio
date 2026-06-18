@@ -4,6 +4,7 @@ const DEFAULT_SETTINGS_PATH = "/data/portfolio.settings.json";
 const DEFAULT_SETTINGS = {
   id: "portfolio",
   title: "Portfolio",
+  titleFontFamily: "libre-baskerville",
   orderMode: "random",
   columns: 5,
   gap: 0.42,
@@ -18,6 +19,9 @@ const state = {
   previewing: false,
   saving: false,
   message: "",
+  previewOpen: false,
+  previewIndex: -1,
+  renderedPhotos: [],
 };
 
 const els = {
@@ -46,9 +50,76 @@ const clampNumber = (value, min, max, fallback) => {
 
 const uniqueStrings = (values) => Array.from(new Set((Array.isArray(values) ? values : []).map(String).filter(Boolean)));
 
+const FONT_FAMILY_OPTIONS = [
+  { value: "inter", label: "Inter" },
+  { value: "moonbase-alpha", label: "Moonbase Alpha" },
+  { value: "ledlight", label: "LED Light" },
+  { value: "saint", label: "Saint" },
+  { value: "clash", label: "Clash Display" },
+  { value: "neue-haas", label: "Neue Haas" },
+  { value: "manrope", label: "Manrope" },
+  { value: "space-grotesk", label: "Space Grotesk" },
+  { value: "plus-jakarta-sans", label: "Plus Jakarta Sans" },
+  { value: "sora", label: "Sora" },
+  { value: "instrument-serif", label: "Instrument Serif" },
+  { value: "cormorant-garamond", label: "Cormorant Garamond" },
+  { value: "fraunces", label: "Fraunces" },
+  { value: "newsreader", label: "Newsreader" },
+  { value: "libre-baskerville", label: "Libre Baskerville" },
+  { value: "syne", label: "Syne" },
+  { value: "young-serif", label: "Young Serif" },
+  { value: "picnic", label: "PicNic" },
+];
+
+const normalizeFontFamily = (value, fallback = DEFAULT_SETTINGS.titleFontFamily) =>
+  FONT_FAMILY_OPTIONS.some((option) => option.value === value) ? value : fallback;
+
+const getFontFamilyCssValue = (value) => {
+  switch (normalizeFontFamily(value)) {
+    case "moonbase-alpha":
+      return '"MoonbaseAlpha", sans-serif';
+    case "ledlight":
+      return '"Ledlight", sans-serif';
+    case "saint":
+      return '"Saint", serif';
+    case "manrope":
+      return '"Manrope", sans-serif';
+    case "space-grotesk":
+      return '"SpaceGrotesk", sans-serif';
+    case "plus-jakarta-sans":
+      return '"PlusJakartaSans", sans-serif';
+    case "sora":
+      return '"Sora", sans-serif';
+    case "instrument-serif":
+      return '"InstrumentSerif", serif';
+    case "cormorant-garamond":
+      return '"CormorantGaramond", serif';
+    case "fraunces":
+      return '"Fraunces", serif';
+    case "newsreader":
+      return '"Newsreader", serif';
+    case "syne":
+      return '"Syne", sans-serif';
+    case "young-serif":
+      return '"YoungSerif", serif';
+    case "picnic":
+      return '"PicNic", serif';
+    case "clash":
+      return '"ClashDisplay", sans-serif';
+    case "neue-haas":
+      return '"NeueHaasDisplay", sans-serif';
+    case "inter":
+      return '"Inter", sans-serif';
+    case "libre-baskerville":
+    default:
+      return '"LibreBaskerville", serif';
+  }
+};
+
 const normalizeSettings = (settings = {}) => ({
   id: "portfolio",
   title: typeof settings.title === "string" && settings.title.trim() ? settings.title : DEFAULT_SETTINGS.title,
+  titleFontFamily: normalizeFontFamily(settings.titleFontFamily),
   orderMode: settings.orderMode === "manual" ? "manual" : "random",
   columns: clampNumber(settings.columns, 2, 8, DEFAULT_SETTINGS.columns),
   gap: clampNumber(settings.gap, 0, 2, DEFAULT_SETTINGS.gap),
@@ -167,6 +238,84 @@ const toggleHidden = (photoId) => {
   setDirty();
 };
 
+let preview = null;
+
+const getPreviewPhoto = () => state.renderedPhotos[state.previewIndex] || null;
+
+const closePortfolioPreview = () => {
+  state.previewOpen = false;
+  state.previewIndex = -1;
+  els.body.classList.remove("is-portfolio-preview-open");
+  document.body.style.overflow = "";
+  if (preview) {
+    preview.hidden = true;
+    preview.setAttribute("aria-hidden", "true");
+    const image = preview.querySelector(".portfolio-preview-image");
+    if (image instanceof HTMLImageElement) {
+      image.removeAttribute("src");
+      image.alt = "";
+    }
+  }
+};
+
+const renderPortfolioPreview = () => {
+  if (!preview) {
+    preview = document.createElement("div");
+    preview.className = "portfolio-preview";
+    preview.hidden = true;
+    preview.setAttribute("aria-hidden", "true");
+    preview.innerHTML = `
+      <button class="portfolio-preview-close" type="button" aria-label="Close preview">×</button>
+      <button class="portfolio-preview-nav portfolio-preview-prev" type="button" aria-label="Previous image">←</button>
+      <img class="portfolio-preview-image" alt="" />
+      <button class="portfolio-preview-nav portfolio-preview-next" type="button" aria-label="Next image">→</button>
+    `;
+    preview.addEventListener("click", (event) => {
+      if (event.target === preview || event.target.closest(".portfolio-preview-close")) {
+        closePortfolioPreview();
+      } else if (event.target.closest(".portfolio-preview-prev")) {
+        showPortfolioPreviewAt(state.previewIndex - 1);
+      } else if (event.target.closest(".portfolio-preview-next")) {
+        showPortfolioPreviewAt(state.previewIndex + 1);
+      }
+    });
+    els.body.append(preview);
+  }
+
+  const photo = getPreviewPhoto();
+  if (!photo) {
+    closePortfolioPreview();
+    return;
+  }
+
+  const image = preview.querySelector(".portfolio-preview-image");
+  if (image instanceof HTMLImageElement) {
+    image.src = resolveAssetUrl(photo.src);
+    image.alt = getPhotoName(photo);
+  }
+  preview.hidden = false;
+  preview.setAttribute("aria-hidden", "false");
+  els.body.classList.add("is-portfolio-preview-open");
+  document.body.style.overflow = "hidden";
+};
+
+const showPortfolioPreviewAt = (index) => {
+  if (!state.renderedPhotos.length) {
+    return;
+  }
+  state.previewOpen = true;
+  state.previewIndex = (index + state.renderedPhotos.length) % state.renderedPhotos.length;
+  renderPortfolioPreview();
+};
+
+const openPortfolioPreview = (photoId) => {
+  const index = state.renderedPhotos.findIndex((photo) => getPhotoId(photo) === photoId);
+  if (index < 0) {
+    return;
+  }
+  showPortfolioPreviewAt(index);
+};
+
 const createPortfolioItem = (photo, index) => {
   const photoId = getPhotoId(photo);
   const isHidden = state.settings.hiddenPhotoIds.includes(photoId);
@@ -177,9 +326,13 @@ const createPortfolioItem = (photo, index) => {
   link.rel = "noreferrer";
   link.dataset.photoId = photoId;
   link.setAttribute("aria-label", getPhotoName(photo));
-  if (state.editing && !state.previewing) {
-    link.addEventListener("click", (event) => event.preventDefault());
-  }
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (state.editing && !state.previewing) {
+      return;
+    }
+    openPortfolioPreview(photoId);
+  });
 
   const image = document.createElement("img");
   const aspectRatio = Number(photo.aspectRatio);
@@ -301,6 +454,12 @@ const saveSettings = async () => {
 let toolbar = null;
 let panel = null;
 
+const toggleEditing = () => {
+  state.editing = !state.editing;
+  state.previewing = false;
+  render();
+};
+
 const renderToolbar = () => {
   if (!toolbar) {
     toolbar = document.createElement("div");
@@ -308,18 +467,15 @@ const renderToolbar = () => {
     els.body.append(toolbar);
   }
 
-  const editButton = document.createElement("button");
-  editButton.className = "preview-toggle";
-  editButton.type = "button";
-  editButton.textContent = state.editing ? "Done" : "Edit";
-  editButton.addEventListener("click", () => {
-    state.editing = !state.editing;
-    state.previewing = false;
-    render();
-  });
-
-  toolbar.replaceChildren(editButton);
+  toolbar.replaceChildren();
+  toolbar.hidden = !state.editing;
   if (state.editing) {
+    const doneButton = document.createElement("button");
+    doneButton.className = "preview-toggle";
+    doneButton.type = "button";
+    doneButton.textContent = "Done";
+    doneButton.addEventListener("click", toggleEditing);
+
     const previewButton = document.createElement("button");
     previewButton.className = "preview-toggle";
     previewButton.type = "button";
@@ -335,7 +491,7 @@ const renderToolbar = () => {
     saveButton.textContent = state.saving ? "Saving..." : "Save";
     saveButton.disabled = state.saving;
     saveButton.addEventListener("click", saveSettings);
-    toolbar.append(previewButton, saveButton);
+    toolbar.append(doneButton, previewButton, saveButton);
 
     if (state.message) {
       const message = document.createElement("span");
@@ -385,6 +541,20 @@ const renderPanel = () => {
 
   panel.append(
     createField({ label: "Title", input: titleInput }),
+    createField({
+      label: "Title font",
+      input: createSelect({
+        value: state.settings.titleFontFamily,
+        options: FONT_FAMILY_OPTIONS,
+        onChange: (value) => {
+          state.settings.titleFontFamily = normalizeFontFamily(value);
+          if (els.title) {
+            els.title.style.fontFamily = getFontFamilyCssValue(state.settings.titleFontFamily);
+          }
+          setDirty();
+        },
+      }),
+    }),
     createField({ label: "Order", input: orderSelect }),
     createField({
       label: "Columns",
@@ -429,9 +599,13 @@ const render = () => {
   els.grid.style.setProperty("--portfolio-gap", `${settings.gap}rem`);
   if (els.title) {
     els.title.textContent = settings.title || "Portfolio";
+    els.title.style.fontFamily = getFontFamilyCssValue(settings.titleFontFamily);
   }
 
   const photos = getOrderedPortfolioPhotos();
+  const activeColumns = Math.max(1, Math.min(settings.columns, photos.length || settings.columns));
+  els.grid.style.setProperty("--portfolio-active-columns", String(activeColumns));
+  state.renderedPhotos = photos;
   els.grid.replaceChildren(...photos.map(createPortfolioItem));
   els.empty.hidden = photos.length > 0;
   renderToolbar();
@@ -451,6 +625,42 @@ const init = async () => {
   if (!shouldUseSaved) {
     persistLocalSettings(false, settingsSignature());
   }
+  window.addEventListener("keydown", (event) => {
+    if (state.previewOpen) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closePortfolioPreview();
+        return;
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showPortfolioPreviewAt(state.previewIndex - 1);
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showPortfolioPreviewAt(state.previewIndex + 1);
+        return;
+      }
+    }
+
+    const isToggle =
+      (event.metaKey || event.ctrlKey) && event.shiftKey && !event.altKey && event.key.toLowerCase() === "e";
+    if (!isToggle) {
+      return;
+    }
+
+    const target = event.target;
+    const isTypingTarget =
+      target instanceof HTMLElement &&
+      (target.isContentEditable || target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT");
+    if (isTypingTarget) {
+      return;
+    }
+
+    event.preventDefault();
+    toggleEditing();
+  });
   render();
 };
 
