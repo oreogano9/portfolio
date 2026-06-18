@@ -713,6 +713,14 @@ const escapeHtml = (value) =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
+const getLocalFileUrl = (localPath) => `file://${String(localPath || "").split("/").map(encodeURIComponent).join("/")}`;
+
+const getLocalFolderUrl = (localPath) => {
+  const value = String(localPath || "");
+  const slashIndex = value.lastIndexOf("/");
+  return slashIndex > 0 ? getLocalFileUrl(value.slice(0, slashIndex)) : getLocalFileUrl(value);
+};
+
 const createSourceLocationList = (photo) => {
   const groups = [
     ["Original locations", photo.sourcePaths || []],
@@ -741,8 +749,13 @@ const createSourceLocationList = (photo) => {
                   .map(
                     (sourcePath) => `
                       <li>
-                        <code>${escapeHtml(sourcePath)}</code>
-                        <button class="admin-mini-button" type="button" data-action="copy-source-path" data-source-path="${escapeAttribute(sourcePath)}">Copy path</button>
+                        <a class="admin-source-path-link" href="${escapeAttribute(getLocalFileUrl(sourcePath))}" target="_blank" rel="noreferrer">
+                          <code>${escapeHtml(sourcePath)}</code>
+                        </a>
+                        <div class="admin-source-actions">
+                          <a class="admin-mini-button" href="${escapeAttribute(getLocalFolderUrl(sourcePath))}" target="_blank" rel="noreferrer">Open folder</a>
+                          <button class="admin-mini-button" type="button" data-action="copy-source-path" data-source-path="${escapeAttribute(sourcePath)}">Copy path</button>
+                        </div>
                       </li>
                     `
                   )
