@@ -25,6 +25,7 @@ const state = {
   resizeTimer: 0,
   masonryMeasureTimer: 0,
   measuredAspectRatios: new Map(),
+  baseSettingsSignature: "",
 };
 
 const els = {
@@ -158,6 +159,7 @@ const persistLocalSettings = (dirty = true, syncedSignature = "") => {
       ...serializeSettings(),
       meta: {
         dirty,
+        baseSignature: state.baseSettingsSignature || syncedSignature,
         syncedSignature,
       },
     })
@@ -697,9 +699,11 @@ const init = async () => {
   const baseSettings = normalizeSettings(settings || DEFAULT_SETTINGS);
   const savedSettings = getSavedSettings();
   const baseSignature = JSON.stringify(baseSettings);
+  state.baseSettingsSignature = baseSignature;
   const shouldUseSaved =
     savedSettings &&
-    (savedSettings?.meta?.dirty === true || savedSettings?.meta?.syncedSignature === baseSignature);
+    (savedSettings?.meta?.syncedSignature === baseSignature ||
+      (savedSettings?.meta?.dirty === true && savedSettings?.meta?.baseSignature === baseSignature));
   state.settings = normalizeSettings(shouldUseSaved ? savedSettings : baseSettings);
   if (!shouldUseSaved) {
     persistLocalSettings(false, settingsSignature());

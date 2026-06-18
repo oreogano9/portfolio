@@ -2290,14 +2290,15 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 
 .portfolio-banner {
   position: relative;
-  display: inline-grid;
+  display: grid;
   place-items: center;
-  min-height: 3rem;
-  padding: 0.95rem 1.2rem;
+  width: min(100%, 42rem);
+  min-height: clamp(3.4rem, 6vw, 5rem);
+  padding: 1.05rem 1.5rem;
   margin-top: var(--homepage-quote-portfolio-gap, clamp(2.8rem, 5vw, 5rem));
   overflow: hidden;
   border: 1px solid var(--line);
-  background: transparent;
+  background: color-mix(in srgb, var(--surface-muted) 36%, transparent);
   color: var(--text);
   isolation: isolate;
   text-decoration: none;
@@ -2308,8 +2309,8 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   position: relative;
   color: inherit;
   font-family: var(--site-ui-font-family);
-  font-size: clamp(0.86rem, 1.6vw, 1.1rem);
-  font-weight: 400;
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  font-weight: 600;
   letter-spacing: 0.18em;
   line-height: 1;
   text-transform: uppercase;
