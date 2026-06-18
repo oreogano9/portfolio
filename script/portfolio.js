@@ -4,7 +4,7 @@ const DEFAULT_SETTINGS_PATH = "/data/portfolio.settings.json";
 const DEFAULT_SETTINGS = {
   id: "portfolio",
   title: "Portfolio",
-  titleFontFamily: "libre-baskerville",
+  titleFontFamily: "inter",
   orderMode: "random",
   columns: 5,
   gap: 0.42,
@@ -22,6 +22,7 @@ const state = {
   previewOpen: false,
   previewIndex: -1,
   renderedPhotos: [],
+  resizeTimer: 0,
 };
 
 const els = {
@@ -179,6 +180,20 @@ const shuffleItems = (items) => {
 const getPhotoName = (photo) => photo.internalName || photo.displayName || photo.originalName || "Portfolio photograph";
 
 const getPhotoId = (photo) => String(photo?.id || photo?.src || "");
+
+const getResponsiveColumnCount = (settings, photoCount) => {
+  const maxColumns = window.matchMedia("(max-width: 760px)").matches
+    ? 2
+    : window.matchMedia("(max-width: 1100px)").matches
+    ? 3
+    : settings.columns;
+  return Math.max(1, Math.min(maxColumns, photoCount || maxColumns));
+};
+
+const getMasonryWeight = (photo) => {
+  const aspectRatio = Number(photo?.aspectRatio);
+  return Number.isFinite(aspectRatio) && aspectRatio > 0 ? 1 / aspectRatio : 1.25;
+};
 
 const getBasePortfolioPhotos = () =>
   (Array.isArray(state.library.photos) ? state.library.photos : []).filter(
@@ -381,6 +396,27 @@ const createPortfolioItem = (photo, index) => {
     link.append(controls);
   }
   return link;
+};
+
+const createPortfolioMasonry = (photos, columnCount) => {
+  const columns = Array.from({ length: columnCount }, () => ({
+    height: 0,
+    items: [],
+  }));
+
+  photos.forEach((photo, index) => {
+    const column = columns.reduce((shortest, current) => (current.height < shortest.height ? current : shortest), columns[0]);
+    column.items.push(createPortfolioItem(photo, index));
+    column.height += getMasonryWeight(photo);
+  });
+
+  return columns.map((column, index) => {
+    const element = document.createElement("div");
+    element.className = "portfolio-masonry-column";
+    element.dataset.column = String(index + 1);
+    element.append(...column.items);
+    return element;
+  });
 };
 
 const createField = ({ label, input }) => {
@@ -603,10 +639,10 @@ const render = () => {
   }
 
   const photos = getOrderedPortfolioPhotos();
-  const activeColumns = Math.max(1, Math.min(settings.columns, photos.length || settings.columns));
+  const activeColumns = getResponsiveColumnCount(settings, photos.length);
   els.grid.style.setProperty("--portfolio-active-columns", String(activeColumns));
   state.renderedPhotos = photos;
-  els.grid.replaceChildren(...photos.map(createPortfolioItem));
+  els.grid.replaceChildren(...createPortfolioMasonry(photos, activeColumns));
   els.empty.hidden = photos.length > 0;
   renderToolbar();
   renderPanel();
@@ -660,6 +696,10 @@ const init = async () => {
 
     event.preventDefault();
     toggleEditing();
+  });
+  window.addEventListener("resize", () => {
+    window.clearTimeout(state.resizeTimer);
+    state.resizeTimer = window.setTimeout(render, 120);
   });
   render();
 };

@@ -1,7 +1,7 @@
 {
   "id": "portfolio",
   "title": "Portfolio",
-  "titleFontFamily": "libre-baskerville",
+  "titleFontFamily": "inter",
   "orderMode": "random",
   "columns": 5,
   "gap": 0.42,

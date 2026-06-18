@@ -1031,11 +1031,11 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
 .portfolio-title {
   max-width: 11ch;
   margin: 0.35rem 0 0;
-  font-family: var(--site-title-font-family);
+  font-family: var(--site-ui-font-family);
   font-size: clamp(3.4rem, 8vw, 8.8rem);
   font-weight: 400;
   line-height: 0.9;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
 }
 
 .portfolio-copy {
@@ -2405,6 +2405,13 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   margin: 1.35rem auto 2.4rem;
   justify-content: center;
   align-items: start;
+}
+
+.portfolio-masonry-column {
+  display: grid;
+  align-content: start;
+  gap: var(--portfolio-gap, 0.42rem);
+  min-width: 0;
 }
 
 .portfolio-image-link {
@@ -4908,7 +4915,7 @@ body.is-site-dark .floating-photo-editor .photo-toggle-button[aria-pressed="true
   }
 
   .portfolio-image-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(100%, calc(var(--portfolio-active-columns, var(--portfolio-columns, 5)) * 14.25rem));
   }
 
 }
@@ -4942,10 +4949,6 @@ body.is-site-dark .floating-photo-editor .photo-toggle-button[aria-pressed="true
 }
 
 @media (max-width: 760px) {
-  .portfolio-image-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .portfolio-edit-panel {
     grid-template-columns: 1fr;
   }
@@ -5018,9 +5021,12 @@ body.is-site-dark .floating-photo-editor .photo-toggle-button[aria-pressed="true
   }
 
   .portfolio-image-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.35rem;
     margin-top: 1rem;
+  }
+
+  .portfolio-masonry-column {
+    gap: 0.35rem;
   }
 
   .album-card {
