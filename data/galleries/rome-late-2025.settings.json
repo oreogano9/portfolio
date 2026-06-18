@@ -1,8 +1,10 @@
 {
   "id": "rome-late-2025",
   "title": "Rome 12/25",
+  "private": false,
   "titleFontFamily": "libre-baskerville",
   "titleScale": 0.6,
+  "albumMode": "multiple",
   "mobileRotateClockwise": true,
   "spacing": "airy",
   "topSpacer": 7,
@@ -31,7 +33,7 @@
   },
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "",
+    "heroImageSrc": "/images/Rome%2C%20Late%202025/DSC07862.jpg",
     "showArrow": true
   },
   "sections": [],
@@ -2450,7 +2452,5 @@
       "type": "photo",
       "photoId": "/images/Rome%2C%20Late%202025/DSC08500.jpg"
     }
-  ],
-  "private": false,
-  "albumMode": "multiple"
+  ]
 }
