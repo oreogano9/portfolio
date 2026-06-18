@@ -2,8 +2,8 @@
   "id": "portfolio",
   "title": "Portfolio",
   "titleFontFamily": "syne",
-  "orderMode": "manual",
-  "columns": 4,
+  "orderMode": "random",
+  "columns": 3,
   "gap": 0.6,
   "hiddenPhotoIds": [],
   "photoOrder": [
