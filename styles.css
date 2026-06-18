@@ -2243,7 +2243,7 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
   min-height: clamp(24rem, 36vw, 36rem);
   align-items: start;
   align-content: start;
-  --homepage-quote-portfolio-gap: clamp(2.8rem, 5vw, 5rem);
+  --homepage-quote-portfolio-gap: clamp(4rem, 7vw, 6.5rem);
   padding-top: calc(var(--homepage-masthead-top-space, 10rem) + clamp(1.5rem, 3vw, 3rem));
   padding-bottom: var(--homepage-quote-portfolio-gap);
 }
@@ -2289,26 +2289,42 @@ body:not(.has-mobile-menu) .mobile-menu-drawer {
 }
 
 .portfolio-banner {
-  display: inline-block;
-  width: fit-content;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  min-height: 3rem;
+  padding: 0.95rem 1.2rem;
   margin-top: var(--homepage-quote-portfolio-gap, clamp(2.8rem, 5vw, 5rem));
-  border-bottom: 1px solid transparent;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: transparent;
   color: var(--text);
+  isolation: isolate;
   text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
 .portfolio-banner-title {
+  position: relative;
+  color: inherit;
   font-family: var(--site-ui-font-family);
-  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-size: clamp(0.86rem, 1.6vw, 1.1rem);
   font-weight: 400;
   letter-spacing: 0.18em;
   line-height: 1;
   text-transform: uppercase;
 }
 
+.portfolio-banner-title::after {
+  content: " ↗";
+  letter-spacing: 0;
+}
+
 .portfolio-banner:hover,
 .portfolio-banner:focus-visible {
   border-color: var(--line-strong);
+  background: var(--surface-muted);
+  transform: translateY(-1px);
 }
 
 .masthead-note {
