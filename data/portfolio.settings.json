@@ -1,10 +1,10 @@
 {
   "id": "portfolio",
   "title": "Portfolio",
-  "titleFontFamily": "inter",
+  "titleFontFamily": "syne",
   "orderMode": "random",
   "columns": 5,
-  "gap": 0.42,
+  "gap": 0.6,
   "hiddenPhotoIds": [],
   "photoOrder": []
 }
