@@ -28,12 +28,17 @@ const state = {
   dirtyIds: new Set(),
   deletedIds: new Set(),
   loadMoreObserver: null,
+  timelineGroups: [],
+  activeMonthKey: "",
+  pendingTimelineKey: "",
+  suppressNextTimelineClick: false,
 };
 
 const els = {
   body: document.body,
   grid: document.querySelector(".admin-grid"),
   detail: document.querySelector(".admin-detail"),
+  timeline: document.querySelector(".admin-timeline"),
   search: document.querySelector(".admin-search"),
   filter: document.querySelector(".admin-filter"),
   albumFilter: document.querySelector(".admin-album-filter"),
@@ -571,6 +576,39 @@ const formatPhotoMonth = (photo) => {
   return new Intl.DateTimeFormat(undefined, { month: "long", year: "numeric" }).format(new Date(timestamp));
 };
 
+const formatPhotoMonthShort = (photo) => {
+  const timestamp = getPhotoTimestamp(photo);
+  if (!timestamp) {
+    return { month: "Undated", year: "" };
+  }
+  const date = new Date(timestamp);
+  return {
+    month: new Intl.DateTimeFormat(undefined, { month: "short" }).format(date),
+    year: new Intl.DateTimeFormat(undefined, { year: "numeric" }).format(date),
+  };
+};
+
+const getVisibleMonthGroups = (photos) => {
+  const groups = [];
+  let lastMonthKey = "";
+  photos.forEach((photo, index) => {
+    const monthKey = getPhotoMonthKey(photo);
+    if (monthKey === lastMonthKey) {
+      return;
+    }
+    const shortLabel = formatPhotoMonthShort(photo);
+    groups.push({
+      key: monthKey,
+      label: formatPhotoMonth(photo),
+      month: shortLabel.month,
+      year: shortLabel.year,
+      firstIndex: index,
+    });
+    lastMonthKey = monthKey;
+  });
+  return groups;
+};
+
 const getVisiblePhotos = () => {
   const visiblePhotos = state.library.photos.filter((photo) => photoMatchesFilter(photo) && photoMatchesSearch(photo));
   return [...visiblePhotos].sort((left, right) => getPhotoTimestamp(right) - getPhotoTimestamp(left));
@@ -678,11 +716,144 @@ const createLoadMoreControl = ({ renderedCount, totalCount }) => {
   return holder;
 };
 
-const createMonthDivider = (label) => {
+const createMonthDivider = ({ key, label }) => {
   const divider = document.createElement("div");
   divider.className = "admin-month-divider";
+  divider.dataset.monthKey = key;
   divider.textContent = label;
   return divider;
+};
+
+const updateTimelineActiveState = (activeKey = state.activeMonthKey) => {
+  state.activeMonthKey = activeKey || "";
+  if (!els.timeline) {
+    return;
+  }
+  let activeButton = null;
+  els.timeline.querySelectorAll(".admin-timeline-button").forEach((button) => {
+    const isActive = button.dataset.monthKey === state.activeMonthKey;
+    const isPending = button.dataset.monthKey === state.pendingTimelineKey;
+    button.classList.toggle("is-active", isActive);
+    button.classList.toggle("is-pending", isPending);
+    button.setAttribute("aria-current", isActive ? "true" : "false");
+    if (isActive) {
+      activeButton = button;
+    }
+  });
+  if (activeButton && !state.pendingTimelineKey) {
+    activeButton.scrollIntoView({ block: "nearest" });
+  }
+};
+
+const renderTimeline = (visiblePhotos) => {
+  if (!els.timeline) {
+    return;
+  }
+  state.timelineGroups = getVisibleMonthGroups(visiblePhotos);
+  state.pendingTimelineKey = "";
+  els.timeline.hidden = state.view === "trash" || state.timelineGroups.length <= 1;
+  if (els.timeline.hidden) {
+    els.timeline.replaceChildren();
+    state.activeMonthKey = "";
+    return;
+  }
+  const buttons = state.timelineGroups.map((group) => {
+    const button = document.createElement("button");
+    button.className = "admin-timeline-button";
+    button.type = "button";
+    button.dataset.action = "timeline-jump";
+    button.dataset.monthKey = group.key;
+    button.dataset.timelineIndex = String(group.firstIndex);
+    button.setAttribute("aria-label", `Jump to ${group.label}`);
+    button.innerHTML = `<span>${escapeHtml(group.month)}</span>${group.year ? `<small>${escapeHtml(group.year)}</small>` : ""}`;
+    return button;
+  });
+  els.timeline.replaceChildren(...buttons);
+  updateTimelineActiveState(state.activeMonthKey || state.timelineGroups[0]?.key || "");
+};
+
+const getMonthDivider = (monthKey) => Array.from(els.grid.querySelectorAll(".admin-month-divider")).find((item) => item.dataset.monthKey === monthKey);
+
+const scrollToMonthKey = (monthKey, { settle = false, attempt = 0 } = {}) => {
+  const divider = getMonthDivider(monthKey);
+  if (!divider) {
+    return;
+  }
+  const offset = 18;
+  const targetTop = Math.max(0, divider.getBoundingClientRect().top + window.scrollY - offset);
+  window.scrollTo({ top: targetTop, behavior: attempt ? "auto" : "smooth" });
+  if (settle && attempt < 10) {
+    window.setTimeout(() => {
+      const currentDivider = getMonthDivider(monthKey);
+      if (!currentDivider) {
+        return;
+      }
+      const distance = currentDivider.getBoundingClientRect().top - offset;
+      if (Math.abs(distance) > 2) {
+        scrollToMonthKey(monthKey, { settle: true, attempt: attempt + 1 });
+      }
+    }, 220);
+  }
+};
+
+const jumpToTimelineGroup = (group) => {
+  if (!group) {
+    return;
+  }
+  if (group.firstIndex >= state.renderLimit) {
+    state.renderLimit = Math.ceil((group.firstIndex + 1) / GRID_BATCH_SIZE) * GRID_BATCH_SIZE;
+    renderGrid();
+  }
+  requestAnimationFrame(() => {
+    updateTimelineActiveState(group.key);
+    scrollToMonthKey(group.key, { settle: true });
+  });
+};
+
+const getTimelineGroupFromY = (clientY) => {
+  if (!els.timeline || !state.timelineGroups.length) {
+    return null;
+  }
+  const buttons = Array.from(els.timeline.querySelectorAll(".admin-timeline-button"));
+  if (!buttons.length) {
+    return null;
+  }
+  let closest = null;
+  let closestDistance = Infinity;
+  buttons.forEach((button) => {
+    const rect = button.getBoundingClientRect();
+    const distance = Math.abs(clientY - (rect.top + rect.height / 2));
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closest = button;
+    }
+  });
+  const monthKey = closest?.dataset.monthKey || "";
+  return state.timelineGroups.find((group) => group.key === monthKey) || null;
+};
+
+const setPendingTimelineGroup = (group) => {
+  state.pendingTimelineKey = group?.key || "";
+  updateTimelineActiveState();
+};
+
+const updateActiveTimelineFromScroll = () => {
+  if (!els.timeline || els.timeline.hidden || state.pendingTimelineKey) {
+    return;
+  }
+  const dividers = Array.from(els.grid.querySelectorAll(".admin-month-divider"));
+  if (!dividers.length) {
+    updateTimelineActiveState(state.timelineGroups[0]?.key || "");
+    return;
+  }
+  const anchorY = window.innerHeight * 0.24;
+  let activeKey = dividers[0].dataset.monthKey || "";
+  dividers.forEach((divider) => {
+    if (divider.getBoundingClientRect().top <= anchorY) {
+      activeKey = divider.dataset.monthKey || activeKey;
+    }
+  });
+  updateTimelineActiveState(activeKey);
 };
 
 const observeLoadMore = () => {
@@ -744,10 +915,12 @@ const renderGrid = ({ reset = false } = {}) => {
   }
   const visiblePhotos = getVisiblePhotos();
   const renderedPhotos = visiblePhotos.slice(0, state.renderLimit);
+  const visibleMonthGroups = getVisibleMonthGroups(visiblePhotos);
   updateStats(visiblePhotos, renderedPhotos.length);
   els.navButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.adminView === state.view));
   els.grid.hidden = false;
   renderDetail();
+  renderTimeline(visiblePhotos);
 
   if (!visiblePhotos.length) {
     els.grid.innerHTML = `<p class="admin-empty">${state.view === "trash" ? "Trash is empty." : "No photos match this view yet."}</p>`;
@@ -756,13 +929,13 @@ const renderGrid = ({ reset = false } = {}) => {
   }
 
   const gridItems = renderedPhotos.map(createPhotoCard);
-  if (visiblePhotos.length >= MONTH_DIVIDER_THRESHOLD) {
+  if (visiblePhotos.length >= MONTH_DIVIDER_THRESHOLD || visibleMonthGroups.length > 1) {
     let lastMonthKey = "";
     gridItems.length = 0;
     renderedPhotos.forEach((photo) => {
       const monthKey = getPhotoMonthKey(photo);
       if (monthKey !== lastMonthKey) {
-        gridItems.push(createMonthDivider(formatPhotoMonth(photo)));
+        gridItems.push(createMonthDivider({ key: monthKey, label: formatPhotoMonth(photo) }));
         lastMonthKey = monthKey;
       }
       gridItems.push(createPhotoCard(photo));
@@ -773,6 +946,7 @@ const renderGrid = ({ reset = false } = {}) => {
   }
   els.grid.replaceChildren(...gridItems);
   observeLoadMore();
+  updateActiveTimelineFromScroll();
 };
 
 const escapeHtml = (value) =>
@@ -1551,9 +1725,71 @@ const toggleVisibleSelection = () => {
   renderGrid();
 };
 
+const handleTimelinePointer = (event) => {
+  if (!els.timeline || els.timeline.hidden) {
+    return;
+  }
+  const startedOnButton = Boolean(event.target.closest(".admin-timeline-button"));
+  const startY = event.clientY;
+  let isDragging = !startedOnButton;
+  if (!startedOnButton) {
+    event.preventDefault();
+  }
+  els.timeline.setPointerCapture?.(event.pointerId);
+  const updatePending = (clientY) => {
+    const group = getTimelineGroupFromY(clientY);
+    setPendingTimelineGroup(group);
+    return group;
+  };
+  let pendingGroup = updatePending(event.clientY);
+  const handlePointerMove = (moveEvent) => {
+    if (Math.abs(moveEvent.clientY - startY) > 4) {
+      isDragging = true;
+    }
+    if (!isDragging) {
+      return;
+    }
+    moveEvent.preventDefault();
+    pendingGroup = updatePending(moveEvent.clientY);
+  };
+  const finish = () => {
+    els.timeline.releasePointerCapture?.(event.pointerId);
+    document.removeEventListener("pointermove", handlePointerMove);
+    document.removeEventListener("pointerup", finish);
+    document.removeEventListener("pointercancel", cancel);
+    state.pendingTimelineKey = "";
+    if (isDragging) {
+      state.suppressNextTimelineClick = startedOnButton;
+      jumpToTimelineGroup(pendingGroup);
+    } else {
+      setPendingTimelineGroup(null);
+    }
+  };
+  const cancel = () => {
+    els.timeline.releasePointerCapture?.(event.pointerId);
+    document.removeEventListener("pointermove", handlePointerMove);
+    document.removeEventListener("pointerup", finish);
+    document.removeEventListener("pointercancel", cancel);
+    setPendingTimelineGroup(null);
+  };
+  document.addEventListener("pointermove", handlePointerMove);
+  document.addEventListener("pointerup", finish, { once: true });
+  document.addEventListener("pointercancel", cancel, { once: true });
+};
+
 const handleAction = async (target, event) => {
   const action = target.dataset.action;
   const photoId = target.dataset.photoId;
+  if (action === "timeline-jump") {
+    event?.preventDefault();
+    if (state.suppressNextTimelineClick) {
+      state.suppressNextTimelineClick = false;
+      return;
+    }
+    const group = state.timelineGroups.find((item) => item.key === target.dataset.monthKey);
+    jumpToTimelineGroup(group);
+    return;
+  }
   if (action === "copy-source-path") {
     event?.preventDefault();
     try {
@@ -1758,6 +1994,9 @@ const init = async () => {
     renderGrid({ reset: true });
   });
   els.fileInput?.addEventListener("change", (event) => uploadFiles(event.target.files));
+  els.timeline?.addEventListener("pointerdown", handleTimelinePointer);
+  window.addEventListener("scroll", updateActiveTimelineFromScroll, { passive: true });
+  window.addEventListener("resize", updateActiveTimelineFromScroll);
   els.navButtons.forEach((button) => {
     button.addEventListener("click", () => {
       state.view = button.dataset.adminView || "library";

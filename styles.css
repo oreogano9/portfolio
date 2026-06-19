@@ -763,6 +763,72 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   text-transform: uppercase;
 }
 
+.admin-timeline {
+  position: fixed;
+  top: 50%;
+  right: 0.45rem;
+  z-index: 45;
+  display: grid;
+  gap: 0.16rem;
+  width: 3.85rem;
+  max-height: min(72vh, 44rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform: translateY(-50%);
+  padding: 0.4rem 0.22rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  box-shadow: 0 0.9rem 2rem rgba(0, 0, 0, 0.28);
+  scrollbar-width: none;
+  touch-action: none;
+}
+
+.admin-timeline::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-timeline-button {
+  display: grid;
+  gap: 0.02rem;
+  min-height: 2.2rem;
+  place-items: center;
+  padding: 0.25rem 0.15rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--site-ui-font-family);
+  text-transform: uppercase;
+}
+
+.admin-timeline-button span {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+
+.admin-timeline-button small {
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  opacity: 0.72;
+}
+
+.admin-timeline-button:hover,
+.admin-timeline-button.is-pending {
+  border-color: var(--line-strong);
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+}
+
+.admin-timeline-button.is-active {
+  border-color: var(--text);
+  color: var(--bg);
+  background: var(--text);
+}
+
 .admin-photo-selected-mark {
   position: absolute;
   top: 0.35rem;
@@ -5068,6 +5134,10 @@ body.is-site-dark .floating-photo-editor .photo-toggle-button[aria-pressed="true
 
   .admin-main {
     grid-template-columns: 1fr;
+  }
+
+  .admin-timeline {
+    display: none !important;
   }
 
   .admin-detail {
