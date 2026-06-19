@@ -1,8 +1,10 @@
 {
   "id": "daniel-and-paulina-in-rome",
   "title": "Daniel and Paulina in Rome",
+  "private": false,
   "titleFontFamily": "libre-baskerville",
   "titleScale": 0.6,
+  "albumMode": "multiple",
   "mobileRotateClockwise": true,
   "spacing": "airy",
   "topSpacer": 7,
@@ -31,7 +33,7 @@
   },
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "",
+    "heroImageSrc": "/images/Daniel%20and%20Paulina%20in%20Rome/DSC09002-1.jpg",
     "showArrow": true
   },
   "sections": [],
@@ -1748,7 +1750,5 @@
       "type": "photo",
       "photoId": "/images/Daniel%20and%20Paulina%20in%20Rome/R0003500copy.jpg"
     }
-  ],
-  "private": false,
-  "albumMode": "multiple"
+  ]
 }
