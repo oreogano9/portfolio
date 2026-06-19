@@ -27,9 +27,21 @@ const fetchRepoJson = async ({ owner, repo, branch, token, path: repoPath }) => 
   }
 
   const payload = await response.json();
+  let content = payload.content || "";
+  let encoding = payload.encoding || "";
+  if (!content && payload.git_url) {
+    const blobResponse = await fetch(payload.git_url, {
+      headers: githubHeaders(token),
+    });
+    if (blobResponse.ok) {
+      const blob = await blobResponse.json();
+      content = blob.content || "";
+      encoding = blob.encoding || "";
+    }
+  }
   let parsed = null;
   try {
-    parsed = JSON.parse(Buffer.from(payload.content || "", "base64").toString("utf8"));
+    parsed = JSON.parse(encoding === "base64" ? Buffer.from(content, "base64").toString("utf8") : content);
   } catch {
     parsed = null;
   }
@@ -123,6 +135,9 @@ export default async function handler(request, response) {
 
   try {
     const existing = await fetchRepoJson({ owner, repo, branch, token, path: SETTINGS_PATH });
+    if (!existing?.parsed) {
+      return response.status(500).json({ error: "Failed to read existing photo library before patching" });
+    }
     const nextSettings = normalizeLibrary(existing?.parsed || {});
     const deleteSet = new Set(deleteIds.map(String).filter(Boolean));
     const byId = new Map(nextSettings.photos.filter((photo) => !deleteSet.has(photo.id)).map((photo) => [photo.id, photo]));
