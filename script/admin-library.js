@@ -541,9 +541,9 @@ const parsePhotoTimestamp = (value) => {
 const getPhotoTimestamp = (photo) => {
   const values = [
     photo.metadata?.takenAt,
+    photo.lastModified ? new Date(photo.lastModified).toISOString() : "",
     photo.uploadedAt,
     photo.archiveImportedAt,
-    photo.lastModified ? new Date(photo.lastModified).toISOString() : "",
   ];
   for (const value of values) {
     const timestamp = parsePhotoTimestamp(value);
