@@ -1678,8 +1678,14 @@ const handleInspectorInput = (target, { rerender = false } = {}) => {
   }
 };
 
+const withCacheBust = (path) => {
+  const url = new URL(path, window.location.origin);
+  url.searchParams.set("adminCacheBust", String(Date.now()));
+  return `${url.pathname}${url.search}`;
+};
+
 const loadJson = async (path) => {
-  const response = await fetch(path);
+  const response = await fetch(withCacheBust(path), { cache: "no-store" });
   if (!response.ok) {
     throw new Error(`Could not load ${path}`);
   }

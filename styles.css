@@ -414,6 +414,10 @@ body.is-site-dark .subalbum-index:not(.subalbum-footer-index)::after {
   color: var(--text);
 }
 
+.admin-page [hidden] {
+  display: none !important;
+}
+
 .admin-login-page {
   min-height: 100vh;
   background: var(--bg);
