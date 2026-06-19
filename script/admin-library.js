@@ -9,6 +9,7 @@ const THUMB_QUALITY = 0.82;
 const DELETE_BATCH_SIZE = 100;
 const GRID_BATCH_SIZE = 240;
 const SAVE_BATCH_SIZE = 500;
+const MONTH_DIVIDER_THRESHOLD = 60;
 
 const state = {
   library: { id: "photo-library", version: 1, updatedAt: "", photos: [] },
@@ -26,6 +27,7 @@ const state = {
   renderLimit: GRID_BATCH_SIZE,
   dirtyIds: new Set(),
   deletedIds: new Set(),
+  loadMoreObserver: null,
 };
 
 const els = {
@@ -523,6 +525,19 @@ const photoMatchesFilter = (photo) => {
   return true;
 };
 
+const parsePhotoTimestamp = (value) => {
+  const rawValue = String(value || "").trim();
+  if (!rawValue) {
+    return 0;
+  }
+  const normalizedExifValue = rawValue.replace(
+    /^(\d{4}):(\d{2}):(\d{2})(?:\s+|T)(\d{2}):(\d{2}):(\d{2})/,
+    "$1-$2-$3T$4:$5:$6"
+  );
+  const timestamp = Date.parse(normalizedExifValue);
+  return Number.isFinite(timestamp) ? timestamp : 0;
+};
+
 const getPhotoTimestamp = (photo) => {
   const values = [
     photo.metadata?.takenAt,
@@ -531,20 +546,34 @@ const getPhotoTimestamp = (photo) => {
     photo.lastModified ? new Date(photo.lastModified).toISOString() : "",
   ];
   for (const value of values) {
-    const timestamp = Date.parse(value);
-    if (Number.isFinite(timestamp)) {
+    const timestamp = parsePhotoTimestamp(value);
+    if (timestamp) {
       return timestamp;
     }
   }
   return 0;
 };
 
+const getPhotoMonthKey = (photo) => {
+  const timestamp = getPhotoTimestamp(photo);
+  if (!timestamp) {
+    return "undated";
+  }
+  const date = new Date(timestamp);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+};
+
+const formatPhotoMonth = (photo) => {
+  const timestamp = getPhotoTimestamp(photo);
+  if (!timestamp) {
+    return "Undated";
+  }
+  return new Intl.DateTimeFormat(undefined, { month: "long", year: "numeric" }).format(new Date(timestamp));
+};
+
 const getVisiblePhotos = () => {
   const visiblePhotos = state.library.photos.filter((photo) => photoMatchesFilter(photo) && photoMatchesSearch(photo));
-  if (state.albumFilter === "archive") {
-    return [...visiblePhotos].sort((left, right) => getPhotoTimestamp(right) - getPhotoTimestamp(left));
-  }
-  return visiblePhotos;
+  return [...visiblePhotos].sort((left, right) => getPhotoTimestamp(right) - getPhotoTimestamp(left));
 };
 
 const getVisiblePhotoIds = () => getVisiblePhotos().map((photo) => photo.id);
@@ -644,13 +673,38 @@ const createFlag = (label) => {
 const createLoadMoreControl = ({ renderedCount, totalCount }) => {
   const holder = document.createElement("div");
   holder.className = "admin-grid-more";
-  const button = document.createElement("button");
-  button.className = "admin-button";
-  button.type = "button";
-  button.dataset.action = "load-more";
-  button.textContent = `Load more (${renderedCount} of ${totalCount})`;
-  holder.append(button);
+  holder.dataset.loadMoreSentinel = "true";
+  holder.textContent = `Loading more (${renderedCount} of ${totalCount})`;
   return holder;
+};
+
+const createMonthDivider = (label) => {
+  const divider = document.createElement("div");
+  divider.className = "admin-month-divider";
+  divider.textContent = label;
+  return divider;
+};
+
+const observeLoadMore = () => {
+  if (state.loadMoreObserver) {
+    state.loadMoreObserver.disconnect();
+    state.loadMoreObserver = null;
+  }
+  const sentinel = els.grid.querySelector("[data-load-more-sentinel]");
+  if (!sentinel) {
+    return;
+  }
+  state.loadMoreObserver = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) {
+        return;
+      }
+      state.renderLimit += GRID_BATCH_SIZE;
+      renderGrid();
+    },
+    { rootMargin: "900px 0px" }
+  );
+  state.loadMoreObserver.observe(sentinel);
 };
 
 const createMetadataRows = (photo) => {
@@ -697,14 +751,28 @@ const renderGrid = ({ reset = false } = {}) => {
 
   if (!visiblePhotos.length) {
     els.grid.innerHTML = `<p class="admin-empty">${state.view === "trash" ? "Trash is empty." : "No photos match this view yet."}</p>`;
+    observeLoadMore();
     return;
   }
 
   const gridItems = renderedPhotos.map(createPhotoCard);
+  if (visiblePhotos.length >= MONTH_DIVIDER_THRESHOLD) {
+    let lastMonthKey = "";
+    gridItems.length = 0;
+    renderedPhotos.forEach((photo) => {
+      const monthKey = getPhotoMonthKey(photo);
+      if (monthKey !== lastMonthKey) {
+        gridItems.push(createMonthDivider(formatPhotoMonth(photo)));
+        lastMonthKey = monthKey;
+      }
+      gridItems.push(createPhotoCard(photo));
+    });
+  }
   if (renderedPhotos.length < visiblePhotos.length) {
     gridItems.push(createLoadMoreControl({ renderedCount: renderedPhotos.length, totalCount: visiblePhotos.length }));
   }
   els.grid.replaceChildren(...gridItems);
+  observeLoadMore();
 };
 
 const escapeHtml = (value) =>
@@ -1539,11 +1607,6 @@ const handleAction = async (target, event) => {
   }
   if (action === "select-visible") {
     toggleVisibleSelection();
-    return;
-  }
-  if (action === "load-more") {
-    state.renderLimit += GRID_BATCH_SIZE;
-    renderGrid();
     return;
   }
   if (action === "save-library") {
