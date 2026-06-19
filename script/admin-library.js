@@ -300,6 +300,42 @@ const getGridImageSrc = (photo) => {
 
 const getDetailImageSrc = (photo) => photo.src || photo.previewSrc;
 
+const createMissingImagePlaceholder = (text = "Missing from S3") => {
+  const placeholder = document.createElement("span");
+  placeholder.className = "admin-photo-placeholder";
+  placeholder.textContent = text;
+  return placeholder;
+};
+
+const setPriorityPreload = (href) => {
+  document.querySelectorAll("link[data-admin-priority-image]").forEach((link) => link.remove());
+  if (!href) {
+    return;
+  }
+  const preload = document.createElement("link");
+  preload.rel = "preload";
+  preload.as = "image";
+  preload.href = href;
+  preload.fetchPriority = "high";
+  preload.dataset.adminPriorityImage = "true";
+  document.head.append(preload);
+};
+
+const prioritizePhotoLoad = (photo) => {
+  if (!photo) {
+    return;
+  }
+  const src = resolveAssetUrl(getDetailImageSrc(photo));
+  setPriorityPreload(src);
+  if (!src) {
+    return;
+  }
+  const image = new Image();
+  image.fetchPriority = "high";
+  image.decoding = "async";
+  image.src = src;
+};
+
 const escapeRegExp = (value) => String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const getFileNameFromPath = (value) => {
@@ -678,17 +714,34 @@ const createPhotoCard = (photo) => {
   const gridImageSrc = getGridImageSrc(photo);
   if (gridImageSrc) {
     img.loading = "lazy";
+    img.fetchPriority = "low";
+    img.decoding = "async";
     img.alt = getPhotoName(photo);
     img.src = resolveAssetUrl(gridImageSrc);
     if (photo.aspectRatio) {
       img.style.aspectRatio = String(photo.aspectRatio);
+    } else {
+      img.style.aspectRatio = "3 / 2";
     }
+    img.addEventListener("load", () => {
+      if (!photo.aspectRatio && img.naturalWidth && img.naturalHeight) {
+        img.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+      }
+    });
+    let triedFullImage = false;
+    img.addEventListener("error", () => {
+      const fullSrc = resolveAssetUrl(photo.src);
+      if (!triedFullImage && fullSrc && fullSrc !== img.currentSrc && fullSrc !== img.src) {
+        triedFullImage = true;
+        img.fetchPriority = photo.id === state.activeId ? "high" : "low";
+        img.src = fullSrc;
+        return;
+      }
+      imageButton.replaceChildren(createMissingImagePlaceholder());
+    });
     imageButton.append(img);
   } else {
-    const placeholder = document.createElement("span");
-    placeholder.className = "admin-photo-placeholder";
-    placeholder.textContent = "No thumbnail";
-    imageButton.append(placeholder);
+    imageButton.append(createMissingImagePlaceholder("No thumbnail"));
   }
 
   if (state.selectedIds.has(photo.id)) {
@@ -1043,7 +1096,7 @@ const renderDetail = () => {
     </div>
     <div class="admin-detail-layout">
       <div class="admin-detail-media">
-        <img alt="${escapeAttribute(getPhotoName(photo))}" src="${resolveAssetUrl(getDetailImageSrc(photo))}" />
+        <img alt="${escapeAttribute(getPhotoName(photo))}" src="${resolveAssetUrl(getDetailImageSrc(photo))}" loading="eager" decoding="async" fetchpriority="high" />
       </div>
       <div class="admin-detail-info">
         <div class="admin-inspector-header">
@@ -1075,6 +1128,13 @@ const renderDetail = () => {
       </div>
     </div>
   `;
+  const detailImage = els.detail.querySelector(".admin-detail-media img");
+  detailImage?.addEventListener("error", () => {
+    const media = detailImage.closest(".admin-detail-media");
+    if (media) {
+      media.replaceChildren(createMissingImagePlaceholder("Missing original in S3"));
+    }
+  });
 };
 
 const escapeAttribute = (value) =>
@@ -1814,6 +1874,7 @@ const handleAction = async (target, event) => {
       const scrollY = window.scrollY;
       state.activeId = photoId;
       state.detailOpen = true;
+      prioritizePhotoLoad(getPhotoById(photoId));
       renderDetail();
       updatePhotoCardStates();
       restoreScrollPosition(scrollX, scrollY);
