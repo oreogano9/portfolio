@@ -26,6 +26,8 @@ const state = {
   masonryMeasureTimer: 0,
   measuredAspectRatios: new Map(),
   baseSettingsSignature: "",
+  randomPhotoOrderIds: [],
+  randomPhotoOrderSignature: "",
 };
 
 const els = {
@@ -181,6 +183,26 @@ const shuffleItems = (items) => {
   return shuffled;
 };
 
+const getPhotoListSignature = (photos) => photos.map(getPhotoId).join("\n");
+
+const getRandomizedPortfolioPhotos = (photos) => {
+  const signature = getPhotoListSignature(photos);
+  if (state.randomPhotoOrderSignature !== signature) {
+    state.randomPhotoOrderIds = shuffleItems(photos.map(getPhotoId));
+    state.randomPhotoOrderSignature = signature;
+  }
+
+  const byId = new Map(photos.map((photo) => [getPhotoId(photo), photo]));
+  const ordered = state.randomPhotoOrderIds.map((id) => byId.get(id)).filter(Boolean);
+  const orderedIds = new Set(ordered.map(getPhotoId));
+  photos.forEach((photo) => {
+    if (!orderedIds.has(getPhotoId(photo))) {
+      ordered.push(photo);
+    }
+  });
+  return ordered;
+};
+
 const getPhotoName = (photo) => photo.internalName || photo.displayName || photo.originalName || "Portfolio photograph";
 
 const getPhotoId = (photo) => String(photo?.id || photo?.src || "");
@@ -233,7 +255,7 @@ const getOrderedPortfolioPhotos = () => {
   const hiddenIds = new Set(state.editing && !state.previewing ? [] : state.settings.hiddenPhotoIds);
   const photos = getBasePortfolioPhotos().filter((photo) => state.editing || !hiddenIds.has(getPhotoId(photo)));
   if (state.settings.orderMode !== "manual") {
-    return state.editing ? photos : shuffleItems(photos);
+    return state.editing ? photos : getRandomizedPortfolioPhotos(photos);
   }
 
   const byId = new Map(photos.map((photo) => [getPhotoId(photo), photo]));
@@ -442,12 +464,7 @@ const createPortfolioMasonry = (photos, columnCount) => {
     height: 0,
     items: [],
   }));
-  const masonryPhotos =
-    state.editing && !state.previewing
-      ? photos.map((photo, index) => ({ photo, index }))
-      : photos
-          .map((photo, index) => ({ photo, index, weight: getMasonryWeight(photo) }))
-          .sort((a, b) => b.weight - a.weight || a.index - b.index);
+  const masonryPhotos = photos.map((photo, index) => ({ photo, index }));
 
   masonryPhotos.forEach(({ photo, index }) => {
     const column = columns.reduce((shortest, current) => (current.height < shortest.height ? current : shortest), columns[0]);
@@ -615,6 +632,9 @@ const renderPanel = () => {
       state.settings.orderMode = value === "manual" ? "manual" : "random";
       if (state.settings.orderMode === "manual" && !state.settings.photoOrder.length) {
         state.settings.photoOrder = getOrderedPortfolioPhotos().map(getPhotoId);
+      } else if (state.settings.orderMode === "random") {
+        state.randomPhotoOrderIds = [];
+        state.randomPhotoOrderSignature = "";
       }
       setDirty();
     },
