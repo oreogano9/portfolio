@@ -137,7 +137,7 @@ export default async function handler(request, response) {
       settings = cleanup.settings;
     } else {
       // Cleanup queues are server-owned, not supplied by the editor.
-      settings = { ...settings, pendingS3Deletes: [], removedPhotoSources: existing?.parsed?.removedPhotoSources || [] };
+      settings = planAlbumCleanup(existing?.parsed || {}, settings, [], false).settings;
     }
 
     const galleryWrite = await writeRepoJson({
@@ -251,6 +251,7 @@ export default async function handler(request, response) {
       commitSha: galleryWrite.commitSha,
       path: settingsPath,
       syncedHomepage,
+      settings,
       ...(cleanup ? { settings, deletedKeys, retainedSharedFiles: cleanup.retained.length, cleanupWarning } : {}),
     });
   } catch (error) {

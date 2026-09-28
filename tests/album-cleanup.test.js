@@ -42,3 +42,15 @@ test("reference checks fail closed and unsafe paths are ignored", async () => {
     await assert.rejects(readOtherImageDocuments({ owner: "test", repo: "test", branch: "main", token: "test", settingsPath: "data/test.json" }), /no S3 files were deleted/);
   } finally { globalThis.fetch = originalFetch; }
 });
+
+test("stale saves cannot resurrect removed photos, blocks or a hero", () => {
+  const saved = { photos: [], removedPhotoSources: [photo.src] };
+  const stale = { photos: [{ ...photo, deleted: false }], blocks: incoming.blocks,
+    intro: { heroImageSrc: "https://d2gue6esbiyjpv.cloudfront.net/library/originals/new.jpg" } };
+  const plan = planAlbumCleanup(saved, stale, [], false);
+  assert.deepEqual(plan.settings.photos, []);
+  assert.deepEqual(plan.settings.blocks, []);
+  assert.equal(plan.settings.intro.heroImageSrc, "");
+  assert.deepEqual(plan.settings.removedPhotoSources, [photo.src]);
+  assert.deepEqual(plan.keys, []);
+});

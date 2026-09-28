@@ -47,13 +47,16 @@ test("append preserves existing photos and writes only JSON to GitHub", async ()
         writes.push(JSON.parse(Buffer.from(body.content, "base64").toString()));
         return { ok: true, json: async () => ({ commit: { sha: "saved" } }) };
       }
-      return { ok: true, json: async () => ({ sha: "previous", content: "e30=" }) };
+      return { ok: true, json: async () => ({ sha: "previous", content: Buffer.from(JSON.stringify({
+        photos: [], removedPhotoSources: ["/images/library/originals/deleted.jpg"],
+      })).toString("base64") }) };
     };
     const old = { id: "old", src: "/images/old.jpg" };
+    const deleted = { id: "deleted", src: "/images/library/originals/deleted.jpg", deleted: false };
     const res = response();
     await handler({ method: "POST", body: {
       galleryId: "test", settingsPath: "data/galleries/test.settings.json",
-      settings: { photos: [old], intro: { mode: "hero" } }, files: [file],
+      settings: { photos: [old, deleted], intro: { mode: "hero" } }, files: [file],
     } }, res);
     assert.equal(res.code, 200);
     assert.equal(writes.length, 1);
@@ -61,6 +64,9 @@ test("append preserves existing photos and writes only JSON to GitHub", async ()
     assert.equal(writes[0].photos[1].src, file.src);
     assert.equal(writes[0].photos[1].aspectRatio, 2 / 3);
     assert.equal(writes[0].blocks.length, 2);
+    assert.equal(writes[0].photos.length, 2);
+    assert.deepEqual(res.payload.settings.photos, writes[0].photos);
+    assert.deepEqual(res.payload.settings.removedPhotoSources, [deleted.src]);
     assert.equal(res.payload.uploadedPhotos.length, 1);
     assert.equal(res.payload.settings.intro.heroImageSrc, file.src);
   } finally {

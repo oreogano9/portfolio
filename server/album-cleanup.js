@@ -26,14 +26,17 @@ const collectKeys = (value, keys = new Set()) => {
 export const planAlbumCleanup = (existing, incoming, otherDocuments, removeDeleted) => {
   const knownPhotos = new Map((existing.photos || []).map((photo) => [photo.id, photo]));
   const removed = removeDeleted ? (incoming.photos || []).filter((photo) => photo.deleted && knownPhotos.has(photo.id)) : [];
-  const ids = new Set(removed.map((photo) => photo.id));
+  const removedPhotoSources = [...new Set([...(existing.removedPhotoSources || []), ...removed.map((photo) => knownPhotos.get(photo.id).src)])];
+  const removedKeys = new Set(removedPhotoSources.map((src) => imageKey(src) || src));
+  const wasRemoved = (src) => removedKeys.has(imageKey(src) || src);
+  const ids = new Set([...removed.map((photo) => photo.id), ...(incoming.photos || []).filter((photo) => wasRemoved(photo.src)).map((photo) => photo.id)]);
   const photos = (incoming.photos || []).filter((photo) => !ids.has(photo.id));
   const settings = { ...incoming, photos,
     blocks: (incoming.blocks || []).filter((block) => !ids.has(block.photoId)),
     pendingS3Deletes: [],
-    removedPhotoSources: [...new Set([...(existing.removedPhotoSources || []), ...removed.map((photo) => knownPhotos.get(photo.id).src)])],
+    removedPhotoSources,
   };
-  if (removed.some((photo) => photo.src === settings.intro?.heroImageSrc)) {
+  if (wasRemoved(settings.intro?.heroImageSrc)) {
     settings.intro = { ...settings.intro, heroImageSrc: photos.find((photo) => !photo.deleted)?.src || "" };
   }
   const references = collectKeys([settings, ...otherDocuments]);

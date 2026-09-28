@@ -36,6 +36,9 @@ export default async function handler(request, response) {
   };
   // Reuse the settings writer; image bytes never pass through GitHub.
   const originalJson = response.json.bind(response);
-  response.json = (payload) => originalJson(payload.ok ? { ...payload, settings: nextSettings, uploadedPhotos } : payload);
+  response.json = (payload) => originalJson(payload.ok ? {
+    ...payload,
+    uploadedPhotos: uploadedPhotos.filter((photo) => payload.settings.photos.some((saved) => saved.src === photo.src)),
+  } : payload);
   return saveGallery({ method: "POST", body: { ...request.body, settings: nextSettings } }, response);
 }
