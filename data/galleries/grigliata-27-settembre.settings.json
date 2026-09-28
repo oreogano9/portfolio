@@ -33,7 +33,7 @@
   },
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "/images/library/originals/KONO-2AA0C06E-3b7b66ca-b619-402d-af47-d3f281fc10c2.jpg",
+    "heroImageSrc": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png",
     "showArrow": true
   },
   "sections": [],
@@ -48,15 +48,33 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.4997321906802357
+    },
+    {
+      "id": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png",
+      "src": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png",
+      "previewSrc": "/images/library/thumbs/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.jpg",
+      "alt": "sheet-01-frame-01.png",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3823529411764706
     }
   ],
   "blocks": [
     {
       "type": "photo",
       "photoId": "/images/library/originals/KONO-2AA0C06E-3b7b66ca-b619-402d-af47-d3f281fc10c2.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png"
     }
   ]
 }
