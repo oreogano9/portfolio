@@ -975,6 +975,20 @@
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.4997321906802357
+    },
+    {
+      "id": "/images/library/originals/analoguecam-camera-52-1790516709295-0d71fe10-b982-4aa2-baf9-e25e5b742a05.jpg",
+      "src": "/images/library/originals/analoguecam-camera-52-1790516709295-0d71fe10-b982-4aa2-baf9-e25e5b742a05.jpg",
+      "previewSrc": "/images/library/thumbs/analoguecam-camera-52-1790516709295-0d71fe10-b982-4aa2-baf9-e25e5b742a05.jpg",
+      "alt": "analoguecam-camera-52-1790516709295.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": false,
+      "aspectRatio": 0.6667857142857143
     }
   ],
   "blocks": [
@@ -1245,6 +1259,10 @@
     {
       "type": "photo",
       "photoId": "/images/library/originals/analoguecam-camera-52-1790516601053-8ae45cc6-7453-4361-a0a4-6e383faf1ab5.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/analoguecam-camera-52-1790516709295-0d71fe10-b982-4aa2-baf9-e25e5b742a05.jpg"
     }
   ]
 }
