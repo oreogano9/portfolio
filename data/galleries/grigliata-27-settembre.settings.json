@@ -5,7 +5,7 @@
   "titleFontFamily": "libre-baskerville",
   "titleScale": 0.6,
   "albumMode": "multiple",
-  "mobileRotateClockwise": true,
+  "mobileRotateClockwise": false,
   "spacing": "airy",
   "topSpacer": 7,
   "effect": "none",
