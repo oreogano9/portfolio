@@ -611,6 +611,20 @@
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.2097428958051422
+    },
+    {
+      "id": "/images/library/originals/sheet-05-frame-05-b0949ff1-8c2b-44c0-a997-681eeeb3b823.png",
+      "src": "/images/library/originals/sheet-05-frame-05-b0949ff1-8c2b-44c0-a997-681eeeb3b823.png",
+      "previewSrc": "/images/library/thumbs/sheet-05-frame-05-b0949ff1-8c2b-44c0-a997-681eeeb3b823.jpg",
+      "alt": "sheet-05-frame-05.png",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.223512336719884
     }
   ],
   "blocks": [
@@ -777,6 +791,10 @@
     {
       "type": "photo",
       "photoId": "/images/library/originals/sheet-05-frame-04-5a5575fd-0473-432e-961c-d962e513f0a9.png"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/sheet-05-frame-05-b0949ff1-8c2b-44c0-a997-681eeeb3b823.png"
     }
   ]
 }
