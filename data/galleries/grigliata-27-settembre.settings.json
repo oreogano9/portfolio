@@ -1373,20 +1373,7 @@
       "photoId": "/images/library/originals/sheet-02-frame-07-d9556605-68ec-477a-8493-ce796edc5339.png"
     }
   ],
-  "pendingS3Deletes": [
-    [
-      "albums/library/originals/sheet-01-frame-02-3d71c2b9-e608-4509-840c-408284cd8da5.png",
-      "albums/library/thumbs/sheet-01-frame-02-3d71c2b9-e608-4509-840c-408284cd8da5.jpg"
-    ],
-    [
-      "albums/library/originals/sheet-01-frame-06-2826bae3-8f6c-4ff8-a25e-aa6247a46d53.png",
-      "albums/library/thumbs/sheet-01-frame-06-2826bae3-8f6c-4ff8-a25e-aa6247a46d53.jpg"
-    ],
-    [
-      "albums/library/originals/sheet-02-frame-07-ebc11640-b041-4c0c-957b-bb92e21f97bd.png",
-      "albums/library/thumbs/sheet-02-frame-07-ebc11640-b041-4c0c-957b-bb92e21f97bd.jpg"
-    ]
-  ],
+  "pendingS3Deletes": [],
   "removedPhotoSources": [
     "/images/library/originals/KONO-2AA0C06E-3b7b66ca-b619-402d-af47-d3f281fc10c2.jpg",
     "/images/library/originals/sheet-03-frame-01-84f91819-d91f-44f2-bb55-28933b3023f7.png",
