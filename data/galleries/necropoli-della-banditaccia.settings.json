@@ -1139,28 +1139,7 @@
       "photoId": "/images/library/originals/DSC04195-2ae3569a-eb02-4d53-af3c-c2237798461f.jpg"
     }
   ],
-  "pendingS3Deletes": [
-    [
-      "albums/library/originals/DSC03989-f10e732e-33ff-4952-b3b1-f5c134915ec1.jpg",
-      "albums/library/thumbs/DSC03989-f10e732e-33ff-4952-b3b1-f5c134915ec1.jpg"
-    ],
-    [
-      "albums/library/originals/DSC04092-78a121ef-b8b3-4382-8149-8179dfbd584c.jpg",
-      "albums/library/thumbs/DSC04092-78a121ef-b8b3-4382-8149-8179dfbd584c.jpg"
-    ],
-    [
-      "albums/library/originals/DSC04092-2-c815a843-c6b0-4a1f-9c23-5d5eed8606c0.jpg",
-      "albums/library/thumbs/DSC04092-2-c815a843-c6b0-4a1f-9c23-5d5eed8606c0.jpg"
-    ],
-    [
-      "albums/library/originals/DSC04102-2-b3d6a13f-ef7e-42da-83ca-869d30dc2e4f.jpg",
-      "albums/library/thumbs/DSC04102-2-b3d6a13f-ef7e-42da-83ca-869d30dc2e4f.jpg"
-    ],
-    [
-      "albums/library/originals/DSC04133-2-5ecbdf84-4c86-40cb-93ba-4f692f418a2e.jpg",
-      "albums/library/thumbs/DSC04133-2-5ecbdf84-4c86-40cb-93ba-4f692f418a2e.jpg"
-    ]
-  ],
+  "pendingS3Deletes": [],
   "removedPhotoSources": [
     "/images/library/originals/DSC04203-8afde890-027b-4a4b-ae18-ea0911a5d812.jpg",
     "/images/library/originals/DSC04200-6051eca4-7926-4dd7-98a6-40d36a9bc96d.jpg",
