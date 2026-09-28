@@ -33,10 +33,30 @@
   },
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "",
+    "heroImageSrc": "/images/library/originals/KONO-2AA0C06E-3b7b66ca-b619-402d-af47-d3f281fc10c2.jpg",
     "showArrow": true
   },
   "sections": [],
-  "photos": [],
-  "blocks": []
+  "photos": [
+    {
+      "id": "/images/library/originals/KONO-2AA0C06E-3b7b66ca-b619-402d-af47-d3f281fc10c2.jpg",
+      "src": "/images/library/originals/KONO-2AA0C06E-3b7b66ca-b619-402d-af47-d3f281fc10c2.jpg",
+      "previewSrc": "/images/library/thumbs/KONO-2AA0C06E-3b7b66ca-b619-402d-af47-d3f281fc10c2.jpg",
+      "alt": "KONO-2AA0C06E.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.4997321906802357
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/KONO-2AA0C06E-3b7b66ca-b619-402d-af47-d3f281fc10c2.jpg"
+    }
+  ]
 }
