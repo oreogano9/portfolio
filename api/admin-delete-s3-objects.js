@@ -87,13 +87,23 @@ export default async function handler(request, response) {
   }
 
   try {
+    const deleted = await deleteS3Keys(keys);
+
+    return response.status(200).json({ ok: true, deleted });
+  } catch (error) {
+    return response.status(500).json({
+      error: "Could not delete S3 objects",
+      details: error instanceof Error ? error.message : String(error),
+    });
+  }
+}
+
+export const deleteS3Keys = async (keys) => {
     const s3Config = getS3Config();
     const deleted = [];
-    for (const rawKey of keys) {
-      const key = sanitizeKey(rawKey);
-      if (!key) {
-        throw new Error("Invalid S3 key");
-      }
+    const safeKeys = keys.map(sanitizeKey);
+    if (safeKeys.some((key) => !key)) throw new Error("Invalid S3 key");
+    for (const key of safeKeys) {
       const signed = signDeleteRequest({ ...s3Config, key });
       const deleteResponse = await fetch(signed.url, {
         method: "DELETE",
@@ -105,11 +115,5 @@ export default async function handler(request, response) {
       deleted.push(key);
     }
 
-    return response.status(200).json({ ok: true, deleted });
-  } catch (error) {
-    return response.status(500).json({
-      error: "Could not delete S3 objects",
-      details: error instanceof Error ? error.message : String(error),
-    });
-  }
-}
+    return deleted;
+};

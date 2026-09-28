@@ -72,7 +72,7 @@ const hasValidSession = async (request) => {
 };
 
 const isApiRequest = (pathname) =>
-  pathname.startsWith("/api/admin-") || pathname === "/api/upload-gallery-images" || pathname === "/api/update-photo-library" || pathname === "/api/save-photo-library";
+  pathname.startsWith("/api/admin-") || pathname === "/api/save-gallery" || pathname === "/api/upload-gallery-images" || pathname === "/api/update-photo-library" || pathname === "/api/save-photo-library";
 
 export default async function middleware(request) {
   const url = new URL(request.url);
@@ -97,6 +97,7 @@ export const config = {
     "/api/admin-delete-s3-objects",
     "/api/admin-sign-s3-upload",
     "/api/upload-gallery-images",
+    "/api/save-gallery",
     "/api/update-photo-library",
     "/api/save-photo-library",
   ],

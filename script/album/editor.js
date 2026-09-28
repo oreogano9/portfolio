@@ -26,6 +26,7 @@ import { createAlbumEffects } from "./effects.js";
 import { canJoinPhoto, deriveSectionsFromPhotos } from "./utils.js";
 import {
   buildAlbumBlocks,
+  createPhotoFigure,
   collectHeadingAdjacentPhotos,
   getHeroIntroState,
   mountAlbumBlocks,
@@ -273,9 +274,10 @@ export const setupAlbumEditor = async () => {
   const jsonPhotos = Array.isArray(jsonState?.photos) ? jsonState.photos.map((photo) => normalizePhoto(photo)) : [];
   const basePhotos = originalPhotos.length ? originalPhotos.map((photo) => normalizePhoto(photo)) : jsonPhotos;
 
-  const mergePhotos = (savedPhotos) => {
+  const mergePhotos = (savedPhotos, removedSources = []) => {
+    const removed = new Set(removedSources.map((src) => normalizePhoto({ src }).src));
     if (!Array.isArray(savedPhotos) || !savedPhotos.length) {
-      return basePhotos.map((photo) => normalizePhoto(photo));
+      return basePhotos.filter((photo) => !removed.has(photo.src)).map((photo) => normalizePhoto(photo));
     }
 
     const baseBySrc = new Map(basePhotos.map((photo) => [photo.src, photo]));
@@ -287,7 +289,7 @@ export const setupAlbumEditor = async () => {
       });
 
     basePhotos.forEach((photo) => {
-      if (!merged.some((item) => item.src === photo.src)) {
+      if (!removed.has(photo.src) && !merged.some((item) => item.src === photo.src)) {
         merged.push(normalizePhoto(photo));
       }
     });
@@ -297,7 +299,7 @@ export const setupAlbumEditor = async () => {
 
   const shouldUseSavedState = !jsonState && Boolean(savedState);
   const preferredState = jsonState || savedState;
-  const initialPhotos = mergePhotos(preferredState?.photos);
+  const initialPhotos = mergePhotos(preferredState?.photos, preferredState?.removedPhotoSources);
   const normalizedBlockState = normalizeRuntimeBlocks(initialPhotos, preferredState?.blocks);
   syncPhotoSpacersFromBlocks(normalizedBlockState.photos, normalizedBlockState.blocks);
 
@@ -330,9 +332,107 @@ export const setupAlbumEditor = async () => {
     activeSpaceBlockId: null,
     selectedSpacerPreset: 17.75,
     zoomedOut: false,
+    building: false,
     previewRotated: false,
     mobileSideviewOverride: null,
   };
+
+  const builderGrid = document.createElement("div");
+  builderGrid.className = "album-builder-grid";
+  builderGrid.hidden = true;
+  builderGrid.setAttribute("aria-label", "Album photo order");
+  grid.after(builderGrid);
+  let builderSelectionAnchor = null;
+  let builderDragIndexes = [];
+  const builderButtons = actionGroups.map((group) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = group.classList.contains("mobile-home-section") ? "mobile-home-button" : "preview-toggle";
+    button.textContent = "Build Album";
+    group.append(button);
+    button.addEventListener("click", () => {
+      state.building = !state.building;
+      state.previewing = false;
+      state.zoomedOut = false;
+      state.previewRotated = false;
+      render();
+    });
+    return button;
+  });
+  const renderBuilder = () => {
+    builderGrid.replaceChildren();
+    state.photos.forEach((photo, index) => {
+      if (photo.deleted && !state.showDeleted) return;
+      const tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "album-builder-photo";
+      tile.dataset.index = String(index);
+      tile.draggable = true;
+      tile.setAttribute("aria-label", `Photo ${index + 1}: ${photo.alt || photo.src.split("/").pop()}`);
+      tile.setAttribute("aria-pressed", String(state.selectedPhotoIndexes.has(index)));
+      const image = document.createElement("img");
+      image.src = resolveAssetUrl(photo.previewSrc || photo.src);
+      image.alt = "";
+      image.loading = "lazy";
+      image.decoding = "async";
+      image.draggable = false;
+      const number = document.createElement("span");
+      number.textContent = String(index + 1);
+      tile.append(image, number);
+      builderGrid.append(tile);
+    });
+  };
+  builderGrid.addEventListener("click", (event) => {
+    const tile = event.target.closest(".album-builder-photo");
+    if (!tile) return;
+    const index = Number(tile.dataset.index);
+    if (event.shiftKey && builderSelectionAnchor !== null) {
+      for (let i = Math.min(index, builderSelectionAnchor); i <= Math.max(index, builderSelectionAnchor); i++) {
+        if (!state.photos[i].deleted || state.showDeleted) state.selectedPhotoIndexes.add(i);
+      }
+      state.activeSettingsPhotoIndex = index;
+      render();
+    } else {
+      builderSelectionAnchor = index;
+      togglePhotoSelection(index);
+    }
+  });
+  builderGrid.addEventListener("dragstart", (event) => {
+    const tile = event.target.closest(".album-builder-photo");
+    if (!tile) return;
+    const index = Number(tile.dataset.index);
+    builderDragIndexes = state.selectedPhotoIndexes.has(index) ? getSelectedIndexes() : [index];
+    event.dataTransfer.setData("application/x-album-photo", String(index));
+    event.dataTransfer.effectAllowed = "move";
+  });
+  const clearBuilderDrop = () => builderGrid.querySelectorAll(".drop-before, .drop-after").forEach((tile) => tile.classList.remove("drop-before", "drop-after"));
+  builderGrid.addEventListener("dragover", (event) => {
+    if (!event.dataTransfer.types.includes("application/x-album-photo")) return;
+    event.preventDefault();
+    clearBuilderDrop();
+    const tile = event.target.closest(".album-builder-photo");
+    if (tile) tile.classList.add(event.clientX < tile.getBoundingClientRect().left + tile.offsetWidth / 2 ? "drop-before" : "drop-after");
+  });
+  builderGrid.addEventListener("drop", (event) => {
+    if (!event.dataTransfer.types.includes("application/x-album-photo")) return;
+    event.preventDefault();
+    const tile = event.target.closest(".album-builder-photo");
+    const destination = tile ? Number(tile.dataset.index) + (tile.classList.contains("drop-after") ? 1 : 0) : state.photos.length;
+    clearBuilderDrop();
+    reorderPhotoIndexes(builderDragIndexes, destination);
+    builderSelectionAnchor = null;
+  });
+  builderGrid.addEventListener("dragend", clearBuilderDrop);
+  builderGrid.addEventListener("keydown", (event) => {
+    const tile = event.target.closest(".album-builder-photo");
+    if (!tile || !event.altKey || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+    event.preventDefault();
+    const index = Number(tile.dataset.index);
+    const indexes = state.selectedPhotoIndexes.has(index) ? getSelectedIndexes() : [index];
+    const source = state.photos[index];
+    reorderPhotoIndexes(indexes, event.key === "ArrowLeft" ? Math.max(0, indexes[0] - 1) : Math.min(state.photos.length, indexes[indexes.length - 1] + 2));
+    builderGrid.querySelector(`[data-index="${state.photos.indexOf(source)}"]`)?.focus({ preventScroll: true });
+  });
 
   const zoomButtons = actionGroups.map((group) => {
     const button = document.createElement("button");
@@ -957,6 +1057,8 @@ export const setupAlbumEditor = async () => {
     if (!canonicalSettingsPath || saveState.pending) {
       return;
     }
+    const removedCount = state.photos.filter((photo) => photo.deleted).length;
+    if (removedCount && !window.confirm(`Permanently remove ${removedCount} photo(s) from this album and delete unused uploaded originals and thumbnails from Amazon S3? Shared and archive files will be kept. This cannot be undone after saving.`)) return;
 
     saveState = {
       pending: true,
@@ -975,6 +1077,7 @@ export const setupAlbumEditor = async () => {
           galleryId,
           settingsPath: canonicalSettingsPath,
           settings: serializeState(state, galleryId),
+          deleteRemovedImages: removedCount > 0,
         }),
       });
 
@@ -989,6 +1092,7 @@ export const setupAlbumEditor = async () => {
         throw new Error(getSaveErrorMessage(result));
       }
 
+      if (result.settings) applyReturnedSettings(result.settings);
       const savedSignature = getSettingsSignature({
         galleryId,
         titleFallback: title.textContent.trim(),
@@ -998,7 +1102,7 @@ export const setupAlbumEditor = async () => {
       persistLocalState(false, savedSignature);
       saveState = {
         pending: false,
-        message: "Saved",
+        message: result.cleanupWarning || (result.retainedSharedFiles ? "Saved; shared or archive files kept" : "Saved"),
       };
     } catch (error) {
       saveState = {
@@ -1127,7 +1231,7 @@ export const setupAlbumEditor = async () => {
       ? normalizeSections(nextSettings.sections)
       : state.sections;
 
-    const mergedPhotos = mergePhotos(nextSettings.photos);
+    const mergedPhotos = mergePhotos(nextSettings.photos, nextSettings.removedPhotoSources);
     const normalizedBlockState = normalizeRuntimeBlocks(mergedPhotos, nextSettings.blocks);
     syncPhotoSpacersFromBlocks(normalizedBlockState.photos, normalizedBlockState.blocks);
     normalizedBlockState.photos.forEach(ensureLandscapeState);
@@ -2119,7 +2223,9 @@ export const setupAlbumEditor = async () => {
     if (!Number.isInteger(state.activeSettingsPhotoIndex)) {
       return;
     }
-    const activeWrapper = grid.querySelector(`.editable-photo[data-index="${state.activeSettingsPhotoIndex}"]`);
+    const activeWrapper = state.building
+      ? createPhotoFigure({ photo: state.photos[state.activeSettingsPhotoIndex], index: state.activeSettingsPhotoIndex, state, normalizeEffect, controlsOnly: true })
+      : grid.querySelector(`.editable-photo[data-index="${state.activeSettingsPhotoIndex}"]`);
     if (!(activeWrapper instanceof HTMLElement)) {
       return;
     }
@@ -2173,6 +2279,15 @@ export const setupAlbumEditor = async () => {
       button.textContent = state.editing ? "Done" : "Edit";
     });
     body.classList.toggle("is-editing", state.editing);
+    const building = state.editing && state.building && !state.previewing;
+    body.classList.toggle("is-building-album", building);
+    builderGrid.hidden = !building;
+    grid.hidden = building;
+    builderButtons.forEach((button) => {
+      button.hidden = !state.editing;
+      button.textContent = building ? "Album Layout" : "Build Album";
+      button.setAttribute("aria-pressed", String(building));
+    });
     body.classList.toggle("is-previewing", state.editing && state.previewing);
     body.classList.toggle("is-zoomed-out-edit", shouldApplyZoomedOut);
     body.classList.toggle("has-manual-rotate-preview", state.editing && state.previewRotated);
@@ -2253,7 +2368,7 @@ export const setupAlbumEditor = async () => {
   };
 
   const shouldRerenderForModeToggle = () => {
-    if (state.showDeleted) {
+    if (state.showDeleted || state.building) {
       return true;
     }
 
@@ -2377,7 +2492,7 @@ export const setupAlbumEditor = async () => {
   );
 
   const render = () => {
-    const renderAnchor = hasMarkedReady ? captureRenderAnchor() : null;
+    const renderAnchor = hasMarkedReady && !state.building ? captureRenderAnchor() : null;
     logDebug("render", {
       anchor: renderAnchor?.type || "none",
       editing: state.editing ? 1 : 0,
@@ -2535,6 +2650,13 @@ export const setupAlbumEditor = async () => {
     );
     header.classList.toggle("has-mobile-sideview-hero", shouldApplyHeroSideview);
 
+    if (state.editing && state.building && !state.previewing) {
+      cleanupRenderedBlocks();
+      grid.replaceChildren();
+      renderBuilder();
+      renderFloatingPhotoEditor();
+      return;
+    }
     const blocks = buildAlbumBlocks({
       state,
       normalizeEffect,

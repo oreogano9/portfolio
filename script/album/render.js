@@ -374,6 +374,7 @@ export const createPhotoFigure = ({
   normalizeEffect,
   renderOrder = 0,
   forceEager = false,
+  controlsOnly = false,
   layoutSpacerAfter = photo?.spacerAfter,
 }) => {
   const isDeleted = photo.deleted === true;
@@ -504,6 +505,7 @@ export const createPhotoFigure = ({
   `;
   const stage = wrapper.querySelector(".photo-stage");
   const controls = wrapper.querySelector(".photo-controls");
+  if (controlsOnly) return wrapper;
   const image = createProgressiveImage({
     photo,
     className: "reveal-up",

@@ -4,6 +4,8 @@ export const config = {
 
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { deleteS3Keys } from "./admin-delete-s3-objects.js";
+import { planAlbumCleanup, readOtherImageDocuments } from "../server/album-cleanup.js";
 
 const isSafeSettingsPath = (value) =>
   typeof value === "string" &&
@@ -102,7 +104,8 @@ export default async function handler(request, response) {
     return response.status(500).json({ error: "Missing GitHub environment variables" });
   }
 
-  const { galleryId, settingsPath, settings } = request.body || {};
+  const { galleryId, settingsPath, deleteRemovedImages } = request.body || {};
+  let { settings } = request.body || {};
 
   if (!galleryId || !settings || !isSafeSettingsPath(settingsPath)) {
     return response.status(400).json({ error: "Invalid gallery payload" });
@@ -125,6 +128,16 @@ export default async function handler(request, response) {
         const details = await fallbackRead.text();
         return response.status(500).json({ error: "Failed to read existing settings file", details });
       }
+    }
+
+    let cleanup = null;
+    if (deleteRemovedImages === true || existing?.parsed?.pendingS3Deletes?.length) {
+      const documents = await readOtherImageDocuments({ owner, repo, branch, token, settingsPath });
+      cleanup = planAlbumCleanup(existing?.parsed || {}, settings, documents, deleteRemovedImages === true);
+      settings = cleanup.settings;
+    } else {
+      // Cleanup queues are server-owned, not supplied by the editor.
+      settings = { ...settings, pendingS3Deletes: [], removedPhotoSources: existing?.parsed?.removedPhotoSources || [] };
     }
 
     const galleryWrite = await writeRepoJson({
@@ -214,11 +227,31 @@ export default async function handler(request, response) {
       }
     }
 
+    let cleanupWarning = "";
+    let deletedKeys = [];
+    if (cleanup?.keys.length) {
+      try {
+        deletedKeys = await deleteS3Keys(cleanup.keys);
+        const latest = await fetchRepoJson({ owner, repo, branch, token, path: settingsPath });
+        if (!latest?.parsed) throw new Error("Could not clear pending deletion queue");
+        const deletedSet = new Set(deletedKeys);
+        const cleared = { ...latest.parsed, pendingS3Deletes: (latest.parsed.pendingS3Deletes || []).filter((keys) => !keys.every((key) => deletedSet.has(key))) };
+        const clearedWrite = await writeRepoJson({ owner, repo, branch, token, path: settingsPath,
+          sha: latest.sha, message: `Complete S3 cleanup: ${galleryId}`, json: cleared });
+        if (!clearedWrite.ok) throw new Error("Could not clear pending deletion queue");
+        settings = cleared;
+        await tryWriteLocal(() => writeLocalRepoJson(settingsPath, settings));
+      } catch (error) {
+        cleanupWarning = `Album saved, but S3 cleanup is pending. Save again to retry. ${error.message}`;
+      }
+    }
+
     return response.status(200).json({
       ok: true,
       commitSha: galleryWrite.commitSha,
       path: settingsPath,
       syncedHomepage,
+      ...(cleanup ? { settings, deletedKeys, retainedSharedFiles: cleanup.retained.length, cleanupWarning } : {}),
     });
   } catch (error) {
     return response.status(500).json({
