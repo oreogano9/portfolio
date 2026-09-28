@@ -348,6 +348,8 @@ export const setupAlbumEditor = async () => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = group.classList.contains("mobile-home-section") ? "mobile-home-button" : "preview-toggle";
+    button.classList.add("album-builder-toggle");
+    button.hidden = true;
     button.textContent = "Build Album";
     group.append(button);
     button.addEventListener("click", () => {

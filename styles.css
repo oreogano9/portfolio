@@ -1,4 +1,4 @@
-.album-builder-grid[hidden], .album-detail-grid[hidden] { display: none !important; }
+.album-builder-grid[hidden], .album-detail-grid[hidden], .album-builder-toggle[hidden] { display: none !important; }
 .album-builder-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
