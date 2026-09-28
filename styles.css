@@ -5935,6 +5935,15 @@ body.is-site-dark .floating-photo-editor .photo-toggle-button[aria-pressed="true
   }
 }
 
+body.album-file-drop::after {
+  content: "";
+  position: fixed;
+  inset: 12px;
+  border: 2px dashed currentColor;
+  pointer-events: none;
+  z-index: 10000;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

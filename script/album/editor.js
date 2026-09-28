@@ -33,6 +33,7 @@ import {
   renderSubalbumIndexes,
 } from "./render.js?v=20260524-lightbox-priority-1";
 import { mountAlbumReactHeaderUi } from "../editor-react-ui.js";
+import { getSaveErrorMessage } from "../save-error.js";
 import { observeReveals } from "../home.js";
 import { resolveAssetUrl } from "../assets.js?v=20260524-lightbox-priority-1";
 
@@ -985,7 +986,7 @@ export const setupAlbumEditor = async () => {
           message: result.error || "Save failed",
           details: result.details || result,
         });
-        throw new Error(result.error || "Save failed");
+        throw new Error(getSaveErrorMessage(result));
       }
 
       const savedSignature = getSettingsSignature({
@@ -1008,6 +1009,9 @@ export const setupAlbumEditor = async () => {
 
     render();
 
+    if (saveState.message !== "Saved") {
+      return;
+    }
     window.setTimeout(() => {
       saveState = {
         pending: false,
@@ -1068,17 +1072,35 @@ export const setupAlbumEditor = async () => {
     for (const file of files) {
       const fullDataUrl = await readFileAsDataUrl(file);
       const image = await loadImageElement(fullDataUrl);
+      const uploadId = crypto.randomUUID();
+      const extension = file.name.split(".").pop().replace(/[^a-zA-Z0-9]/g, "").toLowerCase() || "jpg";
+      const stem = file.name.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 80) || "image";
+      const key = `albums/library/originals/${stem}-${uploadId}.${extension}`;
+      const thumbKey = `albums/library/thumbs/${stem}-${uploadId}.jpg`;
+      const signedResponse = await fetch("/api/admin-sign-s3-upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ files: [
+          { key, contentType: file.type || "image/jpeg" },
+          { key: thumbKey, contentType: "image/jpeg" },
+        ] }),
+      });
+      const signed = await signedResponse.json();
+      if (!signedResponse.ok) {
+        throw new Error(signedResponse.status === 401 ? "Sign in at /admin-login.html before uploading photos." : signed.error || "Could not prepare S3 upload");
+      }
+      const thumbnail = await fetch(buildScaledDataUrl({ image, mimeType: "image/jpeg", maxEdge: 800 })).then((result) => result.blob());
+      for (const [index, bytes] of [file, thumbnail].entries()) {
+        const upload = signed.uploads[index];
+        const result = await fetch(upload.url, { method: "PUT", headers: upload.headers, body: bytes });
+        if (!result.ok) throw new Error(`S3 upload failed for ${file.name}: ${result.status}`);
+      }
       prepared.push({
         name: file.name,
-        type: file.type || "image/jpeg",
         width: image.naturalWidth || image.width || 0,
         height: image.naturalHeight || image.height || 0,
-        fullDataUrl,
-        thumbDataUrl: buildScaledDataUrl({
-          image,
-          mimeType: file.type || "image/jpeg",
-          maxEdge: 1600,
-        }),
+        src: signed.uploads[0].publicPath,
+        previewSrc: signed.uploads[1].publicPath,
       });
     }
     return prepared;
@@ -1113,7 +1135,7 @@ export const setupAlbumEditor = async () => {
     state.blocks = normalizedBlockState.blocks;
   };
 
-  const uploadImagesToGitHub = async (fileList) => {
+  const uploadImagesToS3 = async (fileList) => {
     if (!canonicalSettingsPath || uploadState.pending || !fileList.length) {
       return;
     }
@@ -1126,41 +1148,41 @@ export const setupAlbumEditor = async () => {
     render();
 
     try {
-      const files = await prepareUploadPayload(fileList);
-      const response = await fetch("/api/upload-gallery-images", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          galleryId,
-          settingsPath: canonicalSettingsPath,
-          settings: serializeState(state, galleryId),
-          files,
-        }),
-      });
-
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        setApiDebug({
-          action: "upload-gallery-images",
-          status: String(response.status),
-          message: result.error || result.details || "Upload failed",
-          details: result.details || result,
+      for (const file of fileList) {
+        const files = await prepareUploadPayload([file]);
+        const response = await fetch("/api/upload-gallery-images", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            galleryId,
+            settingsPath: canonicalSettingsPath,
+            settings: serializeState(state, galleryId),
+            files,
+          }),
         });
-        throw new Error(result.error || result.details || "Upload failed");
-      }
 
-      applyReturnedSettings(result.settings);
-      const savedSignature = getSettingsSignature({
-        galleryId,
-        titleFallback: state.title,
-        input: serializeState(state, galleryId),
-      });
-      currentSyncedSignature = savedSignature;
-      persistLocalState(false, savedSignature);
-      if (Array.isArray(result.uploadedPhotos) && result.uploadedPhotos[0]?.src) {
-        queueFollowTarget({ type: "photo", src: result.uploadedPhotos[0].src });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          setApiDebug({
+            action: "upload-gallery-images",
+            status: String(response.status),
+            message: result.error || result.details || "Upload failed",
+            details: result.details || result,
+          });
+          throw new Error(result.error || result.details || "Upload failed");
+        }
+
+        applyReturnedSettings(result.settings);
+        const savedSignature = getSettingsSignature({
+          galleryId,
+          titleFallback: state.title,
+          input: serializeState(state, galleryId),
+        });
+        currentSyncedSignature = savedSignature;
+        persistLocalState(false, savedSignature);
+        if (Array.isArray(result.uploadedPhotos) && result.uploadedPhotos[0]?.src) {
+          queueFollowTarget({ type: "photo", src: result.uploadedPhotos[0].src });
+        }
       }
       uploadState = {
         pending: false,
@@ -1175,6 +1197,7 @@ export const setupAlbumEditor = async () => {
 
     render();
 
+    if (uploadState.message !== "Uploaded") return;
     window.setTimeout(() => {
       uploadState = {
         pending: false,
@@ -3426,8 +3449,39 @@ export const setupAlbumEditor = async () => {
     if (!selectedFiles.length) {
       return;
     }
-    await uploadImagesToGitHub(selectedFiles);
+    await uploadImagesToS3(selectedFiles);
   });
+  const isFileDrag = (event) => Array.from(event.dataTransfer?.types || []).includes("Files");
+  let fileDragDepth = 0;
+  const clearDropState = () => {
+    fileDragDepth = 0;
+    body.classList.remove("album-file-drop");
+  };
+  body.addEventListener("dragenter", (event) => {
+    if (!state.editing || !isFileDrag(event)) return;
+    event.preventDefault();
+    fileDragDepth += 1;
+    if (!uploadState.pending) body.classList.add("album-file-drop");
+  });
+  body.addEventListener("dragover", (event) => {
+    if (!state.editing || !isFileDrag(event)) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = uploadState.pending ? "none" : "copy";
+  });
+  body.addEventListener("dragleave", (event) => {
+    if (!isFileDrag(event)) return;
+    fileDragDepth = Math.max(0, fileDragDepth - 1);
+    if (!fileDragDepth) clearDropState();
+  });
+  body.addEventListener("drop", async (event) => {
+    if (!state.editing || !isFileDrag(event)) return;
+    event.preventDefault();
+    clearDropState();
+    if (uploadState.pending) return;
+    const files = Array.from(event.dataTransfer.files).filter((file) => file.type.startsWith("image/"));
+    if (files.length) await uploadImagesToS3(files);
+  });
+  window.addEventListener("blur", clearDropState);
   exportButtons.forEach((button) => {
     button.addEventListener("click", exportSettings);
   });
