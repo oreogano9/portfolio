@@ -1087,7 +1087,7 @@ export const setupAlbumEditor = async () => {
       });
       const signed = await signedResponse.json();
       if (!signedResponse.ok) {
-        throw new Error(signedResponse.status === 401 ? "Sign in at /admin-login.html before uploading photos." : signed.error || "Could not prepare S3 upload");
+        throw new Error(signedResponse.status === 401 ? "Sign in at /admin-login.html before uploading photos." : signed.details || signed.error || "Could not prepare S3 upload");
       }
       const thumbnail = await fetch(buildScaledDataUrl({ image, mimeType: "image/jpeg", maxEdge: 800 })).then((result) => result.blob());
       for (const [index, bytes] of [file, thumbnail].entries()) {
