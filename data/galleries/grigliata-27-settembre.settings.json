@@ -33,7 +33,7 @@
   },
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png",
+    "heroImageSrc": "/images/library/originals/sheet-04-frame-09-79fc6b42-b086-42c9-b8f1-2981ee9ddeba.png",
     "showArrow": true
   },
   "sections": [],
@@ -314,7 +314,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.1857764876632801
     },
@@ -328,7 +328,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.3235294117647058
     },
@@ -342,7 +342,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.3213166144200628
     },
@@ -356,7 +356,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.2714932126696832
     },
@@ -370,7 +370,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.2714932126696832
     },
@@ -384,7 +384,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.2714932126696832
     },
@@ -398,7 +398,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.2322775263951735
     },
@@ -412,7 +412,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.223512336719884
     },
@@ -426,7 +426,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.401253918495298
     },
