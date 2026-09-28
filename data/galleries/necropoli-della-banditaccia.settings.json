@@ -33,7 +33,7 @@
   },
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "/images/library/originals/DSC04203-8afde890-027b-4a4b-ae18-ea0911a5d812.jpg",
+    "heroImageSrc": "/images/library/originals/DSC04203-2c07ce10-5d9c-4a92-bc10-5fec8f03b57c.jpg",
     "showArrow": true
   },
   "sections": [],
@@ -48,7 +48,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.4998622968879096
     },
@@ -62,7 +62,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -76,7 +76,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -90,7 +90,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -104,7 +104,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -118,7 +118,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": false,
       "aspectRatio": 0.6666065307595165
     },
@@ -132,7 +132,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -146,7 +146,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -160,7 +160,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -174,7 +174,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -188,7 +188,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -202,7 +202,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -216,7 +216,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001352447930754
     },
@@ -230,7 +230,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001351716680185
     },
@@ -244,7 +244,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -258,7 +258,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5
     },
@@ -272,7 +272,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5
     },
@@ -286,7 +286,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001528584530726
     },
@@ -300,7 +300,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5
     },
@@ -314,7 +314,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001528584530726
     },
@@ -328,7 +328,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -342,7 +342,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -356,7 +356,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -370,7 +370,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -384,7 +384,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -398,7 +398,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -412,7 +412,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5002030044660983
     },
@@ -426,7 +426,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.4998731930002536
     },
@@ -440,7 +440,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -454,7 +454,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -468,7 +468,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -482,7 +482,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -496,7 +496,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": false,
       "aspectRatio": 0.6666065307595165
     },
@@ -510,7 +510,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -524,7 +524,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": false,
       "aspectRatio": 0.6666065307595165
     },
@@ -538,7 +538,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": false,
       "aspectRatio": 0.6666065307595165
     },
@@ -552,7 +552,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -566,7 +566,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.50012745347948
     },
@@ -580,7 +580,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": false,
       "aspectRatio": 0.6666666666666666
     },
@@ -594,7 +594,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -608,7 +608,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -622,7 +622,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.4998503442083209
     },
@@ -636,7 +636,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.5001353179972936
     },
@@ -650,7 +650,7 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": false,
       "aspectRatio": 0.6666666666666666
     },
@@ -664,15 +664,15 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": false,
       "aspectRatio": 0.6666065307595165
     },
     {
-      "id": "/images/library/originals/DSC03963-806bc163-6fa6-4d92-bdfd-1ce74c223c45.jpg",
-      "src": "/images/library/originals/DSC03963-806bc163-6fa6-4d92-bdfd-1ce74c223c45.jpg",
-      "previewSrc": "/images/library/thumbs/DSC03963-806bc163-6fa6-4d92-bdfd-1ce74c223c45.jpg",
-      "alt": "DSC03963.jpg",
+      "id": "/images/library/originals/DSC04203-2c07ce10-5d9c-4a92-bc10-5fec8f03b57c.jpg",
+      "src": "/images/library/originals/DSC04203-2c07ce10-5d9c-4a92-bc10-5fec8f03b57c.jpg",
+      "previewSrc": "/images/library/thumbs/DSC04203-2c07ce10-5d9c-4a92-bc10-5fec8f03b57c.jpg",
+      "alt": "DSC04203.jpg",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -680,7 +680,7 @@
       "joinWithPrevious": false,
       "deleted": false,
       "landscape": true,
-      "aspectRatio": 1.5001438021282716
+      "aspectRatio": 1.4998622968879096
     }
   ],
   "blocks": [
@@ -866,7 +866,7 @@
     },
     {
       "type": "photo",
-      "photoId": "/images/library/originals/DSC03963-806bc163-6fa6-4d92-bdfd-1ce74c223c45.jpg"
+      "photoId": "/images/library/originals/DSC04203-2c07ce10-5d9c-4a92-bc10-5fec8f03b57c.jpg"
     }
   ],
   "pendingS3Deletes": [],
