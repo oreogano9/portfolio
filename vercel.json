@@ -1,0 +1,9 @@
+{
+  "buildCommand": "node tools/build-deployment.mjs",
+  "outputDirectory": "site-output",
+  "functions": {
+    "api/*.js": {
+      "excludeFiles": "images/**"
+    }
+  }
+}
