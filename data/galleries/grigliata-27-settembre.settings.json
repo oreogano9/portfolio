@@ -1481,68 +1481,7 @@
       "photoId": "/images/library/originals/analoguecam-camera-52-1790523673143-5fe5365d-07b3-45a6-851b-e1d130a02d88.jpg"
     }
   ],
-  "pendingS3Deletes": [
-    [
-      "albums/library/originals/analoguecam-camera-52-1790516601053-8ae45cc6-7453-4361-a0a4-6e383faf1ab5.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790516601053-8ae45cc6-7453-4361-a0a4-6e383faf1ab5.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790516709295-0d71fe10-b982-4aa2-baf9-e25e5b742a05.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790516709295-0d71fe10-b982-4aa2-baf9-e25e5b742a05.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790516722879-63024dbb-b47d-4d56-80c9-c5eaf095d883.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790516722879-63024dbb-b47d-4d56-80c9-c5eaf095d883.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790516724739-5fe05755-7e11-4664-911a-cc2c0c441652.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790516724739-5fe05755-7e11-4664-911a-cc2c0c441652.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790516930144-7edbcbf3-d03f-457c-84ce-76b636c62dfc.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790516930144-7edbcbf3-d03f-457c-84ce-76b636c62dfc.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790517164135-33e6e4a1-9321-43f7-a4eb-323fb8d5bffb.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790517164135-33e6e4a1-9321-43f7-a4eb-323fb8d5bffb.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790517477745-8dde9eaf-87e2-4f48-8c41-3e4ca062b12a.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790517477745-8dde9eaf-87e2-4f48-8c41-3e4ca062b12a.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790517484070-b33dab9a-0454-4abd-b4a6-be0ec0cb55c1.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790517484070-b33dab9a-0454-4abd-b4a6-be0ec0cb55c1.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790517504092-f4aa5fab-0760-4bf0-9ce5-968d3a183796.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790517504092-f4aa5fab-0760-4bf0-9ce5-968d3a183796.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790517562958-b81cfccf-9043-4735-845f-e91408b23de9.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790517562958-b81cfccf-9043-4735-845f-e91408b23de9.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790517569915-1fd29fb9-5f3f-41b3-ace0-941aa84d6c7d.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790517569915-1fd29fb9-5f3f-41b3-ace0-941aa84d6c7d.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790517636273-832dcc4f-2e02-431f-91b2-dd873b62a695.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790517636273-832dcc4f-2e02-431f-91b2-dd873b62a695.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790517664407-d88f4554-0216-4dc6-b57b-0506f1ffa6f4.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790517664407-d88f4554-0216-4dc6-b57b-0506f1ffa6f4.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790518186613-86e448a5-f926-4e61-938b-1e432db19497.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790518186613-86e448a5-f926-4e61-938b-1e432db19497.jpg"
-    ],
-    [
-      "albums/library/originals/analoguecam-camera-52-1790519099078-3bee0fdc-9e99-45c5-bfc0-a79ee07a59ab.jpg",
-      "albums/library/thumbs/analoguecam-camera-52-1790519099078-3bee0fdc-9e99-45c5-bfc0-a79ee07a59ab.jpg"
-    ]
-  ],
+  "pendingS3Deletes": [],
   "removedPhotoSources": [
     "/images/library/originals/KONO-2AA0C06E-3b7b66ca-b619-402d-af47-d3f281fc10c2.jpg",
     "/images/library/originals/sheet-03-frame-01-84f91819-d91f-44f2-bb55-28933b3023f7.png",
