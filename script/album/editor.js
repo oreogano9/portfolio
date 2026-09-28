@@ -1254,7 +1254,8 @@ export const setupAlbumEditor = async () => {
     render();
 
     try {
-      for (const file of fileList) {
+      // Reverse the complete selection before the per-file uploads preserve its order.
+      for (const file of [...fileList].reverse()) {
         const files = await prepareUploadPayload([file]);
         const response = await fetch("/api/upload-gallery-images", {
           method: "POST",
