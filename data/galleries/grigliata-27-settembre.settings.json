@@ -39,20 +39,6 @@
   "sections": [],
   "photos": [
     {
-      "id": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png",
-      "src": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png",
-      "previewSrc": "/images/library/thumbs/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.jpg",
-      "alt": "sheet-01-frame-01.png",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false,
-      "landscape": true,
-      "aspectRatio": 1.3823529411764706
-    },
-    {
       "id": "/images/library/originals/sheet-01-frame-02-3d71c2b9-e608-4509-840c-408284cd8da5.png",
       "src": "/images/library/originals/sheet-01-frame-02-3d71c2b9-e608-4509-840c-408284cd8da5.png",
       "previewSrc": "/images/library/thumbs/sheet-01-frame-02-3d71c2b9-e608-4509-840c-408284cd8da5.jpg",
@@ -118,9 +104,23 @@
       "spacerAfter": 0,
       "effect": "none",
       "joinWithPrevious": false,
-      "deleted": false,
+      "deleted": true,
       "landscape": true,
       "aspectRatio": 1.3349673202614378
+    },
+    {
+      "id": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png",
+      "src": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png",
+      "previewSrc": "/images/library/thumbs/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.jpg",
+      "alt": "sheet-01-frame-01.png",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3823529411764706
     },
     {
       "id": "/images/library/originals/sheet-01-frame-07-a7fe1c3a-d2eb-4c17-ab77-128429ff20f6.png",
@@ -149,20 +149,6 @@
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.2156862745098038
-    },
-    {
-      "id": "/images/library/originals/sheet-01-frame-09-ebab996c-ee38-47ae-b642-ce720330a39d.png",
-      "src": "/images/library/originals/sheet-01-frame-09-ebab996c-ee38-47ae-b642-ce720330a39d.png",
-      "previewSrc": "/images/library/thumbs/sheet-01-frame-09-ebab996c-ee38-47ae-b642-ce720330a39d.jpg",
-      "alt": "sheet-01-frame-09.png",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false,
-      "landscape": true,
-      "aspectRatio": 1.292817679558011
     },
     {
       "id": "/images/library/originals/sheet-02-frame-01-5fb457f8-d0bd-446e-b49c-471aec6120c6.png",
@@ -205,6 +191,20 @@
       "deleted": false,
       "landscape": false,
       "aspectRatio": 0.7824675324675324
+    },
+    {
+      "id": "/images/library/originals/sheet-07-frame-07-861fd494-a115-4a2c-9fab-ea7cc35d8e3d.png",
+      "src": "/images/library/originals/sheet-07-frame-07-861fd494-a115-4a2c-9fab-ea7cc35d8e3d.png",
+      "previewSrc": "/images/library/thumbs/sheet-07-frame-07-861fd494-a115-4a2c-9fab-ea7cc35d8e3d.jpg",
+      "alt": "sheet-07-frame-07.png",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2544704264099038
     },
     {
       "id": "/images/library/originals/sheet-02-frame-04-e5f14136-1cef-4869-a5e8-fe47adf1405e.png",
@@ -753,10 +753,10 @@
       "aspectRatio": 1.297532656023222
     },
     {
-      "id": "/images/library/originals/sheet-07-frame-07-861fd494-a115-4a2c-9fab-ea7cc35d8e3d.png",
-      "src": "/images/library/originals/sheet-07-frame-07-861fd494-a115-4a2c-9fab-ea7cc35d8e3d.png",
-      "previewSrc": "/images/library/thumbs/sheet-07-frame-07-861fd494-a115-4a2c-9fab-ea7cc35d8e3d.jpg",
-      "alt": "sheet-07-frame-07.png",
+      "id": "/images/library/originals/sheet-01-frame-09-ebab996c-ee38-47ae-b642-ce720330a39d.png",
+      "src": "/images/library/originals/sheet-01-frame-09-ebab996c-ee38-47ae-b642-ce720330a39d.png",
+      "previewSrc": "/images/library/thumbs/sheet-01-frame-09-ebab996c-ee38-47ae-b642-ce720330a39d.jpg",
+      "alt": "sheet-01-frame-09.png",
       "section": "",
       "size": "full",
       "spacerAfter": 0,
@@ -764,7 +764,7 @@
       "joinWithPrevious": false,
       "deleted": false,
       "landscape": true,
-      "aspectRatio": 1.2544704264099038
+      "aspectRatio": 1.292817679558011
     },
     {
       "id": "/images/library/originals/analoguecam-camera-52-1790514810471-30e5b5b8-75db-4812-aed5-6c2481ad2748.jpg",
@@ -1157,13 +1157,23 @@
       "deleted": false,
       "landscape": false,
       "aspectRatio": 0.6667857142857143
+    },
+    {
+      "id": "/images/library/originals/sheet-02-frame-07-51ce6679-40ac-4fe9-99e8-cfa6fa3df617.png",
+      "src": "/images/library/originals/sheet-02-frame-07-51ce6679-40ac-4fe9-99e8-cfa6fa3df617.png",
+      "previewSrc": "/images/library/thumbs/sheet-02-frame-07-51ce6679-40ac-4fe9-99e8-cfa6fa3df617.jpg",
+      "alt": "sheet-02-frame-07.png",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3117977528089888
     }
   ],
   "blocks": [
-    {
-      "type": "photo",
-      "photoId": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png"
-    },
     {
       "type": "photo",
       "photoId": "/images/library/originals/sheet-01-frame-02-3d71c2b9-e608-4509-840c-408284cd8da5.png"
@@ -1186,15 +1196,15 @@
     },
     {
       "type": "photo",
+      "photoId": "/images/library/originals/sheet-01-frame-01-06e08657-0dd2-4f5f-b81e-07645dc774f7.png"
+    },
+    {
+      "type": "photo",
       "photoId": "/images/library/originals/sheet-01-frame-07-a7fe1c3a-d2eb-4c17-ab77-128429ff20f6.png"
     },
     {
       "type": "photo",
       "photoId": "/images/library/originals/sheet-01-frame-08-e827686f-fcaf-43ad-a19e-9113362a0f98.png"
-    },
-    {
-      "type": "photo",
-      "photoId": "/images/library/originals/sheet-01-frame-09-ebab996c-ee38-47ae-b642-ce720330a39d.png"
     },
     {
       "type": "photo",
@@ -1207,6 +1217,10 @@
     {
       "type": "photo",
       "photoId": "/images/library/originals/sheet-02-frame-03-fdc92e57-2dab-48f1-95e1-f3bfeeea40dc.png"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/sheet-07-frame-07-861fd494-a115-4a2c-9fab-ea7cc35d8e3d.png"
     },
     {
       "type": "photo",
@@ -1366,7 +1380,7 @@
     },
     {
       "type": "photo",
-      "photoId": "/images/library/originals/sheet-07-frame-07-861fd494-a115-4a2c-9fab-ea7cc35d8e3d.png"
+      "photoId": "/images/library/originals/sheet-01-frame-09-ebab996c-ee38-47ae-b642-ce720330a39d.png"
     },
     {
       "type": "photo",
@@ -1479,6 +1493,10 @@
     {
       "type": "photo",
       "photoId": "/images/library/originals/analoguecam-camera-52-1790523673143-5fe5365d-07b3-45a6-851b-e1d130a02d88.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/sheet-02-frame-07-51ce6679-40ac-4fe9-99e8-cfa6fa3df617.png"
     }
   ],
   "pendingS3Deletes": [],
