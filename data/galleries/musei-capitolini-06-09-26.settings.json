@@ -2,7 +2,7 @@
   "id": "musei-capitolini-06-09-26",
   "title": "Musei Capitolini 06-09-26",
   "private": false,
-  "showInstagram": false,
+  "showInstagram": true,
   "titleFontFamily": "libre-baskerville",
   "titleScale": 0.6,
   "albumMode": "multiple",
@@ -360,6 +360,20 @@
       "deleted": false,
       "landscape": false,
       "aspectRatio": 0.6665997993981946
+    },
+    {
+      "id": "/images/library/originals/DSC03236-762f785d-0b2e-46ec-a668-829323d45fb4.jpg",
+      "src": "/images/library/originals/DSC03236-762f785d-0b2e-46ec-a668-829323d45fb4.jpg",
+      "previewSrc": "/images/library/thumbs/DSC03236-762f785d-0b2e-46ec-a668-829323d45fb4.jpg",
+      "alt": "DSC03236.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499871366092102
     }
   ],
   "blocks": [
@@ -454,6 +468,10 @@
     {
       "type": "photo",
       "photoId": "/images/library/originals/DSC03224-dfc3fe9b-dbf7-4b05-accc-10ed628671ea.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/DSC03236-762f785d-0b2e-46ec-a668-829323d45fb4.jpg"
     }
   ],
   "pendingS3Deletes": [],
