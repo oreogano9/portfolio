@@ -264,20 +264,6 @@
       "aspectRatio": 1.4997321906802357
     },
     {
-      "id": "/images/library/originals/sheet-02-frame-06-f9cd2a81-358f-432e-91c7-0e43edb7fae1.png",
-      "src": "/images/library/originals/sheet-02-frame-06-f9cd2a81-358f-432e-91c7-0e43edb7fae1.png",
-      "previewSrc": "/images/library/thumbs/sheet-02-frame-06-f9cd2a81-358f-432e-91c7-0e43edb7fae1.jpg",
-      "alt": "sheet-02-frame-06.png",
-      "section": "",
-      "size": "full",
-      "spacerAfter": 0,
-      "effect": "none",
-      "joinWithPrevious": false,
-      "deleted": false,
-      "landscape": true,
-      "aspectRatio": 1.2440119760479043
-    },
-    {
       "id": "/images/library/originals/sheet-02-frame-05-52112500-ecf9-49d0-91fa-84716f5c9a01.png",
       "src": "/images/library/originals/sheet-02-frame-05-52112500-ecf9-49d0-91fa-84716f5c9a01.png",
       "previewSrc": "/images/library/thumbs/sheet-02-frame-05-52112500-ecf9-49d0-91fa-84716f5c9a01.jpg",
@@ -614,6 +600,132 @@
       "aspectRatio": 1.4994292237442923
     },
     {
+      "id": "/images/library/originals/sheet-02-frame-06-f9cd2a81-358f-432e-91c7-0e43edb7fae1.png",
+      "src": "/images/library/originals/sheet-02-frame-06-f9cd2a81-358f-432e-91c7-0e43edb7fae1.png",
+      "previewSrc": "/images/library/thumbs/sheet-02-frame-06-f9cd2a81-358f-432e-91c7-0e43edb7fae1.jpg",
+      "alt": "sheet-02-frame-06.png",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.2440119760479043
+    },
+    {
+      "id": "/images/library/originals/photo_2_2026-09-29_12-59-17-371b0149-bf1e-43ce-8eb4-bbb6d8eed301.jpg",
+      "src": "/images/library/originals/photo_2_2026-09-29_12-59-17-371b0149-bf1e-43ce-8eb4-bbb6d8eed301.jpg",
+      "previewSrc": "/images/library/thumbs/photo_2_2026-09-29_12-59-17-371b0149-bf1e-43ce-8eb4-bbb6d8eed301.jpg",
+      "alt": "photo_2_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": true,
+      "landscape": true,
+      "aspectRatio": 1.3338582677165354
+    },
+    {
+      "id": "/images/library/originals/photo_6_2026-09-29_12-59-17-e029b1e2-3111-471d-a9bf-979190ae754f.jpg",
+      "src": "/images/library/originals/photo_6_2026-09-29_12-59-17-e029b1e2-3111-471d-a9bf-979190ae754f.jpg",
+      "previewSrc": "/images/library/thumbs/photo_6_2026-09-29_12-59-17-e029b1e2-3111-471d-a9bf-979190ae754f.jpg",
+      "alt": "photo_6_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": true,
+      "landscape": true,
+      "aspectRatio": 1.3333333333333333
+    },
+    {
+      "id": "/images/library/originals/photo_5_2026-09-29_12-59-17-7c263189-55e5-4cb2-841d-86996bee3c65.jpg",
+      "src": "/images/library/originals/photo_5_2026-09-29_12-59-17-7c263189-55e5-4cb2-841d-86996bee3c65.jpg",
+      "previewSrc": "/images/library/thumbs/photo_5_2026-09-29_12-59-17-7c263189-55e5-4cb2-841d-86996bee3c65.jpg",
+      "alt": "photo_5_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": true,
+      "landscape": true,
+      "aspectRatio": 1.3333333333333333
+    },
+    {
+      "id": "/images/library/originals/photo_1_2026-09-29_12-59-17-2b1a49df-7800-4dc6-835e-84f19df53138.jpg",
+      "src": "/images/library/originals/photo_1_2026-09-29_12-59-17-2b1a49df-7800-4dc6-835e-84f19df53138.jpg",
+      "previewSrc": "/images/library/thumbs/photo_1_2026-09-29_12-59-17-2b1a49df-7800-4dc6-835e-84f19df53138.jpg",
+      "alt": "photo_1_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": true,
+      "landscape": true,
+      "aspectRatio": 1.3329283110571082
+    },
+    {
+      "id": "/images/library/originals/photo_4_2026-09-29_12-59-17-0b76e473-c650-4ab6-ab91-e4de7dee40bf.jpg",
+      "src": "/images/library/originals/photo_4_2026-09-29_12-59-17-0b76e473-c650-4ab6-ab91-e4de7dee40bf.jpg",
+      "previewSrc": "/images/library/thumbs/photo_4_2026-09-29_12-59-17-0b76e473-c650-4ab6-ab91-e4de7dee40bf.jpg",
+      "alt": "photo_4_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": true,
+      "landscape": true,
+      "aspectRatio": 1.3328651685393258
+    },
+    {
+      "id": "/images/library/originals/photo_3_2026-09-29_12-59-17-fab84268-1e7f-4efd-8e58-18b720e91e8b.jpg",
+      "src": "/images/library/originals/photo_3_2026-09-29_12-59-17-fab84268-1e7f-4efd-8e58-18b720e91e8b.jpg",
+      "previewSrc": "/images/library/thumbs/photo_3_2026-09-29_12-59-17-fab84268-1e7f-4efd-8e58-18b720e91e8b.jpg",
+      "alt": "photo_3_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": true,
+      "landscape": true,
+      "aspectRatio": 1.332904884318766
+    },
+    {
+      "id": "/images/library/originals/photo_2_2026-09-29_12-59-17-fc1fa2e0-38e9-421c-97b0-d80613b243c5.jpg",
+      "src": "/images/library/originals/photo_2_2026-09-29_12-59-17-fc1fa2e0-38e9-421c-97b0-d80613b243c5.jpg",
+      "previewSrc": "/images/library/thumbs/photo_2_2026-09-29_12-59-17-fc1fa2e0-38e9-421c-97b0-d80613b243c5.jpg",
+      "alt": "photo_2_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3338582677165354
+    },
+    {
+      "id": "/images/library/originals/photo_6_2026-09-29_12-59-17-37872146-1123-43f5-9e1e-c29c9fc81c4b.jpg",
+      "src": "/images/library/originals/photo_6_2026-09-29_12-59-17-37872146-1123-43f5-9e1e-c29c9fc81c4b.jpg",
+      "previewSrc": "/images/library/thumbs/photo_6_2026-09-29_12-59-17-37872146-1123-43f5-9e1e-c29c9fc81c4b.jpg",
+      "alt": "photo_6_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3333333333333333
+    },
+    {
       "id": "/images/library/originals/analoguecam-camera-52-1790517087639-0625082b-83d7-4b53-acbd-deb18b01d6b6.jpg",
       "src": "/images/library/originals/analoguecam-camera-52-1790517087639-0625082b-83d7-4b53-acbd-deb18b01d6b6.jpg",
       "previewSrc": "/images/library/thumbs/analoguecam-camera-52-1790517087639-0625082b-83d7-4b53-acbd-deb18b01d6b6.jpg",
@@ -670,6 +782,20 @@
       "aspectRatio": 1.4997321906802357
     },
     {
+      "id": "/images/library/originals/photo_1_2026-09-29_12-59-17-dc9f088d-c27b-4cff-8ff5-cec57be679dc.jpg",
+      "src": "/images/library/originals/photo_1_2026-09-29_12-59-17-dc9f088d-c27b-4cff-8ff5-cec57be679dc.jpg",
+      "previewSrc": "/images/library/thumbs/photo_1_2026-09-29_12-59-17-dc9f088d-c27b-4cff-8ff5-cec57be679dc.jpg",
+      "alt": "photo_1_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3329283110571082
+    },
+    {
       "id": "/images/library/originals/sheet-05-frame-05-b0949ff1-8c2b-44c0-a997-681eeeb3b823.png",
       "src": "/images/library/originals/sheet-05-frame-05-b0949ff1-8c2b-44c0-a997-681eeeb3b823.png",
       "previewSrc": "/images/library/thumbs/sheet-05-frame-05-b0949ff1-8c2b-44c0-a997-681eeeb3b823.jpg",
@@ -710,6 +836,20 @@
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.4997321906802357
+    },
+    {
+      "id": "/images/library/originals/photo_5_2026-09-29_12-59-17-5ea15a3b-3832-4a21-b77f-b820c5bacbbe.jpg",
+      "src": "/images/library/originals/photo_5_2026-09-29_12-59-17-5ea15a3b-3832-4a21-b77f-b820c5bacbbe.jpg",
+      "previewSrc": "/images/library/thumbs/photo_5_2026-09-29_12-59-17-5ea15a3b-3832-4a21-b77f-b820c5bacbbe.jpg",
+      "alt": "photo_5_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3333333333333333
     },
     {
       "id": "/images/library/originals/sheet-06-frame-01-224cfa57-f429-4c5a-87ea-a51baf8c9ec2.png",
@@ -908,6 +1048,20 @@
       "aspectRatio": 1.2646638054363377
     },
     {
+      "id": "/images/library/originals/photo_3_2026-09-29_12-59-17-6ae10f00-d490-49ca-a86a-af9d790745b6.jpg",
+      "src": "/images/library/originals/photo_3_2026-09-29_12-59-17-6ae10f00-d490-49ca-a86a-af9d790745b6.jpg",
+      "previewSrc": "/images/library/thumbs/photo_3_2026-09-29_12-59-17-6ae10f00-d490-49ca-a86a-af9d790745b6.jpg",
+      "alt": "photo_3_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.332904884318766
+    },
+    {
       "id": "/images/library/originals/sheet-05-frame-04-5a5575fd-0473-432e-961c-d962e513f0a9.png",
       "src": "/images/library/originals/sheet-05-frame-04-5a5575fd-0473-432e-961c-d962e513f0a9.png",
       "previewSrc": "/images/library/thumbs/sheet-05-frame-04-5a5575fd-0473-432e-961c-d962e513f0a9.jpg",
@@ -1048,6 +1202,20 @@
       "aspectRatio": 0.6667857142857143
     },
     {
+      "id": "/images/library/originals/photo_4_2026-09-29_12-59-17-a337163c-e742-4d83-bfe4-e447235d51b9.jpg",
+      "src": "/images/library/originals/photo_4_2026-09-29_12-59-17-a337163c-e742-4d83-bfe4-e447235d51b9.jpg",
+      "previewSrc": "/images/library/thumbs/photo_4_2026-09-29_12-59-17-a337163c-e742-4d83-bfe4-e447235d51b9.jpg",
+      "alt": "photo_4_2026-09-29_12-59-17.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.3328651685393258
+    },
+    {
       "id": "/images/library/originals/sheet-02-frame-01-5fb457f8-d0bd-446e-b49c-471aec6120c6.png",
       "src": "/images/library/originals/sheet-02-frame-01-5fb457f8-d0bd-446e-b49c-471aec6120c6.png",
       "previewSrc": "/images/library/thumbs/sheet-02-frame-01-5fb457f8-d0bd-446e-b49c-471aec6120c6.jpg",
@@ -1157,10 +1325,6 @@
     },
     {
       "type": "photo",
-      "photoId": "/images/library/originals/sheet-02-frame-06-f9cd2a81-358f-432e-91c7-0e43edb7fae1.png"
-    },
-    {
-      "type": "photo",
       "photoId": "/images/library/originals/sheet-02-frame-05-52112500-ecf9-49d0-91fa-84716f5c9a01.png"
     },
     {
@@ -1257,6 +1421,42 @@
     },
     {
       "type": "photo",
+      "photoId": "/images/library/originals/sheet-02-frame-06-f9cd2a81-358f-432e-91c7-0e43edb7fae1.png"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_2_2026-09-29_12-59-17-371b0149-bf1e-43ce-8eb4-bbb6d8eed301.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_6_2026-09-29_12-59-17-e029b1e2-3111-471d-a9bf-979190ae754f.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_5_2026-09-29_12-59-17-7c263189-55e5-4cb2-841d-86996bee3c65.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_1_2026-09-29_12-59-17-2b1a49df-7800-4dc6-835e-84f19df53138.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_4_2026-09-29_12-59-17-0b76e473-c650-4ab6-ab91-e4de7dee40bf.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_3_2026-09-29_12-59-17-fab84268-1e7f-4efd-8e58-18b720e91e8b.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_2_2026-09-29_12-59-17-fc1fa2e0-38e9-421c-97b0-d80613b243c5.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_6_2026-09-29_12-59-17-37872146-1123-43f5-9e1e-c29c9fc81c4b.jpg"
+    },
+    {
+      "type": "photo",
       "photoId": "/images/library/originals/analoguecam-camera-52-1790517087639-0625082b-83d7-4b53-acbd-deb18b01d6b6.jpg"
     },
     {
@@ -1273,6 +1473,10 @@
     },
     {
       "type": "photo",
+      "photoId": "/images/library/originals/photo_1_2026-09-29_12-59-17-dc9f088d-c27b-4cff-8ff5-cec57be679dc.jpg"
+    },
+    {
+      "type": "photo",
       "photoId": "/images/library/originals/sheet-05-frame-05-b0949ff1-8c2b-44c0-a997-681eeeb3b823.png"
     },
     {
@@ -1282,6 +1486,10 @@
     {
       "type": "photo",
       "photoId": "/images/library/originals/analoguecam-camera-52-1790516599124-360a24b3-c712-4c22-966c-89b847ea94f1.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_5_2026-09-29_12-59-17-5ea15a3b-3832-4a21-b77f-b820c5bacbbe.jpg"
     },
     {
       "type": "photo",
@@ -1341,6 +1549,10 @@
     },
     {
       "type": "photo",
+      "photoId": "/images/library/originals/photo_3_2026-09-29_12-59-17-6ae10f00-d490-49ca-a86a-af9d790745b6.jpg"
+    },
+    {
+      "type": "photo",
       "photoId": "/images/library/originals/sheet-05-frame-04-5a5575fd-0473-432e-961c-d962e513f0a9.png"
     },
     {
@@ -1378,6 +1590,10 @@
     {
       "type": "photo",
       "photoId": "/images/library/originals/analoguecam-camera-52-1790519093437-c46e1772-f2b6-4071-ad01-1ad3021ddb77.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/photo_4_2026-09-29_12-59-17-a337163c-e742-4d83-bfe4-e447235d51b9.jpg"
     },
     {
       "type": "photo",
