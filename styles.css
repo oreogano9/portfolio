@@ -5999,3 +5999,26 @@ body.album-file-drop::after {
     transform: none;
   }
 }
+
+/* Album footer links share the same gap above and below Home. */
+.album-page .mobile-home-section {
+  --album-footer-gap: 3rem;
+  padding-top: var(--album-footer-gap);
+}
+.album-page .album-instagram-link {
+  display: block;
+  width: fit-content;
+  margin: var(--album-footer-gap) auto 0;
+  color: var(--muted);
+  font-family: var(--site-ui-font-family);
+  font-size: 0.82rem;
+  letter-spacing: 0.045em;
+}
+.album-page .album-instagram-link[hidden] {
+  display: none;
+}
+@media (max-width: 760px) {
+  .album-page .mobile-home-section {
+    --album-footer-gap: 1.8rem;
+  }
+}

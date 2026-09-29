@@ -432,6 +432,8 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
     showArrow,
     mobileRotateClockwise,
     privateAlbum,
+    showInstagram,
+    onInstagramChange,
     showDeleted,
     effectSettings,
     onTitleFontFamilyChange,
@@ -555,6 +557,11 @@ export const mountAlbumReactHeaderUi = ({ container }) => ({
         label: "Private",
         checked: privateAlbum,
         onChange: onPrivateAlbumChange,
+      }),
+      createSwitchField({
+        label: "Instagram",
+        checked: showInstagram,
+        onChange: onInstagramChange,
       }),
       createSwitchField({
         label: "Deleted",

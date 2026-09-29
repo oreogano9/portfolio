@@ -306,6 +306,7 @@ export const setupAlbumEditor = async () => {
   const state = {
     title: (typeof preferredState?.title === "string" && preferredState.title.trim()) || title.textContent.trim(),
     private: preferredState?.private === true,
+    showInstagram: preferredState?.showInstagram === true,
     titleFontFamily: normalizeAlbumTitleFontFamily(preferredState?.titleFontFamily),
     titleScale: normalizeTitleScale(preferredState?.titleScale),
     albumMode: normalizeAlbumMode(preferredState?.albumMode),
@@ -336,6 +337,16 @@ export const setupAlbumEditor = async () => {
     previewRotated: false,
     mobileSideviewOverride: null,
   };
+
+  const footerHome = document.querySelector(".mobile-home-section > a.mobile-home-button");
+  const instagramLink = document.createElement("a");
+  instagramLink.className = "album-instagram-link";
+  instagramLink.href = "https://www.instagram.com/konradparada_photos/";
+  instagramLink.textContent = "@konradparada_photos";
+  instagramLink.target = "_blank";
+  instagramLink.rel = "noopener noreferrer";
+  instagramLink.hidden = true;
+  footerHome?.after(instagramLink);
 
   const builderGrid = document.createElement("div");
   builderGrid.className = "album-builder-grid";
@@ -1217,6 +1228,7 @@ export const setupAlbumEditor = async () => {
       return;
     }
 
+    state.showInstagram = nextSettings.showInstagram === true;
     state.title = (typeof nextSettings.title === "string" && nextSettings.title.trim()) || state.title;
     state.titleFontFamily = normalizeAlbumTitleFontFamily(nextSettings.titleFontFamily, state.titleFontFamily);
     state.titleScale = normalizeTitleScale(nextSettings.titleScale, state.titleScale);
@@ -2495,6 +2507,7 @@ export const setupAlbumEditor = async () => {
   );
 
   const render = () => {
+    instagramLink.hidden = state.showInstagram !== true;
     const renderAnchor = hasMarkedReady && !state.building ? captureRenderAnchor() : null;
     logDebug("render", {
       anchor: renderAnchor?.type || "none",
@@ -2539,6 +2552,12 @@ export const setupAlbumEditor = async () => {
       showArrow: state.intro.showArrow,
       mobileRotateClockwise: state.mobileRotateClockwise,
       privateAlbum: state.private === true,
+      showInstagram: state.showInstagram === true,
+      onInstagramChange: (checked) => {
+        state.showInstagram = checked === true;
+        save();
+        render();
+      },
       showDeleted: state.showDeleted,
       onTitleFontFamilyChange: (value) => {
         state.titleFontFamily = normalizeAlbumTitleFontFamily(value, state.titleFontFamily);
