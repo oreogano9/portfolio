@@ -1,7 +1,8 @@
 {
   "id": "grigliata-27-settembre",
   "title": "Grigliata 27-09-26",
-  "private": false,
+  "private": true,
+  "showInstagram": true,
   "titleFontFamily": "libre-baskerville",
   "titleScale": 0.6,
   "albumMode": "multiple",
