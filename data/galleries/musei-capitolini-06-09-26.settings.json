@@ -458,6 +458,20 @@
       "deleted": false,
       "landscape": true,
       "aspectRatio": 1.5
+    },
+    {
+      "id": "/images/library/originals/DSC03301-11941845-35c1-4b30-a084-727cd72597f0.jpg",
+      "src": "/images/library/originals/DSC03301-11941845-35c1-4b30-a084-727cd72597f0.jpg",
+      "previewSrc": "/images/library/thumbs/DSC03301-11941845-35c1-4b30-a084-727cd72597f0.jpg",
+      "alt": "DSC03301.jpg",
+      "section": "",
+      "size": "full",
+      "spacerAfter": 0,
+      "effect": "none",
+      "joinWithPrevious": false,
+      "deleted": false,
+      "landscape": true,
+      "aspectRatio": 1.499871366092102
     }
   ],
   "blocks": [
@@ -580,6 +594,10 @@
     {
       "type": "photo",
       "photoId": "/images/library/originals/DSC03289-ac9e60d8-fb9c-446c-a44a-ed5a06df175d.jpg"
+    },
+    {
+      "type": "photo",
+      "photoId": "/images/library/originals/DSC03301-11941845-35c1-4b30-a084-727cd72597f0.jpg"
     }
   ],
   "pendingS3Deletes": [],
