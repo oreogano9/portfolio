@@ -6,7 +6,7 @@
   "titleFontFamily": "libre-baskerville",
   "titleScale": 0.6,
   "albumMode": "multiple",
-  "mobileRotateClockwise": true,
+  "mobileRotateClockwise": false,
   "spacing": "airy",
   "topSpacer": 7,
   "effect": "none",
@@ -34,7 +34,7 @@
   },
   "intro": {
     "mode": "hero",
-    "heroImageSrc": "/images/library/originals/DSC03092-0c838946-a24c-4e60-b092-d75394150c29.jpg",
+    "heroImageSrc": "/images/library/originals/DSC03410-3901f930-9cc4-41f7-9ca2-3d714bc48105.jpg",
     "showArrow": true
   },
   "sections": [],
