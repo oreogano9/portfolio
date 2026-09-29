@@ -297,8 +297,10 @@ export const setupAlbumEditor = async () => {
     return merged;
   };
 
-  const shouldUseSavedState = !jsonState && Boolean(savedState);
-  const preferredState = jsonState || savedState;
+  const shouldUseSavedState = Boolean(savedState) && (!jsonState || (
+    savedState.meta?.dirty === true && savedState.meta?.baseSignature === currentSyncedSignature
+  ));
+  const preferredState = shouldUseSavedState ? savedState : jsonState;
   const initialPhotos = mergePhotos(preferredState?.photos, preferredState?.removedPhotoSources);
   const normalizedBlockState = normalizeRuntimeBlocks(initialPhotos, preferredState?.blocks);
   syncPhotoSpacersFromBlocks(normalizedBlockState.photos, normalizedBlockState.blocks);
@@ -1292,20 +1294,14 @@ export const setupAlbumEditor = async () => {
         }
 
         applyReturnedSettings(result.settings);
-        const savedSignature = getSettingsSignature({
-          galleryId,
-          titleFallback: state.title,
-          input: serializeState(state, galleryId),
-        });
-        currentSyncedSignature = savedSignature;
-        persistLocalState(false, savedSignature);
+        persistLocalState(true, "");
         if (Array.isArray(result.uploadedPhotos) && result.uploadedPhotos[0]?.src) {
           queueFollowTarget({ type: "photo", src: result.uploadedPhotos[0].src });
         }
       }
       uploadState = {
         pending: false,
-        message: "Uploaded",
+        message: "Uploaded — click Save",
       };
     } catch (error) {
       uploadState = {
@@ -1316,7 +1312,7 @@ export const setupAlbumEditor = async () => {
 
     render();
 
-    if (uploadState.message !== "Uploaded") return;
+    if (uploadState.message !== "Uploaded — click Save") return;
     window.setTimeout(() => {
       uploadState = {
         pending: false,

@@ -1,5 +1,3 @@
-import saveGallery from "./save-gallery.js";
-
 export const config = { runtime: "nodejs" };
 
 const isUploadedPath = (value) =>
@@ -34,11 +32,6 @@ export default async function handler(request, response) {
       heroImageSrc: settings.intro?.heroImageSrc || (settings.intro?.mode === "hero" ? uploadedPhotos[0]?.src || "" : ""),
     },
   };
-  // Reuse the settings writer; image bytes never pass through GitHub.
-  const originalJson = response.json.bind(response);
-  response.json = (payload) => originalJson(payload.ok ? {
-    ...payload,
-    uploadedPhotos: uploadedPhotos.filter((photo) => payload.settings.photos.some((saved) => saved.src === photo.src)),
-  } : payload);
-  return saveGallery({ method: "POST", body: { ...request.body, settings: nextSettings } }, response);
+  // Upload metadata is an editor draft. Only /api/save-gallery persists it.
+  return response.status(200).json({ ok: true, settings: nextSettings, uploadedPhotos, saved: false });
 }

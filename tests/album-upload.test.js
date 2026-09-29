@@ -1,8 +1,5 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtemp, rm } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import path from "node:path";
 import handler from "../api/upload-gallery-images.js";
 
 const response = () => ({
@@ -31,48 +28,27 @@ test("invalid S3 paths are rejected", async () => {
   }
 });
 
-test("append preserves existing photos and writes only JSON to GitHub", async () => {
-  const cwd = process.cwd();
-  const directory = await mkdtemp(path.join(tmpdir(), "album-upload-test-"));
+test("upload prepares a draft without any GitHub or other network writes", async () => {
   const originalFetch = globalThis.fetch;
-  const originalEnv = { ...process.env };
-  const writes = [];
+  let calls = 0;
+  globalThis.fetch = async () => { calls++; throw new Error("Uploads must not save"); };
   try {
-    process.chdir(directory);
-    Object.assign(process.env, { GITHUB_OWNER: "test", GITHUB_REPO: "test", GITHUB_TOKEN: "test" });
-    globalThis.fetch = async (url, options) => {
-      assert.ok(String(url).includes("/contents/data/galleries/test.settings.json"));
-      if (options.method === "PUT") {
-        const body = JSON.parse(options.body);
-        writes.push(JSON.parse(Buffer.from(body.content, "base64").toString()));
-        return { ok: true, json: async () => ({ commit: { sha: "saved" } }) };
-      }
-      return { ok: true, json: async () => ({ sha: "previous", content: Buffer.from(JSON.stringify({
-        photos: [], removedPhotoSources: ["/images/library/originals/deleted.jpg"],
-      })).toString("base64") }) };
-    };
     const old = { id: "old", src: "/images/old.jpg" };
-    const deleted = { id: "deleted", src: "/images/library/originals/deleted.jpg", deleted: false };
     const res = response();
     await handler({ method: "POST", body: {
       galleryId: "test", settingsPath: "data/galleries/test.settings.json",
-      settings: { photos: [old, deleted], intro: { mode: "hero" } }, files: [file],
+      settings: { photos: [old], intro: { mode: "hero" } }, files: [file],
     } }, res);
     assert.equal(res.code, 200);
-    assert.equal(writes.length, 1);
-    assert.deepEqual(writes[0].photos[0], old);
-    assert.equal(writes[0].photos[1].src, file.src);
-    assert.equal(writes[0].photos[1].aspectRatio, 2 / 3);
-    assert.equal(writes[0].blocks.length, 2);
-    assert.equal(writes[0].photos.length, 2);
-    assert.deepEqual(res.payload.settings.photos, writes[0].photos);
-    assert.deepEqual(res.payload.settings.removedPhotoSources, [deleted.src]);
+    assert.equal(calls, 0);
+    assert.equal(res.payload.saved, false);
+    assert.deepEqual(res.payload.settings.photos[0], old);
+    assert.equal(res.payload.settings.photos[1].src, file.src);
+    assert.equal(res.payload.settings.photos[1].aspectRatio, 2 / 3);
+    assert.equal(res.payload.settings.blocks.length, 2);
     assert.equal(res.payload.uploadedPhotos.length, 1);
     assert.equal(res.payload.settings.intro.heroImageSrc, file.src);
   } finally {
     globalThis.fetch = originalFetch;
-    process.env = originalEnv;
-    process.chdir(cwd);
-    await rm(directory, { recursive: true, force: true });
   }
 });
